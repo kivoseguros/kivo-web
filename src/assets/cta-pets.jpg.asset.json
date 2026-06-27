@@ -1,11 +1,1 @@
-{
-  "version": 1,
-  "asset_id": "ed9968a3-ab20-4f76-a7d5-121fa6c243a4",
-  "project_id": "69f6e596-4076-4a59-8708-5730a3b9de61",
-  "url": "/__l5e/assets-v1/ed9968a3-ab20-4f76-a7d5-121fa6c243a4/cta-pets.jpg",
-  "r2_key": "a/v1/69f6e596-4076-4a59-8708-5730a3b9de61/ed9968a3-ab20-4f76-a7d5-121fa6c243a4/cta-pets.jpg",
-  "original_filename": "cta-pets.jpg",
-  "size": 56528,
-  "content_type": "image/jpeg",
-  "created_at": "2026-06-11T19:39:36Z"
-}
+{"version":1,"asset_id":"cta-pets","url":"/assets/cta-pets.jpg"}

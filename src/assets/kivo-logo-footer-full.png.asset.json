@@ -1,11 +1,1 @@
-{
-  "version": 1,
-  "asset_id": "c313a5ac-b79c-42b8-8caa-6491f30dc6af",
-  "project_id": "69f6e596-4076-4a59-8708-5730a3b9de61",
-  "url": "/__l5e/assets-v1/c313a5ac-b79c-42b8-8caa-6491f30dc6af/kivo-logo-footer-full.png",
-  "r2_key": "a/v1/69f6e596-4076-4a59-8708-5730a3b9de61/c313a5ac-b79c-42b8-8caa-6491f30dc6af/kivo-logo-footer-full.png",
-  "original_filename": "kivo-logo-footer-full.png",
-  "size": 1279311,
-  "content_type": "image/png",
-  "created_at": "2026-06-14T08:37:20Z"
-}
+{"version":1,"asset_id":"kivo-logo-footer-full","url":"/assets/kivo-logo-footer.png"}

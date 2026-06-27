@@ -1,11 +1,1 @@
-{
-  "version": 1,
-  "asset_id": "bf2b4862-1d40-427e-ab36-6f8a09e58533",
-  "project_id": "69f6e596-4076-4a59-8708-5730a3b9de61",
-  "url": "/__l5e/assets-v1/bf2b4862-1d40-427e-ab36-6f8a09e58533/kivo-ia.png",
-  "r2_key": "a/v1/69f6e596-4076-4a59-8708-5730a3b9de61/bf2b4862-1d40-427e-ab36-6f8a09e58533/kivo-ia.png",
-  "original_filename": "kivo-ia.png",
-  "size": 1474156,
-  "content_type": "image/png",
-  "created_at": "2026-06-13T17:27:44Z"
-}
+{"version":1,"asset_id":"kivo-ia","url":"/assets/kivo-ia.png"}

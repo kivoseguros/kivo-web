@@ -1,11 +1,1 @@
-{
-  "version": 1,
-  "asset_id": "c7e270ee-f244-4273-a8bb-5a3628adf477",
-  "project_id": "69f6e596-4076-4a59-8708-5730a3b9de61",
-  "url": "/__l5e/assets-v1/c7e270ee-f244-4273-a8bb-5a3628adf477/blog2.jpg",
-  "r2_key": "a/v1/69f6e596-4076-4a59-8708-5730a3b9de61/c7e270ee-f244-4273-a8bb-5a3628adf477/blog2.jpg",
-  "original_filename": "blog2.jpg",
-  "size": 33911,
-  "content_type": "image/jpeg",
-  "created_at": "2026-06-11T19:39:44Z"
-}
+{"version":1,"asset_id":"blog2","url":"/assets/blog2.jpg"}

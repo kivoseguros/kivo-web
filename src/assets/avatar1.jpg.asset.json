@@ -1,11 +1,1 @@
-{
-  "version": 1,
-  "asset_id": "28c369ab-ed21-4758-b0ce-c826c857c1ec",
-  "project_id": "69f6e596-4076-4a59-8708-5730a3b9de61",
-  "url": "/__l5e/assets-v1/28c369ab-ed21-4758-b0ce-c826c857c1ec/avatar1.jpg",
-  "r2_key": "a/v1/69f6e596-4076-4a59-8708-5730a3b9de61/28c369ab-ed21-4758-b0ce-c826c857c1ec/avatar1.jpg",
-  "original_filename": "avatar1.jpg",
-  "size": 18272,
-  "content_type": "image/jpeg",
-  "created_at": "2026-06-11T19:40:03Z"
-}
+{"version":1,"asset_id":"avatar1","url":"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&q=80&fit=crop&crop=face"}
