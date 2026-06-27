@@ -1,0 +1,19 @@
+# KIVO
+
+> Correduría digital de seguros para perros y gatos. Coberturas claras, contratación sencilla desde la App y reembolsos rápidos.
+
+## Pages
+
+- [Inicio](/): Presentación de KIVO y sus planes de seguro para mascotas.
+- [Coberturas](/coberturas): Tabla comparativa de coberturas y límites de los planes KIVO.
+- [Cómo funciona](/como-funciona): Proceso de contratación, reembolsos y uso de la App.
+- [Sobre KIVO](/sobre-kivo): Quiénes somos, equipo y socio asegurador.
+- [Blog](/blog): Artículos sobre legislación, salud, cuidados y seguros para mascotas.
+- [FAQ](/faq): Preguntas frecuentes sobre contratación, coberturas, reembolsos, App y R.C.
+
+## Planes
+
+- [KIVO CARE](/seguros/care): Plan esencial con 80% de reembolso y R.C. hasta 150.000 €.
+- [KIVO CARE+](/seguros/care-plus): 90% de reembolso, 2.500 € anuales y rehabilitación.
+- [KIVO PREMIUM](/seguros/premium): 100% de reembolso y sin límites por accidente.
+- [KIVO R.C.](/seguros/rc): Responsabilidad Civil hasta 300.000 € con defensa jurídica.

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hola-kind-sparkle.lovable.app/sitemap.xml
