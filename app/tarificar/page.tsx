@@ -3,17 +3,11 @@ import { useState } from "react";
 import Link from "next/link";
 
 const planes = ["KIVO CARE", "KIVO CARE+", "KIVO PREMIUM"];
-const razas = ["Labrador Retriever", "Pastor Alemán", "Golden Retriever", "Bulldog Francés", "Caniche", "Beagle", "Otro"];
+const razas = ["Labrador Retriever", "Pastor Aleman", "Golden Retriever", "Bulldog Frances", "Caniche", "Beagle", "Otro"];
 
 export default function TarifarPage() {
   const [step, setStep] = useState(1);
-  const [form, setForm] = useState({
-    especie: "",
-    nombre: "",
-    raza: "",
-    edad: "",
-    plan: "",
-  });
+  const [form, setForm] = useState({ especie: "", nombre: "", raza: "", edad: "", plan: "" });
   const [precio, setPrecio] = useState<number | null>(null);
 
   const calcularPrecio = () => {
@@ -26,20 +20,17 @@ export default function TarifarPage() {
   return (
     <main className="min-h-screen py-12 px-6">
       <div className="max-w-xl mx-auto">
-        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
           <Link href="/" className="hover:underline">Productos</Link>
-          <span>→</span>
+          <span>-</span>
           <span style={{ color: "var(--kivo-navy)" }} className="font-medium">Calcular precio</span>
         </div>
 
-        {/* Título */}
         <h1 style={{ color: "var(--kivo-navy)" }} className="text-3xl font-bold mb-2">
           Calcula el precio de tu seguro
         </h1>
         <p className="text-gray-500 mb-8">Sin compromiso. En menos de 1 minuto.</p>
 
-        {/* Pasos */}
         <div className="flex gap-2 mb-10">
           {[1, 2, 3].map((s) => (
             <div
@@ -52,7 +43,7 @@ export default function TarifarPage() {
 
         {step === 1 && (
           <div className="space-y-6">
-            <h2 style={{ color: "var(--kivo-navy)" }} className="text-xl font-semibold">¿Qué mascota tienes?</h2>
+            <h2 style={{ color: "var(--kivo-navy)" }} className="text-xl font-semibold">Que mascota tienes?</h2>
             <div className="grid grid-cols-2 gap-4">
               {["Perro", "Gato"].map((e) => (
                 <button
@@ -65,7 +56,7 @@ export default function TarifarPage() {
                     color: form.especie === e ? "var(--kivo-teal)" : "var(--kivo-navy)",
                   }}
                 >
-                  {e === "Perro" ? "🐕" : "🐈"}<br />{e}
+                  {e}
                 </button>
               ))}
             </div>
@@ -92,7 +83,7 @@ export default function TarifarPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">Edad (años)</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Edad (anos)</label>
               <input
                 type="number"
                 min="0"
@@ -109,7 +100,7 @@ export default function TarifarPage() {
               style={{ backgroundColor: "var(--kivo-teal)" }}
               className="w-full py-4 rounded-xl text-white font-semibold disabled:opacity-40 hover:opacity-90 transition-opacity"
             >
-              Siguiente →
+              Siguiente
             </button>
           </div>
         )}
@@ -132,7 +123,7 @@ export default function TarifarPage() {
                 >
                   <div className="flex justify-between items-center">
                     <span style={{ color: "var(--kivo-navy)" }} className="font-semibold">{plan}</span>
-                    {form.plan === plan && <span style={{ color: "var(--kivo-teal)" }}>✓</span>}
+                    {form.plan === plan && <span style={{ color: "var(--kivo-teal)" }}>v</span>}
                   </div>
                 </button>
               ))}
@@ -143,7 +134,7 @@ export default function TarifarPage() {
                 className="flex-1 py-4 rounded-xl border-2 font-semibold text-gray-600"
                 style={{ borderColor: "#e5e7eb" }}
               >
-                ← Atrás
+                Atras
               </button>
               <button
                 onClick={calcularPrecio}
@@ -162,9 +153,9 @@ export default function TarifarPage() {
             <div style={{ backgroundColor: "var(--kivo-navy)" }} className="rounded-2xl p-10">
               <p className="text-white/70 mb-2">Tu precio para {form.nombre} con {form.plan}</p>
               <p style={{ color: "var(--kivo-teal)" }} className="text-5xl font-bold mb-1">
-                {precio}€
+                {precio} EUR/mes
               </p>
-              <p className="text-white/60 text-sm">al mes · sin permanencia</p>
+              <p className="text-white/60 text-sm">sin permanencia</p>
             </div>
             <button
               style={{ backgroundColor: "var(--kivo-teal)" }}

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KIVO Seguros – Seguro de Mascotas",
-  description: "El seguro de mascotas más completo de España. Protege a tu compañero con KIVO.",
+  title: "KIVO Seguros - Seguro de Mascotas",
+  description: "El seguro de mascotas mas completo de Espana. Protege a tu companero con KIVO.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -29,8 +29,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </nav>
         {children}
         <footer style={{ backgroundColor: "var(--kivo-navy)" }} className="mt-20 px-6 py-10 text-center text-white/60 text-sm">
-          <p>KIVO Seguros, S.L. · Agencia de Suscripción (MGA) · Madrid, España</p>
-          <p className="mt-1">Inscrita en el Registro de la OEPM · M4384477</p>
+          <p>KIVO Seguros, S.L. - Agencia de Suscripcion (MGA) - Madrid, Espana</p>
+          <p className="mt-1">Inscrita en el Registro de la OEPM - M4384477</p>
         </footer>
       </body>
     </html>
