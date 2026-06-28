@@ -12,7 +12,6 @@ const seguros = [
 
 const navLinks = [
   { to: "/coberturas", label: "Coberturas" },
-  { to: "/como-funciona", label: "Cómo funciona" },
   { to: "/blog", label: "Blog" },
   { to: "/sobre-kivo", label: "Sobre KIVO" },
   { to: "/faq", label: "FAQ" },
