@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import logo from "@/assets/kivo-logo-color.png.asset.json";
+import shield from "@/assets/kivo-shield.png.asset.json";
 import heroPets from "@/assets/hero-pets.jpg.asset.json";
 import manDog from "@/assets/man-dog.jpg.asset.json";
 import ctaPets from "@/assets/cta-pets.jpg.asset.json";
@@ -181,7 +182,7 @@ function Home() {
         {/* App banner */}
         <div id="descarga" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-14">
           <div className="rounded-2xl bg-secondary text-white p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
-            <img src={logo.url} alt="" className="h-14 w-14 rounded-2xl bg-white p-1" />
+            <img src={shield.url} alt="KIVO" className="h-14 w-14 rounded-2xl bg-white p-1 object-contain" />
             <div className="flex-1">
               <div className="font-bold text-xl">Descarga la app de KIVO</div>
               <div className="text-sm text-white/90 flex items-center gap-2 mt-1">
@@ -364,7 +365,7 @@ function Home() {
           </div>
           <div className="text-center">
             <div className="inline-block rounded-3xl bg-white p-4 shadow-xl">
-              <img src={logo.url} alt="App de KIVO" className="h-40 w-40" />
+              <img src={shield.url} alt="App de KIVO" className="h-40 w-40 object-contain" />
             </div>
             <div className="mt-4 flex items-center justify-center gap-2 text-sm">
               <span className="flex">{Array.from({ length: 5 }).map((_, i) => (

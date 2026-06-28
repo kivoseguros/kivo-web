@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Youtube } from "lucide-react";
-import logoIcon from "@/assets/kivo-logo-footer-tight.png.asset.json";
+import logoIcon from "@/assets/kivo-logo-footer-transparent.png.asset.json";
 
 
 const segurosCol = [
@@ -43,7 +43,7 @@ export function Footer() {
               <img
                 src={logoIcon.url}
                 alt="KIVO - Seguros para perros y gatos"
-                className="h-20 sm:h-24 w-auto"
+                className="h-16 sm:h-20 w-auto object-contain"
               />
             </div>
             <p className="text-sm text-white/75 max-w-xs">
