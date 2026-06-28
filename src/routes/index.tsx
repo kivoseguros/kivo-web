@@ -47,6 +47,7 @@ export const Route = createFileRoute("/")({
 type Plan = {
   name: string;
   to: "/seguros/care" | "/seguros/care-plus" | "/seguros/premium" | "/seguros/rc";
+  ipid?: string;
   subtitle: string;
   pct?: string;
   pctLabel?: string;
@@ -59,20 +60,20 @@ type Plan = {
 
 const plans: Plan[] = [
   {
-    name: "CARE", to: "/seguros/care",
+    name: "CARE", to: "/seguros/care", ipid: "/ipids/IPID_KIVO_CARE_2026.docx",
     subtitle: "La protección esencial",
     pct: "80%", pctLabel: "de reembolsos en gastos veterinarios",
     coberturas: ["Accidentes y enfermedades", "Cirugías", "Pruebas diagnósticas", "Medicamentos", "Responsabilidad Civil"],
   },
   {
-    name: "CARE+", to: "/seguros/care-plus",
+    name: "CARE+", to: "/seguros/care-plus", ipid: "/ipids/IPID_KIVO_CARE_PLUS_2026.docx",
     subtitle: "Más cobertura, más tranquilidad",
     pct: "90%", pctLabel: "de reembolsos en gastos veterinarios",
     tag: "MÁS ELEGIDO", highlighted: true,
     coberturas: ["Todo lo incluido en KIVO CARE", "Límites anuales más altos", "Más pruebas y tratamientos", "Rehabilitación y fisioterapia", "Responsabilidad Civil"],
   },
   {
-    name: "PREMIUM", to: "/seguros/premium",
+    name: "PREMIUM", to: "/seguros/premium", ipid: "/ipids/IPID_KIVO_PREMIUM_2026.docx",
     subtitle: "La máxima protección",
     pct: "100%", pctLabel: "de reembolsos en gastos veterinarios",
     coberturas: ["Todo lo incluido en KIVO CARE+", "Reembolso del 100%", "Sin límites por accidente", "Coberturas más completas", "Responsabilidad Civil ampliada"],
@@ -272,9 +273,11 @@ function Home() {
                   <Link to={p.to} className="block text-center rounded-full py-2.5 text-sm font-bold border border-primary text-primary hover:bg-primary/5">
                     Ver coberturas completas
                   </Link>
-                  <a href="#" className="block text-center text-xs text-secondary/80 hover:text-secondary inline-flex items-center justify-center gap-1 w-full">
-                    Ver condicionado general <FileCheck className="h-3.5 w-3.5" />
-                  </a>
+                  {p.ipid && (
+                    <a href={p.ipid} download className="block text-center text-xs text-[#3DBFA0] hover:underline inline-flex items-center justify-center gap-1 w-full">
+                      Descargar IPID <FileCheck className="h-3.5 w-3.5" />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
