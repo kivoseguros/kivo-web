@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Menu, X, Download, UserRound } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/assets/kivo-logo-full.jpg.asset.json";
 
 const seguros = [
@@ -79,17 +79,12 @@ export function Header() {
               </button>
             ))}
           </div>
+
           <a
-            href="#"
-            className="hidden md:inline-flex items-center gap-2 rounded-full border border-secondary/30 px-4 py-2 text-sm font-semibold text-secondary hover:border-primary hover:text-primary transition"
-          >
-            <UserRound className="h-4 w-4" /> Área cliente
-          </a>
-          <a
-            href="#descarga"
+            href="/contratar"
             className="hidden sm:inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-primary/90 transition"
           >
-            <Download className="h-4 w-4" /> DESCARGA LA APP DE KIVO
+            Calcula tu precio →
           </a>
           <button
             className="lg:hidden p-2 text-secondary"
@@ -126,12 +121,7 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
-            <a
-              href="#"
-              className="block py-2 font-semibold text-secondary"
-            >
-              Área cliente
-            </a>
+
           </div>
         </div>
       )}

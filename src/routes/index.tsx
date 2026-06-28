@@ -141,7 +141,7 @@ function Home() {
               <span className="text-primary">rápido de cobrar.</span>
             </h1>
             <p className="mt-6 text-lg text-secondary/75 max-w-lg">
-              Contrata en minutos desde la App<br />
+              Calcula el precio de tu seguro<br />
               y recibe tus reembolsos en 24/48h<br />
               en los casos simples.
             </p>
@@ -265,7 +265,7 @@ function Home() {
                   ))}
                 </ul>
                 <div className="mt-5 space-y-2">
-                  <a href="#calcular" className={`block text-center rounded-full py-2.5 text-sm font-bold transition ${p.highlighted ? "bg-primary text-white hover:bg-primary/90" : "bg-primary text-white hover:bg-primary/90"}`}>
+                  <a href="/contratar" className={`block text-center rounded-full py-2.5 text-sm font-bold transition ${p.highlighted ? "bg-primary text-white hover:bg-primary/90" : "bg-primary text-white hover:bg-primary/90"}`}>
                     Calcular precio
                   </a>
                   <Link to={p.to} className="block text-center rounded-full py-2.5 text-sm font-bold border border-primary text-primary hover:bg-primary/5">
