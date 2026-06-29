@@ -18,7 +18,7 @@ function AvisoLegal() {
     <SiteLayout>
       <PageHero eyebrow="LEGAL" title={<>Aviso <span className="text-primary">Legal</span></>} subtitle="Información corporativa y condiciones de uso del sitio web." />
       <Section>
-        <div className="max-w-3xl mx-auto prose prose-sm text-[#1B2A4A]/80 space-y-8">
+        <div className="max-w-3xl mx-auto text-sm text-[#1B2A4A]/80 space-y-8">
 
           <div>
             <h2 className="text-lg font-extrabold text-[#1B2A4A] mb-3">1. Datos identificativos</h2>

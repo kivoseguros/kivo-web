@@ -4,7 +4,6 @@ import {
   ArrowRight, FileText, Send, Clock, Wallet, Scale, FileCheck, Heart,
 } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
-import logo from "@/assets/kivo-logo-color.png.asset.json";
 import shield from "@/assets/kivo-shield.png.asset.json";
 import heroPets from "@/assets/hero-pets.jpg.asset.json";
 import manDog from "@/assets/man-dog.jpg.asset.json";
