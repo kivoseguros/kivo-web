@@ -23,6 +23,7 @@ type TipoPago = "tarjeta" | "transferencia";
 type Step = 0 | 1 | 2 | 3 | 4 | 5;
 
 interface FormMascota {
+  nombreMascota: string;
   especie: Especie | null;
   tipoRaza: TipoRaza | null;
   raza: string;
@@ -43,6 +44,7 @@ interface FormTomador {
   telefono: string;
   direccion: string;
   codigoPostal: string;
+  provincia: string;
 }
 
 const STEP_LABELS = ["Mascota", "Tomador", "Cobertura", "Tu precio", "Pago"];
@@ -173,22 +175,23 @@ function ContratarPage() {
   const [calculando, setCalculando] = useState(false);
   const [priceDone, setPriceDone] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
   const [numeroPoliza, setNumeroPoliza] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [razaResults, setRazaResults] = useState<Raza[]>([]);
   const [razaFocus, setRazaFocus] = useState(false);
 
   const [mascota, setMascota] = useState<FormMascota>({
-    especie: null, tipoRaza: null, raza: "", razaObj: null,
+    nombreMascota: "", especie: null, tipoRaza: null, raza: "", razaObj: null,
     pesoRango: "", fechaNacimiento: "", sexo: null,
     esterilizado: null, microchip: "", microchipPendiente: false, paraCaza: false,
   });
 
   const [tomador, setTomador] = useState<FormTomador>({
-    nombreCompleto: "", dni: "", email: "", telefono: "", direccion: "", codigoPostal: "",
+    nombreCompleto: "", dni: "", email: "", telefono: "", direccion: "", codigoPostal: "", provincia: "",
   });
 
-  const nombreMascota = mascota.raza.split(" ")[0] || "tu mascota";
+  const nombreMascota = mascota.nombreMascota.trim() || mascota.raza.split(" ")[0] || "tu mascota";
   const nombreTomador = tomador.nombreCompleto.trim().split(" ")[0] || "";
 
   const tramo: Tramo | null = useMemo(() => {
@@ -232,6 +235,7 @@ function ContratarPage() {
 
   function validateStep0(): boolean {
     const e: Record<string, string> = {};
+    if (!mascota.nombreMascota.trim()) e.nombreMascota = "Introduce el nombre de tu mascota";
     if (!mascota.especie) e.especie = "Selecciona la especie";
     else if (!mascota.tipoRaza) e.tipoRaza = "Indica si es pura raza o mestizo";
     else if (mascota.tipoRaza === "pura" && !mascota.razaObj) e.raza = "Selecciona una raza de la lista";
@@ -258,6 +262,8 @@ function ContratarPage() {
     if (!z.string().email().safeParse(tomador.email).success) e.email = "Email inválido";
     if (!tomador.telefono.trim()) e.telefono = "Introduce tu teléfono";
     if (!tomador.codigoPostal.trim()) e.cp = "Introduce el código postal";
+    else if (!/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/.test(tomador.codigoPostal)) e.cp = "Código postal no válido (España)";
+    if (!tomador.provincia.trim()) e.provincia = "Selecciona la provincia";
     setErrors(e);
     return Object.keys(e).length === 0;
   }
@@ -295,7 +301,13 @@ function ContratarPage() {
           <Link to="/" className="text-sm font-semibold text-[#1B2A4A]/50 hover:text-[#1B2A4A] transition flex items-center gap-1">
             <ChevronLeft className="h-4 w-4" /> Inicio
           </Link>
-          {step < 5 && <span className="text-xs font-bold text-[#1B2A4A]/50">Paso {Math.min((step as number) + 1, 5)}/5</span>}
+          {step < 5 && (
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-bold text-[#1B2A4A]/50">Paso {Math.min((step as number) + 1, 5)}/5</span>
+              <button type="button" onClick={() => setShowExitModal(true)}
+                className="text-xs text-[#1B2A4A]/40 hover:text-[#1B2A4A] transition">✕ Salir</button>
+            </div>
+          )}
         </div>
         {step < 5 && <div className="mx-auto max-w-xl"><Stepper current={step as number} /></div>}
       </div>
@@ -310,6 +322,14 @@ function ContratarPage() {
                 <div>
                   <h1 className="text-2xl font-extrabold text-[#1B2A4A]">Cuéntanos sobre tu compañero</h1>
                   <p className="mt-1 text-sm text-[#1B2A4A]/60">En menos de 5 minutos tendrás su precio.</p>
+                </div>
+
+                <div>
+                  <label className={labelCls}>¿Cómo se llama tu mascota?</label>
+                  <input className={errors.nombreMascota ? inputErrCls : inputCls} placeholder="Nombre de tu mascota"
+                    value={mascota.nombreMascota}
+                    onChange={e => setMascota(m => ({ ...m, nombreMascota: e.target.value }))} />
+                  {errors.nombreMascota && <p className="mt-1 text-xs text-red-500">{errors.nombreMascota}</p>}
                 </div>
 
                 <div>
@@ -361,10 +381,7 @@ function ContratarPage() {
                             onClick={() => { setMascota(m => ({ ...m, raza: r.nombre, razaObj: r })); setRazaFocus(false); }}
                             className="flex w-full items-center justify-between px-4 py-2.5 text-sm hover:bg-[#3DBFA0]/8 text-left">
                             <span className="font-medium text-[#1B2A4A]">{r.nombre}</span>
-                            <span className="text-xs text-[#1B2A4A]/40">
-                              {r.tamano === "P" ? "Pequeño" : r.tamano === "M" ? "Mediano" : "Grande"}
-                              {r.ppp && <span className="ml-2 text-red-500 font-bold"> PPP</span>}
-                            </span>
+                            {r.ppp && <span className="text-xs text-red-500 font-bold">PPP</span>}
                           </button>
                         ))}
                       </div>
@@ -410,7 +427,7 @@ function ContratarPage() {
                 {(mascota.razaObj || mascota.pesoRango) && !mascota.razaObj?.ppp && (
                   <div>
                     <label className={labelCls}>Fecha de nacimiento</label>
-                    <input type="date" className={errors.fecha ? inputErrCls : inputCls}
+                    <input type="date" className={(mascota.fechaNacimiento && !tramo) || (errors.fecha && !mascota.fechaNacimiento) ? inputErrCls : inputCls}
                       value={mascota.fechaNacimiento} max={new Date().toISOString().split("T")[0]}
                       onChange={e => setMascota(m => ({ ...m, fechaNacimiento: e.target.value }))} />
                     {tramo === null && mascota.fechaNacimiento && <p className="mt-1 text-xs text-red-500">Edad fuera del rango asegurable (2 meses – 11 años)</p>}
@@ -461,7 +478,7 @@ function ContratarPage() {
                       <input type="checkbox" className="h-4 w-4 rounded accent-[#3DBFA0]"
                         checked={mascota.microchipPendiente}
                         onChange={e => setMascota(m => ({ ...m, microchipPendiente: e.target.checked, microchip: "" }))} />
-                      Pendiente de obtener (se aportará antes del inicio de cobertura)
+                      Pendiente de aportar — cachorros menores de 3-4 meses pueden no tenerlo por recomendación veterinaria
                     </label>
                     {errors.microchip && <p className="mt-1 text-xs text-red-500">{errors.microchip}</p>}
                   </div>
@@ -517,10 +534,21 @@ function ContratarPage() {
                   <input className={inputCls} value={tomador.direccion}
                     onChange={e => setTomador(t => ({ ...t, direccion: e.target.value }))} />
                 </Field>
-                <Field label="Código postal" error={errors.cp} labelCls={labelCls}>
-                  <input className={errors.cp ? inputErrCls : inputCls} maxLength={5} value={tomador.codigoPostal}
-                    onChange={e => setTomador(t => ({ ...t, codigoPostal: e.target.value.replace(/\D/g,"") }))} />
-                </Field>
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Código postal" error={errors.cp} labelCls={labelCls}>
+                    <input className={errors.cp ? inputErrCls : inputCls} maxLength={5} value={tomador.codigoPostal}
+                      onChange={e => setTomador(t => ({ ...t, codigoPostal: e.target.value.replace(/\D/g,"") }))} />
+                  </Field>
+                  <Field label="Provincia" error={errors.provincia} labelCls={labelCls}>
+                    <select className={errors.provincia ? inputErrCls : inputCls}
+                      value={tomador.provincia} onChange={e => setTomador(t => ({ ...t, provincia: e.target.value }))}>
+                      <option value="">Selecciona…</option>
+                      {["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","Cuenca","Girona","Granada","Guadalajara","Guipúzcoa","Huelva","Huesca","Islas Baleares","Jaén","La Coruña","La Rioja","Las Palmas","León","Lleida","Lugo","Madrid","Málaga","Murcia","Navarra","Ourense","Palencia","Pontevedra","Salamanca","Santa Cruz de Tenerife","Segovia","Sevilla","Soria","Tarragona","Teruel","Toledo","Valencia","Valladolid","Vizcaya","Zamora","Zaragoza","Ceuta","Melilla"].map(p => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                    </select>
+                  </Field>
+                </div>
               </div>
             )}
 
@@ -560,7 +588,7 @@ function ContratarPage() {
                         <span className="text-xl font-bold opacity-70 mb-2">€/mes</span>
                       </div>
                       <p className="mt-1 text-sm opacity-60">{precio.anual} €/año · IVA incluido</p>
-                      <p className="mt-2 text-xs opacity-40">Precio provisional · Pendiente validación actuarial Wakam S.A.</p>
+
                     </div>
                     <div className="rounded-2xl border border-[#1B2A4A]/10 p-4 space-y-2">
                       <p className="text-xs font-bold text-[#1B2A4A] mb-2">Resumen de cobertura</p>
@@ -629,16 +657,34 @@ function ContratarPage() {
                   </div>
                 )}
                 {tipoPago === "transferencia" && (
-                  <div className="rounded-2xl border border-[#1B2A4A]/15 p-4 space-y-3">
-                    <p className="text-sm font-bold text-[#1B2A4A]">Datos para la transferencia</p>
-                    <div className="space-y-0">
+                  <div className="rounded-2xl border border-[#1B2A4A]/15 p-5 space-y-4">
+                    <p className="text-sm font-bold text-[#1B2A4A]">Primer pago por transferencia bancaria</p>
+                    {precio && (
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="rounded-xl bg-[#1B2A4A]/4 p-3 text-center">
+                          <p className="text-xs text-[#1B2A4A]/50 mb-0.5">Total mensual</p>
+                          <p className="text-lg font-extrabold text-[#1B2A4A]">{precio.mensual.toFixed(2).replace(".",",")} €</p>
+                        </div>
+                        <div className="rounded-xl bg-[#1B2A4A] p-3 text-center">
+                          <p className="text-xs text-white/60 mb-0.5">Total anual</p>
+                          <p className="text-lg font-extrabold text-white">{precio.anual} €</p>
+                        </div>
+                      </div>
+                    )}
+                    <div className="space-y-1">
                       <Row label="Beneficiario" value="KIVO SEGUROS, S.L." />
-                      <Row label="IBAN" value="ES— — — — — — (pendiente)" />
-                      {precio && <Row label="Importe" value={precio.anual + " € (anual)"} />}
-                      <Row label="Concepto" value="Seguro mascota — tu nombre" />
+                      <Row label="IBAN" value="ES91 0049 1805 9127 1060 2071" />
+                      {precio && <Row label="Importe primer pago" value={precio.mensual.toFixed(2).replace(".",",") + " €"} />}
+                      <Row label="Concepto" value={"Seguro " + (mascota.nombreMascota || "mascota") + " — " + tomador.nombreCompleto} />
                     </div>
-                    <div className="rounded-xl bg-amber-50 border border-amber-200 p-3">
-                      <p className="text-xs text-amber-700">Envía el justificante a <strong>contratos@kivoseguros.com</strong>. La póliza se activa en 24/48h laborables.</p>
+                    <div>
+                      <label className={labelCls}>Tu IBAN (para domiciliación de los siguientes recibos)</label>
+                      <input className={inputCls} placeholder="ES00 0000 0000 0000 0000 0000"
+                        maxLength={29} />
+                      <p className="mt-1 text-[10px] text-[#1B2A4A]/40">El primer recibo se paga por transferencia. Los siguientes quedan domiciliados en tu cuenta.</p>
+                    </div>
+                    <div className="rounded-xl bg-[#3DBFA0]/8 border border-[#3DBFA0]/20 p-3">
+                      <p className="text-xs text-[#1B2A4A]/70">✓ Una vez recibido el pago en la cuenta de KIVO SEGUROS S.L., recibirás tu póliza por email en un plazo máximo de 24/48 horas laborables.</p>
                     </div>
                   </div>
                 )}
@@ -706,6 +752,26 @@ function ContratarPage() {
           </>
         )}
       </div>
+
+      {showExitModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-5">
+          <div className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl text-center">
+            <div className="text-5xl mb-4">🐕🐈</div>
+            <h2 className="text-xl font-extrabold text-[#1B2A4A] mb-2">¿Seguro que quieres salir?</h2>
+            <p className="text-sm text-[#1B2A4A]/60 mb-6">
+              {mascota.nombreMascota ? mascota.nombreMascota + " te está esperando." : "Tu mascota te está esperando."} No dejes pasar la oportunidad de tenerla protegida.
+            </p>
+            <button type="button"
+              onClick={() => setShowExitModal(false)}
+              className="w-full h-12 rounded-full bg-[#3DBFA0] text-white font-bold mb-3 hover:bg-[#3DBFA0]/90 transition">
+              Continuar con KIVO 🐾
+            </button>
+            <Link to="/" className="block w-full h-12 rounded-full border border-[#1B2A4A]/15 text-[#1B2A4A]/50 font-semibold text-sm flex items-center justify-center hover:bg-[#1B2A4A]/4 transition">
+              Salir sin contratar
+            </Link>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
