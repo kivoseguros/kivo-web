@@ -10,7 +10,7 @@ const cats: Cat[] = ["Contratación", "Coberturas", "Reembolsos", "Carencias", "
 const faqs: Record<Cat, { q: string; a: string }[]> = {
   "Contratación": [
     { q: "¿Qué edad debe tener mi mascota para contratar?", a: "Para perros, la edad mínima es 2 meses y la máxima 11 años en la fecha de efecto. Para gatos, de 2 meses a 10 años. Si tu mascota supera la edad máxima, no podrá contratarse un nuevo seguro KIVO, aunque las pólizas vigentes se renuevan anualmente sin límite de edad." },
-    { q: "¿Necesito el número de microchip para contratar?", a: "Sí, el microchip es obligatorio para formalizar la póliza. Si tu mascota aún no lo tiene (por ejemplo cachorros menores de 3-4 meses), puedes marcarlo como 'pendiente' durante la contratación y aportarlo antes de la fecha de efecto." },
+    { q: "¿Necesito el número de microchip para contratar?", a: "Sí. El microchip es obligatorio por la Ley 7/2023 y es necesario para formalizar la póliza. Si tu mascota es cachorro y aún no lo tiene (los veterinarios recomiendan implantarlo a partir de los 3-4 meses), puedes marcar el campo como 'pendiente' durante la contratación y aportarlo antes de la fecha de inicio de cobertura. Sin microchip aportado, la póliza no produce efectos." },
     { q: "¿Puedo contratar si mi perro es mestizo?", a: "Sí, KIVO asegura tanto perros de raza pura como mestizos. Para mestizos, la tarificación se realiza por tramo de peso." },
     { q: "¿Qué razas quedan excluidas?", a: "Los perros clasificados como Potencialmente Peligrosos según el RD 287/2002 no pueden asegurarse: Pit Bull Terrier, Staffordshire Bull Terrier, American Staffordshire Terrier, Rottweiler, Dogo Argentino, Fila Brasileño, Tosa Inu y Akita Inu." },
     { q: "¿Puedo contratar si mi perro es de caza?", a: "No. Los perros utilizados para actividades de caza quedan excluidos de la cobertura KIVO. El seguro está diseñado exclusivamente para mascotas domésticas." },
@@ -19,7 +19,7 @@ const faqs: Record<Cat, { q: string; a: string }[]> = {
   ],
   "Coberturas": [
     { q: "¿Qué diferencia hay entre CARE, CARE+ y PREMIUM?", a: "Los tres planes cubren accidentes, enfermedades y R.C., pero difieren en el porcentaje de reembolso y el límite anual: CARE (80%, 3.500 €), CARE+ (90%, 4.000 €) y PREMIUM (100% sin copago, 5.000 €)." },
-    { q: "¿La vacunación está cubierta?", a: "Sí, en todos los planes. KIVO cubre el 100% de los gastos de vacunación obligatoria y recomendada, hasta 250 €/año, sin período de carencia." },
+    { q: "¿La vacunación está cubierta?", a: "Sí. KIVO cubre el 100% de los gastos de las vacunas obligatorias y principales: antirrábica (rabia), polivalente (moquillo, parvovirus, hepatitis, leptospirosis) y tos de las perreras (Bordetella). El límite es de 250 €/año. Sin período de carencia." },
     { q: "¿Se cubre la oncología?", a: "Sí. Los tres planes cubren quimioterapia, radioterapia e inmunoterapia. El sublímite por proceso es de 2.500 € en CARE y CARE+, y de 3.500 € en PREMIUM (en centros veterinarios de referencia acreditados)." },
     { q: "¿Se cubre la fisioterapia y rehabilitación?", a: "Sí, hasta 9 sesiones por año en los tres planes." },
     { q: "¿Está cubierta la tartrectomía (limpieza dental)?", a: "En CARE y CARE+ la tartrectomía se cubre a partir del segundo año de vigencia de la póliza. En PREMIUM, desde el primer año para animales mayores de 3 años, hasta 200 €/año." },
@@ -30,9 +30,9 @@ const faqs: Record<Cat, { q: string; a: string }[]> = {
   "Reembolsos": [
     { q: "¿Cómo solicito un reembolso?", a: "A través de la app KIVO: fotografías la factura veterinaria con el OCR integrado, adjuntas el informe médico si lo tienes, y envías la solicitud. Recibirás respuesta en un plazo máximo de 10 días hábiles." },
     { q: "¿Qué documentos necesito para pedir un reembolso?", a: "Factura original del veterinario con desglose de conceptos, diagnóstico o informe médico (si lo solicita el gestor), y los datos bancarios donde quieres recibir el abono." },
-    { q: "¿Cuánto tarda en llegar el reembolso?", a: "Una vez aprobada la solicitud, el abono se realiza en un plazo máximo de 5 días hábiles por transferencia bancaria." },
+    { q: "¿Cuánto tarda en llegar el reembolso?", a: "En los casos simples (factura clara, diagnóstico incluido, sin revisión adicional), la resolución y el abono se realizan en 24/48 horas laborables desde la recepción completa de la documentación. En casos complejos que requieran valoración médica adicional, el plazo máximo es de 10 días hábiles. El abono se realiza siempre por transferencia bancaria." },
     { q: "¿Hay un límite por cada visita o proceso?", a: "Sí. Además del límite anual (3.500 € / 4.000 € / 5.000 € según plan), existe un sublímite por proceso de 2.500 € en CARE y CARE+, y de 3.500 € para oncología en PREMIUM." },
-    { q: "¿Puedo ir a cualquier veterinario?", a: "Sí. KIVO funciona con libertad de elección de veterinario. Puedes acudir a cualquier clínica veterinaria colegiada en España y pedir el reembolso posteriormente." },
+    { q: "¿Puedo ir a cualquier veterinario?", a: "Sí. KIVO garantiza la libertad total de elección de veterinario. No existe red cerrada ni veterinarios concertados. Puedes acudir a cualquier clínica veterinaria colegiada en España — incluidas clínicas de urgencias, centros de referencia y especialistas — y solicitar el reembolso a través de la app." },
   ],
   "Carencias": [
     { q: "¿Qué es un período de carencia?", a: "Es el tiempo desde la fecha de efecto de la póliza durante el cual no se cubren determinadas contingencias. Sirve para evitar la contratación oportunista justo antes de un siniestro ya conocido." },

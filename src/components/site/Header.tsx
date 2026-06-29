@@ -20,7 +20,7 @@ const navLinks = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [openSeguros, setOpenSeguros] = useState(false);
-  const [lang, setLang] = useState<"ES" | "EN">("ES");
+  const [lang, setLang] = useState<"ES" | "EN" | "FR" | "DE" | "PT">("ES");
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
@@ -67,14 +67,21 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:flex text-xs font-semibold text-secondary/80 border border-border rounded-full overflow-hidden">
-            {(["ES", "EN"] as const).map((l) => (
+          <div className="hidden md:flex items-center gap-1">
+            {([
+              { code: "ES", flag: "🇪🇸" },
+              { code: "EN", flag: "🇬🇧" },
+              { code: "FR", flag: "🇫🇷" },
+              { code: "DE", flag: "🇩🇪" },
+              { code: "PT", flag: "🇵🇹" },
+            ] as const).map((l) => (
               <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`px-2.5 py-1 ${lang === l ? "bg-secondary text-white" : ""}`}
+                key={l.code}
+                onClick={() => setLang(l.code)}
+                title={l.code}
+                className={`text-base leading-none px-1 py-0.5 rounded transition-all ${lang === l.code ? "scale-125" : "opacity-50 hover:opacity-80"}`}
               >
-                {l}
+                {l.flag}
               </button>
             ))}
           </div>

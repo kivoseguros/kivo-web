@@ -150,7 +150,7 @@ function Home() {
             <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-5">
               {[
                 { Icon: Zap, label: "Reembolsos 24/48h" },
-                { Icon: Stethoscope, label: "Cualquier veterinario" },
+                { Icon: Stethoscope, label: "Veterinario de libre elección" },
                 { Icon: Smartphone, label: "Todo desde la App" },
                 { Icon: ShieldCheck, label: "Sin papeleo innecesario" },
               ].map(({ Icon, label }) => (
@@ -285,7 +285,20 @@ function Home() {
         </div>
       </section>
 
-      {/* COMPARATIVA + lateral */}
+
+      {/* VETERINARIO LIBRE ELECCIÓN */}
+      <section className="bg-[#3DBFA0]/8 py-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+          <div className="h-16 w-16 rounded-2xl bg-[#3DBFA0] text-white flex items-center justify-center shrink-0 text-3xl">🏥</div>
+          <div>
+            <div className="font-extrabold text-[#1B2A4A] text-lg">Veterinario de libre elección</div>
+            <p className="text-sm text-[#1B2A4A]/70 mt-1 max-w-2xl">Con KIVO puedes ir a <strong>cualquier clínica veterinaria colegiada en España</strong>: urgencias, especialistas, centros de referencia. Sin red cerrada. Sin restricciones. Tú decides quién cuida a tu mascota.</p>
+          </div>
+          <a href="/contratar" className="shrink-0 rounded-full bg-[#1B2A4A] text-white text-sm font-bold px-6 py-3 hover:bg-[#1B2A4A]/90 transition">Calcular precio →</a>
+        </div>
+      </section>
+
+      {/* COMPARATIVA + lateral */
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-left text-sm">
@@ -378,6 +391,49 @@ function Home() {
             </div>
             <p className="text-sm text-white/75 mt-3 max-w-xs mx-auto">Descarga la app de KIVO y empieza hoy a cuidar su futuro.</p>
           </div>
+        </div>
+      </section>
+
+
+      {/* IA SECTION */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <div className="inline-block text-xs font-bold tracking-widest text-[#3DBFA0] uppercase mb-4 bg-[#3DBFA0]/10 px-3 py-1 rounded-full">Tecnología KIVO</div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-secondary leading-tight mb-4">
+            Inteligencia Artificial al servicio <span className="text-primary">de tu mascota.</span>
+          </h2>
+          <p className="text-secondary/75 mb-4">
+            Nuestro sistema de IA analiza automáticamente las facturas veterinarias y clasifica cada concepto en segundos. El resultado: reembolsos más rápidos y menos papeleo para ti.
+          </p>
+          <ul className="space-y-3 mt-6">
+            {[
+              "Lectura automática de facturas con OCR inteligente",
+              "Clasificación instantánea de conceptos cubiertos",
+              "Detección de errores y documentación incompleta",
+              "Gestión de expedientes en tiempo real desde la App",
+            ].map((f) => (
+              <li key={f} className="flex items-start gap-2 text-sm text-secondary/80">
+                <span className="text-[#3DBFA0] font-bold mt-0.5">✓</span> {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-3xl bg-[#1B2A4A] p-8 text-white space-y-4">
+          <div className="text-xs font-bold tracking-widest text-[#3DBFA0] uppercase mb-2">En menos de 1 minuto</div>
+          {[
+            { step: "1", label: "Fotografías la factura", sub: "OCR extrae los datos al instante" },
+            { step: "2", label: "Enviamos tu solicitud", sub: "La IA clasifica cada concepto" },
+            { step: "3", label: "Recibes tu dinero", sub: "En 24/48h en casos simples*" },
+          ].map((s) => (
+            <div key={s.step} className="flex items-start gap-4">
+              <div className="h-8 w-8 rounded-full bg-[#3DBFA0] text-white font-black flex items-center justify-center shrink-0 text-sm">{s.step}</div>
+              <div>
+                <div className="font-bold">{s.label}</div>
+                <div className="text-sm text-white/60">{s.sub}</div>
+              </div>
+            </div>
+          ))}
+          <p className="text-[10px] text-white/40 pt-2">*Plazos sujetos a la complejidad del expediente.</p>
         </div>
       </section>
 

@@ -11,19 +11,19 @@ const segurosCol = [
 ] as const;
 
 const documentacionCol = [
-  "Condicionado General Salud y Enfermedad",
-  "Condicionado General Responsabilidad Civil",
-  "IPID Salud y Enfermedad",
-  "IPID Responsabilidad Civil",
-  "Preguntas Frecuentes",
+  { label: "Condicionado General Salud y Enfermedad", href: "#" },
+  { label: "Condicionado General Responsabilidad Civil", href: "#" },
+  { label: "IPID KIVO CARE", href: "/ipids/IPID_KIVO_CARE_2026.docx" },
+  { label: "IPID KIVO CARE+", href: "/ipids/IPID_KIVO_CARE_PLUS_2026.docx" },
+  { label: "IPID KIVO PREMIUM", href: "/ipids/IPID_KIVO_PREMIUM_2026.docx" },
 ];
 
 const legalCol = [
-  "Aviso Legal",
-  "Política de Privacidad",
-  "Política de Cookies",
-  "Canal de Reclamaciones",
-  "Contacto",
+  { label: "Aviso Legal", to: "/aviso-legal" },
+  { label: "Política de Privacidad", to: "/privacidad" },
+  { label: "Política de Cookies", to: "/cookies" },
+  { label: "Reclamaciones", href: "mailto:reclamaciones@kivoseguros.com" },
+  { label: "Contacto", href: "mailto:hola@kivoseguros.com" },
 ];
 
 const regulatoria = [
@@ -78,8 +78,8 @@ export function Footer() {
             <h4 className="font-bold mb-3 text-xs tracking-wider">DOCUMENTACIÓN</h4>
             <ul className="space-y-2 text-sm text-white/75">
               {documentacionCol.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-white transition">{l}</a>
+                <li key={l.label}>
+                  <a href={l.href} className="hover:text-white transition">{l.label}</a>
                 </li>
               ))}
             </ul>
@@ -90,8 +90,10 @@ export function Footer() {
             <h4 className="font-bold mb-3 text-xs tracking-wider">LEGAL</h4>
             <ul className="space-y-2 text-sm text-white/75">
               {legalCol.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-white transition">{l}</a>
+                <li key={l.label}>
+                  {"to" in l
+                    ? <Link to={l.to} className="hover:text-white transition">{l.label}</Link>
+                    : <a href={l.href} className="hover:text-white transition">{l.label}</a>}
                 </li>
               ))}
             </ul>
@@ -108,8 +110,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/15 text-xs text-white/85 text-center">
-          © {new Date().getFullYear()} KIVO Seguros para Perros y Gatos. Todos los derechos reservados.
+        <div className="mt-12 pt-6 border-t border-white/15 text-xs text-white/85 text-center space-y-1">
+          <div>© {new Date().getFullYear()} KIVO Seguros, S.L. · Todos los derechos reservados · DGSFP · Ley 7/2023</div>
+          <div className="text-white/50">Reclamaciones: <a href="mailto:reclamaciones@kivoseguros.com" className="hover:text-white">reclamaciones@kivoseguros.com</a> · Contacto: <a href="mailto:hola@kivoseguros.com" className="hover:text-white">hola@kivoseguros.com</a></div>
         </div>
       </div>
     </footer>

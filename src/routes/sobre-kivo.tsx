@@ -22,10 +22,10 @@ const valores = [
 ];
 
 const letras = [
-  { l: "K", concepto: "Knowledge", desc: "Conocimiento y tecnología. La K aporta personalidad y fuerza visual." },
-  { l: "I", concepto: "Intelligence", desc: "Inteligencia, automatización y conexión con el mundo digital." },
-  { l: "V", concepto: "Vitality", desc: "Vida, salud y bienestar. La V aporta dinamismo y movimiento." },
-  { l: "O♥", concepto: "Love", desc: "El vínculo entre persona y mascota. La razón por la que todo existe." },
+  { l: "K", concepto: "Conocimiento", desc: "Conocimiento asegurador y tecnología. La K aporta personalidad, rigor y fuerza visual. Sabemos de seguros y de mascotas." },
+  { l: "I", concepto: "Inteligencia", desc: "Inteligencia artificial, automatización y conexión digital. Cada proceso de reembolso, cada respuesta, optimizado con tecnología." },
+  { l: "V", concepto: "Vida", desc: "Vida, salud y bienestar. La V aporta dinamismo y movimiento. Todo gira en torno a la salud y la felicidad de tu mascota." },
+  { l: "O♥", concepto: "Love", desc: "El amor entre persona y mascota. El vínculo que lo explica todo y la razón por la que KIVO existe." },
 ];
 
 function SobreKivoPage() {
