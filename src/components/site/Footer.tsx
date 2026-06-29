@@ -19,9 +19,9 @@ const documentacionCol = [
 ];
 
 const legalCol = [
-  { label: "Aviso Legal", to: "/aviso-legal" },
-  { label: "Política de Privacidad", to: "/privacidad" },
-  { label: "Política de Cookies", to: "/cookies" },
+  { label: "Aviso Legal", href: "/aviso-legal" },
+  { label: "Política de Privacidad", href: "/privacidad" },
+  { label: "Política de Cookies", href: "/cookies" },
   { label: "Reclamaciones", href: "mailto:reclamaciones@kivoseguros.com" },
   { label: "Contacto", href: "mailto:hola@kivoseguros.com" },
 ];
@@ -91,9 +91,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-white/75">
               {legalCol.map((l) => (
                 <li key={l.label}>
-                  {"to" in l
-                    ? <Link to={l.to} className="hover:text-white transition">{l.label}</Link>
-                    : <a href={l.href} className="hover:text-white transition">{l.label}</a>}
+                  <a href={l.href} className="hover:text-white transition">{l.label}</a>
                 </li>
               ))}
             </ul>

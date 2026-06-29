@@ -5,12 +5,13 @@ export function CookiesBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const consent = localStorage.getItem("kivo_cookies");
     if (!consent) setVisible(true);
   }, []);
 
-  const accept = () => { localStorage.setItem("kivo_cookies", "all"); setVisible(false); };
-  const reject = () => { localStorage.setItem("kivo_cookies", "essential"); setVisible(false); };
+  const accept = () => { if (typeof window !== "undefined") localStorage.setItem("kivo_cookies", "all"); setVisible(false); };
+  const reject = () => { if (typeof window !== "undefined") localStorage.setItem("kivo_cookies", "essential"); setVisible(false); };
 
   if (!visible) return null;
 
