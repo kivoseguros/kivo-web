@@ -139,7 +139,7 @@ function Home() {
             <div className="inline-block bg-orange-50 text-orange-600 font-bold text-sm px-4 py-2 rounded-xl mb-5">
               El seguro de mascotas de tu familia ♡
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] text-secondary">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] text-secondary font-serif">
               Ellos nunca<br />
               te fallan.<br />
               <span className="text-primary">Nosotros<br />tampoco.</span>
