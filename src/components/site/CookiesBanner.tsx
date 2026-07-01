@@ -10,8 +10,27 @@ export function CookiesBanner() {
     if (!consent) setVisible(true);
   }, []);
 
-  const accept = () => { if (typeof window !== "undefined") localStorage.setItem("kivo_cookies", "all"); setVisible(false); };
-  const reject = () => { if (typeof window !== "undefined") localStorage.setItem("kivo_cookies", "essential"); setVisible(false); };
+  const accept = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("kivo_cookies", "all");
+      if (window.location.pathname === "/cookies") {
+        window.location.href = "/";
+        return;
+      }
+    }
+    setVisible(false);
+  };
+
+  const reject = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("kivo_cookies", "essential");
+      if (window.location.pathname === "/cookies") {
+        window.location.href = "/";
+        return;
+      }
+    }
+    setVisible(false);
+  };
 
   if (!visible) return null;
 
@@ -20,7 +39,8 @@ export function CookiesBanner() {
       <div className="mx-auto max-w-4xl rounded-2xl bg-[#1B2A4A] text-white shadow-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="flex-1 text-sm text-white/85">
           <span className="font-bold text-white">🍪 Cookies en KIVO</span>{" "}
-          Usamos cookies técnicas (necesarias) y analíticas para mejorar tu experiencia. Puedes aceptarlas todas o solo las esenciales.{" "}
+          Usamos cookies técnicas (necesarias) y analíticas para mejorar tu experiencia.
+          Puedes aceptarlas todas o solo las esenciales.{" "}
           <Link to="/cookies" className="text-[#3DBFA0] underline hover:no-underline">Política de cookies</Link>
         </div>
         <div className="flex gap-3 shrink-0">
