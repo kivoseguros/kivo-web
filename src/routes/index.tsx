@@ -133,7 +133,7 @@ function Home() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative">
+      <section className="relative" style={{background:"linear-gradient(100deg,#fff8ef 0%,#fffaf4 48%,#f6e7d6 100%)"}}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-12 grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <div className="inline-block bg-orange-50 text-orange-600 font-bold text-sm px-4 py-2 rounded-xl mb-5">
