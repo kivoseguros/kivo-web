@@ -136,15 +136,16 @@ function Home() {
       <section className="relative">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-12 grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-secondary">
-              Tu seguro de mascota<br />
-              fácil de entender,<br />
-              <span className="text-primary">rápido de cobrar.</span>
+            <div className="inline-block bg-orange-50 text-orange-600 font-bold text-sm px-4 py-2 rounded-xl mb-5">
+              El seguro de mascotas de tu familia ♡
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] text-secondary">
+              Ellos nunca<br />
+              te fallan.<br />
+              <span className="text-primary">Nosotros<br />tampoco.</span>
             </h1>
-            <p className="mt-6 text-lg text-secondary/75 max-w-lg">
-              Calcula el precio de tu seguro<br />
-              y recibe tus reembolsos en 24/48h<br />
-              en los casos simples.
+            <p className="mt-6 text-xl font-bold text-secondary/80 max-w-lg">
+              El seguro de mascotas fácil de entender y rápido de cobrar.
             </p>
             <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-5">
               {[
