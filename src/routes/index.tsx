@@ -297,7 +297,7 @@ function Home() {
         </div>
       </section>
 
-      {/* COMPARATIVA + lateral */
+      {/* COMPARATIVA + lateral */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-left text-sm">
