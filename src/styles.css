@@ -63,6 +63,7 @@
   --color-kivo-green: var(--kivo-green);
   --color-kivo-cream: var(--kivo-cream);
   --font-sans: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
 }
 
 :root {
