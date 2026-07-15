@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIVO Seguros — Calcula el precio de tu seguro de mascota</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Referencias logos para JS (ocultas) -->
+<div style="display:none">
+  <img id="ref-logo-care"     src="assets/images/care.png">
+  <img id="ref-logo-careplus" src="assets/images/care_plus.png">
+  <img id="ref-logo-premium"  src="assets/images/premium.png">
+  <img id="ref-logo-rc"       src="assets/images/rc.png">
+</div>
+
+<!-- ═══ BANNER ASESOR (oculto por defecto, se muestra si viene de ?desde=asesor) ═══ -->
+<div id="banner-asesor" style="display:none; background:#1B4D3E; color:#fff; padding:14px 24px; text-align:center; font-family:'Inter',sans-serif; font-size:14px; font-weight:600; line-height:1.5;">
+  <span style="margin-right:8px;">🐾</span>
+  Gracias por aceptar el consejo del asesor. Vamos a proceder a tarificar el precio de tu mascota en base al plan elegido.
+</div>
+
+<!-- ═══ LANDING ═══ -->
+<div id="s0" class="screen">
+  <img src="assets/images/logo.png" alt="KIVO Seguros" class="land-logo">
+  <h1 class="land-h1">El seguro de tu mascota,<br>sin letra pequeña</h1>
+  <p class="land-sub">Calcula tu precio personalizado en menos de 2 minutos. Cobertura real, desde el primer día.</p>
+  <button class="btn-cta land-cta" onclick="showFW()">
+    Calcular mi precio
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="land-trust">
+    <div class="trust-item"><span class="trust-dot"></span>3 planes de cobertura</div>
+    <div class="trust-item"><span class="trust-dot"></span>Sin letra pequeña</div>
+    <div class="trust-item"><span class="trust-dot"></span>14 días de desistimiento</div>
+    <div class="trust-item"><span class="trust-dot"></span>Cobertura desde el 1.er día</div>
+  </div>
+</div>
+
+<!-- ═══ FLOW ═══ -->
+<div id="fw" class="screen active">
+  <div class="ftop">
+    <div class="ftop-inner">
+      <div style="width:36px"></div>
+      <div class="prog-wrap">
+        <div class="prog-label" id="prog-label">Paso 1 de 5</div>
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:20%"></div></div>
+      </div>
+      <button class="btn-back" onclick="goBack()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    </div>
+  </div>
+  <div class="fbody">
+
+    <!-- PASO 1: NOMBRE -->
+    <div class="fstep active" id="fs1">
+      <div class="scard">
+        <div class="sq">¿Cómo se llama tu mascota?</div>
+        <input id="inp-nombre" class="kinput" type="text" placeholder="Ej: Luna, Bruno, Mochi…" maxlength="30"
+               oninput="onNombre()">
+        <div class="especie-tiles" id="especie-tiles" style="margin-top:16px;">
+          <button class="especie-tile" id="tile-perro" onclick="selectEspecie('perro')">
+            <img src="assets/icons/perro.svg" width="44" height="44" alt="">
+            Perro
+          </button>
+          <button class="especie-tile" id="tile-gato" onclick="selectEspecie('gato')">
+            <img src="assets/icons/gato.svg" width="44" height="44" alt="">
+            Gato
+          </button>
+        </div>
+        <div class="s1-multimascota">🐾 Si tienes más de una mascota podrás agregarla luego.</div>
+        <button class="btn-cta" id="btn-s1" onclick="nextStep()" disabled>
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 2: SEXO -->
+    <div class="fstep" id="fs2">
+      <div class="scard">
+        <div class="sicon"><img src="assets/icons/sexo.svg" alt="" width="34" height="34"></div>
+        <div class="sq" id="q2">¿Es macho o hembra?</div>
+        <div class="shint">Cuéntanos más sobre tu mascota</div>
+        <div class="opt-grid">
+          <div class="otile" id="tile-macho" onclick="selectSexo('macho')">
+            <img src="assets/icons/macho.svg" alt="Macho" width="44" height="44">
+            <div class="otile-label">Macho</div>
+          </div>
+          <div class="otile" id="tile-hembra" onclick="selectSexo('hembra')">
+            <img src="assets/icons/hembra.svg" alt="Hembra" width="44" height="44">
+            <div class="otile-label">Hembra</div>
+          </div>
+        </div>
+
+        <!-- PREGUNTA CASTRACIÓN — solo si macho -->
+        <div id="castrado-wrap" style="display:none;margin-top:20px;padding-top:18px;border-top:1px solid #eee">
+          <div class="sq" style="font-size:15px;margin-bottom:6px">¿Está castrado?</div>
+          <div class="opt-grid">
+            <div class="otile" id="tile-castrado-si" onclick="selectCastrado(true)">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#3DBFA0" stroke-width="1.5"/><path d="M9 14l4 4 6-6" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="otile-label">Sí</div>
+            </div>
+            <div class="otile" id="tile-castrado-no" onclick="selectCastrado(false)">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#E8823A" stroke-width="1.5"/><path d="M10 10l8 8M18 10l-8 8" stroke="#E8823A" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="otile-label">No</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREGUNTA ESTERILIZACIÓN — solo si hembra -->
+        <div id="esteril-wrap" style="display:none;margin-top:20px;padding-top:18px;border-top:1px solid #eee">
+          <div class="sq" style="font-size:15px;margin-bottom:6px">¿Está esterilizada?</div>
+          
+          <div class="opt-grid">
+            <div class="otile" id="tile-esteril-si" onclick="selectEsterilizada(true)">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#3DBFA0" stroke-width="1.5"/><path d="M9 14l4 4 6-6" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="otile-label">Sí</div>
+            </div>
+            <div class="otile" id="tile-esteril-no" onclick="selectEsterilizada(false)">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#E8823A" stroke-width="1.5"/><path d="M10 10l8 8M18 10l-8 8" stroke="#E8823A" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="otile-label">No</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-cta" id="btn-s2" onclick="nextStep()" disabled style="margin-top:20px">
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 3: FECHA -->
+    <div class="fstep" id="fs3">
+      <div class="scard">
+        <div class="sicon"><img src="assets/icons/calendario.svg" alt="" width="34" height="34"></div>
+        <div class="sq" id="q3">¿Cuándo nació?</div>
+        <div class="shint">La fecha nos ayuda a calcular el precio exacto</div>
+
+        <!-- Fecha exacta: campo con calendario -->
+        <div id="fecha-exact">
+          <div class="date-input-wrap">
+            <input type="date" class="kinput" id="inp-fecha" onchange="onFecha()"
+                   min="2000-01-01" max="2026-12-31">
+            <svg class="date-cal-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                 onclick="document.getElementById('inp-fecha').showPicker && document.getElementById('inp-fecha').showPicker()">
+              <rect x="2" y="3" width="16" height="15" rx="3" stroke="#3DBFA0" stroke-width="1.6"/>
+              <path d="M2 8h16" stroke="#3DBFA0" stroke-width="1.6"/>
+              <path d="M6 1v4M14 1v4" stroke="#3DBFA0" stroke-width="1.6" stroke-linecap="round"/>
+              <rect x="5" y="11" width="3" height="3" rx="1" fill="#3DBFA0"/>
+              <rect x="9" y="11" width="3" height="3" rx="1" fill="#3DBFA0"/>
+            </svg>
+          </div>
+          <p class="date-hint">Escribe la fecha o utiliza el selector</p>
+        </div>
+
+        <!-- No sé la fecha exacta -->
+        <div class="nofecha-row">
+          <input type="checkbox" id="chk-nofecha" onchange="toggleNoFecha()">
+          <span>No sé la fecha exacta</span>
+        </div>
+        <div id="fecha-aprox" class="nofecha-extra hidden">
+          <p style="font-size:13px;color:rgba(27,42,74,0.5);margin-bottom:10px">Período aproximado (mes y año):</p>
+          <div class="dg">
+            <select class="ksel" id="sel-mes2" onchange="onFecha()"><option value="">Mes</option><option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option><option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option><option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option></select>
+            <select class="ksel" id="sel-anio2" onchange="onFecha()"><option value="">Año</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option></select>
+          </div>
+        </div>
+
+        <button class="btn-cta" id="btn-s3" onclick="nextStep()" disabled>
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <!-- Aviso debajo del botón (como Musky) -->
+        <div class="fecha-aviso">👀 Es importante que la información que nos facilites coincida con la documentación de tu mascota.</div>
+      </div>
+    </div>
+
+    <!-- PASO 4: RAZA -->
+    <div class="fstep" id="fs4">
+      <div class="scard">
+        <div class="sicon"><img src="assets/icons/raza.svg" alt="" width="34" height="34"></div>
+        <div class="sq" id="q4">¿De qué raza es?</div>
+        <div class="tabs">
+          <button class="tab active" id="tab-pura"   onclick="selectRazaTab('pura')">Pura</button>
+          <button class="tab"        id="tab-cruce"  onclick="selectRazaTab('cruce')">Cruce</button>
+        </div>
+
+        <!-- No conozco su raza -->
+        <div class="nofecha-row" style="margin-bottom:16px">
+          <input type="checkbox" id="chk-noraza" onchange="toggleNoRaza()">
+          <span>No conozco su raza</span>
+        </div>
+
+        <!-- PESO (solo cuando no conoce la raza) -->
+        <div id="noraza-wrap" class="hidden">
+          <p style="font-size:13px;color:rgba(27,42,74,0.5);margin-bottom:10px">¿Cuánto pesa aproximadamente?</p>
+          <div class="wg">
+            <div class="wtile" onclick="selectPeso('&lt;5',this)"><div class="wtile-val">Menos de 5 kg</div><div class="wtile-sub">Razas pequeñas</div></div>
+            <div class="wtile" onclick="selectPeso('5-10',this)"><div class="wtile-val">5 – 10 kg</div><div class="wtile-sub">Razas medianas</div></div>
+            <div class="wtile" onclick="selectPeso('10-20',this)"><div class="wtile-val">10 – 20 kg</div><div class="wtile-sub">Razas grandes</div></div>
+            <div class="wtile" onclick="selectPeso('20-40',this)"><div class="wtile-val">20 – 40 kg</div><div class="wtile-sub">Razas muy grandes</div></div>
+          </div>
+        </div>
+
+        <!-- PURA: buscador -->
+        <div id="pura-wrap">
+          <div class="breed-wrap">
+            <input class="kinput" id="inp-raza" type="text" placeholder="Busca la raza…"
+                   oninput="filterBreeds()" onfocus="openBreeds()" onblur="closeBreeds()" autocomplete="off">
+            <div class="breed-list" id="breed-list"></div>
+          </div>
+        </div>
+
+        <!-- CRUCE: dos dropdowns -->
+        <div id="cruce-wrap" class="hidden">
+          <div class="cruce-field">
+            <label class="cruce-label">Su raza es:</label>
+            <select class="ksel" id="sel-raza1" onchange="onCruce()">
+              <option value="">Selecciona la primera raza</option>
+            </select>
+          </div>
+          <div class="cruce-field" style="margin-top:14px">
+            <label class="cruce-label">Su raza es:</label>
+            <select class="ksel" id="sel-raza2" onchange="onCruce()">
+              <option value="">Selecciona la segunda raza</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-cta" id="btn-s4" onclick="nextStep()" disabled>
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="fecha-aviso">👀 Es importante que la información que nos facilites coincida con la documentación de tu mascota.</div>
+      </div>
+    </div>
+
+    <!-- PASO 5: SOLO GATO — ¿De interior? -->
+    <div class="fstep" id="fs4b">
+      <div class="scard">
+        <div class="sicon"><img src="assets/icons/gato.svg" alt="" width="34" height="34"></div>
+        <div class="sq">¿Es un gato de interior?</div>
+        <div class="yn-tiles">
+          <button class="yn-tile" id="yn-si" onclick="selectInterior(true,this)">Sí</button>
+          <button class="yn-tile" id="yn-no" onclick="selectInterior(false,this)">No</button>
+        </div>
+        <div class="fecha-aviso" style="margin-top:16px">🏠 Un gato de interior vive exclusivamente dentro de casa y solo sale para visitas al veterinario o un balcón/terraza protegido.</div>
+        <button class="btn-cta" id="btn-s4b" onclick="nextStep()" disabled>
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 5/6: FAMILIA -->
+    <div class="fstep" id="fs5">
+      <div class="scard">
+        <div class="sq">¿Tu familia está completa?</div>
+        <div class="shint">Revisa los datos de tu mascota antes de continuar</div>
+        <div class="familia-promo">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6z" fill="#3DBFA0"/></svg>
+          <span><strong>Oferta Multimascota:</strong> ¡Añade otra mascota y te regalamos 50€ en la tercera mensualidad!</span>
+        </div>
+        <div id="mascotas-lista"></div>
+        <!-- Botón "Añadir otra mascota" movido a s6 para flujo post-tarificación -->
+        <button class="btn-cta" id="btn-s5" onclick="prepararOferta()">
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 6: CONTACTO -->
+    <div class="fstep" id="fs6">
+      <div class="scard">
+        <div class="sicon"><img src="assets/icons/email.svg" alt="" width="34" height="34"></div>
+        <div class="sq">¡Ya casi lo tenemos!</div>
+        <div class="shint">Introduce tu email para ver los precios personalizados</div>
+        <input id="inp-email" class="kinput" type="email" placeholder="tu@email.com" oninput="onContacto()">
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:0">
+          <span style="display:flex;align-items:center;padding:0 12px;background:rgba(27,42,74,0.06);border:1.5px solid rgba(27,42,74,0.15);border-right:none;border-radius:12px 0 0 12px;font-size:14px;color:#1B2A4A;font-weight:600;white-space:nowrap">🇪🇸 +34</span>
+          <input id="inp-tel" class="kinput" type="tel" placeholder="600 000 000" style="border-radius:0 12px 12px 0;border-left:none">
+        </div>
+        <div class="promo-toggle" onclick="togglePromo()">
+          <span>¿Tienes un código de descuento?</span>
+          <svg id="promo-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" style="transition:transform .2s"><path d="M2 4l5 5 5-5" stroke="#1B2A4A" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="promo-body" id="promo-body">
+          <input class="kinput" type="text" placeholder="Código de descuento" style="margin-top:8px">
+        </div>
+        <div class="lchecks">
+          <label class="lcheck"><input type="checkbox" id="chk-l1" onchange="onContacto()"><span class="lcheck-t">He leído y acepto las <a href="#">Condiciones Generales</a>, el <a href="#">IPID</a> y la <a href="#">Política de Privacidad</a> de KIVO Seguros</span></label>
+          <label class="lcheck"><input type="checkbox" id="chk-l2"><span class="lcheck-t">Autorizo a KIVO a enviarme comunicaciones comerciales (opcional)</span></label>
+          <label class="lcheck"><input type="checkbox" id="chk-l3" onchange="onContacto()"><span class="lcheck-t">Autorizo a KIVO a compartir mis datos con el asegurador para la gestión del servicio</span></label>
+        </div>
+        <button class="btn-cta" id="btn-s6" onclick="showResults()" disabled>
+          Ver mis precios
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PANTALLA CARGA ═══ -->
+<div id="s-loading" class="screen">
+  <div class="of-wrap">
+    <button class="btn-back" onclick="showFW();showStep(6);" >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <img src="assets/images/kivo-loading.svg" alt="KIVO" class="of-logo">
+    <h2 class="of-title">Ahora vamos a preparar tu oferta</h2>
+    <p class="of-sub">Facilítanos tus datos y te enviamos el detalle de tu póliza. Tu oferta estará guardada durante los próximos 15 días.</p>
+
+    <div class="of-form">
+      <input class="of-input" id="of-email" type="email" placeholder="Tu email" oninput="checkOferta()">
+      <div style="display:flex;gap:0;width:100%">
+          <span style="display:flex;align-items:center;padding:0 10px;background:rgba(27,42,74,0.06);border:1.5px solid rgba(27,42,74,0.15);border-right:none;border-radius:10px 0 0 10px;font-size:13px;color:#1B2A4A;font-weight:600;white-space:nowrap">🇪🇸 +34</span>
+          <input class="of-input" id="of-tel" type="tel" placeholder="600 000 000" oninput="checkOferta()" style="border-radius:0 10px 10px 0;border-left:none;width:100%">
+        </div>
+      <div class="of-descuento-row">
+        <input class="of-input of-desc-inp" id="of-codigo" type="text" placeholder="¿Tienes un código de descuento?">
+        <button class="of-desc-btn" onclick="aplicarCodigo()">Aplicar</button>
+      </div>
+
+      <label class="of-check-label">
+        <input type="checkbox" id="chk-privacidad" onchange="checkOferta()">
+        <span>Acepto la <a href="#" class="of-link">Política de privacidad</a> y los <a href="#" class="of-link">Términos y condiciones de uso</a>.</span>
+      </label>
+      <label class="of-check-label">
+        <input type="checkbox" id="chk-whatsapp">
+        <span>Acepto recibir información sobre mi seguro y asistencia por WhatsApp a través de KIVO Seguros, S.L. Podré darme de baja respondiendo "STOP".</span>
+      </label>
+      <label class="of-check-label">
+        <input type="checkbox" id="chk-comercial">
+        <span>Acepto recibir comunicaciones comerciales personalizadas de KIVO sobre sus productos y servicios.</span>
+      </label>
+
+      <button class="btn-cta of-btn" id="of-continuar" disabled onclick="mostrarResultados()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RESULTADOS ═══ -->
+<div id="s6" class="screen">
+  <div class="rh">
+    <div class="rh-inner">
+      <button class="btn-back" onclick="showScreen('s-loading')">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+      <img src="assets/images/logo.png" alt="KIVO" class="rh-logo">
+      <div class="rh-title" id="res-title">Planes personalizados</div>
+      <div class="ptoggle">
+        <button class="pbtn active" id="pbtn-mes" onclick="setPeriod('mensual')">Mensual</button>
+        <button class="pbtn" id="pbtn-ano" onclick="setPeriod('anual')">Anual</button>
+      </div>
+      <button class="btn-cta plan-contratar-btn" id="btn-contratar-main" disabled onclick="continuarContratar()" style="padding:10px 22px;font-size:14px;width:auto;min-width:120px;">Contratar →</button>
+    </div>
+  </div>
+  <div class="rb">
+    <!-- Mascotas ya confirmadas con su plan — se renderizan con _renderMascotasChips() -->
+    <div id="mascotas-prev-chips" class="mascotas-prev-row" style="display:none">
+      <div class="mascotas-prev-label">Mascotas tarificadas:</div>
+      <div id="mascotas-chips-list" class="mascotas-chips-list"></div>
+    </div>
+    <div class="mascota-bar">
+      <div id="mascota-icon" style="flex-shrink:0"><img src="assets/icons/perro.svg" width="48" height="48" alt=""></div>
+      <div style="flex:1">
+        <div class="mascota-name" id="res-name">—</div>
+        <div class="mascota-meta" id="res-meta">—</div>
+      </div>
+    </div>
+    <p class="plans-subtitle">Revisa el detalle y escoge tu plan a medida</p>
+    <div class="plans-grid">
+      <!-- CARE -->
+      <div class="pcard care-plan">
+        <div class="pbadge pbadge-care">Más económica</div>
+        <div class="pcard-top">
+          <img src="assets/images/care.png" alt="KIVO CARE" class="plan-logo">
+          <div class="pstat">80% de reembolso · Límite 3.500 €/año</div>
+          <div class="pprice" id="p-care">—</div>
+          <div class="pperiod" id="pp-care">/mes</div>
+          <div class="palt" id="pa-care"></div>
+        </div>
+        <div class="pcard-body">
+          <div class="covs">
+            <div class="cov"><span class="ctick">✓</span>Consultas y visitas veterinarias (80%)</div>
+            <div class="cov"><span class="ctick">✓</span>Hospitalización, cirugía y anestesia (80%)</div>
+            <div class="cov"><span class="ctick">✓</span>Diagnóstico: analíticas, radiografías, ecografías</div>
+            <div class="cov"><span class="ctick">✓</span>Urgencias 24h (80%)</div>
+          </div>
+          <div class="plan-selector" id="ps-care" onclick="seleccionarPlan('care')">
+          <span class="ps-radio" id="pr-care"></span>
+          <span class="ps-label">Marcar plan como elegido</span>
+        </div>
+          <a href="assets/docs/ipid-care.pdf" target="_blank" class="ipid-link">📄 Descargar IPID KIVO CARE</a>
+        </div>
+      </div>
+      <!-- CARE+ -->
+      <div class="pcard pop">
+        <div class="pbadge pbadge-t">Más popular</div>
+        <div class="pcard-top">
+          <img src="assets/images/care_plus.png" alt="KIVO CARE+" class="plan-logo">
+          <div class="pstat">90% de reembolso · Límite 4.000 €/año</div>
+          <div class="pprice" id="p-careplus">—</div>
+          <div class="pperiod" id="pp-careplus">/mes</div>
+          <div class="palt" id="pa-careplus"></div>
+        </div>
+        <div class="pcard-body">
+          <div class="covs">
+            <div class="cov"><span class="ctick">✓</span>Consultas y visitas veterinarias (90%)</div>
+            <div class="cov"><span class="ctick">✓</span>Hospitalización, cirugía y anestesia (90%)</div>
+            <div class="cov"><span class="ctick">✓</span>Diagnóstico: analíticas, radiografías, ecografías</div>
+            <div class="cov"><span class="ctick">✓</span>Urgencias 24h (90%)</div>
+          </div>
+          <div class="plan-selector" id="ps-careplus" onclick="seleccionarPlan('careplus')">
+          <span class="ps-radio" id="pr-careplus"></span>
+          <span class="ps-label">Marcar plan como elegido</span>
+        </div>
+          <a href="assets/docs/ipid-care-plus.pdf" target="_blank" class="ipid-link">📄 Descargar IPID KIVO CARE+</a>
+        </div>
+      </div>
+      <!-- PREMIUM -->
+      <div class="pcard gold">
+        <div class="pbadge pbadge-g">Mejor cobertura</div>
+        <div class="pcard-top">
+          <img src="assets/images/premium.png" alt="KIVO PREMIUM" class="plan-logo">
+          <div class="pstat">100% sin copago · Límite 5.000 €/año</div>
+          <div class="pprice" id="p-premium">—</div>
+          <div class="pperiod" id="pp-premium">/mes</div>
+          <div class="palt" id="pa-premium"></div>
+        </div>
+        <div class="pcard-body">
+          <div class="covs">
+            <div class="cov"><span class="ctick">✓</span>Consultas y visitas veterinarias (100%)</div>
+            <div class="cov"><span class="ctick">✓</span>Hospitalización, cirugía y anestesia (100%)</div>
+            <div class="cov"><span class="ctick">✓</span>Diagnóstico: analíticas, radiografías, ecografías</div>
+            <div class="cov"><span class="ctick">✓</span>Urgencias 24h (100%, sin copago)</div>
+          </div>
+          <div class="plan-selector" id="ps-premium" onclick="seleccionarPlan('premium')">
+          <span class="ps-radio" id="pr-premium"></span>
+          <span class="ps-label">Marcar plan como elegido</span>
+        </div>
+          <a href="assets/docs/ipid-premium.pdf" target="_blank" class="ipid-link">📄 Descargar IPID KIVO PREMIUM</a>
+        </div>
+      </div>
+      <!-- RC — 4ª tarjeta -->
+      <div class="pcard rc-plan">
+        <div class="pbadge pbadge-rc">Solo R.C.</div>
+        <div class="pcard-top">
+          <img src="assets/images/rc.png" alt="KIVO R.C." class="plan-logo">
+          <div class="pstat">Responsabilidad Civil exclusiva</div>
+          <div class="pprice" id="p-rc">—</div>
+          <div class="pperiod" id="pp-rc">/mes</div>
+          <div class="palt" id="pa-rc"></div>
+        </div>
+        <div class="pcard-body">
+          <div class="covs">
+            <div class="cov"><span class="ctick">✓</span>Cobertura hasta 300.000 €</div>
+            <div class="cov"><span class="ctick">✓</span>Daños personales a terceros</div>
+            <div class="cov"><span class="ctick">✓</span>Daños materiales a terceros</div>
+            <div class="cov"><span class="ctick">✓</span>Gastos de defensa jurídica</div>
+          </div>
+          <div class="plan-selector" id="ps-rc" onclick="seleccionarPlan('rc')">
+            <span class="ps-radio" id="pr-rc"></span>
+            <span class="ps-label">Marcar plan como elegido</span>
+          </div>
+          <a href="assets/docs/ipid-rc.pdf" target="_blank" class="ipid-link">📄 Descargar IPID KIVO R.C.</a>
+        </div>
+      </div>
+    </div>
+    <!-- DESPLEGABLE COMPARTIDO: COBERTURAS COMPLETAS -->
+    <div class="plans-detail-bar" onclick="togglePlansDetail()">
+      <span class="plans-detail-lbl" id="lbl-plans-detail">Desplegar más información</span>
+      <svg id="arr-plans-detail" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform .2s"><path d="M3 5l5 5 5-5" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="plans-detail-wrap" id="plans-detail">
+      <div class="pd-note">⚠️ La cobertura de <strong>Accidentes y Enfermedades</strong> y los cuidados básicos, aplican solo a CARE, CARE+ y PREMIUM. KIVO R.C. cubre únicamente Responsabilidad Civil.</div>
+      <div class="pd-section">
+        <div class="pd-title">Accidentes y Enfermedades</div>
+        <div class="cov"><span class="ctick">✓</span>Reembolso de gastos por tratamientos derivados de accidentes o enfermedades, incluyendo consultas, tratamientos quirúrgicos, medicamentos, diagnósticos y cuidados posteriores.</div>
+        <div class="cov"><span class="ctick">✓</span>Tratamientos complementarios como quiropráctica, hidroterapia, acupuntura y terapia conductual (hasta 9 sesiones).</div>
+        <div class="cov"><span class="ctick">✓</span>Atención hospitalaria y ambulatoria.</div>
+        <div class="cov"><span class="ctick">✓</span>Cobertura dental por accidentes.</div>
+        <div class="cov"><span class="ctick">✓</span>Dieta específica para disolver piedras o cristales urinarios.</div>
+        <div class="cov"><span class="ctick">✓</span>Tratamiento con células madre.</div>
+        <div class="cov"><span class="ctick">✓</span>Periodos de carencia: 5 días para accidentes, 28 días para enfermedades y 6 meses para otras enfermedades específicas (ver IPIDs y Condicionado General).</div>
+        <div class="cov"><span class="ctick">✓</span>Gastos de eutanasia y eliminación de restos, si lo prescribe un veterinario.</div>
+        <div class="cov"><span class="ctick">✓</span>Cobertura de gastos por siniestros en el extranjero (UE) durante estancias de hasta 3 meses.</div>
+      </div>
+      <div class="pd-section">
+        <div class="pd-title">Cuidados básicos</div>
+        <div class="cov"><span class="ctick">✓</span>Una revisión veterinaria anual preventiva que no esté relacionada con una enfermedad, accidente o síntoma de la mascota.</div>
+        <div class="cov"><span class="ctick">✓</span>Todas las vacunas obligatorias por calendario prescritas por un veterinario colegiado:</div>
+        <div class="cov" style="padding-left:20px;opacity:0.85"><span class="ctick" style="color:rgba(27,42,74,0.4)">·</span>Perros: Rabia, Vacuna polivalente, Tos de las perreras.</div>
+        <div class="cov" style="padding-left:20px;opacity:0.85"><span class="ctick" style="color:rgba(27,42,74,0.4)">·</span>Gatos: Rabia, Vacuna trivalente, Leucemia.</div>
+      </div>
+    </div>
+    <div class="plan-contratar-wrap">
+      <div id="aviso-salud" style="display:none;align-items:center;gap:8px;background:#FFF3CD;border:1px solid #FFCA28;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#856404">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#FFCA28" stroke-width="1.5"/><path d="M8 5v4M8 10.5v.5" stroke="#856404" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>⚠️ Completa el cuestionario de salud antes de contratar</span>
+      </div>
+
+    </div>
+    <!-- Total multi-mascota: aparece solo cuando hay ≥1 mascota confirmada -->
+    <div id="s6-total-row" class="s6-total-row" style="display:none">
+      <span class="s6-total-lbl">Total estimado</span>
+      <strong id="s6-total-val" class="s6-total-val">—</strong>
+    </div>
+    <!-- Botón añadir mascota: aparece siempre pero habilitado solo al seleccionar plan -->
+    <div class="add-mascota-s6-wrap" style="flex-direction:column;align-items:center;gap:8px">
+      <div id="aviso-salud-add" style="display:none;align-items:center;gap:8px;background:#FFF3CD;border:1px solid #FFCA28;border-radius:10px;padding:8px 14px;font-size:12px;color:#856404;text-align:center">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#FFCA28" stroke-width="1.5"/><path d="M7 4.5V7M7 9v.5" stroke="#856404" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Antes de añadir otra mascota, completa el cuestionario de salud
+      </div>
+      <button class="btn-add-mascota-s6" id="btn-add-mascota-s6" disabled onclick="addMascotaDesdeS6()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Añadir otra mascota
+      </button>
+    </div>
+    <div class="banner-14dias">
+      <span class="b14-icon">🛡️</span>
+      <div>
+        <strong>14 días para dar un vistazo.</strong><br>
+        Podrás desistir del contrato dentro de los 14 días posteriores a la contratación de la Póliza y te devolveremos el 100% de tu pago.
+      </div>
+    </div>
+    <!-- DECLARACIÓN SALUD -->
+    <div class="salud-box">
+      <div class="salud-h">Declaración de salud</div>
+      <div class="salud-sub">¿Tu mascota tiene o ha tenido alguna enfermedad o lesión previa?</div>
+      <div class="sbts">
+        <button class="sbtn" id="sbtn-no" onclick="selectSalud('no')">No, está sana</button>
+        <button class="sbtn" id="sbtn-si" onclick="selectSalud('si')">Sí, ha tenido alguna</button>
+      </div>
+      <!-- Enfermedades declaradas (tags) -->
+      <div id="enf-tags-wrap" style="display:none;margin-top:14px">
+        <div class="enf-tags-label">Enfermedades declaradas:</div>
+        <div id="enf-tags" class="enf-tags"></div>
+        <button class="enf-add-more" onclick="abrirDropdownEnf()">+ Añadir / modificar</button>
+      </div>
+      <!-- Desplegable de selección -->
+      <div id="enf-dropdown" class="enf-dropdown" style="display:none">
+        <div class="enf-drop-hint">Selecciona las que correspondan y pulsa Confirmar:</div>
+        <div class="enf-chips" id="enf-chips-list">
+          <div class="echip" onclick="toggleEnf(this)">Displasia de cadera</div>
+          <div class="echip" onclick="toggleEnf(this)">Problemas cardíacos</div>
+          <div class="echip" onclick="toggleEnf(this)">Epilepsia</div>
+          <div class="echip" onclick="toggleEnf(this)">Diabetes mellitus</div>
+          <div class="echip" onclick="toggleEnf(this)">Alergias crónicas</div>
+          <div class="echip" onclick="toggleEnf(this)">Problemas dermatológicos</div>
+          <div class="echip" onclick="toggleEnf(this)">Luxación de rótula</div>
+          <div class="echip" onclick="toggleEnf(this)">Problemas digestivos</div>
+          <div class="echip" onclick="toggleEnf(this)">Enfermedad respiratoria</div>
+          <div class="echip" onclick="toggleEnf(this)">Tumores / Cáncer</div>
+          <div class="echip" onclick="toggleEnf(this)">Artritis</div>
+          <div class="echip" onclick="toggleEnf(this)">Leishmaniosis</div>
+          <div class="echip echip-otras" onclick="toggleOtras(this)">+ Otras enfermedades</div>
+        </div>
+        <div id="otras-input-wrap" style="display:none;margin-top:12px">
+          <input class="kinput" id="otras-enf-input" type="text" placeholder="Describe brevemente las otras enfermedades…" style="font-size:13px;padding:12px 16px">
+        </div>
+        <button class="enf-confirmar-btn" onclick="confirmarEnf()">Confirmar selección</button>
+        <div class="enf-info"><strong>Nota:</strong> Las enfermedades preexistentes quedan excluidas de cobertura. El resto de coberturas permanece íntegro.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C1: INFORMACIÓN ═══ -->
+<!-- ═══ LETRA PEQUEÑA ═══ -->
+<div id="s-letra" class="screen">
+  <div class="letra-wrap">
+    <div class="letra-top">
+      <button class="btn-back" onclick="showScreen('s6')" style="background:rgba(255,255,255,0.15);margin-bottom:16px" title="Volver a planes">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <img src="assets/images/logo.png" alt="KIVO" class="letra-logo" style="height:52px;width:auto;display:block;margin:0 auto 16px;">
+      <h2 class="letra-title">Sin letra pequeña porque la agrandamos:</h2>
+      <p class="letra-sub">Lee con atención y confirma si has entendido estos puntos importantes de la póliza.</p>
+    </div>
+
+    <div class="letra-items">
+
+      <div class="letra-item" id="li-microchip">
+        <div class="li-header">
+          <div class="li-icon-wrap"><span class="li-icon">🔖</span></div>
+          <div class="li-texto">
+            <div class="li-titulo">Microchip</div>
+            <div class="li-desc">Para que puedas solicitar reembolsos, tu mascota debe tener el microchip implantado. Una vez lo tengas, podrás añadirlo fácilmente desde la app de KIVO.</div>
+          </div>
+          <div class="li-check-wrap"><span class="li-check" id="lc-microchip">✓</span></div>
+        </div>
+        <button class="li-btn" id="lb-microchip" onclick="marcarLeido('microchip')">He leído y entiendo.</button>
+      </div>
+
+      <div class="letra-item" id="li-cartilla">
+        <div class="li-header">
+          <div class="li-icon-wrap"><span class="li-icon">📋</span></div>
+          <div class="li-texto">
+            <div class="li-titulo">Cartilla de vacunación</div>
+            <div class="li-desc">Para poder solicitar reembolsos, será necesario adjuntar en la app de KIVO la cartilla de vacunación y/o el pasaporte de la mascota. En el momento de solicitar un reembolso, KIVO verificará la información facilitada.</div>
+          </div>
+          <div class="li-check-wrap"><span class="li-check" id="lc-cartilla">✓</span></div>
+        </div>
+        <button class="li-btn" id="lb-cartilla" onclick="marcarLeido('cartilla')">He leído y entiendo.</button>
+      </div>
+
+      <div class="letra-item" id="li-carencia">
+        <div class="li-header">
+          <div class="li-icon-wrap"><span class="li-icon">🕐</span></div>
+          <div class="li-texto">
+            <div class="li-titulo">Período de carencia</div>
+            <div class="li-desc">En KIVO, el período de carencia es de 28 días para enfermedades y 5 días para accidentes. Durante esos días no podremos cubrir tus gastos, pero después estaremos aquí para ti y tu mascota.</div>
+          </div>
+          <div class="li-check-wrap"><span class="li-check" id="lc-carencia">✓</span></div>
+        </div>
+        <button class="li-btn" id="lb-carencia" onclick="marcarLeido('carencia')">He leído y entiendo.</button>
+      </div>
+
+      <div class="letra-item" id="li-preexistentes">
+        <div class="li-header">
+          <div class="li-icon-wrap"><span class="li-icon">⚠️</span></div>
+          <div class="li-texto">
+            <div class="li-titulo">Enfermedades y lesiones preexistentes</div>
+            <div class="li-desc">Las enfermedades y/o lesiones que tu mascota ya tiene o ha tenido antes de unirse a KIVO (preexistentes) no estarán cubiertas. Pero te cubrimos todas las demás para que tu peludo siempre esté protegido.</div>
+          </div>
+          <div class="li-check-wrap"><span class="li-check" id="lc-preexistentes">✓</span></div>
+        </div>
+        <button class="li-btn" id="lb-preexistentes" onclick="marcarLeido('preexistentes')">He leído y entiendo.</button>
+      </div>
+
+    </div>
+
+    <button class="btn-cta letra-cta" id="letra-continuar" onclick="continuarContratar()">Continuar</button>
+  </div>
+</div>
+
+<div id="sc1" class="cscreen">
+  <div class="ctop"><div class="ctop-inner" style="position:relative;">
+    <button class="btn-back" onclick="showScreen('sc3')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
+    
+    <div class="csteps">
+      <div class="cs active"><div class="csdot">1</div><span class="cs-label">Información</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">2</div><span class="cs-label">Tus datos</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">3</div><span class="cs-label">Dirección</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">4</div><span class="cs-label">Confirmar y pagar</span></div>
+    </div>
+  </div></div>
+  <div style="max-width:600px;margin:0 auto;padding:36px 24px">
+    <div class="ccard">
+      <div class="ch">Información importante</div>
+      <div class="csub">Antes de continuar, revisa y acepta las siguientes condiciones</div>
+      <p style="font-size:13px;color:rgba(27,42,74,0.6);margin-bottom:16px">Email de entrega de póliza: <strong id="c1-email">—</strong></p>
+      <div class="lchecks">
+        <label class="lcheck"><input type="checkbox" id="c1-l1" onchange="checkC1()"><span class="lcheck-t"><strong>Obligatorio.</strong> He leído y acepto las <a href="#">Condiciones Generales</a>, el <a href="#">IPID</a> del plan seleccionado y la <a href="#">Política de Privacidad</a> de KIVO Seguros.</span></label>
+        <label class="lcheck"><input type="checkbox" id="c1-l2"><span class="lcheck-t">Autorizo a KIVO a enviarme comunicaciones comerciales (opcional)</span></label>
+        <label class="lcheck"><input type="checkbox" id="c1-l3" onchange="checkC1()"><span class="lcheck-t"><strong>Obligatorio.</strong> Autorizo a KIVO a compartir mis datos con el asegurador para la gestión del servicio.</span></label>
+        <label class="lcheck"><input type="checkbox" id="c1-l4" onchange="checkC1()"><span class="lcheck-t"><strong>Obligatorio.</strong> Declaro que la mascota asegurada no está en tratamiento veterinario activo por enfermedad grave.</span></label>
+      </div>
+      <button class="btn-cta" id="btn-c1" onclick="goToC4()" disabled>Continuar <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C2: DATOS PERSONALES ═══ -->
+<div id="sc2" class="cscreen">
+  <div class="ctop"><div class="ctop-inner">
+    <button class="btn-back" onclick="showScreen('s6')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
+    
+    <div class="csteps">
+      <div class="cs active"><div class="csdot">1</div><span class="cs-label">Tus datos</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">2</div><span class="cs-label">Dirección</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">3</div><span class="cs-label">Confirmar y pagar</span></div>
+    </div>
+  </div></div>
+  <div style="max-width:600px;margin:0 auto;padding:36px 24px">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:22px;font-weight:900;color:#1B2A4A;letter-spacing:-0.02em;margin-bottom:8px">Ahora vamos a preparar tu oferta</div>
+      <div style="font-size:14px;color:rgba(27,42,74,0.55);font-weight:500;line-height:1.5">Facilítanos tus datos y te enviamos el detalle de tu póliza.<br>Tu oferta estará guardada durante los próximos 15 días.</div>
+    </div>
+    <div class="ccard">
+      <div class="ch">Datos personales</div>
+      <div class="csub">Necesitamos estos datos para emitir tu póliza</div>
+      <div class="frow">
+        <div class="ffield"><label>Nombre *</label><input class="kinput" type="text" id="c2-nombre" placeholder="Nombre" oninput="validateC2()"><span class="field-msg" id="msg-nombre"></span></div>
+        <div class="ffield"><label>Apellidos *</label><input class="kinput" type="text" id="c2-apellidos" placeholder="Apellidos" oninput="validateC2()"><span class="field-msg" id="msg-apellidos"></span></div>
+      </div>
+      <div class="frow">
+        <div class="ffield"><label>Fecha de nacimiento *</label><input class="kinput" type="date" id="c2-fnac" onchange="validateC2()"><span class="field-msg" id="msg-fnac"></span></div>
+        <div class="ffield"><label>DNI / NIE *</label><input class="kinput" type="text" id="c2-dni" placeholder="12345678A" maxlength="9" oninput="validateC2()"><span class="field-msg" id="msg-dni"></span></div>
+      </div>
+      <div class="frow">
+        <div class="ffield" style="flex:1 1 100%"><label>Email</label><input class="kinput input-readonly" type="text" id="c2-email" placeholder="tu@email.com" readonly><span class="field-msg" id="msg-c2email"></span></div>
+      </div>
+      <div class="frow">
+        <div class="ffield"><label>Teléfono</label><input class="kinput input-readonly" type="text" id="c2-tel" placeholder="+34 600 000 000" readonly><span class="field-msg" id="msg-c2tel"></span></div>
+      </div>
+      <!-- CONSENTIMIENTOS GDPR -->
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px">
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:rgba(27,42,74,0.7);line-height:1.5">
+          <input type="checkbox" id="consent-privacidad" style="margin-top:2px;flex-shrink:0;accent-color:#3DBFA0" onchange="validateC2()">
+          <span>Acepto la <a href="#" style="color:#3DBFA0;text-decoration:underline">Política de privacidad</a> y los <a href="#" style="color:#3DBFA0;text-decoration:underline">Términos y condiciones de uso</a>.</span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:rgba(27,42,74,0.7);line-height:1.5">
+          <input type="checkbox" id="consent-whatsapp" style="margin-top:2px;flex-shrink:0;accent-color:#3DBFA0">
+          <span>Acepto recibir información sobre mi seguro y asistencia por WhatsApp a través de KIVO Seguros, S.L. Podré darme de baja respondiendo "STOP".</span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:rgba(27,42,74,0.7);line-height:1.5">
+          <input type="checkbox" id="consent-comercial" style="margin-top:2px;flex-shrink:0;accent-color:#3DBFA0">
+          <span>Acepto recibir comunicaciones comerciales personalizadas de KIVO sobre sus productos y servicios.</span>
+        </label>
+      </div>
+      <button class="btn-cta" id="btn-c2" onclick="showScreen('sc3')" disabled style="margin-top:24px">Aplicar <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C3: DIRECCIÓN ═══ -->
+<div id="sc3" class="cscreen">
+  <div class="ctop"><div class="ctop-inner">
+    <button class="btn-back" onclick="showScreen('sc2')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
+    
+    <div class="csteps">
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Tus datos</span></div>
+      <div class="csep"></div>
+      <div class="cs active"><div class="csdot">2</div><span class="cs-label">Dirección</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">3</div><span class="cs-label">Confirmar y pagar</span></div>
+    </div>
+  </div></div>
+  <div style="max-width:600px;margin:0 auto;padding:36px 24px">
+    <div class="ccard">
+      <div class="ch">¿Dónde vives?</div>
+      <div class="csub">Dirección para la emisión de la póliza</div>
+      <div class="frow">
+        <div class="ffield"><label>Código postal *</label><input class="kinput" type="text" id="inp-cp" placeholder="28001" maxlength="5" oninput="onCPInput(this)"><span class="field-msg" id="msg-cp"></span></div>
+        <div class="ffield"><label>Municipio *</label><input class="kinput input-readonly" type="text" id="inp-ciudad" placeholder="Auto-rellenado" readonly><span class="field-msg" id="msg-ciudad"></span></div>
+      </div>
+      <div class="frow">
+        <div class="ffield"><label>Provincia *</label><input class="kinput input-readonly" type="text" id="inp-provincia" placeholder="Auto-rellenado" readonly><span class="field-msg" id="msg-provincia"></span></div>
+      </div>
+      <div class="frow">
+        <div class="ffield"><label>Tipo de vía *</label>
+          <select class="ksel" id="sel-tipoavia" onchange="validateC3()"><option value="">Selecciona</option><option>Calle</option><option>Avenida</option><option>Paseo</option><option>Plaza</option><option>Travesía</option><option>Camino</option><option>Carretera</option><option>Rambla</option><option>Ronda</option><option>Gran Vía</option><option>Vía</option></select>
+          <span class="field-msg" id="msg-tipovia"></span>
+        </div>
+        <div class="ffield"><label>Nombre de la vía *</label><input class="kinput" type="text" id="inp-via" placeholder="Gran Vía" oninput="validateC3()"><span class="field-msg" id="msg-via"></span></div>
+      </div>
+      <div class="frow">
+        <div class="ffield"><label>Número *</label><input class="kinput" type="text" id="inp-num" placeholder="Nº" oninput="validateC3()"><span class="field-msg" id="msg-num"></span></div>
+        <div class="ffield"><label>Piso / Puerta</label><input class="kinput" type="text" id="inp-piso" placeholder="2º B"></div>
+      </div>
+      <div class="addr-confirm" id="addr-confirm">
+        <div class="addr-formatted" id="addr-formatted">—</div>
+        <button class="btn-adrok" onclick="goToC4()">Confirmar y continuar →</button>
+      </div>
+      <button class="btn-cta" id="btn-c3" onclick="showAddrConfirm()" disabled>Comprobar dirección <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C4: CONFIRMAR Y PAGAR ═══ -->
+<div id="sc4" class="cscreen">
+  <div class="ctop"><div class="ctop-inner">
+    <button class="btn-back" onclick="showScreen('sc3')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
+    
+    <div class="csteps">
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Tus datos</span></div>
+      <div class="csep"></div>
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Dirección</span></div>
+      <div class="csep"></div>
+      <div class="cs active"><div class="csdot">3</div><span class="cs-label">Confirmar</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">4</div><span class="cs-label">Pagar</span></div>
+    </div>
+  </div></div>
+  <div style="max-width:760px;margin:0 auto;padding:32px 24px 80px">
+
+    <!-- POR MASCOTA: plan + coberturas + docs (generado dinámicamente) -->
+    <div id="sc4-mascotas-resumen"></div>
+
+    <!-- TOMADOR Y DIRECCIÓN -->
+    <div class="ccard" style="margin-top:20px;margin-bottom:20px">
+      <div class="ch" style="font-size:16px">Datos del tomador del seguro</div>
+      <div class="div"></div>
+      <div class="dflex jsb aic"><div class="fw7 text13">Datos personales</div><div class="editbtn" onclick="showScreen('sc2')">✏️ Editar</div></div>
+      <div class="text13 muted mt8" id="c4-datos">—</div>
+      <div class="div"></div>
+      <div class="dflex jsb aic"><div class="fw7 text13">Dirección</div><div class="editbtn" onclick="showScreen('sc3')">✏️ Editar</div></div>
+      <div class="text13 muted mt8" id="c4-dir">—</div>
+    </div>
+
+    <!-- ACEPTACIONES LEGALES -->
+    <div class="ccard" style="margin-top:20px">
+      <div class="lchecks">
+        <label class="lcheck"><input type="checkbox" id="c4-l1" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> He leído y acepto las Condiciones Generales, el IPID del plan seleccionado y la <a href="#">Política de Privacidad</a> de KIVO Seguros.</span></label>
+        <label class="lcheck"><input type="checkbox" id="c4-l2"><span class="lcheck-t">Autorizo a KIVO a enviarme comunicaciones comerciales (opcional).</span></label>
+        <label class="lcheck"><input type="checkbox" id="c4-l3" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> Autorizo a KIVO a compartir mis datos con el asegurador para la gestión del servicio.</span></label>
+        <label class="lcheck"><input type="checkbox" id="c4-l4" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> Declaro que la mascota asegurada no está en tratamiento veterinario activo por enfermedad grave.</span></label>
+      </div>
+      <button class="btn-cta" id="btn-c4" onclick="showScreen('sc5')" disabled style="margin-top:24px">Continuar al pago <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ SC5: PAGO ═══ -->
+<div id="sc5" class="cscreen">
+  <div class="ctop"><div class="ctop-inner">
+    <button class="btn-back" onclick="showScreen('sc4')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
+    
+    <div class="csteps">
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Tus datos</span></div>
+      <div class="csep"></div>
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Dirección</span></div>
+      <div class="csep"></div>
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Confirmar</span></div>
+      <div class="csep"></div>
+      <div class="cs active"><div class="csdot">4</div><span class="cs-label">Pagar</span></div>
+    </div>
+  </div></div>
+  <div class="cbody" style="grid-template-columns:1fr 360px">
+    <!-- COLUMNA IZQUIERDA: FORMULARIO PAGO -->
+    <div>
+      <div class="ccard">
+        <!-- MÉTODO DE PAGO: TABS -->
+        <div class="pay-tabs" style="margin-bottom:20px">
+          <button class="pay-tab active" onclick="setPayTab('card',this)">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2.5" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 5.5h12" stroke="currentColor" stroke-width="1.3"/></svg>
+            Tarjeta
+          </button>
+          <button class="pay-tab" onclick="setPayTab('iban',this)">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5l5-3 5 3v6H2V5z" stroke="currentColor" stroke-width="1.3"/><rect x="5" y="8" width="4" height="3" rx=".5" stroke="currentColor" stroke-width="1.3"/></svg>
+            Domiciliación
+          </button>
+        </div>
+
+        <!-- FORMULARIO TARJETA -->
+        <div id="pay-card" class="pago-section">
+          <div class="pago-title">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:inherit"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 7h14" stroke="currentColor" stroke-width="1.5"/></svg>
+            Datos de pago
+          </div>
+          <div class="card-icons">
+            <div class="card-icon visa" style="font-size:11px;font-weight:900">VISA</div>
+            <div class="card-icon mc" style="font-size:9px;font-weight:900">MC</div>
+            <div class="card-icon amex" style="font-size:9px;font-weight:900">AMEX</div>
+          </div>
+          <div class="card-num-wrap">
+            <input class="kinput" type="text" id="card-num" placeholder="1234 5678 9012 3456"
+                   maxlength="19" oninput="formatCardNum(this)" inputmode="numeric">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="0.5" y="0.5" width="19" height="13" rx="2" stroke="rgba(255,255,255,0.5)"/><path d="M1 4h18" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="2" y="7" width="4" height="2" rx="1" fill="rgba(255,255,255,0.4)" opacity=".8"/></svg>
+          </div>
+          <div class="frow-pago">
+            <div class="ffield" style="grid-column:span 2"><label>Nombre en la tarjeta</label><input class="kinput" type="text" placeholder="TAL COMO APARECE"></div>
+            <div></div>
+          </div>
+          <div class="frow-pago" style="grid-template-columns:1fr 1fr">
+            <div class="ffield"><label>Caducidad</label><input class="kinput" type="text" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" inputmode="numeric"></div>
+            <div class="ffield"><label>CVV</label><input class="kinput" type="text" placeholder="•••" maxlength="4" inputmode="numeric"></div>
+          </div>
+          <div class="secure-badge">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l5 2v4c0 3-2.5 5.5-5 6C4.5 12.5 2 10 2 7V3l5-2z" stroke="#3DBFA0" stroke-width="1.3"/><path d="M4.5 7l2 2 3-3" stroke="#3DBFA0" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Pago 100% seguro con cifrado SSL
+          </div>
+        </div>
+
+        <!-- DOMICILIACIÓN BANCARIA -->
+        <div id="pay-iban" class="pago-section" style="display:none">
+          <div class="pago-title">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6l6-3 6 3v7H2V6z" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="9" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.5"/></svg>
+            Domiciliación bancaria
+          </div>
+          <div class="ffield" style="margin-bottom:12px">
+            <label>IBAN *</label>
+            <input class="kinput" type="text" id="inp-iban" placeholder="ES00 0000 0000 0000 0000 0000" maxlength="29" oninput="formatIBAN(this)" style="letter-spacing:.05em">
+          </div>
+          <div class="ffield" style="margin-bottom:12px">
+            <label>Titular de la cuenta *</label>
+            <input class="kinput" type="text" id="inp-titular" placeholder="Nombre completo del titular">
+          </div>
+          <div class="secure-badge">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l5 2v4c0 3-2.5 5.5-5 6C4.5 12.5 2 10 2 7V3l5-2z" stroke="#3DBFA0" stroke-width="1.3"/><path d="M4.5 7l2 2 3-3" stroke="#3DBFA0" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Cuenta protegida con cifrado SSL
+          </div>
+          <div style="font-size:11px;color:rgba(27,42,74,0.45);margin-top:10px;text-align:center;line-height:1.5">
+            Al guardar tus datos de pago, autorizas a KIVO a cargar futuros pagos conforme a las condiciones estipuladas.<br>
+            Powered by <strong>Stripe</strong> &nbsp;·&nbsp; <a href="#" style="color:inherit">Condiciones</a> &nbsp;·&nbsp; <a href="#" style="color:inherit">Privacidad</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: RESUMEN PLAN -->
+    <div>
+      <div class="c4-sidebar">
+        <div class="c4-plan-row">
+          <img id="c4-logo" src="assets/images/care.png" alt="Plan" class="c4-logo">
+          <div>
+            <div class="c4-pname" id="c4-pname">KIVO CARE</div>
+            <div class="c4-mascota" id="c4-mascota">Tu mascota</div>
+          </div>
+        </div>
+        <div class="c4-total-row">
+          <div class="c4-total-label">Total</div>
+          <div class="c4-total-val" id="c4-total">—</div>
+        </div>
+        <button class="btn-pagar" id="btn-pagar" disabled onclick="procesarPago()">Pagar ahora</button>
+        <div class="c4-note mt8">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zM7 4.5V7M7 9.5v.5" stroke="#3DBFA0" stroke-width="1.5" stroke-linecap="round"/></svg>
+          14 días de desistimiento — reembolso 100%
+        </div>
+        <div class="c4-note mt8">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="3" stroke="#3DBFA0" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#3DBFA0" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <a href="#" onclick="abrirWhatsApp();return false;">¿Dudas? Escríbenos por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S-ERROR: CONTRATACIÓN FALLIDA ═══ -->
+<div id="s-ok" class="cscreen">
+  <div class="s-error-wrap">
+    <div class="s-error-top">
+      
+    </div>
+    <div class="s-error-body" style="text-align:center;padding:40px 24px">
+      <div style="width:80px;height:80px;background:#E6F9F4;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="#3DBFA0"/><path d="M12 20l6 6 10-12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 style="color:#1B2A4A;font-size:22px;margin:0 0 12px">¡Póliza activa! 🎉</h2>
+      <p style="color:#555;font-size:15px;margin:0 0 8px">Tu contratación se ha completado con éxito.</p>
+      <p style="color:#888;font-size:13px;margin:0 0 32px">Hemos enviado un email con el resumen de tu póliza y los documentos a tu correo.</p>
+      <button class="btn-cta" onclick="location.reload()" style="background:#1B2A4A;max-width:260px;margin:0 auto;display:block">Contratar otra mascota</button>
+      <div style="margin-top:20px;font-size:13px;color:#888">¿Dudas? <a href="#" onclick="abrirWhatsApp();return false;" style="color:#3DBFA0">WhatsApp KIVO</a></div>
+    </div>
+    <div class="s-error-foot">©KIVO Seguros, S.L.</div>
+  </div>
+</div>
+
+<div id="s-error" class="cscreen">
+  <div class="s-error-wrap">
+    <div class="s-error-top">
+      <button class="btn-back" onclick="goToC4()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+      
+    </div>
+    <div class="s-error-body">
+      <img src="assets/images/error-dog.jpg" alt="" class="s-error-img">
+      <h2 class="s-error-title">No se ha podido completar la contratación</h2>
+      <p class="s-error-sub">Algo ha ido mal con el pago. Puedes intentarlo de nuevo o contactarnos.</p>
+      <button class="s-error-retry" onclick="goToC4()">← Volver a intentarlo</button>
+      <button class="s-error-btn-home" onclick="window.location.href='https://kivoseguros.com'">Ir a la página principal</button>
+      <div class="s-error-contact">¿Tienes dudas? <a href="#" onclick="abrirWhatsApp();return false;">Contáctanos por WhatsApp</a></div>
+    </div>
+    <div class="s-error-foot">©KIVO Seguros, S.L.</div>
+  </div>
+</div>
+
+<!-- ═══ WHATSAPP FLOTANTE ═══ -->
+<button class="wa-float" onclick="abrirWhatsApp()" title="WhatsApp KIVO">
+  <img src="assets/icons/whatsapp.png" alt="WhatsApp" width="72" height="72">
+</button>
+
+<!-- ═══ IA FLOTANTE ═══ -->
+<button class="ia-float" onclick="toggleIA()">
+  <img src="assets/icons/ia.png" alt="KIVO IA">
+</button>
+<div class="ia-panel" id="ia-panel">
+  <div class="ia-head">
+    <div class="ia-avatar"><img src="assets/icons/ia.png" alt="KIVO IA"></div>
+    <div style="flex:1">
+      <div class="ia-name">KIVO IA</div>
+      <div class="ia-status"><span class="ia-dot"></span>Asistente IA · En línea</div>
+    </div>
+    <button class="ia-btn-expand" onclick="toggleIAExpand()" title="Ampliar">
+      <svg id="ia-expand-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="ia-btn-close" onclick="toggleIA()" title="Cerrar">✕</button>
+  </div>
+  <div class="ia-msgs" id="ia-msgs">
+    <div class="ia-bot">¡Hola! Soy el asistente IA de KIVO. Puedo ayudarte a entender las coberturas, comparar planes o resolver cualquier duda. ¿En qué te ayudo?</div>
+  </div>
+  <div class="ia-input-wrap">
+    <input class="ia-input" type="text" id="ia-input" placeholder="Escribe tu pregunta…"
+           onkeydown="if(event.key==='Enter')sendIA()">
+    <button class="ia-send" onclick="sendIA()">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13 2L7.5 7.5M13 2l-4 11-1.5-5.5M13 2L2 6l5.5 1.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="js/cp-data.js"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+
+<!-- ═══ MODAL SALIR ═══ -->
+<div class="exit-modal-overlay" id="exit-modal">
+  <div class="exit-modal-box">
+    <div class="exit-modal-photo">
+      <img src="assets/images/exit-dog.jpg.png" alt="" class="exit-modal-img">
+      <div class="exit-modal-photo-fade"></div>
+    </div>
+    <div class="exit-modal-content">
+      <h3 class="exit-modal-title">¿Dejas a tu mascota sin protección?</h3>
+      <p class="exit-modal-desc">Tan solo estás a 1 minuto de recibir el precio del seguro sin compromiso.<br><em>Cuida su salud como se merece.</em></p>
+      <div class="exit-modal-btns">
+        <button class="exit-btn-continuar" onclick="closeExitModal()">Quiero continuar →</button>
+        <button class="exit-btn-salir" onclick="confirmExit()">Salir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ULTIMA MASCOTA -->
+<div class="exit-modal-overlay" id="ultima-modal">
+  <div class="exit-modal-box">
+    <h3 class="exit-modal-title">¿Qué quieres hacer?</h3>
+    <p class="exit-modal-desc">Has eliminado tu única mascota. Puedes volver al inicio de la tarificación o salir.</p>
+    <div class="exit-modal-btns" style="flex-direction:column;gap:12px">
+      <button class="exit-btn-continuar" style="width:100%" onclick="ultimaMascotaVolver()">Volver al principio de la tarificación</button>
+      <button class="exit-btn-salir" style="width:100%" onclick="ultimaMascotaSalir()">Salir de la tarificación</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SC-EXCL: EXCLUSIONES ═══ -->
+<div id="sc-excl" class="cscreen">
+  <div class="ctop"><div class="ctop-inner">
+    <button class="btn-back" onclick="showScreen('sc2')" id="excl-back-btn" style="visibility:hidden"></button>
+    <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
+    
+    <div class="csteps">
+      <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Plan</span></div>
+      <div class="csep"></div>
+      <div class="cs active"><div class="csdot">2</div><span class="cs-label">Exclusiones</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">3</div><span class="cs-label">Tus datos</span></div>
+      <div class="csep"></div>
+      <div class="cs"><div class="csdot">4</div><span class="cs-label">Confirmar</span></div>
+    </div>
+  </div></div>
+  <div style="max-width:600px;margin:0 auto;padding:32px 24px 80px">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#3DBFA0;margin-bottom:10px">Transparencia ante todo</div>
+      <div style="font-size:22px;font-weight:900;color:#1B2A4A;letter-spacing:-0.02em;margin-bottom:10px">Antes de continuar, te recordamos<br>qué no cubre tu póliza</div>
+      <div style="font-size:14px;color:rgba(27,42,74,0.55);line-height:1.6">Estas exclusiones aplican a <strong>todos los planes KIVO</strong>.<br>Pulsa cada punto para ver el detalle.</div>
+    </div>
+
+    <div class="ccard" style="padding:8px 0">
+      <div class="excl-item" onclick="toggleExcl(0)">
+        <div class="excl-hdr"><span class="excl-num">1</span><strong>Enfermedades preexistentes</strong><span class="excl-arr" id="excl-arr-0">▾</span></div>
+        <div class="excl-body" id="excl-body-0">No cubrimos enfermedades o lesiones diagnosticadas o manifestadas antes de contratar el seguro.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(1)">
+        <div class="excl-hdr"><span class="excl-num">2</span><strong>Patologías hereditarias y congénitas</strong><span class="excl-arr" id="excl-arr-1">▾</span></div>
+        <div class="excl-body" id="excl-body-1">Enfermedades de origen hereditario o congénito, aunque no se hayan manifestado aún al contratar.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(2)">
+        <div class="excl-hdr"><span class="excl-num">3</span><strong>Gestación, parto y cría</strong><span class="excl-arr" id="excl-arr-2">▾</span></div>
+        <div class="excl-body" id="excl-body-2">No cubrimos gestación, parto ni los tratamientos relacionados con la reproducción o cría.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(3)">
+        <div class="excl-hdr"><span class="excl-num">4</span><strong>Esterilización electiva</strong><span class="excl-arr" id="excl-arr-3">▾</span></div>
+        <div class="excl-body" id="excl-body-3">La esterilización realizada por decisión del propietario sin indicación médica o preventiva.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(4)">
+        <div class="excl-hdr"><span class="excl-num">5</span><strong>Tratamientos cosméticos o experimentales</strong><span class="excl-arr" id="excl-arr-4">▾</span></div>
+        <div class="excl-body" id="excl-body-4">Procedimientos estéticos, tratamientos experimentales o no aprobados por la comunidad veterinaria.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(5)">
+        <div class="excl-hdr"><span class="excl-num">6</span><strong>Razas PPP y perros de caza</strong><span class="excl-arr" id="excl-arr-5">▾</span></div>
+        <div class="excl-body" id="excl-body-5">No cubrimos perros de caza ni razas clasificadas como Potencialmente Peligrosas (PPP) en España.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(6)">
+        <div class="excl-hdr"><span class="excl-num">7</span><strong>Daños causados intencionadamente</strong><span class="excl-arr" id="excl-arr-6">▾</span></div>
+        <div class="excl-body" id="excl-body-6">No cubrimos lesiones o daños causados de forma deliberada por el propietario o por negligencia grave.</div>
+      </div>
+      <div class="excl-item" onclick="toggleExcl(7)" style="border-bottom:none">
+        <div class="excl-hdr"><span class="excl-num">8</span><strong>Parásitos externos</strong><span class="excl-arr" id="excl-arr-7">▾</span></div>
+        <div class="excl-body" id="excl-body-7">Pulgas, garrapatas u otros parásitos externos y las enfermedades directamente causadas por estos.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;background:#F0FBF7;border:1.5px solid #3DBFA0;border-radius:14px;padding:18px 20px">
+      <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer">
+        <input type="checkbox" id="excl-chk" onchange="checkExcl()" style="margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:#3DBFA0">
+        <span style="font-size:13px;color:#1B2A4A;font-weight:600;line-height:1.5">He leído y entiendo las exclusiones de la póliza KIVO. Acepto continuar con la contratación.</span>
+      </label>
+    </div>
+
+    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc2')" disabled style="margin-top:20px;width:100%">
+      Continuar con la contratación
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+</body>
+</html>

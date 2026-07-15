@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ KIVO — Preguntas frecuentes sobre seguros de mascotas</title>
+  <meta name="description" content="Resolvemos tus dudas sobre contratación, coberturas, reembolsos, carencias y R.C.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--blue:#1B2A4A;--green:#1B4D3E;--green-l:#3DBFA0;--green-bg:#EAF4EE;--gray:#F7F8FA;--border:rgba(27,42,74,0.08)}
+    body{font-family:'Inter',sans-serif;color:var(--blue);background:#fff}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .kv-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .kv-nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .kv-logo{font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-.03em}
+    .kv-logo span{color:var(--green-l)}
+    .kv-nav-links{display:flex;gap:24px}
+    .kv-nav-links a{font-size:13px;font-weight:600;color:rgba(27,42,74,0.65);transition:color .2s}
+    .kv-nav-links a:hover{color:var(--green-l)}
+    .kv-nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:100px;transition:background .2s}
+    .kv-nav-cta:hover{background:var(--green-l)}
+    @media(max-width:700px){.kv-nav-links{display:none}}
+    .kv-hero{background:var(--green-bg);padding:72px 24px 60px;text-align:center}
+    .kv-eyebrow{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--green-l);text-transform:uppercase;margin-bottom:16px}
+    .kv-hero h1{font-size:clamp(26px,5vw,42px);font-weight:900;color:var(--blue);letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+    .kv-hero h1 span{color:var(--green-l)}
+    .kv-hero p{font-size:15px;color:rgba(27,42,74,0.6);max-width:600px;margin:0 auto;line-height:1.6}
+    .kv-section{padding:64px 24px}
+    .kv-section--gray{background:var(--gray)}
+    .kv-section--blue{background:var(--blue);color:#fff}
+    .kv-section--green{background:var(--green-bg)}
+    .kv-wrap{max-width:1100px;margin:0 auto}
+    .kv-wrap--sm{max-width:760px;margin:0 auto}
+    .kv-prose h2{font-size:17px;font-weight:800;margin-bottom:10px;margin-top:28px;color:var(--blue)}
+    .kv-prose h2:first-child{margin-top:0}
+    .kv-prose p{font-size:14px;line-height:1.75;color:rgba(27,42,74,0.72);margin-bottom:10px}
+    .kv-prose ul{padding-left:18px;margin-bottom:10px}
+    .kv-prose li{font-size:14px;line-height:1.7;color:rgba(27,42,74,0.72);margin-bottom:5px}
+    .kv-prose strong{color:var(--blue)}
+    .kv-prose a{color:var(--green-l);font-weight:600}
+    .kv-note{font-size:11px;color:rgba(27,42,74,0.38);margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+    .kv-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(27,42,74,0.06)}
+    .kv-grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .kv-grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .kv-grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .kv-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
+    .kv-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:100px;transition:background .2s}
+    .kv-btn:hover{background:var(--green-l)}
+    .kv-btn--outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+    .kv-btn--outline:hover{background:var(--blue);color:#fff}
+    /* FAQ accordion */
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-item:last-child{border-bottom:none}
+    .faq-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;background:none;border:none;cursor:pointer;text-align:left}
+    .faq-q{font-size:14px;font-weight:600;color:var(--blue);line-height:1.4}
+    .faq-icon{width:16px;height:16px;flex-shrink:0;color:var(--green-l);transition:transform .25s}
+    .faq-icon.open{transform:rotate(180deg)}
+    .faq-body{font-size:13px;line-height:1.7;color:rgba(27,42,74,0.68);padding-bottom:16px;display:none}
+    .faq-body.open{display:block}
+    /* cats */
+    .kv-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+    .kv-cat{padding:8px 18px;border-radius:100px;font-size:13px;font-weight:600;border:1.5px solid var(--border);color:rgba(27,42,74,0.55);background:none;cursor:pointer;transition:all .2s}
+    .kv-cat.active,.kv-cat:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+    /* table */
+    .kv-table{width:100%;border-collapse:collapse;font-size:13px}
+    .kv-table th{background:var(--blue);color:#fff;padding:12px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em}
+    .kv-table th:not(:first-child){text-align:center}
+    .kv-table td{padding:11px 14px;border-top:1px solid var(--border);color:rgba(27,42,74,0.78);text-align:center;font-size:12px}
+    .kv-table td:first-child{text-align:left;font-weight:600;color:var(--blue)}
+    .kv-table tr:nth-child(even){background:rgba(27,42,74,0.02)}
+    .kv-check{color:var(--green-l);font-weight:700}
+    .kv-dash{color:rgba(27,42,74,0.2)}
+    /* blog card */
+    .blog-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 8px rgba(27,42,74,0.05);display:flex;flex-direction:column;transition:box-shadow .2s}
+    .blog-card:hover{box-shadow:0 6px 24px rgba(27,42,74,0.12)}
+    .blog-emoji{font-size:36px;margin-bottom:12px}
+    .blog-cat{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
+    .blog-title{font-size:14px;font-weight:800;color:var(--blue);line-height:1.35;margin-bottom:10px}
+    .blog-excerpt{font-size:13px;color:rgba(27,42,74,0.6);line-height:1.6;flex:1}
+    .blog-meta{margin-top:16px;font-size:11px;color:rgba(27,42,74,0.4);display:flex;justify-content:space-between}
+    /* plan */
+    .plan-cov-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+    .plan-cov-item:last-child{border-bottom:none}
+    .plan-check{color:var(--green-l);font-size:16px;flex-shrink:0;margin-top:1px}
+    .plan-cov-text{font-size:13px;color:rgba(27,42,74,0.75);line-height:1.5}
+    .plan-lim-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .plan-lim-row:last-child{border-bottom:none}
+    .plan-lim-label{color:rgba(27,42,74,0.65)}
+    .plan-lim-val{font-weight:700;color:var(--blue)}
+    .plan-exc-item{display:flex;gap:10px;padding:8px 0;font-size:13px;color:rgba(27,42,74,0.65)}
+    .plan-exc-x{color:#f87171;flex-shrink:0}
+    /* footer */
+    .kv-footer{background:var(--blue);color:rgba(255,255,255,0.6);padding:48px 24px 28px}
+    .kv-footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px 40px}
+    .kv-footer h4{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px}
+    .kv-footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .kv-footer ul a{font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);transition:color .2s}
+    .kv-footer ul a:hover{color:var(--green-l)}
+    .kv-footer-bottom{max-width:1100px;margin:32px auto 0;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;font-size:11px;color:rgba(255,255,255,0.35)}
+  </style>
+</head>
+<body>
+
+<nav class="kv-nav">
+  <div class="kv-nav-inner">
+    <a href="../Seccion 1 HERO/index.html" class="kv-logo">KIVO<span>.</span></a>
+    <div class="kv-nav-links">
+      <a href="../pages/coberturas.html">Coberturas</a>
+      <a href="../pages/blog.html">Blog</a>
+      <a href="../pages/sobre-kivo.html">Sobre KIVO</a>
+      <a href="../pages/faq.html">FAQ</a>
+    </div>
+    <a href="../Seccion 1 HERO/index.html#calcular-precio" class="kv-nav-cta">Calcular precio</a>
+  </div>
+</nav>
+
+
+<div class="kv-hero">
+  <div class="kv-eyebrow">FAQ</div>
+  <h1>Preguntas <span>frecuentes</span></h1>
+  <p>Todo lo que necesitas saber sobre contratación, coberturas, reembolsos, carencias y R.C.</p>
+</div>
+
+<div class="kv-section">
+  <div class="kv-wrap--sm">
+    <div class="kv-cats" data-filter-group>
+      <button class="kv-cat active" data-cat="Todos">Todos</button>
+      <button class="kv-cat active" data-cat="Contratación">Contratación</button><button class="kv-cat" data-cat="Coberturas">Coberturas</button><button class="kv-cat" data-cat="Reembolsos">Reembolsos</button><button class="kv-cat" data-cat="Carencias">Carencias</button><button class="kv-cat" data-cat="R.C.">R.C.</button>
+    </div>
+    <div class="kv-card">
+      
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué edad debe tener mi mascota para contratar?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Para perros, la edad mínima es 2 meses y la máxima 11 años. Para gatos, de 2 meses a 10 años. Las pólizas vigentes se renuevan anualmente sin límite de edad.</div>
+    </div>
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Necesito el número de microchip para contratar?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí. El microchip es obligatorio por la Ley 7/2023. Puedes marcarlo como 'pendiente' si tu cachorro aún no lo tiene y aportarlo antes del inicio de cobertura.</div>
+    </div>
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Puedo contratar si mi perro es mestizo?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí, KIVO asegura razas puras y mestizos. Para mestizos la tarificación se realiza por tramo de peso.</div>
+    </div>
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué razas quedan excluidas?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Los perros clasificados como Potencialmente Peligrosos (RD 287/2002): Pit Bull, Staffordshire Bull Terrier, American Staffordshire, Rottweiler, Dogo Argentino, Fila Brasileño, Tosa Inu y Akita Inu.</div>
+    </div>
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Puedo contratar si mi perro es de caza?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">No. Los perros de caza quedan excluidos. El seguro es exclusivamente para mascotas domésticas.</div>
+    </div>
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Cómo se paga el seguro?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Con tarjeta (Visa o Mastercard) o transferencia bancaria. Se puede fraccionar en cuotas mensuales o pagar anualmente.</div>
+    </div>
+    <div class="faq-item" data-cat="Contratación">
+      <button class="faq-btn">
+        <span class="faq-q">¿Puedo cancelar en cualquier momento?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí, con un preaviso de 30 días antes del vencimiento anual, según el Condicionado General.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué diferencia hay entre CARE, CARE+ y PREMIUM?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">CARE (80%, 3.500 €), CARE+ (90%, 4.000 €) y PREMIUM (100% sin copago, 5.000 €). Los tres cubren accidentes, enfermedades y R.C.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿La vacunación está cubierta?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí. 100% de las vacunas obligatorias y principales. Límite 250 €/año. Sin carencia.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Se cubre la oncología?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí. Quimioterapia, radioterapia e inmunoterapia. Sublímite 2.500 € en CARE/CARE+ y 3.500 € en PREMIUM.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Se cubre la fisioterapia y rehabilitación?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí, hasta 9 sesiones por año en los tres planes.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Está cubierta la tartrectomía?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">En CARE y CARE+ a partir del segundo año. En PREMIUM desde el primer año (animales >3 años), hasta 200 €/año.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué es la teleconsulta veterinaria?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Videollamada con un veterinario colegiado sin desplazamiento. Incluida en los tres planes sin coste adicional.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Se cubren enfermedades preexistentes?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">No. Las enfermedades previas a la contratación y las patologías congénitas o hereditarias quedan excluidas.</div>
+    </div>
+    <div class="faq-item" data-cat="Coberturas">
+      <button class="faq-btn">
+        <span class="faq-q">¿Se cubre la esterilización?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">No. La esterilización electiva, gestación y parto quedan fuera de cobertura.</div>
+    </div>
+    <div class="faq-item" data-cat="Reembolsos">
+      <button class="faq-btn">
+        <span class="faq-q">¿Cómo solicito un reembolso?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">A través de la app KIVO: fotografías la factura con OCR integrado, adjuntas el informe médico y envías la solicitud. Respuesta en máximo 10 días hábiles.</div>
+    </div>
+    <div class="faq-item" data-cat="Reembolsos">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué documentos necesito?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Factura original con desglose de conceptos, diagnóstico o informe médico (si lo solicita el gestor) y datos bancarios.</div>
+    </div>
+    <div class="faq-item" data-cat="Reembolsos">
+      <button class="faq-btn">
+        <span class="faq-q">¿Cuánto tarda el reembolso?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Casos simples: 24/48 horas laborables. Casos complejos: máximo 10 días hábiles. Siempre por transferencia bancaria.</div>
+    </div>
+    <div class="faq-item" data-cat="Reembolsos">
+      <button class="faq-btn">
+        <span class="faq-q">¿Hay un límite por proceso?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí. Sublímite de 2.500 € por proceso en CARE y CARE+, y 3.500 € para oncología en PREMIUM.</div>
+    </div>
+    <div class="faq-item" data-cat="Reembolsos">
+      <button class="faq-btn">
+        <span class="faq-q">¿Puedo ir a cualquier veterinario?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí. Libertad total de elección. Cualquier clínica veterinaria colegiada en España, incluidas urgencias y especialistas.</div>
+    </div>
+    <div class="faq-item" data-cat="Carencias">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué es un período de carencia?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">El tiempo desde la fecha de efecto durante el cual no se cubren ciertas contingencias. Sirve para evitar la contratación oportunista.</div>
+    </div>
+    <div class="faq-item" data-cat="Carencias">
+      <button class="faq-btn">
+        <span class="faq-q">¿Cuáles son las carencias de KIVO?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Accidentes: 5 días. Enfermedades comunes: 28 días. Cirugía compleja, oncología, epilepsia, dermatología y leishmaniosis: 6 meses.</div>
+    </div>
+    <div class="faq-item" data-cat="Carencias">
+      <button class="faq-btn">
+        <span class="faq-q">¿La vacunación tiene carencia?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">No. La cobertura de vacunación es efectiva desde el primer día.</div>
+    </div>
+    <div class="faq-item" data-cat="Carencias">
+      <button class="faq-btn">
+        <span class="faq-q">¿Se aplican carencias en la renovación?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">No. Las carencias solo se aplican en la contratación inicial. En renovaciones sin interrupción no se vuelven a aplicar.</div>
+    </div>
+    <div class="faq-item" data-cat="R.C.">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué es la Responsabilidad Civil incluida?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Cubre daños a terceros causados involuntariamente por tu mascota. R.C. ESENCIAL hasta 200.000 € en CARE, 250.000 € en CARE+, y R.C. TOTAL hasta 300.000 € en PREMIUM.</div>
+    </div>
+    <div class="faq-item" data-cat="R.C.">
+      <button class="faq-btn">
+        <span class="faq-q">¿Es obligatoria la R.C. para perros?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí. La Ley 7/2023 establece la obligatoriedad de R.C. para perros. KIVO la incluye en todos sus planes.</div>
+    </div>
+    <div class="faq-item" data-cat="R.C.">
+      <button class="faq-btn">
+        <span class="faq-q">¿Qué cubre el plan R.C. ESENCIAL independiente?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Daños corporales y materiales a terceros, defensa jurídica incluida, hasta 150.000 € por siniestro.</div>
+    </div>
+    <div class="faq-item" data-cat="R.C.">
+      <button class="faq-btn">
+        <span class="faq-q">¿La R.C. cubre daños a otros animales?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí, siempre que el daño sea a un tercero. Los daños entre animales de la misma póliza quedan excluidos.</div>
+    </div>
+    <div class="faq-item" data-cat="R.C.">
+      <button class="faq-btn">
+        <span class="faq-q">¿La defensa jurídica está incluida?</span>
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">Sí, en todos los planes con R.C. Sin coste adicional.</div>
+    </div>
+    </div>
+    <p style="margin-top:32px;text-align:center;font-size:13px;color:rgba(27,42,74,0.5)">
+      ¿No encuentras tu respuesta? <a href="mailto:hola@kivoseguros.com" style="color:#3DBFA0;font-weight:600">Escríbenos a hola@kivoseguros.com</a>
+    </p>
+  </div>
+</div>
+
+<footer class="kv-footer">
+  <div class="kv-footer-grid">
+    <div>
+      <div style="font-size:20px;font-weight:900;color:#fff;letter-spacing:-.02em;margin-bottom:8px;">KIVO<span style="color:#3DBFA0">.</span></div>
+      <p style="font-size:12px;line-height:1.6;">Agencia de Suscripción (MGA)<br>especializada en seguros de mascotas.</p>
+    </div>
+    <div>
+      <h4>SEGUROS</h4>
+      <ul>
+        <li><a href="../pages/planes/care.html">KIVO CARE</a></li>
+        <li><a href="../pages/planes/care-plus.html">KIVO CARE+</a></li>
+        <li><a href="../pages/planes/premium.html">KIVO PREMIUM</a></li>
+        <li><a href="../pages/planes/rc.html">KIVO R.C.</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>INFORMACIÓN</h4>
+      <ul>
+        <li><a href="../pages/coberturas.html">Coberturas</a></li>
+        <li><a href="../pages/faq.html">FAQ</a></li>
+        <li><a href="../pages/sobre-kivo.html">Sobre KIVO</a></li>
+        <li><a href="../pages/blog.html">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>LEGAL</h4>
+      <ul>
+        <li><a href="../pages/legal/aviso-legal.html">Aviso Legal</a></li>
+        <li><a href="../pages/legal/privacidad.html">Política de Privacidad</a></li>
+        <li><a href="../pages/legal/cookies.html">Política de Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="kv-footer-bottom">
+    © 2026 KIVO Seguros para Mascotas, S.L. · Todos los derechos reservados · Marca registrada OEPM M4384477
+  </div>
+</footer>
+
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const body = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const open = body.classList.toggle('open');
+    icon.classList.toggle('open', open);
+  });
+});
+// Blog/FAQ category filter
+document.querySelectorAll('.kv-cat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.closest('[data-filter-group]');
+    if (!group) return;
+    group.querySelectorAll('.kv-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    group.querySelectorAll('[data-cat]').forEach(el => {
+      el.style.display = (cat === 'Todos' || el.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

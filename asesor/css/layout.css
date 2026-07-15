@@ -1,0 +1,294 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:     #1B2A4A;
+  --green:    #1B4D3E;
+  --green-bg: #EAF4EE;
+  --font:     'Inter', sans-serif;
+}
+
+/* Fondo verde en todo el body para evitar espacio blanco bajo la sección */
+body { font-family: var(--font); background: var(--green-bg); }
+
+/* ════════════════════════════════════
+   SECCIÓN AMPLIADA (3× más grande)
+════════════════════════════════════ */
+.s04 {
+  background: var(--green-bg);
+  padding: 0 40px;
+  min-height: 484px;
+  display: flex;
+  align-items: center;
+}
+
+.s04-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr 340px;
+  gap: 48px;
+  align-items: center;
+}
+
+.s04-left {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.s04-robot {
+  width: 240px;
+  height: auto;
+  filter: drop-shadow(0 16px 40px rgba(27,77,62,0.25));
+  animation: robotFloat 3s ease-in-out infinite;
+  margin-bottom: 0;
+}
+
+@keyframes robotFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+.s04-info-block { display: flex; flex-direction: column; }
+
+.s04-badge {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.s04-title {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--blue);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.s04-desc {
+  font-size: 18px;
+  color: #4B5563;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+
+.s04-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.s04-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.s04-features li svg { color: var(--green); flex-shrink: 0; width: 20px; height: 20px; }
+
+.s04-cta-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 32px;
+  box-shadow: 0 8px 40px rgba(27,42,74,0.12);
+  border: 1px solid rgba(27,77,62,0.08);
+}
+
+.s04-cta-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+
+.s04-cta-desc {
+  font-size: 15px;
+  color: #6B7280;
+  line-height: 1.55;
+  margin-bottom: 28px;
+}
+
+.s04-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 18px 24px;
+  border-radius: 14px;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 6px 24px rgba(27,77,62,0.30);
+}
+
+.s04-cta-btn svg { width: 20px; height: 20px; }
+
+.s04-cta-btn:hover { background: var(--blue); transform: translateY(-2px); }
+
+@media (max-width: 1000px) {
+  .s04-inner { grid-template-columns: 1fr 320px; gap: 32px; }
+  .s04-left { display: none; }
+}
+
+@media (max-width: 700px) {
+  .s04 { padding: 48px 24px 56px; }
+  .s04-inner { grid-template-columns: 1fr; gap: 24px; }
+  .s04-title { font-size: 28px; }
+}
+
+/* ════════════════════════════════════
+   MODAL — robot izquierda + quiz derecha
+════════════════════════════════════ */
+.s04-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,20,40,0.60);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.s04-modal-overlay.active {
+  display: flex;
+  animation: modalIn 0.22s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.s04-modal-box {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  width: 100%;
+  max-width: 860px;
+  height: min(90vh, 680px);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 28px 80px rgba(10,20,40,0.35);
+  animation: modalSlide 0.26s cubic-bezier(0.34,1.2,0.64,1);
+  position: relative;
+}
+
+@keyframes modalSlide {
+  from { transform: translateY(28px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Botón Salir — visible en la columna verde */
+.s04-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.40);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  width: 100%;
+}
+.s04-modal-close:hover {
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.70);
+}
+
+/* Columna izquierda: verde con robot */
+.s04-modal-left {
+  background: var(--green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px 20px;
+  gap: 0;
+  min-height: 0;           /* permite que el grid la comprima */
+  overflow: hidden;
+}
+
+.s04-modal-robot-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.s04-modal-robot {
+  width: 100%;
+  max-width: 220px;        /* antes 300px — se salía de la columna de 280px */
+  height: auto;
+  filter: drop-shadow(0 12px 30px rgba(0,0,0,0.25));
+  animation: robotFloat 3s ease-in-out infinite;
+}
+
+.s04-modal-robot-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 14px;
+  font-family: var(--font);
+}
+
+/* Columna derecha: quiz en blanco — min-height:0 es clave
+   para que overflow-y:auto funcione dentro del grid */
+.s04-modal-right {
+  background: #fff;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.s04-modal-right .asistente { padding: 0; background: transparent; }
+.s04-modal-right .quiz-card {
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  padding: 36px 36px 28px;
+  max-width: none;
+  margin: 0;
+}
+.s04-modal-right .quiz-result {
+  padding: 28px 36px 36px;
+}
+
+@media (max-width: 640px) {
+  .s04-modal-box { grid-template-columns: 1fr; }
+  .s04-modal-left { padding: 20px; flex-direction: row; justify-content: center; min-height: 100px; }
+  .s04-modal-robot-wrap { flex: none; }
+  .s04-modal-robot { width: 80px; }
+  .s04-modal-right .quiz-card { padding: 24px 20px 20px; }
+}

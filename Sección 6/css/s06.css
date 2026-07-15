@@ -1,0 +1,515 @@
+/* =====================================================
+   KIVO — S06: Proceso de reembolso + App
+   ===================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:        #1B2A4A;
+  --green:       #1B4D3E;
+  --green-l:     #3DBFA0;
+  --green-bg:    #EAF4EE;
+  --white:       #ffffff;
+  --gray-light:  #F7F8FA;
+  --gray-border: #E5E7EB;
+  --gray-text:   #6B7280;
+  --font:        'Inter', sans-serif;
+  --radius:      16px;
+}
+
+body { font-family: var(--font); background: #fff; color: var(--blue); }
+
+/* ─────────────────────────────────────────
+   SECCIÓN: PROCESO
+───────────────────────────────────────── */
+
+.s06-proceso {
+  padding: 96px 24px 80px;
+  background: #fff;
+}
+
+.s06-proceso-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.s06-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.s06-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: var(--green-bg);
+  color: var(--green);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.s06-header h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  color: var(--blue);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.s06-header p {
+  font-size: 17px;
+  color: var(--gray-text);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Grid de 4 pasos */
+.s06-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── STEP CARD ─── */
+.s06-step-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+/* Número + flecha */
+.s06-step-num-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  position: relative;
+}
+
+.s06-step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: .02em;
+}
+
+.s06-arrow {
+  flex: 1;
+  max-width: 80px;
+  display: block;
+}
+
+/* ─────────────────────────────────────────
+   MÓVIL (CSS phone)
+───────────────────────────────────────── */
+
+.s06-phone {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.s06-phone-frame {
+  width: 150px;
+  border-radius: 24px;
+  background: var(--blue);
+  padding: 6px;
+  box-shadow:
+    0 20px 60px rgba(27,42,74,.18),
+    0 4px 16px rgba(27,42,74,.10);
+  position: relative;
+}
+
+.s06-phone-notch {
+  width: 40px;
+  height: 8px;
+  background: rgba(0,0,0,.5);
+  border-radius: 100px;
+  margin: 0 auto 4px;
+}
+
+.s06-phone-screen {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top bar de la pantalla */
+.s06-screen-topbar {
+  background: var(--blue);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 8px;
+  letter-spacing: .04em;
+}
+
+/* Cuerpo de la pantalla */
+.s06-screen-body {
+  flex: 1;
+  padding: 10px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.s06-screen-body--center {
+  align-items: center;
+  text-align: center;
+}
+
+/* ─── Icono círculo ─── */
+.s06-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px auto 2px;
+}
+.s06-icon-circle--blue  { background: var(--blue); }
+.s06-icon-circle--green { background: var(--green-l); }
+.s06-icon-circle--yellow{ background: #F59E0B; }
+
+/* ─── Pantalla 1: solicitud ─── */
+.s06-sc-label {
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--gray-text);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.s06-chips {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.s06-chip {
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: var(--gray-light);
+  color: var(--gray-text);
+  font-size: 8px;
+  font-weight: 600;
+  border: 1px solid var(--gray-border);
+}
+
+.s06-chip--on {
+  background: var(--green-bg);
+  color: var(--green);
+  border-color: var(--green-l);
+}
+
+.s06-select-row {
+  background: var(--gray-light);
+  border: 1px solid var(--gray-border);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-size: 8px;
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.s06-sc-btn {
+  margin-top: 4px;
+  background: var(--blue);
+  color: white;
+  border-radius: 8px;
+  padding: 6px;
+  font-size: 8px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.s06-sc-btn--green {
+  background: var(--green-l);
+}
+
+/* ─── Pantalla 2: documentos ─── */
+.s06-doc-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  font-weight: 500;
+  padding: 5px 6px;
+  border-radius: 6px;
+}
+
+.s06-doc-ok {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.s06-doc-add {
+  background: var(--gray-light);
+  color: var(--gray-text);
+  border: 1px dashed var(--gray-border);
+}
+
+/* ─── Pantalla 3: estado ─── */
+.s06-status-tag {
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: #F59E0B;
+}
+
+.s06-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 6px 0 2px;
+}
+
+.s06-track-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gray-border);
+  flex-shrink: 0;
+}
+
+.s06-track-dot--done   { background: var(--green-l); }
+.s06-track-dot--active { background: #F59E0B; box-shadow: 0 0 0 3px rgba(245,158,11,.2); }
+
+.s06-track-line {
+  flex: 1;
+  height: 2px;
+  background: var(--gray-border);
+}
+
+.s06-track-line--done { background: var(--green-l); }
+
+.s06-track-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.s06-tl {
+  font-size: 7px;
+  font-weight: 600;
+  color: var(--gray-text);
+}
+
+.s06-tl--done   { color: var(--green-l); }
+.s06-tl--active { color: #F59E0B; }
+
+.s06-eta-text {
+  text-align: center;
+  font-size: 8px;
+  color: var(--gray-text);
+  margin-top: 4px;
+}
+
+.s06-eta-text strong { color: var(--blue); }
+
+/* ─── Pantalla 4: éxito ─── */
+.s06-success-ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px auto 6px;
+  box-shadow: 0 0 0 8px rgba(61,191,160,.12);
+}
+
+.s06-success-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--blue);
+}
+
+.s06-success-amount {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--green-l);
+  margin: 2px 0;
+}
+
+.s06-success-sub {
+  font-size: 8px;
+  color: var(--gray-text);
+  line-height: 1.4;
+}
+
+.s06-success-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7px;
+  font-weight: 600;
+  color: var(--green);
+  background: var(--green-bg);
+  padding: 4px 8px;
+  border-radius: 100px;
+  margin-top: 6px;
+}
+
+/* ─── Texto del paso ─── */
+.s06-step-text {
+  text-align: center;
+}
+
+.s06-step-text h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--blue);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.s06-step-text p {
+  font-size: 13px;
+  color: var(--gray-text);
+  line-height: 1.5;
+}
+
+/* Nota al pie */
+.s06-nota {
+  text-align: center;
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 48px;
+}
+
+
+/* ─────────────────────────────────────────
+   STRIP DESCARGA APP
+───────────────────────────────────────── */
+
+.s06-download {
+  background: var(--blue);
+  padding: 48px 24px;
+}
+
+.s06-download-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.s06-download-text {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.s06-download-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.s06-download-label {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.s06-download-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+}
+
+.s06-store-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.s06-store-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 12px;
+  padding: 12px 20px;
+  text-decoration: none;
+  transition: background .2s;
+}
+
+.s06-store-btn:hover {
+  background: rgba(255,255,255,.18);
+}
+
+.s06-store-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.s06-store-text span {
+  font-size: 10px;
+  color: rgba(255,255,255,.6);
+  line-height: 1;
+}
+
+.s06-store-text strong {
+  font-size: 15px;
+  color: white;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .s06-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 20px;
+  }
+  .s06-arrow { display: none; }
+}
+
+@media (max-width: 560px) {
+  .s06-steps-grid {
+    grid-template-columns: 1fr;
+  }
+  .s06-download-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

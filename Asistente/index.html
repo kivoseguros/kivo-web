@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIVO — Asistente de Cobertura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/asistente.css">
+  <style>
+    body { background: #EAF4EE; min-height: 100vh; }
+
+    /* Robot flotante */
+    .robot-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 110px;
+      z-index: 999;
+      animation: robotFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 8px 20px rgba(27,77,62,0.28));
+      cursor: default;
+    }
+    .robot-float img { width: 100%; height: auto; display: block; }
+
+    @keyframes robotFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="asistente">
+
+  <div class="quiz-card" id="quizCard">
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="progressFill"></div>
+      </div>
+      <span class="quiz-progress-label" id="progressLabel">1 / 8</span>
+    </div>
+    <div id="quizPanel">
+      <div class="quiz-content" id="quizContent"></div>
+    </div>
+  </div>
+
+  <div class="quiz-result" id="resultPanel"></div>
+
+</div>
+
+<!-- Robot flotante -->
+<div class="robot-float">
+  <img src="../Sección 4/assets/kivo-ia.png" alt="Asistente KIVO">
+</div>
+
+<script src="script/asistente.js"></script>
+</body>
+</html>

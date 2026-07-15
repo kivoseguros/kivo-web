@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIVO — Asistente IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Asistente/css/asistente.css">
+  <link rel="stylesheet" href="css/s04.css">
+</head>
+<body>
+
+<!-- ── SECCIÓN COMPACTA ── -->
+<section class="s04">
+  <div class="s04-inner">
+
+    <!-- Robot -->
+    <div class="s04-left">
+      <img src="assets/kivo-ia.png" alt="Asistente KIVO IA" class="s04-robot">
+    </div>
+
+    <!-- Texto -->
+    <div class="s04-info-block">
+      <span class="s04-badge">NUEVO</span>
+      <h2 class="s04-title">Asistente KIVO IA</h2>
+      <p class="s04-desc">Resuelve todas tus dudas sobre coberturas y elige el plan ideal para tu mascota.</p>
+      <ul class="s04-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          Respuestas instantáneas
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          Información 100% actualizada
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Disponible 24/7
+        </li>
+      </ul>
+    </div>
+
+    <!-- CTA card -->
+    <div class="s04-cta-card">
+      <p class="s04-cta-title">¡Pregunta lo que necesites!</p>
+      <p class="s04-cta-desc">Te ayudamos a elegir el plan ideal en menos de 2 minutos.</p>
+      <button class="s04-cta-btn" id="openAsistenteBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Abrir Asistente KIVO
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── MODAL: robot izquierda + quiz derecha ── -->
+<div class="s04-modal-overlay" id="s04Modal">
+  <div class="s04-modal-box">
+
+    <!-- Columna izquierda: robot flotante -->
+    <div class="s04-modal-left">
+      <div class="s04-modal-robot-wrap">
+        <img src="assets/kivo-ia.png" alt="Asistente KIVO" class="s04-modal-robot">
+      </div>
+      <p class="s04-modal-robot-label">Asistente KIVO IA</p>
+      <button class="s04-modal-close" id="s04ModalClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        Salir del asistente
+      </button>
+    </div>
+
+    <!-- Columna derecha: quiz -->
+    <div class="s04-modal-right">
+      <div class="asistente" style="padding:0;">
+        <div class="quiz-card" id="quizCard">
+          <div class="quiz-progress-wrap">
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="progressFill"></div>
+            </div>
+            <span class="quiz-progress-label" id="progressLabel">1 / 8</span>
+          </div>
+          <div id="quizPanel">
+            <div class="quiz-content" id="quizContent"></div>
+          </div>
+        </div>
+        <div class="quiz-result" id="resultPanel"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../Asistente/script/asistente.js"></script>
+<script>
+  const modal    = document.getElementById('s04Modal');
+  const openBtn  = document.getElementById('openAsistenteBtn');
+  const closeBtn = document.getElementById('s04ModalClose');
+
+  function openModal()  { modal.classList.add('active');    document.body.style.overflow = 'hidden'; }
+  function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+
+  openBtn.addEventListener('click', openModal);
+
+  // Si viene desde S02 con #openModal, abrir el modal automáticamente
+  if (window.location.hash === '#openModal') { openModal(); }
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

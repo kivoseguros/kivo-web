@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KIVO · Seguros para mascotas</title>
+  <link rel="stylesheet" href="./css/hero.css" />
+</head>
+
+<body>
+  <section class="kivo-hero">
+    <div class="corner-shape" aria-hidden="true">
+      <svg viewBox="0 0 300 180">
+        <path d="M0 180 C55 115, 96 133, 147 78 C198 25, 235 44, 300 0" />
+        <path d="M40 126 C25 96, 34 76, 66 62 C78 92, 68 113, 40 126Z" />
+        <path d="M88 111 C73 79, 83 57, 117 45 C130 76, 118 100, 88 111Z" />
+        <path d="M136 76 C119 45, 129 23, 163 12 C176 43, 164 66, 136 76Z" />
+        <path d="M176 55 C164 29, 178 10, 207 5 C214 32, 202 50, 176 55Z" />
+        <path d="M103 150 C92 121, 104 101, 136 94 C144 123, 132 143, 103 150Z" />
+      </svg>
+    </div>
+
+    <header class="hero-header">
+      <a class="kivo-logo" href="#" aria-label="KIVO Seguros para Mascotas">
+        <img src="./assets/kivo-logo-real.svg" alt="KIVO Seguros para Mascotas" />
+      </a>
+
+      <nav class="hero-nav" aria-label="Navegación principal">
+        <a href="/pages/coberturas.html">Coberturas</a>
+        <a href="/pages/blog.html">Blog</a>
+        <a href="/pages/sobre-kivo.html">Sobre KIVO</a>
+        <a href="/pages/faq.html">FAQ</a>
+        <div class="hero-lang">
+          <button class="hero-lang-btn active" data-lang="es">ES</button>
+          <span class="hero-lang-sep">|</span>
+          <button class="hero-lang-btn" data-lang="en">EN</button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="hero-grid">
+      <section class="hero-copy">
+        <div class="hero-badge">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          Protección clara para tu mascota. Sin sorpresas.
+        </div>
+
+        <h1 class="hero-title">
+          Tu mascota<br />
+          <span>bien protegida,</span><br />
+          tu tranquilidad<br />
+          asegurada<span>.</span>
+        </h1>
+
+        <p class="hero-text">
+          Reembolso en 24/48 horas, sin complicaciones y sin letra pequeña.
+          Calcula en menos de 30 segundos cuánto costaría proteger a tu mascota
+          y descubre la protección que mejor se adapta a ella.
+        </p>
+
+        <div class="hero-benefits">
+          <div class="hero-benefit">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/></svg>
+            </div>
+            <strong>Sin letra<br />pequeña.</strong>
+          </div>
+
+          <div class="hero-benefit">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7Z"/></svg>
+            </div>
+            <strong>Reembolso en<br />24/48h.</strong>
+          </div>
+
+          <div class="hero-benefit">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M4 20c1-4 7-4 8 0M12 20c1-4 7-4 8 0"/></svg>
+            </div>
+            <strong>Sin<br />complicaciones.</strong>
+          </div>
+        </div>
+
+        <div class="social-proof">
+          <div class="avatar-stack" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <div>
+            <strong>+25.000 familias ya confían en KIVO</strong>
+            <div class="stars">★★★★★ <span>4,8/5 en Google</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="advisor-area" id="calcular-precio" aria-label="Asesor KIVO">
+        <div class="advisor-card">
+          <div class="advisor-head">
+            <div class="brain-icon">
+              <svg viewBox="0 0 48 48">
+                <path d="M22 11c-2-5-10-4-11 2-5 1-6 9-1 12-3 4 0 10 5 10 1 5 8 5 10 1V12c0-1-1-1-3-1Z"/>
+                <path d="M26 11c2-5 10-4 11 2 5 1 6 9 1 12 3 4 0 10-5 10-1 5-8 5-10 1V12c0-1 1-1 3-1Z"/>
+                <path d="M16 20h6M15 28h7M32 20h-6M33 28h-7"/>
+              </svg>
+            </div>
+            <div>
+              <h2>Calcula tu precio <span>KIVO</span></h2>
+              <p id="advisor-desc">Dinos quién es tu mascota y te damos el precio al instante.</p>
+            </div>
+          </div>
+
+          <div class="steps" aria-label="Pasos del tarificador">
+            <div class="step-row">
+              <button class="step active" data-step="1">1</button><i class="step-line"></i>
+              <button class="step" data-step="2">2</button><i class="step-line"></i>
+              <button class="step" data-step="3">3</button><i class="step-line"></i>
+              <button class="step" data-step="4">4</button><i class="step-line"></i>
+              <button class="step" data-step="5">5</button>
+            </div>
+            <div class="step-labels">
+              <span>Tu mascota</span><span>Raza y edad</span><span>Cobertura</span><span>Tus datos</span><span>Resultado</span>
+            </div>
+          </div>
+
+          <h3 class="step-form-title" id="form-title">1. Tu mascota</h3>
+
+          <div class="field">
+            <label for="petName">¿Cómo se llama tu mascota?</label>
+            <input id="petName" name="petName" placeholder="Ej: Luna" />
+          </div>
+
+          <div class="field">
+            <label>¿Es un perro o un gato?</label>
+            <div class="species">
+              <button class="selected" type="button" data-pet="Perro">🐶 Perro</button>
+              <button type="button" data-pet="Gato">🐱 Gato</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="breed">¿Qué raza es?</label>
+            <select id="breed" name="breed">
+              <option value="">Selecciona la raza</option>
+              <option>Golden Retriever</option>
+              <option>Labrador Retriever</option>
+              <option>Bulldog Francés</option>
+              <option>Pastor Alemán</option>
+              <option>Caniche / Poodle</option>
+              <option>Chihuahua</option>
+              <option>Yorkshire Terrier</option>
+              <option>Mestizo / Sin raza definida</option>
+              <option>Gato común europeo</option>
+              <option>Maine Coon</option>
+              <option>Persa</option>
+              <option>Siamés</option>
+            </select>
+          </div>
+
+          <div class="two">
+            <div class="field">
+              <label for="age">¿Qué edad tiene?</label>
+              <select id="age" name="age">
+                <option value="">Edad</option>
+                <option>Menos de 1 año</option>
+                <option>1 año</option>
+                <option>2 años</option>
+                <option>3 años</option>
+                <option>4 años</option>
+                <option>5 años</option>
+                <option>6 años</option>
+                <option>7 años</option>
+                <option>8 años</option>
+                <option>9 años</option>
+                <option>10 años</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="postalCode">Código postal</label>
+              <input id="postalCode" name="postalCode" placeholder="28001" maxlength="5" />
+            </div>
+          </div>
+
+          <button class="continue" type="button" id="continueBtn">Continuar <span>→</span></button>
+
+        </div>
+
+
+      </section>
+    </main>
+
+    <aside class="bottom-info">
+      <div>
+        <span>✣</span>
+        <p><strong>Te aconsejamos</strong> según lo que más te preocupa.</p>
+      </div>
+      <div>
+        <span>⚙</span>
+        <p><strong>Recomendamos</strong> el plan que mejor se adapta a ti.</p>
+      </div>
+      <div>
+        <span>▣</span>
+        <p><strong>Te explicamos</strong> por qué ese plan es el ideal.</p>
+      </div>
+      <div>
+        <span>♡</span>
+        <p><strong>Y te damos</strong> el precio al instante.</p>
+      </div>
+    </aside>
+
+    <div class="privacy">🔒 Tus datos están protegidos y no serán compartidos.</div>
+  </section>
+
+    <button class="kivo-ia-floating" type="button" id="openKivoAssistant" aria-label="Abrir KIVO IA">
+      <img src="./assets/kivo-ia.png" alt="KIVO IA" />
+    </button>
+
+
+
+
+    <div class="chat-overlay" id="kivoChatOverlay" aria-hidden="true">
+      <section class="chat-modal" role="dialog" aria-modal="true" aria-labelledby="kivoChatTitle">
+        <header class="chat-header">
+          <div class="chat-title">
+            <img src="./assets/kivo-ia.png" alt="" />
+            <div>
+              <h2 id="kivoChatTitle">KIVO IA</h2>
+              <p>Tu asistente inteligente para mascotas.</p>
+            </div>
+          </div>
+          <button class="chat-close" type="button" id="closeKivoAssistant" aria-label="Cerrar chat">×</button>
+        </header>
+
+        <div class="chat-body">
+          <div class="message assistant-message">
+            Hola, soy KIVO IA. ¿En qué puedo ayudarte hoy?
+          </div>
+          <div class="quick-actions">
+            <button type="button">Calcular mi seguro</button>
+            <button type="button">¿Qué cubre la póliza?</button>
+            <button type="button">Ver condicionados</button>
+            <button type="button">Ya soy cliente</button>
+          </div>
+        </div>
+
+        <form class="chat-input" id="kivoChatForm">
+          <input type="text" id="kivoChatText" placeholder="Escribe tu consulta..." autocomplete="off" />
+          <button type="submit">Enviar</button>
+        </form>
+      </section>
+    </div>
+
+  <script src="./js/hero.js"></script>
+</body>
+</html>

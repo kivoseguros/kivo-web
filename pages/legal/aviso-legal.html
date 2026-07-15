@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviso Legal — KIVO Seguros, S.L.</title>
+  <meta name="description" content="Aviso legal de KIVO Seguros, S.L. Información corporativa, condiciones de uso y normativa aplicable.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--blue:#1B2A4A;--green:#1B4D3E;--green-l:#3DBFA0;--green-bg:#EAF4EE;--gray:#F7F8FA;--border:rgba(27,42,74,0.08)}
+    body{font-family:'Inter',sans-serif;color:var(--blue);background:#fff}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .kv-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .kv-nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .kv-logo{font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-.03em}
+    .kv-logo span{color:var(--green-l)}
+    .kv-nav-links{display:flex;gap:24px}
+    .kv-nav-links a{font-size:13px;font-weight:600;color:rgba(27,42,74,0.65);transition:color .2s}
+    .kv-nav-links a:hover{color:var(--green-l)}
+    .kv-nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:100px;transition:background .2s}
+    .kv-nav-cta:hover{background:var(--green-l)}
+    @media(max-width:700px){.kv-nav-links{display:none}}
+    .kv-hero{background:var(--green-bg);padding:72px 24px 60px;text-align:center}
+    .kv-eyebrow{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--green-l);text-transform:uppercase;margin-bottom:16px}
+    .kv-hero h1{font-size:clamp(26px,5vw,42px);font-weight:900;color:var(--blue);letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+    .kv-hero h1 span{color:var(--green-l)}
+    .kv-hero p{font-size:15px;color:rgba(27,42,74,0.6);max-width:600px;margin:0 auto;line-height:1.6}
+    .kv-section{padding:64px 24px}
+    .kv-section--gray{background:var(--gray)}
+    .kv-section--blue{background:var(--blue);color:#fff}
+    .kv-section--green{background:var(--green-bg)}
+    .kv-wrap{max-width:1100px;margin:0 auto}
+    .kv-wrap--sm{max-width:760px;margin:0 auto}
+    .kv-prose h2{font-size:17px;font-weight:800;margin-bottom:10px;margin-top:28px;color:var(--blue)}
+    .kv-prose h2:first-child{margin-top:0}
+    .kv-prose p{font-size:14px;line-height:1.75;color:rgba(27,42,74,0.72);margin-bottom:10px}
+    .kv-prose ul{padding-left:18px;margin-bottom:10px}
+    .kv-prose li{font-size:14px;line-height:1.7;color:rgba(27,42,74,0.72);margin-bottom:5px}
+    .kv-prose strong{color:var(--blue)}
+    .kv-prose a{color:var(--green-l);font-weight:600}
+    .kv-note{font-size:11px;color:rgba(27,42,74,0.38);margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+    .kv-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(27,42,74,0.06)}
+    .kv-grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .kv-grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .kv-grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .kv-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
+    .kv-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:100px;transition:background .2s}
+    .kv-btn:hover{background:var(--green-l)}
+    .kv-btn--outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+    .kv-btn--outline:hover{background:var(--blue);color:#fff}
+    /* FAQ accordion */
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-item:last-child{border-bottom:none}
+    .faq-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;background:none;border:none;cursor:pointer;text-align:left}
+    .faq-q{font-size:14px;font-weight:600;color:var(--blue);line-height:1.4}
+    .faq-icon{width:16px;height:16px;flex-shrink:0;color:var(--green-l);transition:transform .25s}
+    .faq-icon.open{transform:rotate(180deg)}
+    .faq-body{font-size:13px;line-height:1.7;color:rgba(27,42,74,0.68);padding-bottom:16px;display:none}
+    .faq-body.open{display:block}
+    /* cats */
+    .kv-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+    .kv-cat{padding:8px 18px;border-radius:100px;font-size:13px;font-weight:600;border:1.5px solid var(--border);color:rgba(27,42,74,0.55);background:none;cursor:pointer;transition:all .2s}
+    .kv-cat.active,.kv-cat:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+    /* table */
+    .kv-table{width:100%;border-collapse:collapse;font-size:13px}
+    .kv-table th{background:var(--blue);color:#fff;padding:12px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em}
+    .kv-table th:not(:first-child){text-align:center}
+    .kv-table td{padding:11px 14px;border-top:1px solid var(--border);color:rgba(27,42,74,0.78);text-align:center;font-size:12px}
+    .kv-table td:first-child{text-align:left;font-weight:600;color:var(--blue)}
+    .kv-table tr:nth-child(even){background:rgba(27,42,74,0.02)}
+    .kv-check{color:var(--green-l);font-weight:700}
+    .kv-dash{color:rgba(27,42,74,0.2)}
+    /* blog card */
+    .blog-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 8px rgba(27,42,74,0.05);display:flex;flex-direction:column;transition:box-shadow .2s}
+    .blog-card:hover{box-shadow:0 6px 24px rgba(27,42,74,0.12)}
+    .blog-emoji{font-size:36px;margin-bottom:12px}
+    .blog-cat{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
+    .blog-title{font-size:14px;font-weight:800;color:var(--blue);line-height:1.35;margin-bottom:10px}
+    .blog-excerpt{font-size:13px;color:rgba(27,42,74,0.6);line-height:1.6;flex:1}
+    .blog-meta{margin-top:16px;font-size:11px;color:rgba(27,42,74,0.4);display:flex;justify-content:space-between}
+    /* plan */
+    .plan-cov-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+    .plan-cov-item:last-child{border-bottom:none}
+    .plan-check{color:var(--green-l);font-size:16px;flex-shrink:0;margin-top:1px}
+    .plan-cov-text{font-size:13px;color:rgba(27,42,74,0.75);line-height:1.5}
+    .plan-lim-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .plan-lim-row:last-child{border-bottom:none}
+    .plan-lim-label{color:rgba(27,42,74,0.65)}
+    .plan-lim-val{font-weight:700;color:var(--blue)}
+    .plan-exc-item{display:flex;gap:10px;padding:8px 0;font-size:13px;color:rgba(27,42,74,0.65)}
+    .plan-exc-x{color:#f87171;flex-shrink:0}
+    /* footer */
+    .kv-footer{background:var(--blue);color:rgba(255,255,255,0.6);padding:48px 24px 28px}
+    .kv-footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px 40px}
+    .kv-footer h4{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px}
+    .kv-footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .kv-footer ul a{font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);transition:color .2s}
+    .kv-footer ul a:hover{color:var(--green-l)}
+    .kv-footer-bottom{max-width:1100px;margin:32px auto 0;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;font-size:11px;color:rgba(255,255,255,0.35)}
+  </style>
+</head>
+<body>
+
+<nav class="kv-nav">
+  <div class="kv-nav-inner">
+    <a href="../../index.html" class="kv-logo">KIVO<span>.</span></a>
+    <div class="kv-nav-links">
+      <a href="../../pages/coberturas.html">Coberturas</a>
+      <a href="../../pages/blog.html">Blog</a>
+      <a href="../../pages/sobre-kivo.html">Sobre KIVO</a>
+      <a href="../../pages/faq.html">FAQ</a>
+    </div>
+    <a href="../../index.html#calcular-precio" class="kv-nav-cta">Calcular precio</a>
+  </div>
+</nav>
+
+
+<div class="kv-hero">
+  <div class="kv-eyebrow">LEGAL</div>
+  <h1>Aviso <span>Legal</span></h1>
+  <p>Información corporativa y condiciones de uso del sitio web.</p>
+</div>
+<div class="kv-section">
+  <div class="kv-wrap--sm kv-prose">
+    <h2>1. Datos identificativos</h2>
+    <p>En cumplimiento del artículo 10 de la Ley 34/2002 (LSSI-CE), se informa de los datos del titular del sitio web:</p>
+    <ul>
+      <li><strong>Denominación social:</strong> KIVO SEGUROS, S.L.</li>
+      <li><strong>CIF:</strong> Pendiente de asignación registral</li>
+      <li><strong>Domicilio social:</strong> España</li>
+      <li><strong>Correo electrónico:</strong> <a href="mailto:hola@kivoseguros.com">hola@kivoseguros.com</a></li>
+      <li><strong>Actividad:</strong> Agencia de Suscripción (MGA) de seguros de mascotas</li>
+      <li><strong>Registro DGSFP:</strong> Inscrita en el Registro Especial de Mediadores de Seguros de la DGSFP</li>
+    </ul>
+    <h2>2. Objeto y ámbito de aplicación</h2>
+    <p>El presente Aviso Legal regula el acceso y uso del sitio web <strong>www.kivoseguros.com</strong>. El acceso al sitio implica la aceptación plena de las presentes condiciones.</p>
+    <h2>3. Propiedad intelectual e industrial</h2>
+    <p>Todos los contenidos del sitio — textos, imágenes, logotipos, marcas, diseño y código fuente — son propiedad de KIVO SEGUROS, S.L. o se utilizan bajo licencia. Queda prohibida su reproducción sin autorización expresa.</p>
+    <p>La marca KIVO® está registrada en la OEPM con número <strong>M4384477</strong>.</p>
+    <h2>4. Exclusión de responsabilidad</h2>
+    <p>KIVO SEGUROS, S.L. no se responsabiliza de los daños derivados de la interrupción o mal funcionamiento del sitio por causas ajenas a su control. La información tiene carácter meramente informativo y no constituye asesoramiento vinculante.</p>
+    <h2>5. Legislación aplicable y fuero</h2>
+    <p>El presente Aviso Legal se rige por la legislación española. Para cualquier controversia, las partes se someten a los Juzgados y Tribunales de España.</p>
+    <h2>6. Normativa de distribución de seguros</h2>
+    <p>KIVO SEGUROS, S.L. actúa como Mediador de Seguros autorizado, sujeto al control de la DGSFP, conforme a la Ley 26/2006 de Mediación en Seguros y el Real Decreto 764/2010.</p>
+    <hr class="kv-divider">
+    <p class="kv-note">Última actualización: junio 2026</p>
+  </div>
+</div>
+
+<footer class="kv-footer">
+  <div class="kv-footer-grid">
+    <div>
+      <div style="font-size:20px;font-weight:900;color:#fff;letter-spacing:-.02em;margin-bottom:8px;">KIVO<span style="color:#3DBFA0">.</span></div>
+      <p style="font-size:12px;line-height:1.6;">Agencia de Suscripción (MGA)<br>especializada en seguros de mascotas.</p>
+    </div>
+    <div>
+      <h4>SEGUROS</h4>
+      <ul>
+        <li><a href="../../pages/planes/care.html">KIVO CARE</a></li>
+        <li><a href="../../pages/planes/care-plus.html">KIVO CARE+</a></li>
+        <li><a href="../../pages/planes/premium.html">KIVO PREMIUM</a></li>
+        <li><a href="../../pages/planes/rc.html">KIVO R.C.</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>INFORMACIÓN</h4>
+      <ul>
+        <li><a href="../../pages/coberturas.html">Coberturas</a></li>
+        <li><a href="../../pages/faq.html">FAQ</a></li>
+        <li><a href="../../pages/sobre-kivo.html">Sobre KIVO</a></li>
+        <li><a href="../../pages/blog.html">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>LEGAL</h4>
+      <ul>
+        <li><a href="../../pages/legal/aviso-legal.html">Aviso Legal</a></li>
+        <li><a href="../../pages/legal/privacidad.html">Política de Privacidad</a></li>
+        <li><a href="../../pages/legal/cookies.html">Política de Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="kv-footer-bottom">
+    © 2026 KIVO Seguros para Mascotas, S.L. · Todos los derechos reservados · Marca registrada OEPM M4384477
+  </div>
+</footer>
+
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const body = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const open = body.classList.toggle('open');
+    icon.classList.toggle('open', open);
+  });
+});
+// Blog/FAQ category filter
+document.querySelectorAll('.kv-cat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.closest('[data-filter-group]');
+    if (!group) return;
+    group.querySelectorAll('.kv-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    group.querySelectorAll('[data-cat]').forEach(el => {
+      el.style.display = (cat === 'Todos' || el.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

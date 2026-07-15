@@ -1,0 +1,356 @@
+/* ==========================================================
+   KIVO — SECCIÓN 5
+   s05-blog        → Artículos / Consejos
+   s05-testimonios → Lo que dicen nuestras familias
+========================================================== */
+
+/* =========================================================
+   BLOG / ARTÍCULOS
+========================================================= */
+
+.s05-blog {
+    padding: 64px 40px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.s05-blog-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+}
+
+.s05-blog-header h2 {
+    margin: 0;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 900;
+    color: #1B2A4A;
+    letter-spacing: -0.02em;
+}
+
+.s05-blog-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #1B4D3E;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: gap 0.22s ease;
+}
+
+.s05-blog-link:hover { gap: 10px; }
+
+.s05-blog-link svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+}
+
+/* --- Grid de artículos --- */
+.s05-articles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.s05-article {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(27,42,74,0.08);
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(27,42,74,0.07);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.s05-article:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 44px rgba(27,42,74,0.13);
+}
+
+/* Imagen del artículo */
+.s05-article-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: #e2e8f0; /* placeholder */
+}
+
+/* Imagen placeholder (cuando no hay foto aún) */
+.s05-article-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.s05-article-img-placeholder::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.10);
+}
+
+/* Badge de categoría */
+.s05-article-body {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+}
+
+.s05-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    align-self: flex-start;
+}
+
+.s05-badge--ley      { background: #EDE9FE; color: #5B21B6; }
+.s05-badge--salud    { background: #D1FAE5; color: #065F46; }
+.s05-badge--cuidados { background: #DBEAFE; color: #1D4ED8; }
+.s05-badge--tips     { background: #FEF3C7; color: #92400E; }
+
+.s05-article h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #1B2A4A;
+    line-height: 1.35;
+    flex: 1;
+}
+
+.s05-read-more {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #1B4D3E;
+    text-decoration: none;
+    margin-top: 4px;
+    transition: gap 0.2s ease;
+}
+
+.s05-read-more:hover { gap: 9px; }
+.s05-read-more svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.5; fill: none; }
+
+/* =========================================================
+   TESTIMONIOS
+========================================================= */
+
+.s05-testimonios {
+    padding: 44px 40px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.s05-testimonios-header {
+    text-align: center;
+    margin-bottom: 36px;
+    position: relative;
+}
+
+.s05-testimonios-header h2 {
+    margin: 0;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 950;
+    color: #1B2A4A;
+    letter-spacing: -0.03em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.s05-heart {
+    font-size: 0.75em;
+    color: #F87171;
+}
+
+/* Grid testimonios */
+.s05-reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.s05-review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 28px 24px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid rgba(27,42,74,0.08);
+    box-shadow: 0 6px 24px rgba(27,42,74,0.07);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.s05-review:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(27,42,74,0.12);
+}
+
+/* Destacado (central) */
+.s05-review--featured {
+    border-color: rgba(27,77,62,0.20);
+    box-shadow: 0 10px 36px rgba(27,77,62,0.12);
+}
+
+/* Foto circular */
+.s05-review-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #D1FAE5;
+    display: block;
+    background: #e2e8f0;
+}
+
+/* Avatar placeholder */
+.s05-review-avatar-placeholder {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid #D1FAE5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    flex-shrink: 0;
+}
+
+/* Estrellas */
+.s05-stars {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+}
+
+.s05-stars svg {
+    width: 18px;
+    height: 18px;
+    fill: #F59E0B;
+}
+
+/* Cita */
+.s05-review-quote {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.s05-review-quote::before { content: "\201C"; }
+.s05-review-quote::after  { content: "\201D"; }
+
+/* Autor */
+.s05-review-author {
+    font-size: 14px;
+    font-weight: 900;
+    color: #1B2A4A;
+    margin: 0;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+    .s05-blog, .s05-testimonios { padding-left: 20px; padding-right: 20px; }
+    .s05-articles { grid-template-columns: repeat(2, 1fr); }
+    .s05-reviews  { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+    .s05-articles { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================
+   FOTOS REALES — artículos y testimonios
+========================================================== */
+
+/* Contenedor foto artículo */
+.s05-article-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #E2E8F0;
+}
+
+.s05-article-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.s05-article:hover .s05-article-img img {
+  transform: scale(1.06);
+}
+
+/* Badge sobre la foto */
+.s05-article-img .s05-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Descripción del artículo */
+.s05-article-body p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* Avatar circular testimonios */
+.s05-review-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #E2E8F0;
+  flex-shrink: 0;
+  margin: 0 auto 12px;
+  background: #F1F5F9;
+}
+
+.s05-review-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}

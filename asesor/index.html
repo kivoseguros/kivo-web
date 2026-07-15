@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIVO Asesor — Encuentra tu plan ideal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/asistente.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+<!-- ═══ LANDING ═══ -->
+<section class="s04">
+  <div class="s04-inner">
+
+    <!-- Robot flotante -->
+    <div class="s04-left">
+      <img src="assets/images/kivo_asesor-sin fondo.png" alt="Asesor KIVO" class="s04-robot">
+    </div>
+
+    <!-- Info -->
+    <div class="s04-info-block">
+      <span class="s04-badge">ASESOR KIVO</span>
+      <h2 class="s04-title">Encuentra el plan ideal<br>para tu mascota</h2>
+      <p class="s04-desc">Responde 8 preguntas rápidas y te recomendaremos el seguro perfecto. Sin compromiso, en menos de 2 minutos.</p>
+      <ul class="s04-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          Recomendación personalizada al instante
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          Basado en las necesidades reales de tu mascota
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Disponible 24/7 — sin esperas
+        </li>
+      </ul>
+    </div>
+
+    <!-- CTA card -->
+    <div class="s04-cta-card">
+      <p class="s04-cta-title">¿Qué plan se adapta a ti?</p>
+      <p class="s04-cta-desc">Nuestro asesor analiza tu caso y te da una recomendación clara en 2 minutos.</p>
+      <button class="s04-cta-btn" id="openAsistenteBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Iniciar Asesor KIVO
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ MODAL — Robot izquierda + Quiz derecha ═══ -->
+<div class="s04-modal-overlay" id="s04Modal">
+  <div class="s04-modal-box">
+
+    <!-- Columna izquierda: robot + logo + cerrar -->
+    <div class="s04-modal-left">
+      <div class="s04-modal-robot-wrap">
+        <img src="assets/images/kivo_asesor-sin fondo.png" alt="Asesor KIVO" class="s04-modal-robot">
+      </div>
+      <p class="s04-modal-robot-label">Asesor KIVO</p>
+      <button class="s04-modal-close" id="s04ModalClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        Salir del asesor
+      </button>
+    </div>
+
+    <!-- Columna derecha: quiz -->
+    <div class="s04-modal-right">
+      <div class="asistente" style="padding:0;">
+        <div class="quiz-card" id="quizCard">
+          <div class="quiz-progress-wrap">
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="progressFill"></div>
+            </div>
+            <span class="quiz-progress-label" id="progressLabel">1 / 8</span>
+          </div>
+          <div id="quizPanel">
+            <div class="quiz-content" id="quizContent"></div>
+          </div>
+        </div>
+        <div class="quiz-result" id="resultPanel"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="js/asistente.js"></script>
+<script>
+  var modal   = document.getElementById('s04Modal');
+  var openBtn = document.getElementById('openAsistenteBtn');
+  var closeBtn= document.getElementById('s04ModalClose');
+
+  function openModal()  { modal.classList.add('active');    document.body.style.overflow = 'hidden'; }
+  function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+  // Si viene con #openModal en la URL, abrir automáticamente
+  if (window.location.hash === '#openModal') openModal();
+</script>
+
+</body>
+</html>
