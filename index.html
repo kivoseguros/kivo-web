@@ -5858,18 +5858,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   }
   .bottom-info > div:last-child { border-bottom: 0 !important; }
 
-  /* ── S04 Asistente — forzar 3 columnas con robot visible ── */
-  .s04-inner {
-    grid-template-columns: 280px 1fr 320px !important;
-    gap: 32px !important;
-  }
-  .s04-left {
-    display: flex !important;
-  }
-  .s04-robot {
-    width: 220px !important;
-  }
-
   /* ── ASESOR scroll wrap ── */
   #asesor {
     max-width: 100vw !important;
@@ -6672,19 +6660,19 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <div class="s03-exclusions-footer">
     <span>▣</span>
     Consulta las <strong>condiciones generales</strong> de tu plan para más información sobre exclusiones y limitaciones.
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px">
-<div class="s03-cg-links-wrap" style="position:relative;display:inline-block;max-width:100%;">
-        <div class="s03-cg-links-inner" style="display:flex;gap:12px;">
-          <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;">
+    <div id="cg-links-wrap" style="position:relative;overflow:hidden;width:100%;margin-top:12px;">
+      <div id="cg-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:100%;background:linear-gradient(to left,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:22px;color:#1B4D3E;font-weight:900;">&#x2039;</div>
+      <div id="cg-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;padding-bottom:4px;">
+        <div style="display:flex;gap:12px;padding:2px 2px 2px;">
+          <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">
             📄 CG Accidentes y Enfermedades
           </a>
-          <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;">
+          <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">
             📄 CG Responsabilidad Civil
           </a>
         </div>
-        <div id="cg-hint-left"  style="display:none;position:absolute;left:0;top:0;height:100%;width:40px;background:linear-gradient(to left,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:20px;color:#1B4D3E;font-weight:900;z-index:2;">‹</div>
-        <div id="cg-hint-right" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:20px;color:#1B4D3E;font-weight:900;z-index:2;">›</div>
       </div>
+      <div id="cg-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:100%;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:22px;color:#1B4D3E;font-weight:900;">&#x203a;</div>
     </div>
   </div>
 </section>
@@ -6697,10 +6685,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 <!-- ===== Sección 4 ===== -->
 <!-- ── SECCIÓN COMPACTA ── -->
-<div id="s04-section-wrap" style="position:relative;overflow:hidden;width:100%;">
-  <div id="s04-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
-  <div id="s04-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
-<section class="s04" style="min-width:960px;">
+<section class="s04">
   <div class="s04-inner">
 
     <!-- Logo IA — clic 1: abre el panel -->
@@ -6741,9 +6726,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
   </div>
 </section>
-  </div><!-- /s04-scroll -->
-  <div id="s04-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
-</div><!-- /s04-section-wrap -->
 
 <!-- ── MODAL: robot izquierda + quiz derecha ── -->
 
@@ -8214,24 +8196,6 @@ function kivoSetLang(lang) {
     updS02();
   })();
 
-  // Asistente IA (s04) — hints bilaterales
-  (function(){
-    var sc = document.getElementById('s04-scroll');
-    var hL = document.getElementById('s04-hint-left');
-    var hR = document.getElementById('s04-hint-right');
-    if (!sc || !hL || !hR) return;
-    function updS04() {
-      if (window.innerWidth > 700) { hL.style.display='none'; hR.style.display='none'; return; }
-      var canL = sc.scrollLeft > 4;
-      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
-      hL.style.display = canL ? 'flex' : 'none';
-      hR.style.display = canR ? 'flex' : 'none';
-    }
-    sc.addEventListener('scroll', updS04, {passive:true});
-    window.addEventListener('resize', updS04);
-    updS04();
-  })();
-
   // Asesor — hints bilaterales
   (function(){
     var sc = document.getElementById('asesor-scroll');
@@ -8278,7 +8242,7 @@ function kivoSetLang(lang) {
 
   // Condicionados CG
   setupBilateral(
-    document.querySelector('.s03-cg-links-inner'),
+    document.getElementById('cg-scroll'),
     document.getElementById('cg-hint-left'),
     document.getElementById('cg-hint-right')
   );
