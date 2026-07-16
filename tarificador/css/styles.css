@@ -832,7 +832,6 @@ input,select{font-family:inherit;outline:none;border:none}
 .li-titulo{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:4px}
 .li-desc{font-size:13px;color:rgba(27,42,74,0.6);line-height:1.6}
 .li-check-wrap{flex-shrink:0}
-.li-check{di
 
 /* ── KIVO TARIFICADOR MOBILE — 16 julio 2026 ── */
 @media(max-width:600px){
@@ -892,3 +891,4 @@ input,select{font-family:inherit;outline:none;border:none}
   }
   .especie-tile img { width: 54px !important; height: 54px !important; }
 }
+             
