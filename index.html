@@ -5572,6 +5572,137 @@ body {
 }
 .s05-marquee-track .s05-article svg { display: none !important; }
 
+
+
+/* ── TABLA COMPARATIVA SCROLL MÓVIL — 16 julio 2026 ── */
+.s03-table-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+}
+.s03-table-scroll-wrap .s03-table {
+  min-width: 480px;
+}
+.s03-table-nav {
+  display: none;
+}
+@media (max-width: 600px) {
+  .s03-table-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 10px 0 6px;
+  }
+  .s03-table-btn {
+    background: #1B2A4A;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .s03-table-nav-label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1B2A4A;
+    min-width: 70px;
+    text-align: center;
+  }
+}
+
+/* ── CONDICIONADOS FOOTER MOBILE — 16 julio 2026 ── */
+/* Planes cards: scroll horizontal en móvil */
+.s03-cards-scroll-wrap {
+  position: relative;
+}
+.s03-cards-scroll-wrap .s03-scroll-hint {
+  display: none;
+}
+@media (max-width: 700px) {
+  .s03-cards {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 14px !important;
+    padding-bottom: 12px !important;
+  }
+  .s03-card {
+    flex: 0 0 82vw !important;
+    min-width: 260px !important;
+    scroll-snap-align: start !important;
+  }
+  /* Indicador scroll derecha */
+  .s03-cards-scroll-wrap .s03-scroll-hint {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.92) 40%);
+    width: 48px;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    pointer-events: none;
+    font-size: 22px;
+    color: #1B2A4A;
+    font-weight: 900;
+    transition: opacity 0.3s;
+    z-index: 2;
+  }
+}
+/* Condicionados footer: scroll horizontal */
+@media (max-width: 600px) {
+  .s03-exclusions-footer {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 14px 16px !important;
+    gap: 10px !important;
+  }
+  .s03-cg-links-wrap {
+    position: relative;
+  }
+  .s03-cg-links-inner {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x mandatory !important;
+    display: flex !important;
+    gap: 10px !important;
+    padding-bottom: 4px !important;
+  }
+  .s03-cg-links-inner a {
+    scroll-snap-align: start !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+  .s03-cg-scroll-hint {
+    display: flex !important;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 40px;
+    background: linear-gradient(to right, transparent, rgba(228,238,230,0.95) 50%);
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 4px;
+    pointer-events: none;
+    font-size: 20px;
+    color: #1B4D3E;
+    font-weight: 900;
+  }
+}
+
 /* ── FONDO GLOBAL WEB ─────────────────────────────────── */
 body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !important; }
 
@@ -5912,15 +6043,15 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <script src="./js/hero.js"></script>
 
 <!-- ===== Sección ASESOR ===== -->
-<section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;">
+<section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;position:relative;">
   <iframe
     src="./asesor/index.html"
     id="iframe-asesor"
     title="KIVO Asesor"
-    style="width:100%;border:none;display:block;min-height:390px;"
-    scrolling="no"
-    loading="lazy"
+    style="width:100%;border:none;display:block;height:520px;"
+    scrolling="auto"
   ></iframe>
+  <div id="asesor-scroll-hint" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 50%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">›</div>
 </section>
 
 <!-- ===== Sección 2 ===== -->
@@ -6159,6 +6290,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       <p>Cuatro opciones claras para que puedas elegir la cobertura que mejor se adapta a tus necesidades.</p>
     </header>
 
+    <div class="s03-cards-scroll-wrap">
     <div class="s03-cards">
 
       <article class="s03-card s03-card--care">
@@ -6233,6 +6365,8 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
     </div>
 
+    </div><!-- /s03-cards-scroll-wrap -->
+    <div class="s03-scroll-hint" style="display:none;text-align:center;padding:4px 0 0;font-size:22px;color:#1B2A4A;font-weight:900;" id="s03-cards-hint">›</div>
     <div class="s03-price-cta">
       <button class="s03-price-button" type="button" onclick="kivoAbrirTarif()">▣ Calcular mi precio <span>→</span></button>
     </div>
@@ -6245,6 +6379,13 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </button>
 
       <div class="s03-accordion-panel">
+        <!-- Navegación móvil tabla -->
+        <div class="s03-table-nav" id="s03-table-nav">
+          <button class="s03-table-btn" onclick="kivoTableScroll(-1)" title="Anterior">&#8592;</button>
+          <span class="s03-table-nav-label" id="s03-table-nav-label">CARE</span>
+          <button class="s03-table-btn" onclick="kivoTableScroll(1)" title="Siguiente">&#8594;</button>
+        </div>
+        <div class="s03-table-scroll-wrap" id="s03-table-scroll">
         <table class="s03-table">
           <thead>
             <tr>
@@ -6323,6 +6464,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 </tbody>
         </table>
+        </div><!-- /s03-table-scroll-wrap -->
       </div>
     </div>
  <section class="s03-exclusions">
@@ -6396,12 +6538,17 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     <span>▣</span>
     Consulta las <strong>condiciones generales</strong> de tu plan para más información sobre exclusiones y limitaciones.
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px">
-      <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none">
-        📄 CG Accidentes y Enfermedades
-      </a>
-      <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none">
-        📄 CG Responsabilidad Civil
-      </a>
+<div class="s03-cg-links-wrap" style="position:relative;display:inline-block;max-width:100%;">
+        <div class="s03-cg-links-inner" style="display:flex;gap:12px;">
+          <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;">
+            📄 CG Accidentes y Enfermedades
+          </a>
+          <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;">
+            📄 CG Responsabilidad Civil
+          </a>
+        </div>
+        <div class="s03-cg-scroll-hint" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 50%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:20px;color:#1B4D3E;font-weight:900;">›</div>
+      </div>
     </div>
   </div>
 </section>
@@ -7736,6 +7883,10 @@ window.addEventListener('message', function(e) {
   if (!e.data) return;
   if (e.data.type === 'kivo-fullscreen') { kivoAbrirTarif(e.data.especie); }
   if (e.data.type === 'kivo-tarificador-exit') { kivoSalirTarif(); }
+  if (e.data.type === 'kivo-asesor-height') {
+    var ifrAsesor = document.getElementById('iframe-asesor');
+    if (ifrAsesor && e.data.height > 100) ifrAsesor.style.height = (e.data.height + 20) + 'px';
+  }
   if (e.data.type === 'kivo-asesor-open') { kivoAbrirAsesor(); }
   if (e.data.type === 'kivo-asesor-close') { kivoSalirAsesor(); }
 });
@@ -7807,5 +7958,84 @@ function kivoSetLang(lang) {
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+
+<script>
+/* ── Tabla comparativa scroll móvil ── */
+(function(){
+  var plans = ['CARE', 'CARE+', 'PREMIUM', 'R.C.'];
+  var curPlan = 0;
+  var colOffset = 1; // column index in table (0=Cobertura, 1=CARE, ...)
+
+  function updateTableScroll() {
+    var wrap = document.getElementById('s03-table-scroll');
+    var lbl  = document.getElementById('s03-table-nav-label');
+    if (!wrap) return;
+    var table = wrap.querySelector('.s03-table');
+    if (!table) return;
+    // scroll to the current plan column
+    var th = table.querySelectorAll('th')[curPlan + 1];
+    if (th) {
+      var left = th.offsetLeft - (wrap.clientWidth - th.offsetWidth) / 2;
+      wrap.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+    }
+    if (lbl) lbl.textContent = plans[curPlan];
+  }
+
+  window.kivoTableScroll = function(dir) {
+    curPlan = Math.max(0, Math.min(plans.length - 1, curPlan + dir));
+    updateTableScroll();
+  };
+
+  // Init: only on mobile
+  if (window.innerWidth <= 600) updateTableScroll();
+  window.addEventListener('resize', function(){
+    if (window.innerWidth <= 600) updateTableScroll();
+  });
+})();
+</script>
+
+<script>
+/* ── Indicadores de scroll horizontal — 16 julio 2026 ── */
+(function(){
+  function showHint(el, hintEl) {
+    if (!el || !hintEl) return;
+    function update() {
+      var canScroll = el.scrollWidth > el.clientWidth + 4;
+      var atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 4;
+      hintEl.style.display = (canScroll && !atEnd) ? 'flex' : 'none';
+    }
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  // Plans cards hint
+  var cardsEl = document.querySelector('.s03-cards');
+  var cardsHint = document.getElementById('s03-cards-hint');
+  if (cardsEl && cardsHint) {
+    cardsHint.style.cssText += ';display:none;';
+    showHint(cardsEl, cardsHint);
+    // on mobile show as centered arrow below cards
+    if (window.innerWidth <= 700) cardsHint.style.display = 'block';
+  }
+
+  // CG links hint
+  var cgInner = document.querySelector('.s03-cg-links-inner');
+  var cgHint  = document.querySelector('.s03-cg-scroll-hint');
+  if (cgInner && cgHint) showHint(cgInner, cgHint);
+
+  // Tabla comparativa hint (already handled by table scroll wrap)
+  var tblWrap = document.getElementById('s03-table-scroll');
+  // no separate hint needed — already has scroll wrap
+
+  // Asesor hint — show on mobile if iframe content is wider
+  var asesorHint = document.getElementById('asesor-scroll-hint');
+  if (asesorHint && window.innerWidth <= 700) {
+    asesorHint.style.display = 'flex';
+    // Hide after 4s to not be intrusive
+    setTimeout(function(){ asesorHint.style.display = 'none'; }, 4000);
+  }
+})();
+</script>
 </body>
 </html>
