@@ -5859,16 +5859,18 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   }
   .bottom-info > div:last-child { border-bottom: 0 !important; }
 
-  /* ── ASESOR iframe ── */
+  /* ── ASESOR scroll wrap ── */
   #asesor {
-    overflow: hidden !important;
     max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+  #asesor-scroll {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
   #iframe-asesor {
-    width: 100% !important;
-    max-width: 100vw !important;
-    min-height: 320px !important;
-    overflow: hidden !important;
+    min-width: 720px !important;
+    height: 520px !important;
   }
 
   /* ── S02 ── */
@@ -6157,15 +6159,18 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <script src="./js/hero.js"></script>
 
 <!-- ===== Sección ASESOR ===== -->
-<section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;position:relative;">
-  <iframe
-    src="./asesor/index.html"
-    id="iframe-asesor"
-    title="KIVO Asesor"
-    style="width:100%;border:none;display:block;height:520px;"
-    scrolling="auto"
-  ></iframe>
-  <div id="asesor-scroll-hint" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 50%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">›</div>
+<section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;position:relative;overflow:hidden;">
+  <div id="asesor-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
+  <div id="asesor-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
+    <iframe
+      src="./asesor/index.html"
+      id="iframe-asesor"
+      title="KIVO Asesor"
+      style="min-width:720px;width:100%;border:none;display:block;height:520px;"
+      scrolling="no"
+    ></iframe>
+  </div>
+  <div id="asesor-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
 </section>
 
 <!-- ===== Sección 2 ===== -->
@@ -6676,7 +6681,10 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 <!-- ===== Sección 4 ===== -->
 <!-- ── SECCIÓN COMPACTA ── -->
-<section class="s04">
+<div id="s04-section-wrap" style="position:relative;overflow:hidden;width:100%;">
+  <div id="s04-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
+  <div id="s04-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
+<section class="s04" style="min-width:720px;">
   <div class="s04-inner">
 
     <!-- Logo IA — clic 1: abre el panel -->
@@ -6717,6 +6725,9 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
   </div>
 </section>
+  </div><!-- /s04-scroll -->
+  <div id="s04-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
+</div><!-- /s04-section-wrap -->
 
 <!-- ── MODAL: robot izquierda + quiz derecha ── -->
 
@@ -8004,6 +8015,32 @@ window.addEventListener('message', function(e) {
   }
   if (e.data.type === 'kivo-asesor-open') { kivoAbrirAsesor(); }
   if (e.data.type === 'kivo-asesor-close') { kivoSalirAsesor(); }
+  /* ── Asesor → Tarificador ── */
+  if (e.data.type === 'kivo-from-asesor') {
+    // Cerrar overlay del asesor si estaba abierto en pantalla completa
+    var _asOv = document.getElementById('asesor-overlay');
+    if (_asOv && _asOv.style.display !== 'none') {
+      _asOv.style.display = 'none';
+      var _asFr = document.getElementById('asesor-fs-iframe');
+      if (_asFr) _asFr.src = '';
+    }
+    // Construir URL del tarificador con recomendación del asesor
+    var _plan = e.data.plan;
+    var _rc   = e.data.rc;
+    var _url  = './tarificador/index.html?modo=fullscreen&desde=asesor';
+    if (_plan) _url += '&plan=' + encodeURIComponent(_plan);
+    if (_rc)   _url += '&rc=extra';
+    // Abrir tarificador en fullscreen
+    var _tOv = document.getElementById('tarif-overlay');
+    var _tFr = document.getElementById('tarif-fs-iframe');
+    if (_tOv && _tFr) {
+      _tFr.src = _url;
+      _tFr.setAttribute('data-loaded', '1');
+      _tOv.style.display = 'flex';
+      _tOv.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
 });
 </script>
 
@@ -8143,13 +8180,41 @@ function kivoSetLang(lang) {
   var tblWrap = document.getElementById('s03-table-scroll');
   // no separate hint needed — already has scroll wrap
 
-  // Asesor hint — show on mobile if iframe content is wider
-  var asesorHint = document.getElementById('asesor-scroll-hint');
-  if (asesorHint && window.innerWidth <= 700) {
-    asesorHint.style.display = 'flex';
-    // Hide after 4s to not be intrusive
-    setTimeout(function(){ asesorHint.style.display = 'none'; }, 4000);
-  }
+  // Asistente IA (s04) — hints bilaterales
+  (function(){
+    var sc = document.getElementById('s04-scroll');
+    var hL = document.getElementById('s04-hint-left');
+    var hR = document.getElementById('s04-hint-right');
+    if (!sc || !hL || !hR) return;
+    function updS04() {
+      if (window.innerWidth > 700) { hL.style.display='none'; hR.style.display='none'; return; }
+      var canL = sc.scrollLeft > 4;
+      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
+      hL.style.display = canL ? 'flex' : 'none';
+      hR.style.display = canR ? 'flex' : 'none';
+    }
+    sc.addEventListener('scroll', updS04, {passive:true});
+    window.addEventListener('resize', updS04);
+    updS04();
+  })();
+
+  // Asesor — hints bilaterales
+  (function(){
+    var sc = document.getElementById('asesor-scroll');
+    var hL = document.getElementById('asesor-hint-left');
+    var hR = document.getElementById('asesor-hint-right');
+    if (!sc || !hL || !hR) return;
+    function updAsesor() {
+      if (window.innerWidth > 700) { hL.style.display='none'; hR.style.display='none'; return; }
+      var canL = sc.scrollLeft > 4;
+      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
+      hL.style.display = canL ? 'flex' : 'none';
+      hR.style.display = canR ? 'flex' : 'none';
+    }
+    sc.addEventListener('scroll', updAsesor, {passive:true});
+    window.addEventListener('resize', updAsesor);
+    updAsesor();
+  })();
 })();
 </script>
 
