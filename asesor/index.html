@@ -99,16 +99,31 @@
   var openBtn = document.getElementById('openAsistenteBtn');
   var closeBtn= document.getElementById('s04ModalClose');
 
-  function openModal()  { modal.classList.add('active');    document.body.style.overflow = 'hidden'; }
-  function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+  function openModal() {
+    // Si estamos dentro de un iframe, avisamos al padre para que abra fullscreen
+    if (window.self !== window.top) {
+      try { window.parent.postMessage({ type: 'kivo-asesor-open' }, '*'); } catch(e) {}
+      return;
+    }
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    try { window.parent.postMessage({ type: 'kivo-asesor-close' }, '*'); } catch(e) {}
+  }
 
   openBtn.addEventListener('click', openModal);
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-  // Si viene con #openModal en la URL, abrir automáticamente
-  if (window.location.hash === '#openModal') openModal();
+  // Si viene con #openModal en la URL, abrir automáticamente (modo fullscreen overlay)
+  if (window.location.hash === '#openModal') {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 </script>
 
 </body>

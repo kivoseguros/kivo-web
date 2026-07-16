@@ -183,9 +183,13 @@ input,select{font-family:inherit;outline:none;border:none}
 .field-msg.ok{color:#3DBFA0}
 
 /* CTA BUTTON */
-.btn-cta{width:100%;padding:18px;border-radius:16px;background:var(--navy);color:#fff;font-size:16px;font-weight:800;letter-spacing:-.01em;transition:all .2s;margin-top:28px;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-cta:hover:not(:disabled){background:var(--green);transform:translateY(-1px);box-shadow:0 8px 24px rgba(27,42,74,0.2)}
+.btn-cta{width:100%;padding:18px;border-radius:16px;background:var(--navy);color:#fff;font-size:16px;font-weight:800;letter-spacing:-.01em;transition:background .3s ease,transform .2s,box-shadow .2s;margin-top:28px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-cta:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(27,42,74,0.2)}
 .btn-cta:disabled{opacity:.38;cursor:not-allowed}
+/* S0 — Calcular mi precio: verde al activar, azul al pulsar */
+#s0-btn-cta:not(:disabled){background:#3DBFA0}
+#s0-btn-cta:not(:disabled):hover{background:#35a98e}
+#s0-btn-cta.clicking{background:#1B2A4A !important;transition:background .1s ease !important}
 
 /* OPT TILES */
 .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
@@ -506,8 +510,8 @@ input,select{font-family:inherit;outline:none;border:none}
   cursor: pointer; transition: all .2s; min-width: 160px;
 }
 .especie-tile img { width: 72px; height: 72px; }
-.especie-tile:hover { border-color: #3DBFA0; background: rgba(61,191,160,0.05); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(61,191,160,0.15); }
-.especie-tile.sel { border-color: #3DBFA0; background: rgba(61,191,160,0.10); box-shadow: 0 4px 16px rgba(61,191,160,0.20); }
+.especie-tile:hover { border-color: #3DBFA0; border-width: 3px; background: rgba(61,191,160,0.07); transform: translateY(-4px); box-shadow: 0 0 0 4px rgba(61,191,160,0.18), 0 12px 32px rgba(61,191,160,0.25); }
+.especie-tile.sel { border-color: #3DBFA0; border-width: 3px; background: rgba(61,191,160,0.12); box-shadow: 0 0 0 4px rgba(61,191,160,0.22), 0 8px 24px rgba(61,191,160,0.25); }
 .s1-multimascota {
   font-size: 0.82rem; color: #888; text-align: center;
   margin: 4px 0 16px; padding: 8px 12px;

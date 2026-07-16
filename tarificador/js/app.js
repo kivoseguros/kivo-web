@@ -1,14 +1,29 @@
 
-/* ── INIT: mostrar s0 (selector mascota) en iframe embebido ── */
-(function() {
+/* ── INIT ── (corre tras DOMContentLoaded para que STEPS ya esté definido) */
+window.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.screen, .cscreen').forEach(function(el) {
     el.style.display = 'none';
   });
-  var s0 = document.getElementById('s0');
-  if (s0) s0.style.display = 'flex';
-  // Altura compact para la vista embebida
-  try { window.parent.postMessage({ type: 'kivo-iframe-height', height: 480 }, '*'); } catch(e) {}
-})();
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('modo') === 'fullscreen') {
+    // Fullscreen: mostrar botón salir, ir directo al flow
+    var salirBtn = document.getElementById('kivo-btn-salir-fixed');
+    if (salirBtn) salirBtn.style.display = 'flex';
+    var esp = params.get('especie');
+    if (esp) {
+      selectEspecie(esp);
+      showScreen('fw');
+      showStep(1);
+    } else {
+      showFW();
+    }
+  } else {
+    // Preview: mostrar solo portal de paso (s0)
+    var s0 = document.getElementById('s0');
+    if (s0) s0.style.display = 'flex';
+    try { window.parent.postMessage({ type: 'kivo-iframe-height', height: 480 }, '*'); } catch(e) {}
+  }
+});
 
 /* ── S0: selección de especie en la vista embebida ── */
 var _s0Especie = null;
@@ -21,7 +36,13 @@ function s0SelectEspecie(esp) {
 
 /* ── FULLSCREEN: expandir iframe a pantalla completa ── */
 function goFullscreen() {
-  try { window.parent.postMessage({ type: 'kivo-fullscreen', active: true }, '*'); } catch(e) {}
+  // Flash azul al pulsar antes de abrir
+  var btn = document.getElementById('s0-btn-cta');
+  if (btn) {
+    btn.classList.add('clicking');
+    setTimeout(function() { btn.classList.remove('clicking'); }, 200);
+  }
+  try { window.parent.postMessage({ type: 'kivo-fullscreen', especie: _s0Especie }, '*'); } catch(e) {}
   setTimeout(function() {
     if (_s0Especie) {
       selectEspecie(_s0Especie);
@@ -458,6 +479,12 @@ function showStep(n) {
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
   if (btnBack) btnBack.style.visibility = (n === 1) ? 'hidden' : 'visible';
+  // Botón Salir: solo visible en paso 1, solo si estamos en modo fullscreen
+  var salirBtn = document.getElementById('kivo-btn-salir-fixed');
+  if (salirBtn) {
+    var _isFS = new URLSearchParams(window.location.search).get('modo') === 'fullscreen';
+    salirBtn.style.display = (_isFS && n === 1) ? 'flex' : 'none';
+  }
   if (n === 5) setupStep4b();
   if (n === 6) populateMascotaResumen();
   window.scrollTo(0, 0);

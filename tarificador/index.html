@@ -9,6 +9,18 @@
 </head>
 <body>
 
+<!-- ══ BOTÓN SALIR FIJO — siempre visible en fullscreen ══ -->
+<button id="kivo-btn-salir-fixed" onclick="try{window.parent.postMessage({type:'kivo-tarificador-exit'},'*')}catch(e){}" style="display:none;position:fixed;top:16px;right:20px;z-index:99999;align-items:center;gap:7px;padding:10px 20px;background:rgba(27,42,74,0.85);border:1.5px solid rgba(255,255,255,0.25);border-radius:50px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;backdrop-filter:blur(6px);transition:background .2s;">
+  <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l11 11M12 1L1 12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+  Salir
+</button>
+<script>
+if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
+  var b=document.getElementById('kivo-btn-salir-fixed');
+  if(b) b.style.display='flex';
+}
+</script>
+
 <!-- Referencias logos para JS (ocultas) -->
 <div style="display:none">
   <img id="ref-logo-care"     src="assets/images/care.png">
