@@ -5703,6 +5703,82 @@ body {
   }
 }
 
+
+
+/* ── HERO APP DOWNLOAD BADGES — 16 julio 2026 ── */
+.hero-app-download {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  justify-self: end;
+  align-self: center;
+}
+.hero-app-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(27,42,74,0.55);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.hero-app-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.hero-app-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1B2A4A;
+  color: #fff;
+  border-radius: 10px;
+  padding: 7px 12px;
+  text-decoration: none;
+  transition: background .2s, transform .2s;
+  white-space: nowrap;
+}
+.hero-app-badge:hover {
+  background: #0f1c33;
+  transform: translateY(-2px);
+}
+.hero-app-badge-sub {
+  display: block;
+  font-size: 9px;
+  font-weight: 500;
+  opacity: .75;
+  line-height: 1.1;
+}
+.hero-app-badge-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+@media (max-width: 900px) {
+  .hero-app-download { display: none; }
+}
+
+/* ── BOTTOM-INFO SCROLL MÓVIL — 16 julio 2026 ── */
+@media (max-width: 600px) {
+  .bottom-info-scroll-inner { overflow-x: auto !important; }
+  .bottom-info {
+    grid-template-columns: repeat(4, 72vw) !important;
+    width: max-content !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 8px !important;
+  }
+  .bottom-info > div {
+    scroll-snap-align: start;
+    border-right: 1px solid #E1E8EA !important;
+    border-bottom: 0 !important;
+    min-width: 70vw;
+  }
+}
+
 /* ── FONDO GLOBAL WEB ─────────────────────────────────── */
 body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !important; }
 
@@ -5904,6 +5980,36 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <button class="hero-lang-btn notranslate" data-lang="de" onclick="kivoSetLang('de')" translate="no">DE</button>
         </div>
       </nav>
+
+      <!-- App download — top right -->
+      <div class="hero-app-download">
+        <span class="hero-app-label">Descarga la app de KIVO</span>
+        <div class="hero-app-badges">
+          <!-- Google Play -->
+          <a href="#" class="hero-app-badge" aria-label="Descargar en Google Play">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.18 1.6C2.8 1.82 2.5 2.28 2.5 2.9v18.2c0 .62.3 1.08.68 1.3l.1.06 10.2-10.2v-.24L3.28 1.54l-.1.06z" fill="#EA4335"/>
+              <path d="M16.9 15.7l-3.42-3.42v-.24l3.42-3.42.08.04 4.05 2.3c1.16.66 1.16 1.74 0 2.4l-4.05 2.3-.08.04z" fill="#FBBC04"/>
+              <path d="M16.98 15.66L13.48 12 3.18 22.3c.38.4.98.45 1.66.07l12.14-6.71" fill="#34A853"/>
+              <path d="M16.98 8.34L4.84 1.63C4.16 1.25 3.56 1.3 3.18 1.7L13.48 12l3.5-3.66z" fill="#EA4335"/>
+            </svg>
+            <div>
+              <span class="hero-app-badge-sub">Disponible en</span>
+              <span class="hero-app-badge-name">Google Play</span>
+            </div>
+          </a>
+          <!-- App Store -->
+          <a href="#" class="hero-app-badge" aria-label="Descargar en App Store">
+            <svg width="16" height="18" viewBox="0 0 814 1000" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-156.9-111.8C113 330.5 44.8 199.4 44.8 176.9c0-48.8 37.4-59.9 68.2-59.9 29.7 0 65.4 9.7 96.5 9.7 30.5 0 69-9.7 97.3-9.7 46.2 0 91.7 23.2 121.6 73.5h2c-17.4-75.7-19.9-101.1-19.9-118.9 0-5.5 4.2-7.9 9.8-7.9 9.4 0 91.2 21 91.2 93.4 0 49.4-36.7 86-36.7 122 0 35.1 20.7 62.1 57.9 62.1 37.6 0 92.7-40.6 92.7-116.7 0-54.5-32.2-107.5-80-107.5-3.6 0-7.1.2-10.6.6C683.9 100 788.1 130.8 788.1 340.9z"/>
+            </svg>
+            <div>
+              <span class="hero-app-badge-sub">Disponible en</span>
+              <span class="hero-app-badge-name">App Store</span>
+            </div>
+          </a>
+        </div>
+      </div>
     </header>
 
     <main class="hero-grid">
@@ -5986,6 +6092,8 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </div>
     </div>
 
+    <div class="bottom-info-scroll-wrap" style="position:relative;overflow:hidden;">
+      <div class="bottom-info-scroll-inner" id="bi-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;">
     <aside class="bottom-info">
       <div>
         <span>✣</span>
@@ -6004,6 +6112,11 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         <p><strong>Y te damos</strong> el precio al instante.</p>
       </div>
     </aside>
+      </div><!-- /bi-scroll -->
+      <!-- Indicadores scroll móvil -->
+      <div id="bi-hint-left"  style="display:none;position:absolute;left:0;top:0;height:100%;width:40px;background:linear-gradient(to left,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:22px;color:#1B2A4A;font-weight:900;z-index:3;">‹</div>
+      <div id="bi-hint-right" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:22px;color:#1B2A4A;font-weight:900;z-index:3;">›</div>
+    </div><!-- /bottom-info-scroll-wrap -->
 
     <div class="privacy">🔒 Tus datos están protegidos y no serán compartidos.</div>
   </section>
@@ -6547,7 +6660,8 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
             📄 CG Responsabilidad Civil
           </a>
         </div>
-        <div class="s03-cg-scroll-hint" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 50%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:20px;color:#1B4D3E;font-weight:900;">›</div>
+        <div id="cg-hint-left"  style="display:none;position:absolute;left:0;top:0;height:100%;width:40px;background:linear-gradient(to left,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:20px;color:#1B4D3E;font-weight:900;z-index:2;">‹</div>
+        <div id="cg-hint-right" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:20px;color:#1B4D3E;font-weight:900;z-index:2;">›</div>
       </div>
     </div>
   </div>
@@ -8035,6 +8149,42 @@ function kivoSetLang(lang) {
     // Hide after 4s to not be intrusive
     setTimeout(function(){ asesorHint.style.display = 'none'; }, 4000);
   }
+})();
+</script>
+
+<script>
+/* ── Scroll hints bilaterales — 16 julio 2026 ── */
+(function(){
+  function setupBilateral(scrollEl, leftHint, rightHint) {
+    if (!scrollEl) return;
+    function update() {
+      var atStart = scrollEl.scrollLeft <= 4;
+      var atEnd   = scrollEl.scrollLeft >= scrollEl.scrollWidth - scrollEl.clientWidth - 4;
+      var canScroll = scrollEl.scrollWidth > scrollEl.clientWidth + 4;
+      if (leftHint)  leftHint.style.display  = (!atStart && canScroll) ? 'flex' : 'none';
+      if (rightHint) rightHint.style.display = (!atEnd   && canScroll) ? 'flex' : 'none';
+    }
+    update();
+    scrollEl.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  // Bottom-info
+  setupBilateral(
+    document.getElementById('bi-scroll'),
+    document.getElementById('bi-hint-left'),
+    document.getElementById('bi-hint-right')
+  );
+
+  // Condicionados CG
+  setupBilateral(
+    document.querySelector('.s03-cg-links-inner'),
+    document.getElementById('cg-hint-left'),
+    document.getElementById('cg-hint-right')
+  );
+
+  // Tabla comparativa — ya tiene wrap con overflow-x:auto
+  // El hint derecho del s03-table-scroll (del JS anterior) ya funciona
 })();
 </script>
 </body>
