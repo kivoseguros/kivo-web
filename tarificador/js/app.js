@@ -731,10 +731,10 @@ function selectPeso(p, el) {
 
 function buildBreeds(filter) {
   var breeds = BREEDS[S.especie] || [];
-  var f = filter.toLowerCase();
+  var f = (filter || '').toLowerCase();
   var list = f ? breeds.filter(function(b) { return b.toLowerCase().indexOf(f) >= 0; }) : breeds;
   var el = document.getElementById('breed-list');
-  el.innerHTML = '';
+  if (!el) return;
   list.forEach(function(b) {
     var d = document.createElement('div');
     d.className = 'bitem';
@@ -2411,5 +2411,4 @@ function toggleSc4Cov(id, btn) {
   el.style.display = open ? 'none' : 'block';
   if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
   var span = btn ? btn.querySelector('span') : null;
-  if (span) span.textContent = open ? 'Ver coberturas incluidas' : 'Ocultar coberturas';
-}
+  if (span) span.textContent = open ? 'Ver coberturas incluidas' : 'Ocultar cobertura
