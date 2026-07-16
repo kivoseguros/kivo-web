@@ -478,7 +478,7 @@ function showStep(n) {
   curStep = n;
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
-  if (btnBack) btnBack.style.visibility = (n === 1) ? 'hidden' : 'visible';
+  if (btnBack) btnBack.style.display = (n === 1) ? 'none' : '';
   // Botón Salir: solo visible en paso 1, solo si estamos en modo fullscreen
   var salirBtn = document.getElementById('kivo-btn-salir-fixed');
   if (salirBtn) {
