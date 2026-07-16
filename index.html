@@ -151,10 +151,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
 }
 .hero-title span { color: var(--green); }
 .hero-text { max-width: 410px; margin: 0 0 34px; font-size: 18px; line-height: 1.55; font-weight: 560; }
-.hero-benefits { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 10px 18px; margin-bottom: 38px; max-width: 100%; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px); border: 1px solid rgba(220,232,228,0.80); border-radius: 16px; padding: 14px 20px; box-shadow: 0 6px 28px rgba(27,42,74,0.10); }
-.hero-benefit { display: flex; align-items: center; gap: 9px; font-size: 12px; line-height: 1.25; font-weight: 560; flex: 0 0 auto; }
-.benefit-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: rgba(61,191,160,0.10); color: var(--green); }
-.benefit-icon svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.15; fill: none; }
+
 .social-proof { display: flex; align-items: center; gap: 15px; }
 .avatar-stack { display: flex; }
 .avatar-stack i { width: 42px; height: 42px; border-radius: 50%; margin-left: -10px; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(27,42,74,.10); background: linear-gradient(135deg, #f2c7a6, #8b5b42); }
@@ -314,7 +311,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   .hero-grid { grid-template-columns: 1fr; }
   .hero-title { font-size: 48px; }
   .hero-text { font-size: 18px; }
-  .hero-benefits { gap: 18px; }
+  
   .two { grid-template-columns: 1fr; }
   .bottom-info { grid-template-columns: 1fr; gap: 10px; }
   .bottom-info > div { border-right:0; border-bottom:1px solid #E1E8EA; padding-bottom:10px; }
@@ -432,7 +429,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   .hero-grid{ grid-template-columns:minmax(350px,390px) minmax(300px,340px) minmax(525px,1fr) !important; column-gap:14px !important; }
   .hero-title{ font-size:52px !important; }
   .hero-text{ font-size:17px !important; }
-  .hero-benefits{ gap: 16px !important; }
+  
   .pets-image{ width:330px !important; max-height:570px !important; }
   .green-heart-line{ width:380px !important; left:-40px !important; top:20px !important; }
   .advisor-area{ padding-right:136px !important; }
@@ -511,10 +508,6 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
 }
 .hero-text{
   max-width: 520px !important;
-}
-.hero-benefits{
-  max-width: 520px !important;
-  gap: 20px 30px !important;
 }
 
 .pets-area,
@@ -649,7 +642,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   .hero-grid{ margin-top: 22px !important; }
   .hero-title{ font-size: 43px !important; letter-spacing: -1.8px !important; }
   .hero-text{ font-size: 16px !important; }
-  .hero-benefits{ gap: 14px !important; }
+  
   .advisor-card{ padding: 22px 18px !important; }
   .advisor-head{ grid-template-columns: 56px 1fr !important; gap: 12px !important; }
   .brain-icon{ width: 54px !important; height: 54px !important; }
@@ -666,7 +659,6 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   }
   .bottom-info > div:last-child{ border-bottom: 0 !important; }
 }
-
 
 /* AJUSTE PEDIDO: Asistente KIVO integrado en el menú, junto a Ayuda */
 .hero-nav .nav-assistant{
@@ -734,7 +726,6 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   .bottom-info p{ font-size: 17px !important; }
   .bottom-info strong{ font-size: 21px !important; }
 }
-
 
 /* =========================================================
    AJUSTE FINAL: KIVO IA en menú, modal chat y franja inferior
@@ -954,7 +945,6 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   .chat-modal{ border-radius: 22px; }
 }
 
-
 /* =========================================================
    AJUSTE IA FLOTANTE ARRIBA DERECHA - SOLO ICONO GRANDE
    ========================================================= */
@@ -1070,68 +1060,26 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
 /* =========================================================
    AJUSTE SOLICITADO: beneficios más grandes + bloque familias más bajo
    ========================================================= */
-.hero-benefits{
-  gap: 22px 30px !important;
-  margin-bottom: 44px !important;
-  max-width: 520px !important;
-}
-.hero-benefit{
-  font-size: 17px !important;
-  line-height: 1.18 !important;
-  gap: 15px !important;
-}
-.benefit-icon{
-  width: 62px !important;
-  height: 62px !important;
-  border-radius: 17px !important;
-}
-.benefit-icon svg{
-  width: 35px !important;
-  height: 35px !important;
-  stroke-width: 2.25 !important;
-}
+
 .social-proof{
   margin-top: 54px !important;
 }
 
 @media (max-width: 1100px){
-  .hero-benefits{
-    gap: 18px 22px !important;
-    margin-bottom: 36px !important;
-  }
-  .hero-benefit{
-    font-size: 15.5px !important;
-  }
-  .benefit-icon{
-    width: 56px !important;
-    height: 56px !important;
-  }
-  .benefit-icon svg{
-    width: 31px !important;
-    height: 31px !important;
-  }
+  
+  
+  
+  
   .social-proof{
     margin-top: 42px !important;
   }
 }
 
 @media (max-width: 760px){
-  .hero-benefits{
-    max-width: 100% !important;
-    gap: 14px !important;
-    margin-bottom: 28px !important;
-  }
-  .hero-benefit{
-    font-size: 14px !important;
-  }
-  .benefit-icon{
-    width: 50px !important;
-    height: 50px !important;
-  }
-  .benefit-icon svg{
-    width: 28px !important;
-    height: 28px !important;
-  }
+  
+  
+  
+  
   .social-proof{
     margin-top: 32px !important;
   }
@@ -2402,7 +2350,6 @@ body {
 }
 .s03-finger-icon { font-size: 34px; display: block; }
 
-
 .s03-exclusion-icon {
     width: 68px;
     height: 68px;
@@ -2682,9 +2629,6 @@ body {
     }
 
 }
-
-
-
 
 /* ─────────────────────────────────────────────────────
    ASISTENTE KIVO — 2 columnas inline en S03
@@ -4083,7 +4027,6 @@ body { font-family: var(--font); background: #fff; color: var(--blue); }
   margin-top: 48px;
 }
 
-
 /* ─────────────────────────────────────────
    STRIP DESCARGA APP
 ───────────────────────────────────────── */
@@ -4172,7 +4115,6 @@ body { font-family: var(--font); background: #fff; color: var(--blue); }
   font-weight: 700;
   line-height: 1.4;
 }
-
 
 /* ─────────────────────────────────────────
    RESPONSIVE
@@ -4442,7 +4384,6 @@ body { font-family: var(--font); }
   .s07-col { flex: 0 0 100%; }
   .s07-bottom { padding: 16px 24px; }
 }
-
 
 /* Asistente/css/asistente.css */
 /* ==========================================================
@@ -5454,7 +5395,6 @@ body {
   color: var(--blue);
 }
 
-
 /* Modal Asesor */
 .s04-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.6);backdrop-filter:blur(5px);z-index:9999;align-items:center;justify-content:center;padding:20px}
 .s04-modal-overlay.active{display:flex}
@@ -5467,11 +5407,6 @@ body {
 .s04-modal-right{background:#fff;overflow-y:auto;min-height:0}
 .s04-modal-right .quiz-card{box-shadow:none;border:none;border-radius:0;padding:28px;max-width:none;margin:0}
 @media(max-width:640px){.s04-modal-box{grid-template-columns:1fr}.s04-modal-left{min-height:80px;flex-direction:row}.s04-modal-robot{width:60px}}
-
-
-
-
-
 
 /* ══ KIVO Color Cycle 15-07-2026 ══ */
 @property --cycle-color { syntax: '<color>'; inherits: true; initial-value: #3DBFA0; }
@@ -5497,7 +5432,7 @@ body {
 #portal-btn-cta:not(:disabled):hover { filter:brightness(1.08);transform:translateY(-1px); }
 .plan-badge        { background: var(--cycle-color) !important; transition: background 1.4s ease !important; }
 .s05-article       { border: 2px solid var(--cycle-color) !important; transition: border-color 1.4s ease !important; }
-.benefit-icon      { color: var(--cycle-color) !important; background: color-mix(in srgb, var(--cycle-color) 12%, white) !important; transition: color 1.4s ease, background 1.4s ease !important; }
+
 .s02__icon-bubble  { border: 2px solid var(--cycle-color) !important; transition: border-color 1.4s ease !important; }
 .s02__card         { border-color: var(--cycle-color) !important; transition: border-color 1.4s ease !important; }
 .s02__more .s02__card { border-color: var(--cycle-color) !important; transition: border-color 1.4s ease !important; }
@@ -5505,11 +5440,6 @@ body {
 .s02__help-btn     { background: var(--cycle-color) !important; transition: background 1.4s ease !important; }
 
 /* ══ Benefits bar — fila centrada full-width bajo el hero ══ */
-.hero-benefits-bar { width: 100%; background: transparent; padding: 18px 24px 22px; display: flex; justify-content: center; }
-.benefit-icon { width: 48px !important; height: 48px !important; border-radius: 50% !important; }
-.benefit-icon svg { width: 24px !important; height: 24px !important; }
-.hero-benefits { display: flex !important; flex-wrap: nowrap !important; align-items: center !important; justify-content: center !important; gap: 32px !important; margin: 0 !important; max-width: 1000px !important; width: 100% !important; background: transparent !important; backdrop-filter: none !important; border: none !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
-.hero-benefit { font-size: 14px !important; font-weight: 800 !important; gap: 12px !important; white-space: nowrap !important; color: #1B2A4A !important; }
 
 /* ══ Plan cards flotantes ══ */
 @keyframes kivo-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
@@ -5679,31 +5609,31 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </main>
 
     <!-- ══ BENEFITS BAR — fila centrada full-width ══ -->
-    <div class="hero-benefits-bar">
-      <div class="hero-benefits">
-        <div class="hero-benefit">
-          <div class="benefit-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/></svg>
+    <div class="hero-benefits-bar" style="width:100%;background:transparent;padding:0 24px 8px;display:flex;justify-content:center;">
+      <div class="hero-benefits" style="display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:100%!important;max-width:1000px!important;margin:0!important;background:none!important;border:none!important;box-shadow:none!important;padding:0!important;border-radius:0!important;backdrop-filter:none!important;gap:0!important;">
+        <div class="hero-benefit" style="display:flex!important;align-items:center!important;gap:11px!important;padding:0 16px!important;min-height:56px!important;border-right:1px solid #E1E8EA!important;font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;white-space:nowrap!important;">
+          <div style="width:34px!important;height:34px!important;border-radius:50%!important;background:rgba(61,191,160,0.12)!important;display:grid!important;place-items:center!important;flex-shrink:0!important;">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/></svg>
           </div>
-          <strong>Sin letra pequeña.</strong>
+          <strong style="font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;">Sin letra pequeña.</strong>
         </div>
-        <div class="hero-benefit">
-          <div class="benefit-icon">
-            <svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7Z"/></svg>
+        <div class="hero-benefit" style="display:flex!important;align-items:center!important;gap:11px!important;padding:0 16px!important;min-height:56px!important;border-right:1px solid #E1E8EA!important;font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;white-space:nowrap!important;">
+          <div style="width:34px!important;height:34px!important;border-radius:50%!important;background:rgba(61,191,160,0.12)!important;display:grid!important;place-items:center!important;flex-shrink:0!important;">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7Z"/></svg>
           </div>
-          <strong>Reembolso en 24/48h.</strong>
+          <strong style="font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;">Reembolso en 24/48h.</strong>
         </div>
-        <div class="hero-benefit">
-          <div class="benefit-icon">
-            <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M4 20c1-4 7-4 8 0M12 20c1-4 7-4 8 0"/></svg>
+        <div class="hero-benefit" style="display:flex!important;align-items:center!important;gap:11px!important;padding:0 16px!important;min-height:56px!important;border-right:1px solid #E1E8EA!important;font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;white-space:nowrap!important;">
+          <div style="width:34px!important;height:34px!important;border-radius:50%!important;background:rgba(61,191,160,0.12)!important;display:grid!important;place-items:center!important;flex-shrink:0!important;">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M4 20c1-4 7-4 8 0M12 20c1-4 7-4 8 0"/></svg>
           </div>
-          <strong>Sin complicaciones.</strong>
+          <strong style="font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;">Sin complicaciones.</strong>
         </div>
-        <div class="hero-benefit">
-          <div class="benefit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>
+        <div class="hero-benefit" style="display:flex!important;align-items:center!important;gap:11px!important;padding:0 16px!important;min-height:56px!important;border-right:none!important;font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;white-space:nowrap!important;">
+          <div style="width:34px!important;height:34px!important;border-radius:50%!important;background:rgba(61,191,160,0.12)!important;display:grid!important;place-items:center!important;flex-shrink:0!important;">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/><circle cx="12" cy="16" r="1" fill="#3DBFA0" stroke="none"/></svg>
           </div>
-          <strong>Con asistente IA y asesor KIVO.</strong>
+          <strong style="font-size:14px!important;font-weight:700!important;color:#1B2A4A!important;">Asesor IA KIVO.</strong>
         </div>
       </div>
     </div>
@@ -7412,253 +7342,4 @@ document.addEventListener('DOMContentLoaded',function(){
   if(stickyBtn) stickyBtn.addEventListener('click',openAsesor);
   var closeBtn=document.getElementById('s04ModalClose');
   if(closeBtn) closeBtn.addEventListener('click',closeAsesor);
-  if(modal) modal.addEventListener('click',function(e){if(e.target===modal)closeAsesor();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAsesor();});
-});
-</script>
-
-<script>
-/* ═══ KIVO IA — JS ═══ */
-var IA_RESP = [
-  'KIVO tiene tres planes de salud: CARE (80% reembolso, límite 3.500 €/año), CARE+ (90%, límite 4.000 €/año) y PREMIUM (100% sin copago, límite 5.000 €/año). También puedes añadir R.C. a cualquier plan o contratarlo solo.',
-  'Puedes consultar más detalles en kivo.es o contactarnos por WhatsApp.',
-  'Estamos aquí para ayudarte. Escríbenos por WhatsApp o a hola@kivoseguros.com.',
-  'El plan R.C. cubre hasta 300.000 € por daños a terceros causados por tu mascota. Incluye gastos de defensa jurídica. Puedes contratarlo solo o añadirlo a un plan de salud por solo 8,90 €/mes.',
-  'El período de carencia en KIVO es de 5 días para accidentes y 28 días para enfermedades.',
-  'Para solicitar un reembolso, accede a la app de KIVO y sube la factura del veterinario. Te reembolsamos en menos de 5 días hábiles.',
-  'Puedes contratar en menos de 2 minutos: elige tu plan, rellena tus datos y confirma el pago.',
-  'Puedes pagar mensualmente o de forma anual. Con el pago anual obtienes un 15% de descuento.'
-];
-var iaOpen = false;
-function toggleIA() {
-  iaOpen = !iaOpen;
-  var box = document.getElementById('ia-panel');
-  if (!box) return;
-  box.classList.toggle('open', iaOpen);
-  if (iaOpen) { box.classList.remove('expanded'); var icon = document.getElementById('ia-expand-icon'); if (icon) icon.innerHTML = '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-}
-function sendIA() {
-  var inp = document.getElementById('ia-input');
-  if (!inp) return;
-  var q = (inp.value || '').trim();
-  if (!q) return;
-  inp.value = '';
-  _iaAddMsg(q, 'user');
-  setTimeout(function() { _iaAddMsg(_iaMatch(q), 'bot'); }, 400);
-}
-function _iaAddMsg(text, role) {
-  var log = document.getElementById('ia-msgs');
-  if (!log) return;
-  var div = document.createElement('div');
-  div.className = 'ia-' + role;
-  div.textContent = text;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
-}
-function toggleIAExpand() {
-  var panel = document.getElementById('ia-panel');
-  var icon = document.getElementById('ia-expand-icon');
-  if (!panel) return;
-  panel.classList.toggle('expanded');
-  if (panel.classList.contains('expanded')) { if (icon) icon.innerHTML = '<path d="M6 2H2v4M2 2l4.5 4.5M10 14h4v-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-  else { if (icon) icon.innerHTML = '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-}
-function _iaMatch(q) {
-  var ql = q.toLowerCase();
-  if (ql.includes('carencia') || ql.includes('espera')) return IA_RESP[4];
-  if (ql.includes('plan') || ql.includes('care') || ql.includes('premium')) return IA_RESP[0];
-  if (ql.includes('precio') || ql.includes('cuesta') || ql.includes('cuanto')) return 'El precio depende de la especie, raza y edad de tu mascota. Calcula en 2 minutos con el tarificador de arriba.';
-  if (ql.includes('rc') || ql.includes('responsabilidad')) return IA_RESP[3];
-  if (ql.includes('reembolso') || ql.includes('reclamacion') || ql.includes('siniestro')) return IA_RESP[5];
-  if (ql.includes('contratar') || ql.includes('comprar')) return IA_RESP[6];
-  if (ql.includes('pago') || ql.includes('mensual') || ql.includes('anual')) return IA_RESP[7];
-  if (ql.includes('hola') || ql.includes('buenas') || ql.includes('hey')) return '¡Hola! Soy KIVO IA. Pregúntame sobre coberturas, planes, carencias o reembolsos. ¿En qué te ayudo?';
-  return 'Para más información contáctanos por WhatsApp o escríbenos a hola@kivoseguros.com.';
-}
-window.addEventListener('message', function(e) {
-  if (!e.data) return;
-  if (e.data.type === 'kivo-iframe-height') {
-    var iframe = document.querySelector('iframe[src="./tarificador/index.html"]');
-    if (iframe && e.data.height > 0) iframe.style.height = (e.data.height + 10) + 'px';
-    return;
-  }
-});
-</script>
-
-<script>
-/* ══ Color Cycle JS 15-07-2026 ══ */
-(function(){
-  var c=['#3DBFA0','#FB740B','#B48841','#0C8B9D'], i=0;
-  setInterval(function(){ i=(i+1)%c.length; document.documentElement.style.setProperty('--cycle-color', c[i]); }, 3500);
-})();
-</script>
-
-<!-- ══ ASESOR FULLSCREEN OVERLAY ══ -->
-<div id="asesor-overlay" style="display:none;position:fixed;inset:0;z-index:9992;background:#000;">
-  <iframe id="asesor-fs-iframe" src="" title="KIVO Asesor" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
-</div>
-
-<!-- ══ TARIFICADOR MODAL ══ -->
-<style>
-@keyframes kivoFadeBackdrop { from { background:rgba(0,0,0,0); } to { background:rgba(0,0,0,0.52); } }
-#tarif-overlay.open { animation: kivoFadeBackdrop 1.2s ease forwards; }
-.exit-btn-continuar { padding:13px 26px;border-radius:50px;border:none;background:#3DBFA0;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
-.exit-btn-continuar:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(61,191,160,0.45); }
-.exit-btn-salir { padding:13px 26px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.35);background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
-.exit-btn-salir:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,0.35); }
-</style>
-<div id="tarif-overlay" style="display:none;position:fixed;inset:0;z-index:9990;flex-direction:column;align-items:center;justify-content:center;" onclick="kivoCerrarDesdeBackdrop(event)">
-  <div id="tarif-modal" style="position:relative;width:920px;max-width:95vw;height:720px;max-height:92vh;border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.40);">
-    <iframe id="tarif-fs-iframe" src="" title="KIVO Tarificador" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
-  </div>
-</div>
-
-<!-- ══ PANTALLA EXIT — fondo negro ══ -->
-<div id="tarif-exit-screen" style="display:none;position:fixed;inset:0;z-index:9996;background:#000;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:Inter,sans-serif;">
-  <img src="tarificador/assets/images/exit-dog.jpg.png" alt="Hasta pronto" style="width:200px;height:200px;object-fit:cover;border-radius:50%;border:4px solid rgba(255,255,255,0.15);">
-  <h2 style="color:#fff;font-size:26px;font-weight:800;letter-spacing:-0.02em;text-align:center;">¿Seguro que quieres salir?</h2>
-  <p style="color:rgba(255,255,255,0.6);font-size:15px;text-align:center;max-width:360px;line-height:1.6;">Si decides hacerlo, dejas a tu mascota sin protección y tu proceso se perderá.</p>
-  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
-    <button onclick="kivoVolverTarif()" class="exit-btn-continuar">Continuar con la contratación</button>
-    <button onclick="kivoCerrarTodo()" class="exit-btn-salir">Salir sin contratar</button>
-  </div>
-</div>
-
-<script>
-function kivoAbrirAsesor() {
-  var ov = document.getElementById('asesor-overlay');
-  var fr = document.getElementById('asesor-fs-iframe');
-  fr.src = './asesor/index.html#openModal';
-  ov.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-function kivoSalirAsesor() {
-  document.getElementById('asesor-overlay').style.display = 'none';
-  document.getElementById('asesor-fs-iframe').src = '';
-  document.body.style.overflow = '';
-}
-var _portalEspecie = null;
-function portalSelectEspecie(esp) {
-  _portalEspecie = esp;
-  document.getElementById('portal-tile-perro').classList.toggle('sel', esp === 'perro');
-  document.getElementById('portal-tile-gato').classList.toggle('sel', esp === 'gato');
-  var btn = document.getElementById('portal-btn-cta');
-  btn.disabled = false;
-}
-function portalReset() {
-  _portalEspecie = null;
-  document.getElementById('portal-tile-perro').classList.remove('sel');
-  document.getElementById('portal-tile-gato').classList.remove('sel');
-  document.getElementById('portal-btn-cta').disabled = true;
-}
-document.addEventListener('click', function(e) {
-  var wrap = document.querySelector('.tarificador-wrap');
-  if (wrap && !wrap.contains(e.target)) { portalReset(); }
-});
-function kivoAbrirTarif(especie) {
-  var ov = document.getElementById('tarif-overlay');
-  var fr = document.getElementById('tarif-fs-iframe');
-  var url = './tarificador/index.html?modo=fullscreen';
-  if (especie) url += '&especie=' + encodeURIComponent(especie);
-  fr.src = url;
-  fr.setAttribute('data-loaded','1');
-  ov.style.display = 'flex';
-  ov.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function kivoSalirTarif() {
-  document.getElementById('tarif-exit-screen').style.display = 'flex';
-}
-function kivoVolverTarif() {
-  document.getElementById('tarif-exit-screen').style.display = 'none';
-}
-function kivoCerrarTodo() {
-  var ov = document.getElementById('tarif-overlay');
-  ov.style.display = 'none';
-  ov.classList.remove('open');
-  document.getElementById('tarif-exit-screen').style.display = 'none';
-  document.body.style.overflow = '';
-  var fr = document.getElementById('tarif-fs-iframe');
-  fr.src = '';
-  fr.removeAttribute('data-loaded');
-}
-function kivoCerrarDesdeBackdrop(e) {
-  if (e.target === document.getElementById('tarif-overlay')) { kivoCerrarTodo(); }
-}
-window.addEventListener('message', function(e) {
-  if (!e.data) return;
-  if (e.data.type === 'kivo-fullscreen') { kivoAbrirTarif(e.data.especie); }
-  if (e.data.type === 'kivo-tarificador-exit') { kivoSalirTarif(); }
-  if (e.data.type === 'kivo-asesor-open') { kivoAbrirAsesor(); }
-  if (e.data.type === 'kivo-asesor-close') { kivoSalirAsesor(); }
-});
-</script>
-
-<!-- ══ GOOGLE TRANSLATE ══ -->
-<div id="google_translate_element" style="display:none"></div>
-<script>
-// ── Sticky nav + botón volver arriba ──
-var _navDismissed = false;
-function kivoScrollTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function kivoOcultarNav() {
-  var nav = document.getElementById('kivo-sticky-nav');
-  if (nav) nav.classList.remove('visible');
-  _navDismissed = true;
-}
-document.addEventListener('click', function(e) {
-  var nav = document.getElementById('kivo-sticky-nav');
-  if (nav && nav.classList.contains('visible') && !nav.contains(e.target)) {
-    kivoOcultarNav();
-  }
-});
-(function() {
-  var nav = document.getElementById('kivo-sticky-nav');
-  var btn = document.getElementById('kivo-top-btn');
-  window.addEventListener('scroll', function() {
-    var y = window.scrollY;
-    if (y <= 400) _navDismissed = false;
-    if (nav && !_navDismissed) nav.classList.toggle('visible', y > 400);
-    if (btn) btn.classList.toggle('visible', y > 400);
-  }, { passive: true });
-})();
-
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'es,en,fr,de,it',
-    autoDisplay: false
-  }, 'google_translate_element');
-}
-
-function kivoSetLang(lang) {
-  // Actualizar botones activos
-  document.querySelectorAll('.hero-lang-btn').forEach(function(btn) {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-  // Si es español, recargar sin traducción
-  if (lang === 'es') {
-    var frame = document.querySelector('.goog-te-menu-frame');
-    if (frame) frame.contentDocument.querySelectorAll('.goog-te-menu2-item')[0].click();
-    // Fallback: cookie + reload
-    document.cookie = 'googtrans=/es/es; path=/';
-    var sel = document.querySelector('.goog-te-combo');
-    if (sel) { sel.value = 'es'; sel.dispatchEvent(new Event('change')); }
-    return;
-  }
-  // Otros idiomas
-  var sel = document.querySelector('.goog-te-combo');
-  if (sel) {
-    sel.value = lang;
-    sel.dispatchEvent(new Event('change'));
-  } else {
-    // Widget aún no cargado — esperar e intentar de nuevo
-    setTimeout(function() { kivoSetLang(lang); }, 600);
-  }
-}
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body>
-</html>
+  if(modal) modal.addEventListener('click',function(e){if(
