@@ -882,3 +882,13 @@ input,select{font-family:inherit;outline:none;border:none}
   .prog-wrap { max-width: 90px !important; }
   .btn-back span, .btn-salir-top { font-size: 12px !important; }
 }
+@media(max-width:600px){
+  /* Tiles especie — perro/gato */
+  .especie-tiles { gap: 10px !important; }
+  .especie-tile {
+    padding: 20px 12px !important;
+    min-width: 0 !important;
+    gap: 10px !important;
+  }
+  .especie-tile img { width: 54px !important; height: 54px !important; }
+}
