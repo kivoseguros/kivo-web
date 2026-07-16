@@ -1793,7 +1793,11 @@ body { top:0 !important; }
   }
 
   .s02__cards{
-    grid-template-columns:1fr;
+    grid-template-columns: repeat(5, 240px);
+    gap: 14px;
+  }
+  #s02-cards-scroll {
+    padding-bottom: 8px;
   }
 
   .s02__table-head,
@@ -5590,31 +5594,26 @@ body {
   .s03-table-nav {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 10px 0 6px;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 4px 8px 10px;
   }
   .s03-table-btn {
-    background: #1B2A4A;
-    color: #fff;
+    background: none;
     border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
+    padding: 0;
+    font-size: 28px;
+    font-weight: 900;
     cursor: pointer;
+    color: var(--cycle-color, #3DBFA0);
+    animation: kivoCycleColor 14s ease-in-out infinite;
+    line-height: 1;
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-shrink: 0;
+    transition: transform 0.15s;
   }
-  .s03-table-nav-label {
-    font-size: 14px;
-    font-weight: 800;
-    color: #1B2A4A;
-    min-width: 70px;
-    text-align: center;
-  }
+  .s03-table-btn:active { transform: scale(0.85); }
 }
 
 /* ── CONDICIONADOS FOOTER MOBILE — 16 julio 2026 ── */
@@ -5858,6 +5857,18 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     padding: 10px 4px !important;
   }
   .bottom-info > div:last-child { border-bottom: 0 !important; }
+
+  /* ── S04 Asistente — forzar 3 columnas con robot visible ── */
+  .s04-inner {
+    grid-template-columns: 280px 1fr 320px !important;
+    gap: 32px !important;
+  }
+  .s04-left {
+    display: flex !important;
+  }
+  .s04-robot {
+    width: 220px !important;
+  }
 
   /* ── ASESOR scroll wrap ── */
   #asesor {
@@ -6166,7 +6177,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       src="./asesor/index.html"
       id="iframe-asesor"
       title="KIVO Asesor"
-      style="min-width:720px;width:100%;border:none;display:block;height:520px;"
+      style="min-width:720px;width:100%;border:none;display:block;height:650px;"
       scrolling="no"
     ></iframe>
   </div>
@@ -6212,6 +6223,9 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </p>
     </div>
 
+    <div id="s02-cards-wrap" style="position:relative;overflow:hidden;width:100%;">
+      <div id="s02-cards-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(247,248,250,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
+      <div id="s02-cards-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;padding-bottom:4px;">
     <div class="s02__cards">
       <article class="s02__card">
         <div class="s02__icon-bubble">
@@ -6273,6 +6287,9 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         </p>
       </article>
     </div>
+      </div><!-- /s02-cards-scroll -->
+      <div id="s02-cards-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(247,248,250,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
+    </div><!-- /s02-cards-wrap -->
 
     <button class="s02__toggle" id="s02Toggle" type="button">
       Ver más situaciones ↓
@@ -6501,7 +6518,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         <!-- Navegación móvil tabla -->
         <div class="s03-table-nav" id="s03-table-nav">
           <button class="s03-table-btn" onclick="kivoTableScroll(-1)" title="Anterior">&#8592;</button>
-          <span class="s03-table-nav-label" id="s03-table-nav-label">CARE</span>
           <button class="s03-table-btn" onclick="kivoTableScroll(1)" title="Siguiente">&#8594;</button>
         </div>
         <div class="s03-table-scroll-wrap" id="s03-table-scroll">
@@ -6684,7 +6700,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 <div id="s04-section-wrap" style="position:relative;overflow:hidden;width:100%;">
   <div id="s04-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
   <div id="s04-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
-<section class="s04" style="min-width:720px;">
+<section class="s04" style="min-width:960px;">
   <div class="s04-inner">
 
     <!-- Logo IA — clic 1: abre el panel -->
@@ -8120,7 +8136,7 @@ function kivoSetLang(lang) {
 
   function updateTableScroll() {
     var wrap = document.getElementById('s03-table-scroll');
-    var lbl  = document.getElementById('s03-table-nav-label');
+    var lbl  = null; // label eliminado
     if (!wrap) return;
     var table = wrap.querySelector('.s03-table');
     if (!table) return;
@@ -8130,7 +8146,7 @@ function kivoSetLang(lang) {
       var left = th.offsetLeft - (wrap.clientWidth - th.offsetWidth) / 2;
       wrap.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
     }
-    if (lbl) lbl.textContent = plans[curPlan];
+    // label eliminado
   }
 
   window.kivoTableScroll = function(dir) {
@@ -8179,6 +8195,24 @@ function kivoSetLang(lang) {
   // Tabla comparativa hint (already handled by table scroll wrap)
   var tblWrap = document.getElementById('s03-table-scroll');
   // no separate hint needed — already has scroll wrap
+
+  // Situaciones (s02 cards) — hints bilaterales
+  (function(){
+    var sc = document.getElementById('s02-cards-scroll');
+    var hL = document.getElementById('s02-cards-hint-left');
+    var hR = document.getElementById('s02-cards-hint-right');
+    if (!sc || !hL || !hR) return;
+    function updS02() {
+      if (window.innerWidth > 768) { hL.style.display='none'; hR.style.display='none'; return; }
+      var canL = sc.scrollLeft > 4;
+      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
+      hL.style.display = canL ? 'flex' : 'none';
+      hR.style.display = canR ? 'flex' : 'none';
+    }
+    sc.addEventListener('scroll', updS02, {passive:true});
+    window.addEventListener('resize', updS02);
+    updS02();
+  })();
 
   // Asistente IA (s04) — hints bilaterales
   (function(){
