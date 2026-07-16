@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 /* ── CONFIG RESEND ─────────────────────────────────────────── */
-const RESEND_API_KEY = 're_VWiP5LGB_8LY6b1EksNsCWA9FAV59ojzK';
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const FROM_EMAIL     = 'KIVO Seguros <no-reply@kivoseguros.com>';
 
 /* ── ENDPOINT /api/send-email ──────────────────────────────── */

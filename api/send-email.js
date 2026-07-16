@@ -2,10 +2,10 @@
 // Endpoint: POST /api/send-email
 // Body: { to, subject, html }
 
-const RESEND_API_KEY = 're_VWiP5LGB_8LY6b1EksNsCWA9FAV59ojzK';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL     = 'KIVO Seguros <no-reply@kivoseguros.com>';
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
