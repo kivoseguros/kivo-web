@@ -150,7 +150,7 @@ input,select{font-family:inherit;outline:none;border:none}
 .ftop{background:var(--bg);border-bottom:1px solid var(--border);transition:none;padding:0 24px;position:sticky;top:0;z-index:100}
 
 .ftop-inner{max-width:100%;margin:0;padding:0 24px;display:flex;align-items:center;height:90px;gap:16px;position:relative}
-.btn-back{display:flex;align-items:center;gap:6px;padding:0 14px 0 10px;height:36px;border-radius:20px;background:rgba(27,42,74,0.08);border:1px solid rgba(27,42,74,0.12);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:background .2s;white-space:nowrap;position:fixed;right:104px;top:14px;z-index:200;flex-shrink:0}.btn-back:hover{background:rgba(27,42,74,0.14)}
+.btn-back{display:none;align-items:center;gap:6px;padding:0 14px 0 10px;height:36px;border-radius:20px;background:rgba(27,42,74,0.08);border:1px solid rgba(27,42,74,0.12);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:background .2s;white-space:nowrap;position:fixed;right:104px;top:14px;z-index:200;flex-shrink:0}.btn-back:hover{background:rgba(27,42,74,0.14)}
 .btn-salir-top{display:flex;align-items:center;gap:6px;padding:0 16px;height:36px;border-radius:20px;background:rgba(27,42,74,0.08);border:1px solid rgba(27,42,74,0.12);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:background .2s;white-space:nowrap;position:fixed;right:20px;top:14px;z-index:200;flex-shrink:0}.btn-salir-top:hover{background:rgba(27,42,74,0.14)}
 .btn-back:hover{background:rgba(27,42,74,0.12)}
 .ftop-logo{height:68px;width:auto;position:absolute;left:24px;top:50%;transform:translateY(-50%)}
