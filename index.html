@@ -5532,6 +5532,60 @@ body {
 .hero-benefit:last-child { border-right: 0 !important; }
 .hero-benefit strong { font-size: 14px !important; font-weight: 700 !important; color: #1B2A4A !important; }
 
+/* ══ SEGUNDA FILA: bottom-info como fila horizontal igual que hero-benefits ══ */
+.hero-benefits-bar { padding-top: 28px !important; }
+.bottom-info {
+  display: grid !important;
+  grid-template-columns: repeat(4,1fr) !important;
+  width: 100% !important;
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border-radius: 0 !important;
+}
+.bottom-info > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 0 24px !important;
+  min-height: 82px !important;
+  border-right: 1px solid #E1E8EA !important;
+  border-bottom: none !important;
+  border-top: 1px solid #E1E8EA !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+}
+.bottom-info > div:last-child { border-right: none !important; }
+.bottom-info > div > span {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  background: rgba(61,191,160,0.12) !important;
+  display: grid !important;
+  place-items: center !important;
+  flex-shrink: 0 !important;
+  font-size: 22px !important;
+  color: #3DBFA0 !important;
+  transition: background 0.35s ease, color 0.35s ease !important;
+}
+.bottom-info > div > p { margin: 0 !important; font-size: 0 !important; }
+.bottom-info > div > p > strong {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #1B2A4A !important;
+  display: inline !important;
+  transition: color 0.35s ease !important;
+}
+/* Transiciones destello en fila 1 */
+.hero-benefit > div[style*="border-radius"] { transition: background 0.35s ease !important; }
+.hero-benefit > strong { transition: color 0.35s ease !important; }
+/* Móvil: segunda fila también oculta (la ve el ticker) */
+@media(max-width:600px){ .bottom-info{display:none!important} }
+
 /* ══ Plan cards flotantes ══ */
 @keyframes kivo-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 .s03-card { animation: kivo-float 4s ease-in-out infinite !important; }
@@ -7508,6 +7562,34 @@ document.addEventListener('DOMContentLoaded',function(){
   if(modal) modal.addEventListener('click',function(e){if(e.target===modal)closeAsesor();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAsesor();});
 });
+
+/* ══ DESTELLOS ALEATORIOS — filas de beneficios ══ */
+(function(){
+  var palette=['#3DBFA0','#F97316','#8B5CF6','#3B82F6','#EC4899','#EAB308','#10B981','#06B6D4','#F43F5E'];
+  var BASE_ICON='rgba(61,191,160,0.12)';
+  var BASE_TEXT='#1B2A4A';
+
+  function doFlash(){
+    var items=Array.from(document.querySelectorAll('.hero-benefit, .bottom-info > div'));
+    if(!items.length){setTimeout(doFlash,800);return;}
+    var el=items[Math.floor(Math.random()*items.length)];
+    var col=palette[Math.floor(Math.random()*palette.length)];
+    var light=col+'22';
+    var icon=el.querySelector('div[style*="border-radius:50%"], span');
+    var strong=el.querySelector('strong');
+    if(icon) icon.style.setProperty('background',light,'important');
+    if(strong) strong.style.setProperty('color',col,'important');
+    setTimeout(function(){
+      if(icon) icon.style.setProperty('background',BASE_ICON,'important');
+      if(strong) strong.style.setProperty('color',BASE_TEXT,'important');
+    },700);
+    setTimeout(doFlash, 350+Math.random()*700);
+  }
+  // 3 cadenas simultáneas desfasadas
+  setTimeout(doFlash, 600);
+  setTimeout(doFlash, 1100);
+  setTimeout(doFlash, 1700);
+})();
 </script>
 
 <script>
