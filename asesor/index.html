@@ -124,19 +124,6 @@
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-
-  // Auto-resize: reportar altura al padre (index.html)
-  function reportHeight() {
-    try {
-      var h = document.body.scrollHeight;
-      window.parent.postMessage({ type: 'kivo-asesor-height', height: h }, '*');
-    } catch(e) {}
-  }
-  reportHeight();
-  window.addEventListener('resize', reportHeight);
-  if (window.ResizeObserver) {
-    new ResizeObserver(reportHeight).observe(document.body);
-  }
 </script>
 
 </body>
