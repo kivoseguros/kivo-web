@@ -1793,11 +1793,7 @@ body { top:0 !important; }
   }
 
   .s02__cards{
-    grid-template-columns: repeat(5, 240px);
-    gap: 14px;
-  }
-  #s02-cards-scroll {
-    padding-bottom: 8px;
+    grid-template-columns:1fr;
   }
 
   .s02__table-head,
@@ -5576,393 +5572,10 @@ body {
 }
 .s05-marquee-track .s05-article svg { display: none !important; }
 
-
-
-/* ── TABLA COMPARATIVA SCROLL MÓVIL — 16 julio 2026 ── */
-.s03-table-scroll-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  border-radius: 12px;
-}
-.s03-table-scroll-wrap .s03-table {
-  min-width: 480px;
-}
-.s03-table-nav {
-  display: none;
-}
-@media (max-width: 600px) {
-  .s03-table-nav {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px;
-    padding: 4px 8px 10px;
-  }
-  .s03-table-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 28px;
-    font-weight: 900;
-    cursor: pointer;
-    color: var(--cycle-color, #3DBFA0);
-    animation: kivoCycleColor 14s ease-in-out infinite;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    transition: transform 0.15s;
-  }
-  .s03-table-btn:active { transform: scale(0.85); }
-}
-
-/* ── CONDICIONADOS FOOTER MOBILE — 16 julio 2026 ── */
-/* Planes cards: scroll horizontal en móvil */
-.s03-cards-scroll-wrap {
-  position: relative;
-}
-.s03-cards-scroll-wrap .s03-scroll-hint {
-  display: none;
-}
-@media (max-width: 700px) {
-  .s03-cards {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 14px !important;
-    padding-bottom: 12px !important;
-  }
-  .s03-card {
-    flex: 0 0 82vw !important;
-    min-width: 260px !important;
-    scroll-snap-align: start !important;
-  }
-  /* Indicador scroll derecha */
-  .s03-cards-scroll-wrap .s03-scroll-hint {
-    display: flex;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.92) 40%);
-    width: 48px;
-    height: 100%;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 6px;
-    pointer-events: none;
-    font-size: 22px;
-    color: #1B2A4A;
-    font-weight: 900;
-    transition: opacity 0.3s;
-    z-index: 2;
-  }
-}
-/* Condicionados footer: scroll horizontal */
-@media (max-width: 600px) {
-  .s03-exclusions-footer {
-    flex-direction: column !important;
-    text-align: center !important;
-    padding: 14px 16px !important;
-    gap: 10px !important;
-  }
-  .s03-cg-links-wrap {
-    position: relative;
-  }
-  .s03-cg-links-inner {
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    scroll-snap-type: x mandatory !important;
-    display: flex !important;
-    gap: 10px !important;
-    padding-bottom: 4px !important;
-  }
-  .s03-cg-links-inner a {
-    scroll-snap-align: start !important;
-    flex-shrink: 0 !important;
-    white-space: nowrap !important;
-  }
-  .s03-cg-scroll-hint {
-    display: flex !important;
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 40px;
-    background: linear-gradient(to right, transparent, rgba(228,238,230,0.95) 50%);
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 4px;
-    pointer-events: none;
-    font-size: 20px;
-    color: #1B4D3E;
-    font-weight: 900;
-  }
-}
-
-
-
-/* ── HERO APP DOWNLOAD BADGES — 16 julio 2026 ── */
-.hero-app-download {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  justify-self: start;
-  align-self: center;
-}
-.hero-app-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(27,42,74,0.55);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  white-space: nowrap;
-  text-align: center;
-}
-.hero-app-badges {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.hero-app-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #1B2A4A;
-  color: #fff;
-  border-radius: 10px;
-  padding: 7px 12px;
-  text-decoration: none;
-  transition: background .2s, transform .2s;
-  white-space: nowrap;
-}
-.hero-app-badge:hover {
-  background: #0f1c33;
-  transform: translateY(-2px);
-}
-.hero-app-badge-sub {
-  display: block;
-  font-size: 9px;
-  font-weight: 500;
-  opacity: .75;
-  line-height: 1.1;
-}
-.hero-app-badge-name {
-  display: block;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.2;
-}
-@media (max-width: 900px) {
-  .hero-app-download { display: none; }
-}
-
-/* ── BOTTOM-INFO SCROLL MÓVIL — 16 julio 2026 ── */
-@media (max-width: 600px) {
-  .bottom-info-scroll-inner { overflow-x: auto !important; }
-  .bottom-info {
-    grid-template-columns: repeat(4, 72vw) !important;
-    width: max-content !important;
-    min-width: 100% !important;
-    margin: 0 !important;
-    padding: 10px 8px !important;
-  }
-  .bottom-info > div {
-    scroll-snap-align: start;
-    border-right: 1px solid #E1E8EA !important;
-    border-bottom: 0 !important;
-    min-width: 70vw;
-  }
-}
-
 /* ── FONDO GLOBAL WEB ─────────────────────────────────── */
 body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !important; }
 
-/* ═══════════════════════════════════════════════════════
-   KIVO — MOBILE RESPONSIVE — 16 julio 2026
-   Breakpoints: ≤600px (smartphones)  ≤400px (small)
-   ═══════════════════════════════════════════════════════ */
-@media (max-width: 600px) {
-
-  /* ── HERO ── */
-  .kivo-hero {
-    min-height: auto !important;
-    padding: 14px 14px 24px !important;
-  }
-  .hero-grid {
-    grid-template-columns: 1fr !important;
-    grid-template-areas: "copy" "advisor" !important;
-    max-width: 100% !important;
-    row-gap: 20px !important;
-    margin-top: 12px !important;
-  }
-  .hero-copy {
-    max-width: 100% !important;
-    padding-top: 0 !important;
-  }
-  .hero-title {
-    font-size: 38px !important;
-    letter-spacing: -1.5px !important;
-    line-height: 1.08 !important;
-  }
-  .hero-text {
-    font-size: 15px !important;
-  }
-  .hero-benefits {
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-    padding: 12px 14px !important;
-  }
-
-  /* ── NAV / IDIOMAS ── */
-  .hero-header {
-    grid-template-columns: 1fr !important;
-    gap: 10px !important;
-  }
-  .hero-nav {
-    flex-wrap: wrap !important;
-    gap: 10px 14px !important;
-    padding-top: 0 !important;
-  }
-  .hero-lang-bar {
-    flex-wrap: wrap !important;
-    gap: 4px !important;
-  }
-
-  /* ── TARIFICADOR WIDGET (inline styles override) ── */
-  .tarificador-wrap {
-    padding: 22px 16px 22px !important;
-    min-height: auto !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-  section[style*="min-width:320px"],
-  section[style*="min-width: 320px"] {
-    min-width: 0 !important;
-    width: 100% !important;
-  }
-
-  /* ── BOTTOM INFO ── */
-  .bottom-info {
-    grid-template-columns: 1fr !important;
-    padding: 10px 12px !important;
-  }
-  .bottom-info > div {
-    border-right: 0 !important;
-    border-bottom: 1px solid #E1E8EA !important;
-    padding: 10px 4px !important;
-  }
-  .bottom-info > div:last-child { border-bottom: 0 !important; }
-
-  /* ── S04 scroll horizontal — robot visible ── */
-  .s04-left {
-    display: flex !important;
-    order: 0 !important;
-  }
-  .s04-inner {
-    grid-template-columns: 280px 1fr 320px !important;
-    gap: 32px !important;
-  }
-  .s04-robot {
-    width: 240px !important;
-    height: auto !important;
-    animation: robotFloat 3s ease-in-out infinite !important;
-  }
-
-  /* ── ASESOR scroll wrap ── */
-  #asesor {
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
-  }
-  #asesor-scroll {
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-  #iframe-asesor {
-    min-width: 720px !important;
-    min-height: 480px;
-  }
-
-  /* ── S02 ── */
-  .s02__hero {
-    flex-direction: column !important;
-    gap: 20px !important;
-  }
-  .s02__image-wrap {
-    width: 100% !important;
-    max-width: 300px !important;
-    margin: 0 auto !important;
-  }
-  .s02__cards {
-    grid-template-columns: 1fr !important;
-  }
-  .s02__headline {
-    font-size: clamp(32px, 8vw, 44px) !important;
-  }
-
-  /* ── S03 Planes ── */
-  .s03-plans { margin-top: 20px !important; }
-  .s03-plans-grid,
-  .plans-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* ── S04 Sin letra pequeña ── */
-  .s04-inner {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
-
-  /* ── FOOTER ── */
-  .kivo-footer-inner,
-  .footer-grid,
-  .s06-footer-grid {
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
-  }
-
-  /* ── FAB flotante ── */
-  .kivo-fab { bottom: 14px !important; right: 14px !important; }
-
-  /* ── WA flotante ── */
-  .wa-web-float { bottom: 14px !important; left: 14px !important; width: 52px !important; height: 52px !important; }
-
-  /* ── Evitar overflow horizontal global ── */
-  body, .kivo-hero, .s02, .s03-plans, .s06-proceso, .s06-download {
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-  }
-}
-
-@media (max-width: 400px) {
-  .hero-title { font-size: 32px !important; }
-  .tarificador-wrap { padding: 16px 10px 18px !important; }
-  .hero-benefits { padding: 10px !important; }
-}
-
-  
-@media screen and (orientation:landscape) and (max-height:500px) {
-  #asesor-overlay, #tarif-overlay {
-    position: fixed !important;
-    top: 0 !important; left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    overflow: hidden !important;
-  }
-  #asesor-fs-iframe, #tarif-fs-iframe {
-    width: 100% !important;
-    height: 100% !important;
-  }
-  /* Asesor sección inline — landscape */
-  .s04 { min-width: 960px !important; }
-}
-</style>
+  </style>
 </head>
 <body>
 
@@ -6015,36 +5628,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <button class="hero-lang-btn notranslate" data-lang="de" onclick="kivoSetLang('de')" translate="no">DE</button>
         </div>
       </nav>
-
-      <!-- App download — top right -->
-      <div class="hero-app-download">
-        <span class="hero-app-label">Descarga la app de KIVO</span>
-        <div class="hero-app-badges">
-          <!-- Google Play -->
-          <a href="#" class="hero-app-badge" aria-label="Descargar en Google Play">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.18 1.6C2.8 1.82 2.5 2.28 2.5 2.9v18.2c0 .62.3 1.08.68 1.3l.1.06 10.2-10.2v-.24L3.28 1.54l-.1.06z" fill="#EA4335"/>
-              <path d="M16.9 15.7l-3.42-3.42v-.24l3.42-3.42.08.04 4.05 2.3c1.16.66 1.16 1.74 0 2.4l-4.05 2.3-.08.04z" fill="#FBBC04"/>
-              <path d="M16.98 15.66L13.48 12 3.18 22.3c.38.4.98.45 1.66.07l12.14-6.71" fill="#34A853"/>
-              <path d="M16.98 8.34L4.84 1.63C4.16 1.25 3.56 1.3 3.18 1.7L13.48 12l3.5-3.66z" fill="#EA4335"/>
-            </svg>
-            <div>
-              <span class="hero-app-badge-sub">Disponible en</span>
-              <span class="hero-app-badge-name">Google Play</span>
-            </div>
-          </a>
-          <!-- App Store -->
-          <a href="#" class="hero-app-badge" aria-label="Descargar en App Store">
-            <svg width="16" height="18" viewBox="0 0 814 1000" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-156.9-111.8C113 330.5 44.8 199.4 44.8 176.9c0-48.8 37.4-59.9 68.2-59.9 29.7 0 65.4 9.7 96.5 9.7 30.5 0 69-9.7 97.3-9.7 46.2 0 91.7 23.2 121.6 73.5h2c-17.4-75.7-19.9-101.1-19.9-118.9 0-5.5 4.2-7.9 9.8-7.9 9.4 0 91.2 21 91.2 93.4 0 49.4-36.7 86-36.7 122 0 35.1 20.7 62.1 57.9 62.1 37.6 0 92.7-40.6 92.7-116.7 0-54.5-32.2-107.5-80-107.5-3.6 0-7.1.2-10.6.6C683.9 100 788.1 130.8 788.1 340.9z"/>
-            </svg>
-            <div>
-              <span class="hero-app-badge-sub">Disponible en</span>
-              <span class="hero-app-badge-name">App Store</span>
-            </div>
-          </a>
-        </div>
-      </div>
     </header>
 
     <main class="hero-grid">
@@ -6127,8 +5710,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </div>
     </div>
 
-    <div class="bottom-info-scroll-wrap" style="position:relative;overflow:hidden;">
-      <div class="bottom-info-scroll-inner" id="bi-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;">
     <aside class="bottom-info">
       <div>
         <span>✣</span>
@@ -6147,11 +5728,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         <p><strong>Y te damos</strong> el precio al instante.</p>
       </div>
     </aside>
-      </div><!-- /bi-scroll -->
-      <!-- Indicadores scroll móvil -->
-      <div id="bi-hint-left"  style="display:none;position:absolute;left:0;top:0;height:100%;width:40px;background:linear-gradient(to left,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:22px;color:#1B2A4A;font-weight:900;z-index:3;">‹</div>
-      <div id="bi-hint-right" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:22px;color:#1B2A4A;font-weight:900;z-index:3;">›</div>
-    </div><!-- /bottom-info-scroll-wrap -->
 
     <div class="privacy">🔒 Tus datos están protegidos y no serán compartidos.</div>
   </section>
@@ -6191,18 +5767,15 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <script src="./js/hero.js"></script>
 
 <!-- ===== Sección ASESOR ===== -->
-<section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;position:relative;overflow-x:hidden;overflow-y:visible;">
-  <div id="asesor-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
-  <div id="asesor-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
-    <iframe
-      src="./asesor/index.html"
-      id="iframe-asesor"
-      title="KIVO Asesor"
-      style="min-width:720px;width:100%;border:none;display:block;height:650px;"
-      scrolling="no"
-    ></iframe>
-  </div>
-  <div id="asesor-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
+<section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;">
+  <iframe
+    src="./asesor/index.html"
+    id="iframe-asesor"
+    title="KIVO Asesor"
+    style="width:100%;border:none;display:block;min-height:390px;"
+    scrolling="no"
+    loading="lazy"
+  ></iframe>
 </section>
 
 <!-- ===== Sección 2 ===== -->
@@ -6244,9 +5817,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </p>
     </div>
 
-    <div id="s02-cards-wrap" style="position:relative;overflow:hidden;width:100%;">
-      <div id="s02-cards-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(247,248,250,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
-      <div id="s02-cards-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;padding-bottom:4px;">
     <div class="s02__cards">
       <article class="s02__card">
         <div class="s02__icon-bubble">
@@ -6308,9 +5878,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         </p>
       </article>
     </div>
-      </div><!-- /s02-cards-scroll -->
-      <div id="s02-cards-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(247,248,250,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
-    </div><!-- /s02-cards-wrap -->
 
     <button class="s02__toggle" id="s02Toggle" type="button">
       Ver más situaciones ↓
@@ -6447,7 +6014,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       <p>Cuatro opciones claras para que puedas elegir la cobertura que mejor se adapta a tus necesidades.</p>
     </header>
 
-    <div class="s03-cards-scroll-wrap">
     <div class="s03-cards">
 
       <article class="s03-card s03-card--care">
@@ -6522,8 +6088,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
     </div>
 
-    </div><!-- /s03-cards-scroll-wrap -->
-    <div class="s03-scroll-hint" style="display:none;text-align:center;padding:4px 0 0;font-size:22px;color:#1B2A4A;font-weight:900;" id="s03-cards-hint">›</div>
     <div class="s03-price-cta">
       <button class="s03-price-button" type="button" onclick="kivoAbrirTarif()">▣ Calcular mi precio <span>→</span></button>
     </div>
@@ -6536,12 +6100,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </button>
 
       <div class="s03-accordion-panel">
-        <!-- Navegación móvil tabla -->
-        <div class="s03-table-nav" id="s03-table-nav">
-          <button class="s03-table-btn" onclick="kivoTableScroll(-1)" title="Anterior">&#8592;</button>
-          <button class="s03-table-btn" onclick="kivoTableScroll(1)" title="Siguiente">&#8594;</button>
-        </div>
-        <div class="s03-table-scroll-wrap" id="s03-table-scroll">
         <table class="s03-table">
           <thead>
             <tr>
@@ -6620,7 +6178,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 </tbody>
         </table>
-        </div><!-- /s03-table-scroll-wrap -->
       </div>
     </div>
  <section class="s03-exclusions">
@@ -6693,19 +6250,13 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <div class="s03-exclusions-footer">
     <span>▣</span>
     Consulta las <strong>condiciones generales</strong> de tu plan para más información sobre exclusiones y limitaciones.
-    <div id="cg-links-wrap" style="position:relative;overflow:hidden;width:100%;margin-top:12px;">
-      <div id="cg-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:100%;background:linear-gradient(to left,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:22px;color:#1B4D3E;font-weight:900;">&#x2039;</div>
-      <div id="cg-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;padding-bottom:4px;">
-        <div style="display:flex;gap:12px;padding:2px 2px 2px;">
-          <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">
-            📄 CG Accidentes y Enfermedades
-          </a>
-          <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">
-            📄 CG Responsabilidad Civil
-          </a>
-        </div>
-      </div>
-      <div id="cg-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:100%;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:22px;color:#1B4D3E;font-weight:900;">&#x203a;</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px">
+      <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none">
+        📄 CG Accidentes y Enfermedades
+      </a>
+      <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none">
+        📄 CG Responsabilidad Civil
+      </a>
     </div>
   </div>
 </section>
@@ -6718,15 +6269,12 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 <!-- ===== Sección 4 ===== -->
 <!-- ── SECCIÓN COMPACTA ── -->
-<div id="s04-outer" style="overflow-x:hidden;overflow-y:visible;width:100%;max-width:100vw;position:relative;">
-  <div id="s04-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:28px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
-  <div id="s04-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
-<section class="s04" style="min-width:960px;">
+<section class="s04">
   <div class="s04-inner">
 
     <!-- Logo IA — clic 1: abre el panel -->
-    <div class="s04-left" onclick="kivoAbrirAsesor()" style="cursor:pointer">
-      <img src="Seccion 1 HERO/assets/ia.png" alt="Asesor KIVO" class="s04-robot" style="cursor:pointer;">
+    <div class="s04-left" onclick="toggleIA()" style="cursor:pointer">
+      <img src="Seccion 1 HERO/assets/ia.png" alt="Asistente KIVO IA" class="s04-robot">
     </div>
 
     <!-- Texto -->
@@ -6762,9 +6310,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
   </div>
 </section>
-  </div>
-  <div id="s04-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(234,244,238,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:28px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
-</div>
 
 <!-- ── MODAL: robot izquierda + quiz derecha ── -->
 
@@ -7951,8 +7496,8 @@ window.addEventListener('message', function(e) {
 </script>
 
 <!-- ══ ASESOR FULLSCREEN OVERLAY ══ -->
-<div id="asesor-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9992;background:#000;overflow:hidden;">
-  <iframe id="asesor-fs-iframe" src="" title="KIVO Asesor" style="width:100%;height:100%;min-height:-webkit-fill-available;border:none;display:block;" scrolling="yes" allowfullscreen></iframe>
+<div id="asesor-overlay" style="display:none;position:fixed;inset:0;z-index:9992;background:#000;">
+  <iframe id="asesor-fs-iframe" src="" title="KIVO Asesor" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
 </div>
 
 <!-- ══ TARIFICADOR MODAL ══ -->
@@ -7964,7 +7509,7 @@ window.addEventListener('message', function(e) {
 .exit-btn-salir { padding:13px 26px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.35);background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
 .exit-btn-salir:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,0.35); }
 </style>
-<div id="tarif-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9990;flex-direction:column;align-items:center;justify-content:center;" onclick="kivoCerrarDesdeBackdrop(event)">
+<div id="tarif-overlay" style="display:none;position:fixed;inset:0;z-index:9990;flex-direction:column;align-items:center;justify-content:center;" onclick="kivoCerrarDesdeBackdrop(event)">
   <div id="tarif-modal" style="position:relative;width:920px;max-width:95vw;height:720px;max-height:92vh;border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.40);">
     <iframe id="tarif-fs-iframe" src="" title="KIVO Tarificador" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
   </div>
@@ -8046,38 +7591,8 @@ window.addEventListener('message', function(e) {
   if (!e.data) return;
   if (e.data.type === 'kivo-fullscreen') { kivoAbrirTarif(e.data.especie); }
   if (e.data.type === 'kivo-tarificador-exit') { kivoSalirTarif(); }
-  if (e.data.type === 'kivo-asesor-height') {
-    var ifrAsesor = document.getElementById('iframe-asesor');
-    if (ifrAsesor && e.data.height > 100) ifrAsesor.style.height = (e.data.height + 20) + 'px';
-  }
   if (e.data.type === 'kivo-asesor-open') { kivoAbrirAsesor(); }
   if (e.data.type === 'kivo-asesor-close') { kivoSalirAsesor(); }
-  /* ── Asesor → Tarificador ── */
-  if (e.data.type === 'kivo-from-asesor') {
-    // Cerrar overlay del asesor si estaba abierto en pantalla completa
-    var _asOv = document.getElementById('asesor-overlay');
-    if (_asOv && _asOv.style.display !== 'none') {
-      _asOv.style.display = 'none';
-      var _asFr = document.getElementById('asesor-fs-iframe');
-      if (_asFr) _asFr.src = '';
-    }
-    // Construir URL del tarificador con recomendación del asesor
-    var _plan = e.data.plan;
-    var _rc   = e.data.rc;
-    var _url  = './tarificador/index.html?modo=fullscreen&desde=asesor';
-    if (_plan) _url += '&plan=' + encodeURIComponent(_plan);
-    if (_rc)   _url += '&rc=extra';
-    // Abrir tarificador en fullscreen
-    var _tOv = document.getElementById('tarif-overlay');
-    var _tFr = document.getElementById('tarif-fs-iframe');
-    if (_tOv && _tFr) {
-      _tFr.src = _url;
-      _tFr.setAttribute('data-loaded', '1');
-      _tOv.style.display = 'flex';
-      _tOv.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-  }
 });
 </script>
 
@@ -8147,158 +7662,5 @@ function kivoSetLang(lang) {
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-
-<script>
-/* ── Tabla comparativa scroll móvil ── */
-(function(){
-  var plans = ['CARE', 'CARE+', 'PREMIUM', 'R.C.'];
-  var curPlan = 0;
-  var colOffset = 1; // column index in table (0=Cobertura, 1=CARE, ...)
-
-  function updateTableScroll() {
-    var wrap = document.getElementById('s03-table-scroll');
-    var lbl  = null; // label eliminado
-    if (!wrap) return;
-    var table = wrap.querySelector('.s03-table');
-    if (!table) return;
-    // scroll to the current plan column
-    var th = table.querySelectorAll('th')[curPlan + 1];
-    if (th) {
-      var left = th.offsetLeft - (wrap.clientWidth - th.offsetWidth) / 2;
-      wrap.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
-    }
-    // label eliminado
-  }
-
-  window.kivoTableScroll = function(dir) {
-    curPlan = Math.max(0, Math.min(plans.length - 1, curPlan + dir));
-    updateTableScroll();
-  };
-
-  // Init: only on mobile
-  if (window.innerWidth <= 600) updateTableScroll();
-  window.addEventListener('resize', function(){
-    if (window.innerWidth <= 600) updateTableScroll();
-  });
-})();
-</script>
-
-<script>
-/* ── Indicadores de scroll horizontal — 16 julio 2026 ── */
-(function(){
-  function showHint(el, hintEl) {
-    if (!el || !hintEl) return;
-    function update() {
-      var canScroll = el.scrollWidth > el.clientWidth + 4;
-      var atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 4;
-      hintEl.style.display = (canScroll && !atEnd) ? 'flex' : 'none';
-    }
-    update();
-    el.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-  }
-
-  // Plans cards hint
-  var cardsEl = document.querySelector('.s03-cards');
-  var cardsHint = document.getElementById('s03-cards-hint');
-  if (cardsEl && cardsHint) {
-    cardsHint.style.cssText += ';display:none;';
-    showHint(cardsEl, cardsHint);
-    // on mobile show as centered arrow below cards
-    if (window.innerWidth <= 700) cardsHint.style.display = 'block';
-  }
-
-  // CG links hint
-  var cgInner = document.querySelector('.s03-cg-links-inner');
-  var cgHint  = document.querySelector('.s03-cg-scroll-hint');
-  if (cgInner && cgHint) showHint(cgInner, cgHint);
-
-  // Tabla comparativa hint (already handled by table scroll wrap)
-  var tblWrap = document.getElementById('s03-table-scroll');
-  // no separate hint needed — already has scroll wrap
-
-  // Situaciones (s02 cards) — hints bilaterales
-  (function(){
-    var sc = document.getElementById('s02-cards-scroll');
-    var hL = document.getElementById('s02-cards-hint-left');
-    var hR = document.getElementById('s02-cards-hint-right');
-    if (!sc || !hL || !hR) return;
-    function updS02() {
-      if (window.innerWidth > 768) { hL.style.display='none'; hR.style.display='none'; return; }
-      var canL = sc.scrollLeft > 4;
-      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
-      hL.style.display = canL ? 'flex' : 'none';
-      hR.style.display = canR ? 'flex' : 'none';
-    }
-    sc.addEventListener('scroll', updS02, {passive:true});
-    window.addEventListener('resize', updS02);
-    updS02();
-  })();
-
-  // S04 asesor robot — hints bilaterales
-  (function(){
-    var sc = document.getElementById('s04-scroll');
-    var hL = document.getElementById('s04-hint-left');
-    var hR = document.getElementById('s04-hint-right');
-    if (!sc || !hL || !hR) return;
-    function updS04() {
-      if (window.innerWidth > 800) { hL.style.display='none'; hR.style.display='none'; return; }
-      var canL = sc.scrollLeft > 4;
-      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
-      hL.style.display = canL ? 'flex' : 'none';
-      hR.style.display = canR ? 'flex' : 'none';
-    }
-    sc.addEventListener('scroll', updS04, {passive:true});
-    window.addEventListener('resize', updS04);
-    updS04();
-  })();
-
-  // Asesor — hints bilaterales
-  (function(){
-    var sc = document.getElementById('asesor-scroll');
-    var hL = document.getElementById('asesor-hint-left');
-    var hR = document.getElementById('asesor-hint-right');
-    if (!sc || !hL || !hR) return;
-    function updAsesor() {
-      if (window.innerWidth > 700) { hL.style.display='none'; hR.style.display='none'; return; }
-      var canL = sc.scrollLeft > 4;
-      var canR = sc.scrollLeft < (sc.scrollWidth - sc.clientWidth - 4);
-      hL.style.display = canL ? 'flex' : 'none';
-      hR.style.display = canR ? 'flex' : 'none';
-    }
-    sc.addEventListener('scroll', updAsesor, {passive:true});
-    window.addEventListener('resize', updAsesor);
-    updAsesor();
-  })();
-})();
-</script>
-
-<script>
-/* ── Scroll hints bilaterales — 16 julio 2026 ── */
-(function(){
-  function setupBilateral(scrollEl, leftHint, rightHint) {
-    if (!scrollEl) return;
-    function update() {
-      var atStart = scrollEl.scrollLeft <= 4;
-      var atEnd   = scrollEl.scrollLeft >= scrollEl.scrollWidth - scrollEl.clientWidth - 4;
-      var canScroll = scrollEl.scrollWidth > scrollEl.clientWidth + 4;
-      if (leftHint)  leftHint.style.display  = (!atStart && canScroll) ? 'flex' : 'none';
-      if (rightHint) rightHint.style.display = (!atEnd   && canScroll) ? 'flex' : 'none';
-    }
-    update();
-    scrollEl.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-  }
-
-  // Bottom-info
-  setupBilateral(
-    document.getElementById('bi-scroll'),
-    document.getElementById('bi-hint-left'),
-    document.getElementById('bi-hint-right')
-  );
-
-  // Condicionados CG
-  setupBilateral(
-    document.getElementById('cg-scroll'),
-    document.getElementById('cg-hint-left'),
-    document.getElementById
+</body>
+</html>
