@@ -5455,6 +5455,20 @@ body {
 }
 
 
+/* ══ KIVO TICKER MARQUEE — móvil ══ */
+@keyframes kivo-marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.kivo-ticker-wrap{display:none;overflow:hidden;width:100%;background:#fff;border-top:1px solid #E1E8EA;border-bottom:1px solid #E1E8EA;padding:0}
+.kivo-ticker-inner{display:flex;align-items:center;width:max-content;animation:kivo-marquee 22s linear infinite}
+.kivo-ticker-inner:hover{animation-play-state:paused}
+.kivo-ticker-item{display:flex;align-items:center;gap:12px;padding:0 28px;min-height:64px;white-space:nowrap;border-right:1px solid #E1E8EA;flex-shrink:0}
+.kivo-ticker-icon{width:40px;height:40px;border-radius:50%;background:rgba(61,191,160,0.13);display:grid;place-items:center;flex-shrink:0}
+.kivo-ticker-item strong{font-size:15px;font-weight:800;color:#1B2A4A;letter-spacing:-0.01em}
+@media(max-width:600px){
+  .hero-benefits-bar{display:none!important}
+  .bottom-info{display:none!important}
+  .kivo-ticker-wrap{display:block}
+}
+
 /* Modal Asesor */
 .s04-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.6);backdrop-filter:blur(5px);z-index:9999;align-items:center;justify-content:center;padding:20px}
 .s04-modal-overlay.active{display:flex}
@@ -5728,6 +5742,78 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         <p><strong>Y te damos</strong> el precio al instante.</p>
       </div>
     </aside>
+
+    <!-- ══ TICKER MÓVIL — reemplaza ambas filas en pantallas pequeñas ══ -->
+    <div class="kivo-ticker-wrap">
+      <div class="kivo-ticker-inner">
+        <!-- bloque original -->
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7Z"/></svg></div>
+          <strong>Reembolso en 24/48h.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/></svg></div>
+          <strong>Sin letra pequeña.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M4 20c1-4 7-4 8 0M12 20c1-4 7-4 8 0"/></svg></div>
+          <strong>Sin complicaciones.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/></svg></div>
+          <strong>Asesor IA KIVO.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">✣</span></div>
+          <strong>Te aconsejamos.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">⚙</span></div>
+          <strong>Recomendamos tu plan.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">▣</span></div>
+          <strong>Te lo explicamos todo.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">♡</span></div>
+          <strong>Precio al instante.</strong>
+        </div>
+        <!-- duplicado para loop continuo -->
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7Z"/></svg></div>
+          <strong>Reembolso en 24/48h.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/></svg></div>
+          <strong>Sin letra pequeña.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M4 20c1-4 7-4 8 0M12 20c1-4 7-4 8 0"/></svg></div>
+          <strong>Sin complicaciones.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3DBFA0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/></svg></div>
+          <strong>Asesor IA KIVO.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">✣</span></div>
+          <strong>Te aconsejamos.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">⚙</span></div>
+          <strong>Recomendamos tu plan.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">▣</span></div>
+          <strong>Te lo explicamos todo.</strong>
+        </div>
+        <div class="kivo-ticker-item">
+          <div class="kivo-ticker-icon"><span style="font-size:18px;color:#3DBFA0">♡</span></div>
+          <strong>Precio al instante.</strong>
+        </div>
+      </div>
+    </div>
 
     <div class="privacy">🔒 Tus datos están protegidos y no serán compartidos.</div>
   </section>
