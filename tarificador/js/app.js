@@ -485,6 +485,16 @@ function showStep(n) {
     var _isFS = new URLSearchParams(window.location.search).get('modo') === 'fullscreen';
     salirBtn.style.display = (_isFS && n === 1) ? 'flex' : 'none';
   }
+  if (n === 1) {
+    // Resetear especie para que el usuario elija explícitamente
+    S.especie = null;
+    var tPerro = document.getElementById('tile-perro');
+    var tGato  = document.getElementById('tile-gato');
+    if (tPerro) tPerro.classList.remove('sel');
+    if (tGato)  tGato.classList.remove('sel');
+    var btnS1 = document.getElementById('btn-s1');
+    if (btnS1) btnS1.disabled = true;
+  }
   if (n === 5) setupStep4b();
   if (n === 6) populateMascotaResumen();
   window.scrollTo(0, 0);
@@ -1394,7 +1404,7 @@ function _procesarContratar() {
   // Pre-fill email y tel como readonly (ya dados en la oferta)
   var emailEl = document.getElementById('c2-email');
   var telEl   = document.getElementById('c2-tel');
-  if (emailEl) { emailEl.value = S.email || ''; emailEl.setAttribute('readonly','readonly'); emailEl.classList.add('input-readonly'); }
+  if (emailEl) { emailEl.value = S.email || ''; emailEl.setAttribute('readonly','readonly'); emailEl.classList.add('input-readonly'); var _ed=document.getElementById('c2-email-display'); if(_ed) _ed.textContent = S.email || '—'; }
   if (telEl)   { telEl.value   = S.tel   || ''; telEl.setAttribute('readonly','readonly');   telEl.classList.add('input-readonly'); }
 
   showScreen('sc2');
@@ -1616,24 +1626,42 @@ function showAddrConfirm() {
   if (provincia) addr += ' (' + provincia + ')';
   document.getElementById('addr-formatted').textContent = addr || '—';
   document.getElementById('addr-confirm').classList.add('open');
-  // Cambiar botón a estado confirmado
+  // Ocultar el botón grande — solo queda el de dentro del cuadro de dirección
   var btnC3 = document.getElementById('btn-c3');
-  if(btnC3){
-    btnC3.style.background = '#3DBFA0';
-    btnC3.innerHTML = '✓ Dirección confirmada &nbsp;·&nbsp; Continuar <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    btnC3.onclick = function(){ goToC4(); };
-  }
+  if(btnC3){ btnC3.style.display = 'none'; }
 }
 
 
 /* ── PAGO: TABS TARJETA / IBAN ── */
 function setPayTab(tab, el) {
-  document.querySelectorAll('.pay-tab').forEach(function(b){ b.classList.remove('active'); });
-  if (el) el.classList.add('active');
-  var cardDiv = document.getElementById('pay-card');
-  var ibanDiv = document.getElementById('pay-iban');
+  var cardDiv  = document.getElementById('pay-card');
+  var ibanDiv  = document.getElementById('pay-iban');
+  var lblCard  = document.getElementById('pay-label-card');
+  var lblIban  = document.getElementById('pay-label-iban');
+  var dotCard  = document.getElementById('radio-dot-card');
+  var dotIban  = document.getElementById('radio-dot-iban');
+  var chkIban  = document.getElementById('iban-check');
+
   if (cardDiv) cardDiv.style.display = (tab === 'card') ? '' : 'none';
   if (ibanDiv) ibanDiv.style.display = (tab === 'iban') ? '' : 'none';
+
+  if (tab === 'card') {
+    if (lblCard) { lblCard.style.border='2px solid #3DBFA0'; lblCard.style.background='#f4fdfb'; }
+    if (lblIban) { lblIban.style.border='2px solid #d8dce8'; lblIban.style.background='#fff'; }
+    if (dotCard) { dotCard.style.background='#fff'; dotCard.parentElement.style.background='#3DBFA0'; dotCard.parentElement.style.border='2px solid #3DBFA0'; }
+    if (dotIban) { dotIban.style.background='transparent'; dotIban.parentElement.style.background='#fff'; dotIban.parentElement.style.border='2px solid #d8dce8'; }
+    if (chkIban) chkIban.style.color='transparent';
+    var chkCard = lblCard ? lblCard.querySelector('span:last-child') : null;
+    if (chkCard) chkCard.style.color='#3DBFA0';
+  } else {
+    if (lblIban) { lblIban.style.border='2px solid #3DBFA0'; lblIban.style.background='#f4fdfb'; }
+    if (lblCard) { lblCard.style.border='2px solid #d8dce8'; lblCard.style.background='#fff'; }
+    if (dotIban) { dotIban.style.background='#fff'; dotIban.parentElement.style.background='#3DBFA0'; dotIban.parentElement.style.border='2px solid #3DBFA0'; }
+    if (dotCard) { dotCard.style.background='transparent'; dotCard.parentElement.style.background='#fff'; dotCard.parentElement.style.border='2px solid #d8dce8'; }
+    if (chkIban) chkIban.style.color='#3DBFA0';
+    var chkCard2 = lblCard ? lblCard.querySelector('span:last-child') : null;
+    if (chkCard2) chkCard2.style.color='transparent';
+  }
 }
 
 function formatIBAN(el) {
@@ -1988,7 +2016,7 @@ function _irAlCheckout(allMascotas) {
   var tel0    = allMascotas[0] ? allMascotas[0]._tel   : S.tel;
   var emailEl = document.getElementById('c2-email');
   var telEl   = document.getElementById('c2-tel');
-  if (emailEl) { emailEl.value = email0 || ''; emailEl.setAttribute('readonly','readonly'); emailEl.classList.add('input-readonly'); }
+  if (emailEl) { emailEl.value = email0 || ''; emailEl.setAttribute('readonly','readonly'); emailEl.classList.add('input-readonly'); var _ed2=document.getElementById('c2-email-display'); if(_ed2) _ed2.textContent = email0 || '—'; }
   if (telEl)   { telEl.value   = tel0   || ''; telEl.setAttribute('readonly','readonly');   telEl.classList.add('input-readonly'); }
 
   completedMascotas = []; _activePetIdx = -1; _newPetDraft = null;
