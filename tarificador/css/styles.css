@@ -859,6 +859,15 @@ input,select{font-family:inherit;outline:none;border:none}
   }
 }
 
+/* ── Especie tiles móvil 17/07/2026 ── */
+@media(max-width:600px){
+  .especie-tiles { gap: 12px !important; }
+  .especie-tile { padding: 22px 10px !important; min-width: 0 !important; flex: 1 !important; }
+  .especie-tile img { width: 60px !important; height: 60px !important; }
+  .especie-tile:hover { transform: none !important; box-shadow: 0 0 0 3px rgba(61,191,160,0.28) !important; }
+  .especie-tile.sel { box-shadow: 0 0 0 3px rgba(61,191,160,0.35) !important; }
+}
+
 /* ── Tiles especie: sin overflow en móvil 17/07/2026 ── */
 @media(max-width:600px){
   .especie-tiles { gap: 10px !important; }
