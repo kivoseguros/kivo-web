@@ -722,7 +722,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <div class="ffield"><label>DNI / NIE *</label><input class="kinput" type="text" id="c2-dni" placeholder="12345678A" maxlength="9" oninput="validateC2()"><span class="field-msg" id="msg-dni"></span></div>
       </div>
       <div class="frow">
-        <div class="ffield" style="flex:1 1 100%"><label>Email</label><input class="kinput input-readonly" type="text" id="c2-email" placeholder="tu@email.com" readonly><span class="field-msg" id="msg-c2email"></span></div>
+        <div class="ffield" style="flex:1 1 100%"><label>Email</label><input class="kinput input-readonly" type="text" id="c2-email" placeholder="tu@email.com" readonly style="position:absolute;opacity:0;pointer-events:none;height:0;width:0;"><div id="c2-email-display" style="width:100%;border:2px solid #d8dce8;border-radius:14px;padding:14px 20px;font-size:14px;font-weight:600;color:rgba(27,42,74,0.5);background:#eef0f5;word-break:break-all;line-height:1.4;min-height:52px;">—</div><span class="field-msg" id="msg-c2email"></span></div>
       </div>
       <div class="frow">
         <div class="ffield"><label>Teléfono</label><input class="kinput input-readonly" type="text" id="c2-tel" placeholder="+34 600 000 000" readonly><span class="field-msg" id="msg-c2tel"></span></div>
@@ -858,16 +858,29 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     <!-- COLUMNA IZQUIERDA: FORMULARIO PAGO -->
     <div>
       <div class="ccard">
-        <!-- MÉTODO DE PAGO: TABS -->
-        <div class="pay-tabs" style="margin-bottom:20px">
-          <button class="pay-tab active" onclick="setPayTab('card',this)">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2.5" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 5.5h12" stroke="currentColor" stroke-width="1.3"/></svg>
-            Tarjeta
-          </button>
-          <button class="pay-tab" onclick="setPayTab('iban',this)">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5l5-3 5 3v6H2V5z" stroke="currentColor" stroke-width="1.3"/><rect x="5" y="8" width="4" height="3" rx=".5" stroke="currentColor" stroke-width="1.3"/></svg>
-            Domiciliación
-          </button>
+        <!-- MÉTODO DE PAGO: RADIO CARDS -->
+        <div style="font-size:13px;font-weight:700;color:rgba(27,42,74,0.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;">Método de pago</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+          <label onclick="setPayTab('card',this)" id="pay-label-card" style="display:flex;align-items:center;gap:14px;border:2px solid #3DBFA0;border-radius:14px;padding:14px 18px;cursor:pointer;background:#f4fdfb;transition:all .2s;">
+            <span style="width:20px;height:20px;border-radius:50%;border:2px solid #3DBFA0;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#3DBFA0;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#fff;display:block;" id="radio-dot-card"></span>
+            </span>
+            <span style="flex:1;">
+              <span style="display:block;font-weight:700;font-size:15px;color:#1B2A4A;">Pago con tarjeta</span>
+              <span style="font-size:12px;color:rgba(27,42,74,0.5);">Visa, Mastercard, American Express</span>
+            </span>
+            <span style="font-size:11px;font-weight:700;color:#3DBFA0;">✓ Seleccionado</span>
+          </label>
+          <label onclick="setPayTab('iban',this)" id="pay-label-iban" style="display:flex;align-items:center;gap:14px;border:2px solid #d8dce8;border-radius:14px;padding:14px 18px;cursor:pointer;background:#fff;transition:all .2s;">
+            <span style="width:20px;height:20px;border-radius:50%;border:2px solid #d8dce8;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
+              <span style="width:8px;height:8px;border-radius:50%;background:transparent;display:block;" id="radio-dot-iban"></span>
+            </span>
+            <span style="flex:1;">
+              <span style="display:block;font-weight:700;font-size:15px;color:#1B2A4A;">Pago por cuenta bancaria</span>
+              <span style="font-size:12px;color:rgba(27,42,74,0.5);">Domiciliación bancaria · IBAN español</span>
+            </span>
+            <span style="font-size:11px;font-weight:700;color:transparent;" id="iban-check">✓ Seleccionado</span>
+          </label>
         </div>
 
         <!-- FORMULARIO TARJETA -->
@@ -967,7 +980,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       <h2 style="color:#1B2A4A;font-size:22px;margin:0 0 12px">¡Póliza activa! 🎉</h2>
       <p style="color:#555;font-size:15px;margin:0 0 8px">Tu contratación se ha completado con éxito.</p>
       <p style="color:#888;font-size:13px;margin:0 0 32px">Hemos enviado un email con el resumen de tu póliza y los documentos a tu correo.</p>
-      <button class="btn-cta" onclick="window.location.href='https://kivoseguros.com'" style="background:#3DBFA0;max-width:260px;margin:0 auto;display:block">← Volver a la web</button>
+      <button class="btn-cta" onclick="window.parent.postMessage({type:'kivo-tarificador-exit'},'*'); window.location.href='https://kivoseguros.com';" style="background:#3DBFA0;max-width:260px;margin:0 auto;display:block">← Volver a la web</button>
       <button class="btn-cta" onclick="location.reload()" style="background:#1B2A4A;max-width:260px;margin:0 auto;display:block;margin-top:12px">Contratar otra mascota</button>
       <div style="margin-top:20px;font-size:13px;color:#888">¿Dudas? <a href="#" onclick="abrirWhatsApp();return false;" style="color:#3DBFA0">WhatsApp KIVO</a></div>
     </div>
