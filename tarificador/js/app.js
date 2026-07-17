@@ -1917,7 +1917,7 @@ function _enviarEmailCotizacion(email, mascotas, total, periodo) {
   var html = [
     '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">',
     '<div style="background:#1B2A4A;padding:28px 32px;text-align:center;">',
-    '<img src="https://kivo-web-seven.vercel.app/assets/logo-kivo-blanco.png" alt="KIVO Seguros" style="height:48px;" onerror="this.style.display='none'">',
+    '<img src="https://kivo-web-seven.vercel.app/assets/logo-kivo-blanco.png" alt="KIVO Seguros" style="height:48px;" onerror="this.style.display=\'none\'">',
     '<h1 style="color:#fff;margin:12px 0 0;font-size:22px;font-weight:700;">Tu cotización KIVO está lista</h1>',
     '</div>',
     '<div style="padding:32px;">',
