@@ -2411,4 +2411,5 @@ function toggleSc4Cov(id, btn) {
   el.style.display = open ? 'none' : 'block';
   if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
   var span = btn ? btn.querySelector('span') : null;
-  if (span) span.textContent = open ? 'Ver coberturas incluidas' : 'Ocultar cobertura
+  if (span) span.textContent = open ? 'Ver coberturas incluidas' : 'Ocultar cobertura';
+}
