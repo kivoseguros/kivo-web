@@ -52,7 +52,6 @@
     // Resultado
     check:      `<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>`,
     arrowRight: `<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>`,
-    user:       `<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
   };
 
   /* ---- Preguntas con iconos Lucide coherentes ---- */
@@ -262,13 +261,7 @@
     progressFill.style.width  = Math.round((idx / total) * 100) + '%';
     progressLabel.textContent = `${idx + 1} / ${total}`;
 
-    const _nombre = answers.nombre ? answers.nombre : null;
-    const _headerNombre = _nombre
-      ? `<p class="quiz-name-context">Planificando el plan ideal para <strong>${_nombre}</strong> ✨</p>`
-      : '';
-
     quizContent.innerHTML = `
-      ${_headerNombre}
       <span class="quiz-step-num">${idx + 1}</span>
       <p class="quiz-question">${q.question}</p>
       <div class="quiz-options">
@@ -401,8 +394,8 @@
       resultPanel.innerHTML =
         '<div class="result-intro">' +
           '<div class="result-check-icon">' + chkIcoMain + '</div>' +
-          '<h3>' + (answers.nombre ? 'El plan ideal para <span class="rpc-pet-name">' + answers.nombre + '</span> es ' + pd.name : 'Tu plan ideal es ' + pd.name) + '</h3>' +
-          '<p>Basado en sus respuestas, esta es nuestra recomendación personalizada.</p>' +
+          '<h3>Tu plan ideal es ' + pd.name + '</h3>' +
+          '<p>Basado en tus respuestas, esta es nuestra recomendación personalizada.</p>' +
         '</div>' +
 
         '<p class="result-select-hint">Acepta el plan o planes aconsejados y procede a la contratación</p>' +
@@ -433,7 +426,6 @@
           '<span>Aceptar recomendación del asesor y contratar</span>' +
           svg(IC.arrowRight) +
         '</a>' +
-        '<p class="result-nota-contrat">📋 Los datos específicos de ' + (answers.nombre ? answers.nombre : 'tu mascota') + ' (raza, fecha de nacimiento, código postal...) se completarán en el propio formulario de contratación.</p>' +
         '<button class="result-cta-reset" id="resetBtn">↩ Volver a empezar</button>';
 
       /* ── Eventos checkboxes ── */
@@ -475,61 +467,18 @@
   }
 
 
-  /* ── Paso 0: bienvenida + nombre mascota ── */
-  function showNameStep() {
-    answers = {}; currentIdx = 0; activeQuestions = [];
+  function resetQuiz() {
+    answers = {}; currentIdx = 0; activeQuestions = [...QUESTIONS];
     resultPanel.classList.remove('visible');
-    resultPanel.innerHTML = '';
+    resultPanel.innerHTML   = '';
     if (quizCard) quizCard.style.display = '';
     quizPanel.style.display = 'block';
     progressFill.style.width  = '0%';
-    progressLabel.textContent = '';
-
-    quizContent.innerHTML = `
-      <div class="quiz-welcome-icon">${svg(IC.user)}</div>
-      <p class="quiz-welcome-title">¡Bienvenido al Asesor KIVO!</p>
-      <p class="quiz-welcome-sub">En menos de 2 minutos encontraremos el plan perfecto para tu mascota.</p>
-      <p class="quiz-question">Para empezar, ¿cómo se llama tu mascota?</p>
-      <div class="quiz-name-wrap">
-        <input id="inputNombre" class="quiz-name-input" type="text" placeholder="Nombre de tu mascota" maxlength="30" autocomplete="off" />
-      </div>
-      <div class="quiz-nav-bar">
-        <span></span>
-        <button class="quiz-btn-next" id="nextBtnNombre" type="button">
-          Empezar ${svg(IC.arrowRight)}
-        </button>
-        <span></span>
-      </div>
-    `;
-
-    const input   = document.getElementById('inputNombre');
-    const nextBtn = document.getElementById('nextBtnNombre');
-
-    /* Activar botón cuando hay texto */
-    function checkNombre() {
-      const v = input.value.trim();
-      nextBtn.classList.toggle('active', v.length > 0);
-    }
-    input.addEventListener('input', checkNombre);
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); startQuiz(); }
-    });
-    nextBtn.addEventListener('click', startQuiz);
-
-    function startQuiz() {
-      const nombre = input.value.trim();
-      if (!nombre) return;
-      answers.nombre = nombre;
-      buildActiveQuestions('perro');
-      goTo(0);
-    }
-  }
-
-  function resetQuiz() {
-    showNameStep();
+    progressLabel.textContent = '1 / 8';
+    renderQuestion(0);
   }
 
   buildActiveQuestions('perro');
-  showNameStep();
+  renderQuestion(0);
 
 })();
