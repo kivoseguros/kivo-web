@@ -655,6 +655,18 @@ function toggleNoFecha() {
   onFecha();
 }
 
+function onFechaSelects() {
+  var d = document.getElementById('sel-dia').value;
+  var m = document.getElementById('sel-mes').value;
+  var y = document.getElementById('sel-anio').value;
+  if (d && m && y) {
+    document.getElementById('inp-fecha').value = y + '-' + m + '-' + d.padStart(2,'0');
+  } else {
+    document.getElementById('inp-fecha').value = '';
+  }
+  onFecha();
+}
+
 function onFecha() {
   var ok;
   if (S.noFecha) {
