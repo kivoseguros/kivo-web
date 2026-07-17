@@ -1043,7 +1043,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       <h2 style="color:#1B2A4A;font-size:22px;margin:0 0 12px">¡Póliza activa! 🎉</h2>
       <p style="color:#555;font-size:15px;margin:0 0 8px">Tu contratación se ha completado con éxito.</p>
       <p style="color:#888;font-size:13px;margin:0 0 32px">Hemos enviado un email con el resumen de tu póliza y los documentos a tu correo.</p>
-      <button class="btn-cta" onclick="window.parent.postMessage({type:'kivo-tarificador-exit'},'*')" style="background:#3DBFA0;max-width:260px;margin:0 auto;display:block">← Volver a la web</button>
+      <button class="btn-cta" onclick="window.location.href='https://kivoseguros.com'" style="background:#3DBFA0;max-width:260px;margin:0 auto;display:block">← Volver a la web</button>
       <button class="btn-cta" onclick="location.reload()" style="background:#1B2A4A;max-width:260px;margin:0 auto;display:block;margin-top:12px">Contratar otra mascota</button>
       <div style="margin-top:20px;font-size:13px;color:#888">¿Dudas? <a href="#" onclick="abrirWhatsApp();return false;" style="color:#3DBFA0">WhatsApp KIVO</a></div>
     </div>
@@ -1063,7 +1063,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       <h2 class="s-error-title">No se ha podido completar la contratación</h2>
       <p class="s-error-sub">Algo ha ido mal con el pago. Puedes intentarlo de nuevo o contactarnos.</p>
       <button class="s-error-retry" onclick="goToC4()">← Volver a intentarlo</button>
-      <button class="s-error-btn-home" onclick="window.parent.postMessage({type:'kivo-tarificador-exit'},'*')">Ir a la página principal</button>
+      <button class="s-error-btn-home" onclick="window.location.href='https://kivoseguros.com'">Ir a la página principal</button>
       <div class="s-error-contact">¿Tienes dudas? <a href="#" onclick="abrirWhatsApp();return false;">Contáctanos por WhatsApp</a></div>
     </div>
     <div class="s-error-foot">©KIVO Seguros, S.L.</div>
@@ -1171,4 +1171,12 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </label>
     </div>
 
-    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc2
+    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc2')" disabled style="margin-top:20px;width:100%">
+      Continuar con la contratación
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+</body>
+</html>
