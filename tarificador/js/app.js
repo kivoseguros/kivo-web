@@ -479,11 +479,14 @@ function showStep(n) {
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
   if (btnBack) btnBack.style.visibility = (n === 1) ? 'hidden' : 'visible';
-  // Botón Salir: solo visible en paso 1, solo si estamos en modo fullscreen
+  // Botón Salir: solo visible en paso 1 en fullscreen; ocultar btn-salir-top cuando fixed está activo
   var salirBtn = document.getElementById('kivo-btn-salir-fixed');
+  var salirTop = document.querySelector('.btn-salir-top');
   if (salirBtn) {
     var _isFS = new URLSearchParams(window.location.search).get('modo') === 'fullscreen';
-    salirBtn.style.display = (_isFS && n === 1) ? 'flex' : 'none';
+    var _showFixed = (_isFS && n === 1);
+    salirBtn.style.display = _showFixed ? 'flex' : 'none';
+    if (salirTop) salirTop.style.display = _showFixed ? 'none' : 'flex';
   }
   if (n === 5) setupStep4b();
   if (n === 6) populateMascotaResumen();
