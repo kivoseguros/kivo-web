@@ -150,11 +150,11 @@ input,select{font-family:inherit;outline:none;border:none}
 .ftop{background:var(--bg);border-bottom:1px solid var(--border);transition:none;padding:0 24px;position:sticky;top:0;z-index:100}
 
 .ftop-inner{max-width:100%;margin:0;padding:0 24px;display:flex;align-items:center;height:90px;gap:16px;position:relative}
-.btn-back{display:none;align-items:center;gap:6px;padding:0 14px 0 10px;height:36px;border-radius:20px;background:rgba(27,42,74,0.08);border:1px solid rgba(27,42,74,0.12);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:background .2s;white-space:nowrap;position:fixed;right:104px;top:14px;z-index:200;flex-shrink:0}.btn-back:hover{background:rgba(27,42,74,0.14)}
+.btn-back{display:flex;align-items:center;gap:6px;padding:0 14px 0 10px;height:36px;border-radius:20px;background:rgba(27,42,74,0.08);border:1px solid rgba(27,42,74,0.12);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:background .2s;white-space:nowrap;position:fixed;right:104px;top:14px;z-index:200;flex-shrink:0}.btn-back:hover{background:rgba(27,42,74,0.14)}
 .btn-salir-top{display:flex;align-items:center;gap:6px;padding:0 16px;height:36px;border-radius:20px;background:rgba(27,42,74,0.08);border:1px solid rgba(27,42,74,0.12);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:background .2s;white-space:nowrap;position:fixed;right:20px;top:14px;z-index:200;flex-shrink:0}.btn-salir-top:hover{background:rgba(27,42,74,0.14)}
 .btn-back:hover{background:rgba(27,42,74,0.12)}
 .ftop-logo{height:68px;width:auto;position:absolute;left:24px;top:50%;transform:translateY(-50%)}
-.prog-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
+.prog-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;margin-right:100px}
 .prog-label{font-size:11px;font-weight:700;color:rgba(27,42,74,0.4);letter-spacing:.06em;text-transform:uppercase}
 .prog-bar{width:100%;max-width:200px;height:4px;background:var(--border);border-radius:4px;overflow:hidden}
 .prog-fill{height:100%;background:var(--teal);border-radius:4px;transition:width .4s ease}
@@ -832,63 +832,4 @@ input,select{font-family:inherit;outline:none;border:none}
 .li-titulo{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:4px}
 .li-desc{font-size:13px;color:rgba(27,42,74,0.6);line-height:1.6}
 .li-check-wrap{flex-shrink:0}
-
-/* ── KIVO TARIFICADOR MOBILE — 16 julio 2026 ── */
-@media(max-width:600px){
-  /* Top bar: poner botones en flow normal, no fixed */
-  .btn-back, .btn-salir-top {
-    position: static !important;
-    right: auto !important;
-    top: auto !important;
-  }
-  .ftop-inner {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0 10px !important;
-    height: 58px !important;
-    gap: 6px !important;
-  }
-  .ftop-logo {
-    position: static !important;
-    transform: none !important;
-    height: 34px !important;
-    flex-shrink: 0 !important;
-  }
-  .prog-wrap {
-    flex: 1 !important;
-    max-width: 120px !important;
-  }
-  .btn-back { order: 3 !important; }
-  .btn-salir-top { order: 4 !important; }
-  /* Body del flow */
-  .fbody {
-    padding: 20px 12px 60px !important;
-  }
-  .scard {
-    padding: 22px 16px 28px !important;
-    border-radius: 16px !important;
-  }
-  /* Planes en 1 columna */
-  .plans-grid { grid-template-columns: 1fr !important; }
-  /* Resumen */
-  .mr-grid { grid-template-columns: 1fr !important; }
-}
-@media(max-width:400px){
-  .ftop-inner { height: 52px !important; padding: 0 8px !important; }
-  .ftop-logo { height: 28px !important; }
-  .prog-wrap { max-width: 90px !important; }
-  .btn-back span, .btn-salir-top { font-size: 12px !important; }
-}
-@media(max-width:600px){
-  /* Tiles especie — perro/gato */
-  .especie-tiles { gap: 10px !important; }
-  .especie-tile {
-    padding: 20px 12px !important;
-    min-width: 0 !important;
-    gap: 10px !important;
-  }
-  .especie-tile img { width: 54px !important; height: 54px !important; }
-}
-             
+.li-check{di
