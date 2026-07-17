@@ -276,7 +276,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   background: transparent;
   margin: 28px 8px 0 auto;
 }
-.bottom-info > div { min-height:56px; display:flex; align-items:center; gap:11px; padding:0 12px; border-right:1px solid #E1E8EA; }
+.bottom-info > div { min-height:82px; display:flex; align-items:center; gap:11px; padding:0 12px; border-right:1px solid #E1E8EA; }
 .bottom-info > div:last-child { border-right:0; }
 .bottom-info span { width:34px; height:34px; flex:0 0 auto; border-radius:50%; display:grid; place-items:center; background:rgba(61,191,160,0.10); color:var(--green); font-size:17px; }
 .bottom-info p { margin:0; font-size:11px; line-height:1.25; font-weight:560; }
@@ -5576,8 +5576,15 @@ body {
   font-size: 18px !important;
   font-weight: 800 !important;
   color: #1B2A4A !important;
-  display: block !important;
+  display: inline !important;
   transition: color 0.35s ease !important;
+}
+.bottom-info > div > p {
+  margin: 0 !important;
+  font-size: 14px !important;
+  color: rgba(27,42,74,0.55) !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
 }
 /* Transiciones destello en fila 1 */
 .hero-benefit > div[style*="border-radius"] { transition: background 0.35s ease !important; }
@@ -7578,6 +7585,13 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAsesor();});
 });
 
+
+/* ── kivoAbrirTarif: abre tarificador en nueva pestaña ── */
+function kivoAbrirTarif(especie) {
+  var url = './tarificador/';
+  if (especie) url += '?especie=' + especie;
+  window.open(url, '_blank');
+}
 /* ══ DESTELLOS ALEATORIOS — filas de beneficios ══ */
 (function(){
   var palette=['#3DBFA0','#F97316','#8B5CF6','#3B82F6','#EC4899','#EAB308','#10B981','#06B6D4','#F43F5E'];
