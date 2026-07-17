@@ -5962,7 +5962,23 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   /* Asesor sección inline — landscape */
   .s04 { min-width: 960px !important; }
 }
-</style>
+
+    /* ── Tickers móvil ── */
+    .kivo-ticker-wrap{display:none}
+    .kivo-privacy-mobile{display:none}
+    @media(max-width:600px){
+      .hero-benefits-bar{display:none!important}
+      .bottom-info-scroll-wrap{display:none!important}
+      .kivo-privacy-desktop{display:none!important}
+      .kivo-ticker-wrap{display:block!important;overflow:hidden;padding:6px 0}
+      .kivo-privacy-mobile{display:block!important;text-align:center;font-size:13px;font-weight:520;padding:6px 0;color:#1B2A4A}
+      .kivo-ticker{display:flex;gap:28px;width:max-content;animation:kivo-rtl 22s linear infinite;white-space:nowrap}
+      .kivo-ticker-ltr{animation:kivo-ltr 22s linear infinite}
+      .kivo-ticker span{font-size:14px;font-weight:700;color:#1B2A4A;padding:0 4px}
+      @keyframes kivo-rtl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+      @keyframes kivo-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+    }
+  </style>
 </head>
 <body>
 
@@ -6153,7 +6169,34 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       <div id="bi-hint-right" style="display:none;position:absolute;right:0;top:0;height:100%;width:40px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:22px;color:#1B2A4A;font-weight:900;z-index:3;">›</div>
     </div><!-- /bottom-info-scroll-wrap -->
 
-    <div class="privacy">🔒 Tus datos están protegidos y no serán compartidos.</div>
+    <div class="privacy kivo-privacy-desktop">🔒 Tus datos están protegidos y no serán compartidos.</div>
+
+    <!-- ══ TICKERS MÓVIL (ocultos en desktop) ══ -->
+    <div class="kivo-ticker-wrap kivo-t1">
+      <div class="kivo-ticker">
+        <span>🛡️&nbsp;&nbsp;Sin letra pequeña.</span>
+        <span>⚡&nbsp;&nbsp;Reembolso en 24/48h.</span>
+        <span>👥&nbsp;&nbsp;Sin complicaciones.</span>
+        <span>🤖&nbsp;&nbsp;Asesor IA KIVO.</span>
+        <span>🛡️&nbsp;&nbsp;Sin letra pequeña.</span>
+        <span>⚡&nbsp;&nbsp;Reembolso en 24/48h.</span>
+        <span>👥&nbsp;&nbsp;Sin complicaciones.</span>
+        <span>🤖&nbsp;&nbsp;Asesor IA KIVO.</span>
+      </div>
+    </div>
+    <div class="privacy kivo-privacy-mobile">🔒 Tus datos están protegidos y no serán compartidos.</div>
+    <div class="kivo-ticker-wrap kivo-t2">
+      <div class="kivo-ticker kivo-ticker-ltr">
+        <span>✣&nbsp;&nbsp;Te aconsejamos según lo que más te preocupa.</span>
+        <span>⚙&nbsp;&nbsp;Recomendamos el plan que mejor se adapta.</span>
+        <span>▣&nbsp;&nbsp;Te explicamos por qué ese plan es el ideal.</span>
+        <span>♡&nbsp;&nbsp;Y te damos el precio al instante.</span>
+        <span>✣&nbsp;&nbsp;Te aconsejamos según lo que más te preocupa.</span>
+        <span>⚙&nbsp;&nbsp;Recomendamos el plan que mejor se adapta.</span>
+        <span>▣&nbsp;&nbsp;Te explicamos por qué ese plan es el ideal.</span>
+        <span>♡&nbsp;&nbsp;Y te damos el precio al instante.</span>
+      </div>
+    </div>
   </section>
 
 <!-- ═══ KIVO IA FLOTANTE ═══ -->
@@ -8301,4 +8344,9 @@ function kivoSetLang(lang) {
   setupBilateral(
     document.getElementById('cg-scroll'),
     document.getElementById('cg-hint-left'),
-    document.getElementById
+    document.getElementById('cg-hint-right')
+  );
+})();
+</script>
+</body>
+</html>
