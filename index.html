@@ -276,7 +276,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   background: transparent;
   margin: 28px 8px 0 auto;
 }
-.bottom-info > div { min-height:82px; display:flex; align-items:center; gap:11px; padding:0 12px; border-right:1px solid #E1E8EA; }
+.bottom-info > div { min-height:56px; display:flex; align-items:center; gap:11px; padding:0 12px; border-right:1px solid #E1E8EA; }
 .bottom-info > div:last-child { border-right:0; }
 .bottom-info span { width:34px; height:34px; flex:0 0 auto; border-radius:50%; display:grid; place-items:center; background:rgba(61,191,160,0.10); color:var(--green); font-size:17px; }
 .bottom-info p { margin:0; font-size:11px; line-height:1.25; font-weight:560; }
@@ -5576,15 +5576,8 @@ body {
   font-size: 18px !important;
   font-weight: 800 !important;
   color: #1B2A4A !important;
-  display: inline !important;
+  display: block !important;
   transition: color 0.35s ease !important;
-}
-.bottom-info > div > p {
-  margin: 0 !important;
-  font-size: 14px !important;
-  color: rgba(27,42,74,0.55) !important;
-  line-height: 1.35 !important;
-  white-space: normal !important;
 }
 /* Transiciones destello en fila 1 */
 .hero-benefit > div[style*="border-radius"] { transition: background 0.35s ease !important; }
@@ -7585,27 +7578,6 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAsesor();});
 });
 
-
-/* ── kivoAbrirTarif: abre tarificador en nueva pestaña ── */
-function kivoAbrirTarif(especie) {
-  var url = './tarificador/';
-  if (especie) url += '?especie=' + especie;
-  var modal = document.getElementById('kivoTarifModal');
-  var iframe = document.getElementById('kivoTarifIframe');
-  if (modal && iframe) {
-    iframe.src = url;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  } else {
-    window.location.href = url;
-  }
-}
-function kivoTarifCerrar() {
-  var modal = document.getElementById('kivoTarifModal');
-  var iframe = document.getElementById('kivoTarifIframe');
-  if (modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
-  if (iframe) { iframe.src = ''; }
-}
 /* ══ DESTELLOS ALEATORIOS — filas de beneficios ══ */
 (function(){
   var palette=['#3DBFA0','#F97316','#8B5CF6','#3B82F6','#EC4899','#EAB308','#10B981','#06B6D4','#F43F5E'];
@@ -7664,54 +7636,4 @@ function sendIA() {
   _iaAddMsg(q, 'user');
   setTimeout(function() { _iaAddMsg(_iaMatch(q), 'bot'); }, 400);
 }
-function toggleIAExpand() {
-  var box = document.getElementById('ia-panel');
-  if (!box) return;
-  box.classList.toggle('expanded');
-  var icon = document.getElementById('ia-expand-icon');
-  if (icon) {
-    var exp = box.classList.contains('expanded');
-    icon.innerHTML = exp
-      ? '<path d="M14 2v4h-4M14 2l-4.5 4.5M2 14v-4h4M2 14l4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
-      : '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
-  }
-}
-function _iaAddMsg(txt, who) {
-  var log = document.getElementById('ia-log');
-  if (!log) return;
-  var d = document.createElement('div');
-  d.className = 'ia-msg ia-' + who;
-  d.textContent = txt;
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
-}
-function _iaMatch(q) {
-  q = (q || '').toLowerCase();
-  if (/plan|care|premium|cobertura|reembolso/.test(q)) return IA_RESP[0];
-  if (/precio|coste|mes|año|descuento/.test(q)) return IA_RESP[7];
-  if (/rc|responsabilidad|daño|tercero/.test(q)) return IA_RESP[3];
-  if (/carencia|espera|plazo/.test(q)) return IA_RESP[4];
-  if (/reembolso|factura|app|solicitar/.test(q)) return IA_RESP[5];
-  if (/contratar|registr|alta/.test(q)) return IA_RESP[6];
-  if (/whatsapp|email|correo|contacto/.test(q)) return IA_RESP[2];
-  return IA_RESP[Math.floor(Math.random() * IA_RESP.length)];
-}
-/* ── selector especie hero portal ── */
-var _portalEspecie = null;
-function portalSelectEspecie(especie) {
-  _portalEspecie = especie;
-  document.querySelectorAll('.portal-tile').forEach(function(t) { t.classList.remove('sel'); });
-  var tile = document.getElementById('portal-tile-' + especie);
-  if (tile) tile.classList.add('sel');
-  var btn = document.getElementById('portal-btn-cta');
-  if (btn) btn.removeAttribute('disabled');
-}
-/* ── escuchar mensajes del tarificador (salir/cerrar modal) ── */
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'kivo-tarificador-exit') {
-    kivoTarifCerrar();
-  }
-});
-</script>
-</body>
-</html>
+functi
