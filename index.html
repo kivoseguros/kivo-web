@@ -7590,7 +7590,21 @@ document.addEventListener('DOMContentLoaded',function(){
 function kivoAbrirTarif(especie) {
   var url = './tarificador/';
   if (especie) url += '?especie=' + especie;
-  window.location.href = url;
+  var modal = document.getElementById('kivoTarifModal');
+  var iframe = document.getElementById('kivoTarifIframe');
+  if (modal && iframe) {
+    iframe.src = url;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  } else {
+    window.location.href = url;
+  }
+}
+function kivoTarifCerrar() {
+  var modal = document.getElementById('kivoTarifModal');
+  var iframe = document.getElementById('kivoTarifIframe');
+  if (modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
+  if (iframe) { iframe.src = ''; }
 }
 /* ══ DESTELLOS ALEATORIOS — filas de beneficios ══ */
 (function(){
