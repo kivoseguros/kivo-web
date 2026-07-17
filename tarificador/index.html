@@ -156,21 +156,89 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <div class="sq" id="q3">¿Cuándo nació?</div>
         <div class="shint">La fecha nos ayuda a calcular el precio exacto</div>
 
-        <!-- Fecha exacta: campo con calendario -->
+        <!-- Fecha exacta: tres selectores día/mes/año -->
         <div id="fecha-exact">
-          <div class="date-input-wrap">
-            <input type="date" class="kinput" id="inp-fecha" onchange="onFecha()"
-                   min="2000-01-01" max="2026-12-31">
-            <svg class="date-cal-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                 onclick="document.getElementById('inp-fecha').showPicker && document.getElementById('inp-fecha').showPicker()">
-              <rect x="2" y="3" width="16" height="15" rx="3" stroke="#3DBFA0" stroke-width="1.6"/>
-              <path d="M2 8h16" stroke="#3DBFA0" stroke-width="1.6"/>
-              <path d="M6 1v4M14 1v4" stroke="#3DBFA0" stroke-width="1.6" stroke-linecap="round"/>
-              <rect x="5" y="11" width="3" height="3" rx="1" fill="#3DBFA0"/>
-              <rect x="9" y="11" width="3" height="3" rx="1" fill="#3DBFA0"/>
-            </svg>
+          <input type="hidden" id="inp-fecha">
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <select class="ksel" id="sel-dia" onchange="onFechaSelects()" style="flex:1">
+              <option value="">Día</option>
+              <option value="01">1</option>
+              <option value="02">2</option>
+              <option value="03">3</option>
+              <option value="04">4</option>
+              <option value="05">5</option>
+              <option value="06">6</option>
+              <option value="07">7</option>
+              <option value="08">8</option>
+              <option value="09">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+            </select>
+            <select class="ksel" id="sel-mes" onchange="onFechaSelects()" style="flex:2">
+              <option value="">Mes</option>
+              <option value="01">Enero</option><option value="02">Febrero</option>
+              <option value="03">Marzo</option><option value="04">Abril</option>
+              <option value="05">Mayo</option><option value="06">Junio</option>
+              <option value="07">Julio</option><option value="08">Agosto</option>
+              <option value="09">Septiembre</option><option value="10">Octubre</option>
+              <option value="11">Noviembre</option><option value="12">Diciembre</option>
+            </select>
+            <select class="ksel" id="sel-anio" onchange="onFechaSelects()" style="flex:1.5">
+              <option value="">Año</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+              <option value="2014">2014</option>
+              <option value="2013">2013</option>
+              <option value="2012">2012</option>
+              <option value="2011">2011</option>
+              <option value="2010">2010</option>
+              <option value="2009">2009</option>
+              <option value="2008">2008</option>
+              <option value="2007">2007</option>
+              <option value="2006">2006</option>
+              <option value="2005">2005</option>
+              <option value="2004">2004</option>
+              <option value="2003">2003</option>
+              <option value="2002">2002</option>
+              <option value="2001">2001</option>
+              <option value="2000">2000</option>
+              <option value="1999">1999</option>
+              <option value="1998">1998</option>
+              <option value="1997">1997</option>
+              <option value="1996">1996</option>
+              <option value="1995">1995</option>
+            </select>
           </div>
-          <p class="date-hint">Escribe la fecha o utiliza el selector</p>
         </div>
 
         <!-- No sé la fecha exacta -->
@@ -785,7 +853,6 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </div>
       <div class="addr-confirm" id="addr-confirm">
         <div class="addr-formatted" id="addr-formatted">—</div>
-        <button class="btn-adrok" onclick="goToC4()">Confirmar y continuar →</button>
       </div>
       <button class="btn-cta" id="btn-c3" onclick="showAddrConfirm()" disabled>Comprobar dirección <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
