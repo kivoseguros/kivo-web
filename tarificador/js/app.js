@@ -478,7 +478,7 @@ function showStep(n) {
   curStep = n;
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
-  if (btnBack) btnBack.style.display = (n === 1) ? 'none' : 'flex';
+  if (btnBack) btnBack.style.visibility = (n === 1) ? 'hidden' : 'visible';
   // Botón Salir: solo visible en paso 1, solo si estamos en modo fullscreen
   var salirBtn = document.getElementById('kivo-btn-salir-fixed');
   if (salirBtn) {
@@ -731,10 +731,10 @@ function selectPeso(p, el) {
 
 function buildBreeds(filter) {
   var breeds = BREEDS[S.especie] || [];
-  var f = (filter || '').toLowerCase();
+  var f = filter.toLowerCase();
   var list = f ? breeds.filter(function(b) { return b.toLowerCase().indexOf(f) >= 0; }) : breeds;
   var el = document.getElementById('breed-list');
-  if (!el) return;
+  el.innerHTML = '';
   list.forEach(function(b) {
     var d = document.createElement('div');
     d.className = 'bitem';
@@ -1894,66 +1894,6 @@ function _enviarEmailPoliza() {
 }
 
 /* ── CHECKOUT COMBINADO MULTI-MASCOTA ── */
-
-function _enviarEmailCotizacion(email, mascotas, total, periodo) {
-  var suffix = periodo === 'anual' ? '/año' : '/mes';
-  var planResumen = mascotas.map(function(pet) {
-    var pr = periodo === 'anual' ? (pet.precioMes||pet.precio)*12*(1-DESC_ANUAL) : (pet.precioMes||pet.precio);
-    return '<tr><td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;">' + pet.nombre + ' (' + (pet.especie==='perro'?'Perro':'Gato') + ')</td>' +
-           '<td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;">' + pet.planLabel + '</td>' +
-           '<td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;font-weight:bold;">' + fmt(pr) + suffix + '</td></tr>';
-  }).join('');
-
-  var params = mascotas.map(function(pet, i) {
-    return 'pet' + i + '=' + encodeURIComponent(JSON.stringify({
-      nombre: pet.nombre, especie: pet.especie, raza: pet.raza,
-      plan: pet.plan, precio: pet.precio, precioMes: pet.precioMes,
-      planLabel: pet.planLabel
-    }));
-  }).join('&');
-  params += '&periodo=' + periodo + '&email=' + encodeURIComponent(email);
-  var retomar = 'https://kivo-web-seven.vercel.app/tarificador/tarificador.html?' + params;
-
-  var html = [
-    '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">',
-    '<div style="background:#1B2A4A;padding:28px 32px;text-align:center;">',
-    '<img src="https://kivo-web-seven.vercel.app/assets/logo-kivo-blanco.png" alt="KIVO Seguros" style="height:48px;" onerror="this.style.display='none'">',
-    '<h1 style="color:#fff;margin:12px 0 0;font-size:22px;font-weight:700;">Tu cotización KIVO está lista</h1>',
-    '</div>',
-    '<div style="padding:32px;">',
-    '<p style="color:#444;font-size:15px;margin:0 0 20px;">Hemos guardado tu cotización. Si en cualquier momento decides proteger a tu mascota, puedes retomar el proceso exactamente donde lo dejaste.</p>',
-    '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">',
-    '<thead><tr style="background:#f0faf6;">',
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Mascota</th>',
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Plan</th>',
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Precio</th>',
-    '</tr></thead><tbody>',
-    planResumen,
-    '<tr style="background:#f0faf6;"><td colspan="2" style="padding:10px 12px;font-weight:700;color:#1B2A4A;">TOTAL</td>',
-    '<td style="padding:10px 12px;font-weight:700;color:#3DBFA0;font-size:18px;">' + fmt(total) + suffix + '</td></tr>',
-    '</tbody></table>',
-    '<div style="text-align:center;margin:28px 0;">',
-    '<a href="' + retomar + '" style="background:#3DBFA0;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;display:inline-block;">Retomar mi contratación →</a>',
-    '</div>',
-    '<p style="color:#888;font-size:13px;text-align:center;margin:0;">Si tienes dudas, nuestro asesor KIVO está disponible en <a href="https://kivoseguros.com" style="color:#3DBFA0;">kivoseguros.com</a></p>',
-    '</div>',
-    '<div style="background:#f8f8f8;padding:16px 32px;text-align:center;border-top:1px solid #eee;">',
-    '<p style="color:#aaa;font-size:12px;margin:0;">KIVO Seguros S.L. · no-reply@kivoseguros.com<br>Este email es automático, no respondas a este mensaje.</p>',
-    '</div>',
-    '</div>'
-  ].join('\n');
-
-  fetch('/api/send-email', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      to: email,
-      subject: '🐾 Tu cotización KIVO está guardada — retómala cuando quieras',
-      html: html
-    })
-  }).catch(function() {}); // silencioso, no interrumpe el flujo
-}
-
 function _irAlCheckout(allMascotas) {
   _checkoutPets = allMascotas; // guardamos para docs y sc5
   var p      = allMascotas.length > 0 ? allMascotas[0].periodo : S.periodo;
@@ -1997,12 +1937,6 @@ function _irAlCheckout(allMascotas) {
   var btnExcl = document.getElementById('btn-excl');
   if (exclChk) exclChk.checked = false;
   if (btnExcl) btnExcl.disabled = true;
-
-  // Email de cotización al llegar al resumen
-  if (email0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email0)) {
-    _enviarEmailCotizacion(email0, allMascotas, total, p);
-  }
-
   showScreen('sc-excl');
 }
 
@@ -2411,4 +2345,5 @@ function toggleSc4Cov(id, btn) {
   el.style.display = open ? 'none' : 'block';
   if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
   var span = btn ? btn.querySelector('span') : null;
-  if (span) span.textContent = open ? 'Ver coberturas incluidas' : 'Ocultar cobertura
+  if (span) span.textContent = open ? 'Ver coberturas incluidas' : 'Ocultar coberturas';
+}
