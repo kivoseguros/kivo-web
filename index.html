@@ -7590,7 +7590,7 @@ document.addEventListener('DOMContentLoaded',function(){
 function kivoAbrirTarif(especie) {
   var url = './tarificador/';
   if (especie) url += '?especie=' + especie;
-  window.open(url, '_blank');
+  window.location.href = url;
 }
 /* ══ DESTELLOS ALEATORIOS — filas de beneficios ══ */
 (function(){
