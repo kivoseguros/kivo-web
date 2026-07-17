@@ -833,3 +833,28 @@ input,select{font-family:inherit;outline:none;border:none}
 .li-desc{font-size:13px;color:rgba(27,42,74,0.6);line-height:1.6}
 .li-check-wrap{flex-shrink:0}
 .li-check{di
+
+/* ── Mobile fix rh-inner 17/07/2026 ── */
+@media(max-width:480px){
+  .rh-inner{gap:8px;padding:0 4px}
+  .rh-logo{display:none}
+  .rh-title{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+  .rh .btn-back{padding:0 10px;font-size:12px;height:32px;flex-shrink:0}
+}
+
+/* ── Progreso en segunda línea móvil 17/07/2026 ── */
+@media(max-width:600px){
+  .ftop-inner {
+    flex-wrap: wrap !important;
+    height: auto !important;
+    padding: 8px 10px 6px !important;
+  }
+  .ftop-inner .prog-wrap {
+    order: 10 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    margin-right: 0 !important;
+    padding-bottom: 4px !important;
+  }
+}
