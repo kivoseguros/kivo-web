@@ -375,7 +375,7 @@ input,select{font-family:inherit;outline:none;border:none}
 .addr-confirm{background:rgba(61,191,160,0.08);border:1.5px solid var(--teal);border-radius:14px;padding:18px;margin-top:18px;display:none}
 .addr-confirm.open{display:block}
 .addr-formatted{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.4}
-.btn-adrok{padding:11px 22px;border-radius:12px;background:var(--teal);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:background .2s}
+.btn-adrok{width:100%;padding:16px 22px;border-radius:14px;background:var(--teal);color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:background .2s;text-align:center;display:block}
 .btn-adrok:hover{background:#30a98c}
 .editbtn{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--teal);cursor:pointer}
 .docrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
