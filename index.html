@@ -5583,6 +5583,10 @@ body {
 .hero-benefit > div[style*="border-radius"] { transition: background 0.35s ease !important; }
 .hero-benefit > strong { transition: color 0.35s ease !important; }
 /* Móvil: segunda fila también oculta (la ve el ticker) */
+.kivo-privacy-mobile{display:none!important;}
+.kivo-privacy-desktop{display:block;}
+@media(max-width:600px){.kivo-privacy-desktop{display:none!important;}}
+@media(max-width:600px){.kivo-privacy-mobile{display:block!important;text-align:center;font-size:13px;font-weight:520;padding:6px 0;}}
 @media(max-width:600px){
   .hero-benefits-bar{display:none!important}
   .bottom-info{display:none!important}
@@ -5786,7 +5790,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </div>
     </div>
 
-    <div class="privacy" style="margin:10px 0 6px;">🔒 Tus datos están protegidos y no serán compartidos.</div>
+    <div class="privacy kivo-privacy-desktop" style="margin:10px 0 6px;">🔒 Tus datos están protegidos y no serán compartidos.</div>
 
     <aside class="bottom-info">
       <div>
@@ -5846,7 +5850,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </div>
     </div>
 
-    <div class="privacy">🔒 Tus datos están protegidos y no serán compartidos.</div>
+    <div class="privacy kivo-privacy-mobile">🔒 Tus datos están protegidos y no serán compartidos.</div>
 
     <!-- ══ TICKER 2 — izquierda a derecha ══ -->
     <div class="kivo-ticker-wrap kivo-t2">
@@ -7632,219 +7636,4 @@ function sendIA() {
   _iaAddMsg(q, 'user');
   setTimeout(function() { _iaAddMsg(_iaMatch(q), 'bot'); }, 400);
 }
-function _iaAddMsg(text, role) {
-  var log = document.getElementById('ia-msgs');
-  if (!log) return;
-  var div = document.createElement('div');
-  div.className = 'ia-' + role;
-  div.textContent = text;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
-}
-function toggleIAExpand() {
-  var panel = document.getElementById('ia-panel');
-  var icon = document.getElementById('ia-expand-icon');
-  if (!panel) return;
-  panel.classList.toggle('expanded');
-  if (panel.classList.contains('expanded')) { if (icon) icon.innerHTML = '<path d="M6 2H2v4M2 2l4.5 4.5M10 14h4v-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-  else { if (icon) icon.innerHTML = '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-}
-function _iaMatch(q) {
-  var ql = q.toLowerCase();
-  if (ql.includes('carencia') || ql.includes('espera')) return IA_RESP[4];
-  if (ql.includes('plan') || ql.includes('care') || ql.includes('premium')) return IA_RESP[0];
-  if (ql.includes('precio') || ql.includes('cuesta') || ql.includes('cuanto')) return 'El precio depende de la especie, raza y edad de tu mascota. Calcula en 2 minutos con el tarificador de arriba.';
-  if (ql.includes('rc') || ql.includes('responsabilidad')) return IA_RESP[3];
-  if (ql.includes('reembolso') || ql.includes('reclamacion') || ql.includes('siniestro')) return IA_RESP[5];
-  if (ql.includes('contratar') || ql.includes('comprar')) return IA_RESP[6];
-  if (ql.includes('pago') || ql.includes('mensual') || ql.includes('anual')) return IA_RESP[7];
-  if (ql.includes('hola') || ql.includes('buenas') || ql.includes('hey')) return '¡Hola! Soy KIVO IA. Pregúntame sobre coberturas, planes, carencias o reembolsos. ¿En qué te ayudo?';
-  return 'Para más información contáctanos por WhatsApp o escríbenos a hola@kivoseguros.com.';
-}
-window.addEventListener('message', function(e) {
-  if (!e.data) return;
-  if (e.data.type === 'kivo-iframe-height') {
-    var iframe = document.querySelector('iframe[src="./tarificador/index.html"]');
-    if (iframe && e.data.height > 0) iframe.style.height = (e.data.height + 10) + 'px';
-    return;
-  }
-});
-</script>
-
-<script>
-/* ══ Color Cycle JS 15-07-2026 ══ */
-(function(){
-  var c=['#3DBFA0','#FB740B','#B48841','#0C8B9D'], i=0;
-  setInterval(function(){ i=(i+1)%c.length; document.documentElement.style.setProperty('--cycle-color', c[i]); }, 3500);
-})();
-</script>
-
-<!-- ══ ASESOR FULLSCREEN OVERLAY ══ -->
-<div id="asesor-overlay" style="display:none;position:fixed;inset:0;z-index:9992;background:#000;">
-  <iframe id="asesor-fs-iframe" src="" title="KIVO Asesor" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
-</div>
-
-<!-- ══ TARIFICADOR MODAL ══ -->
-<style>
-@keyframes kivoFadeBackdrop { from { background:rgba(0,0,0,0); } to { background:rgba(0,0,0,0.52); } }
-#tarif-overlay.open { animation: kivoFadeBackdrop 1.2s ease forwards; }
-.exit-btn-continuar { padding:13px 26px;border-radius:50px;border:none;background:#3DBFA0;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
-.exit-btn-continuar:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(61,191,160,0.45); }
-.exit-btn-salir { padding:13px 26px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.35);background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
-.exit-btn-salir:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,0.35); }
-</style>
-<div id="tarif-overlay" style="display:none;position:fixed;inset:0;z-index:9990;flex-direction:column;align-items:center;justify-content:center;" onclick="kivoCerrarDesdeBackdrop(event)">
-  <div id="tarif-modal" style="position:relative;width:920px;max-width:95vw;height:720px;max-height:92vh;border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.40);">
-    <iframe id="tarif-fs-iframe" src="" title="KIVO Tarificador" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
-  </div>
-</div>
-
-<!-- ══ PANTALLA EXIT — fondo negro ══ -->
-<div id="tarif-exit-screen" style="display:none;position:fixed;inset:0;z-index:9996;background:#000;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:Inter,sans-serif;">
-  <img src="tarificador/assets/images/exit-dog.jpg.png" alt="Hasta pronto" style="width:200px;height:200px;object-fit:cover;border-radius:50%;border:4px solid rgba(255,255,255,0.15);">
-  <h2 style="color:#fff;font-size:26px;font-weight:800;letter-spacing:-0.02em;text-align:center;">¿Seguro que quieres salir?</h2>
-  <p style="color:rgba(255,255,255,0.6);font-size:15px;text-align:center;max-width:360px;line-height:1.6;">Si decides hacerlo, dejas a tu mascota sin protección y tu proceso se perderá.</p>
-  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
-    <button onclick="kivoVolverTarif()" class="exit-btn-continuar">Continuar con la contratación</button>
-    <button onclick="kivoCerrarTodo()" class="exit-btn-salir">Salir sin contratar</button>
-  </div>
-</div>
-
-<script>
-function kivoAbrirAsesor() {
-  var ov = document.getElementById('asesor-overlay');
-  var fr = document.getElementById('asesor-fs-iframe');
-  fr.src = './asesor/index.html#openModal';
-  ov.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-function kivoSalirAsesor() {
-  document.getElementById('asesor-overlay').style.display = 'none';
-  document.getElementById('asesor-fs-iframe').src = '';
-  document.body.style.overflow = '';
-}
-var _portalEspecie = null;
-function portalSelectEspecie(esp) {
-  _portalEspecie = esp;
-  document.getElementById('portal-tile-perro').classList.toggle('sel', esp === 'perro');
-  document.getElementById('portal-tile-gato').classList.toggle('sel', esp === 'gato');
-  var btn = document.getElementById('portal-btn-cta');
-  btn.disabled = false;
-}
-function portalReset() {
-  _portalEspecie = null;
-  document.getElementById('portal-tile-perro').classList.remove('sel');
-  document.getElementById('portal-tile-gato').classList.remove('sel');
-  document.getElementById('portal-btn-cta').disabled = true;
-}
-document.addEventListener('click', function(e) {
-  var wrap = document.querySelector('.tarificador-wrap');
-  if (wrap && !wrap.contains(e.target)) { portalReset(); }
-});
-function kivoAbrirTarif(especie) {
-  var ov = document.getElementById('tarif-overlay');
-  var fr = document.getElementById('tarif-fs-iframe');
-  var url = './tarificador/index.html?modo=fullscreen';
-  if (especie) url += '&especie=' + encodeURIComponent(especie);
-  fr.src = url;
-  fr.setAttribute('data-loaded','1');
-  ov.style.display = 'flex';
-  ov.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function kivoSalirTarif() {
-  kivoCerrarTodo();
-}
-function kivoVolverTarif() {
-  document.getElementById('tarif-exit-screen').style.display = 'none';
-}
-function kivoCerrarTodo() {
-  var ov = document.getElementById('tarif-overlay');
-  ov.style.display = 'none';
-  ov.classList.remove('open');
-  document.getElementById('tarif-exit-screen').style.display = 'none';
-  document.body.style.overflow = '';
-  var fr = document.getElementById('tarif-fs-iframe');
-  fr.src = '';
-  fr.removeAttribute('data-loaded');
-}
-function kivoCerrarDesdeBackdrop(e) {
-  if (e.target === document.getElementById('tarif-overlay')) { kivoCerrarTodo(); }
-}
-window.addEventListener('message', function(e) {
-  if (!e.data) return;
-  if (e.data.type === 'kivo-fullscreen') { kivoAbrirTarif(e.data.especie); }
-  if (e.data.type === 'kivo-tarificador-exit') { kivoSalirTarif(); }
-  if (e.data.type === 'kivo-asesor-open') { kivoAbrirAsesor(); }
-  if (e.data.type === 'kivo-asesor-close') { kivoSalirAsesor(); }
-});
-</script>
-
-<!-- ══ GOOGLE TRANSLATE ══ -->
-<div id="google_translate_element" style="display:none"></div>
-<script>
-// ── Sticky nav + botón volver arriba ──
-var _navDismissed = false;
-function kivoScrollTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function kivoOcultarNav() {
-  var nav = document.getElementById('kivo-sticky-nav');
-  if (nav) nav.classList.remove('visible');
-  _navDismissed = true;
-}
-document.addEventListener('click', function(e) {
-  var nav = document.getElementById('kivo-sticky-nav');
-  if (nav && nav.classList.contains('visible') && !nav.contains(e.target)) {
-    kivoOcultarNav();
-  }
-});
-(function() {
-  var nav = document.getElementById('kivo-sticky-nav');
-  var btn = document.getElementById('kivo-top-btn');
-  window.addEventListener('scroll', function() {
-    var y = window.scrollY;
-    if (y <= 400) _navDismissed = false;
-    if (nav && !_navDismissed) nav.classList.toggle('visible', y > 400);
-    if (btn) btn.classList.toggle('visible', y > 400);
-  }, { passive: true });
-})();
-
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'es,en,fr,de,it',
-    autoDisplay: false
-  }, 'google_translate_element');
-}
-
-function kivoSetLang(lang) {
-  // Actualizar botones activos
-  document.querySelectorAll('.hero-lang-btn').forEach(function(btn) {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-  // Si es español, recargar sin traducción
-  if (lang === 'es') {
-    var frame = document.querySelector('.goog-te-menu-frame');
-    if (frame) frame.contentDocument.querySelectorAll('.goog-te-menu2-item')[0].click();
-    // Fallback: cookie + reload
-    document.cookie = 'googtrans=/es/es; path=/';
-    var sel = document.querySelector('.goog-te-combo');
-    if (sel) { sel.value = 'es'; sel.dispatchEvent(new Event('change')); }
-    return;
-  }
-  // Otros idiomas
-  var sel = document.querySelector('.goog-te-combo');
-  if (sel) {
-    sel.value = lang;
-    sel.dispatchEvent(new Event('change'));
-  } else {
-    // Widget aún no cargado — esperar e intentar de nuevo
-    setTimeout(function() { kivoSetLang(lang); }, 600);
-  }
-}
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body>
-</html>
+functi
