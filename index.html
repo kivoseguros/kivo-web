@@ -5469,9 +5469,8 @@ body {
 .kivo-ticker-icon span{font-size:24px}
 .kivo-ticker-item strong{font-size:18px;font-weight:800;color:#1B2A4A;letter-spacing:-0.02em}
 .kivo-ticker-sub{font-size:15px;font-weight:400;color:rgba(27,42,74,0.55)}
-/* Tickers siempre visibles, filas grid ocultas en todas las pantallas */
-.hero-benefits-bar{display:none!important}
-.bottom-info{display:none!important}
+/* Carruseles ocultos: se usan las filas estáticas con destellos */
+.kivo-ticker-wrap{display:none!important}
 
 /* Modal Asesor */
 .s04-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.6);backdrop-filter:blur(5px);z-index:9999;align-items:center;justify-content:center;padding:20px}
@@ -5574,12 +5573,12 @@ body {
   color: #3DBFA0 !important;
   transition: background 0.35s ease, color 0.35s ease !important;
 }
-.bottom-info > div > p { margin: 0 !important; font-size: 0 !important; }
+.bottom-info > div > p { margin: 0 !important; font-size: 13px !important; color: rgba(27,42,74,0.55) !important; white-space: nowrap !important; }
 .bottom-info > div > p > strong {
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 800 !important;
   color: #1B2A4A !important;
-  display: inline !important;
+  display: block !important;
   transition: color 0.35s ease !important;
 }
 /* Transiciones destello en fila 1 */
@@ -7578,12 +7577,12 @@ document.addEventListener('DOMContentLoaded',function(){
   var BASE_TEXT='#1B2A4A';
 
   function doFlash(){
-    var items=Array.from(document.querySelectorAll('.kivo-ticker-item'));
+    var items=Array.from(document.querySelectorAll('.hero-benefit, .bottom-info > div'));
     if(!items.length){setTimeout(doFlash,800);return;}
     var el=items[Math.floor(Math.random()*items.length)];
     var col=palette[Math.floor(Math.random()*palette.length)];
     var light=col+'22';
-    var icon=el.querySelector('.kivo-ticker-icon');
+    var icon=el.querySelector('div[style*="border-radius:50%"], .kivo-ticker-icon, span');
     var strong=el.querySelector('strong');
     if(icon) icon.style.setProperty('background',light,'important');
     if(strong) strong.style.setProperty('color',col,'important');
