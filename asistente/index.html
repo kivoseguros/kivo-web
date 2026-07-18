@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIVO Asistente IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Botón flotante KIVO IA -->
+<button class="ia-float" onclick="toggleIA()">
+  <img src="assets/ia.png" alt="KIVO IA">
+</button>
+
+<!-- Panel de chat -->
+<div class="ia-panel" id="ia-panel">
+  <div class="ia-head">
+    <div class="ia-avatar"><img src="assets/ia.png" alt="KIVO IA"></div>
+    <div style="flex:1">
+      <div class="ia-name">KIVO IA</div>
+      <div class="ia-status"><span class="ia-dot"></span>Asistente IA · En línea</div>
+    </div>
+    <button class="ia-btn-expand" onclick="toggleIAExpand()" title="Ampliar">
+      <svg id="ia-expand-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="ia-btn-close" onclick="toggleIA()" title="Cerrar">✕</button>
+  </div>
+  <div class="ia-msgs" id="ia-msgs">
+    <div class="ia-bot">¡Hola! Soy el asistente IA de KIVO. Puedo ayudarte a entender las coberturas, comparar planes o resolver cualquier duda. ¿En qué te ayudo?</div>
+  </div>
+  <div class="ia-input-wrap">
+    <input class="ia-input" type="text" id="ia-input" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')sendIA()">
+    <button class="ia-send" onclick="sendIA()">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13 2L7.5 7.5M13 2l-4 11-1.5-5.5M13 2L2 6l5.5 1.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="js/asistente.js"></script>
+</body>
+</html>

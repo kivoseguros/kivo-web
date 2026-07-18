@@ -1162,33 +1162,7 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   }
 }
 
-/* ── KIVO IA Flotante ── */
-.ia-float{position:fixed;bottom:24px;right:24px;width:160px;height:160px;border-radius:50%;cursor:pointer;z-index:9999;padding:0;animation:kbeat 3.5s ease-in-out infinite;border:none;background:none}
-.ia-float img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
-@keyframes kbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.ia-float:hover{animation-play-state:paused;transform:scale(1.08)!important}
-.ia-panel{position:fixed;bottom:200px;right:24px;width:340px;height:460px;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(27,42,74,0.2);z-index:9998;overflow:hidden;display:none;flex-direction:column}
-.ia-panel.open{display:flex;animation:slideUpIA .25s ease}
-.ia-panel.expanded{width:min(560px,90vw);height:75vh;bottom:24px}
-@keyframes slideUpIA{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.ia-head{background:#1B2A4A;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
-.ia-avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0}
-.ia-avatar img{width:100%;height:100%;object-fit:cover}
-.ia-name{font-size:14px;font-weight:700;color:#fff}
-.ia-status{font-size:11px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:5px;margin-top:2px}
-.ia-dot{width:7px;height:7px;border-radius:50%;background:#3DBFA0;display:inline-block}
-.ia-btn-close{background:rgba(255,255,255,0.2);border:none;color:#fff!important;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
-.ia-btn-close:hover{background:rgba(255,255,255,0.4)}
-.ia-btn-expand{background:rgba(255,255,255,0.2);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;margin-left:auto}
-.ia-btn-expand:hover{background:rgba(255,255,255,0.4)}
-.ia-msgs{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;min-height:0}
-.ia-bot{background:rgba(27,42,74,0.06);border-radius:14px 14px 14px 4px;padding:11px 13px;font-size:14px;color:#1B2A4A;line-height:1.5;max-width:88%;align-self:flex-start}
-.ia-user{background:#1B2A4A;color:#fff;border-radius:14px 14px 4px 14px;padding:11px 13px;font-size:14px;line-height:1.5;max-width:88%;align-self:flex-end}
-.ia-input-wrap{display:flex;gap:8px;padding:12px 14px;border-top:1px solid rgba(27,42,74,0.1)}
-.ia-input{flex:1;border:1px solid rgba(27,42,74,0.15);border-radius:10px;padding:9px 13px;font-size:14px;color:#1B2A4A;font-family:inherit;outline:none}
-.ia-send{width:36px;height:36px;border-radius:10px;background:#3DBFA0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;border:none;cursor:pointer}
-.ia-send:hover{background:#35a88e}
-@media(max-width:480px){.ia-float{width:88px;height:88px;bottom:16px;right:16px}.ia-panel{width:calc(100vw - 32px);right:16px}}
+/* ── KIVO IA — módulo asistente (iframe independiente) ── */
 
 /* ── Language switcher ── */
 .hero-lang { display:flex; align-items:center; gap:3px; margin-left:12px; }
@@ -6199,34 +6173,10 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </div>
   </section>
 
-<!-- ═══ KIVO IA FLOTANTE ═══ -->
-<button class="ia-float" onclick="toggleIA()">
-  <img src="Seccion 1 HERO/assets/ia.png" alt="KIVO IA">
-</button>
-<div class="ia-panel" id="ia-panel">
-  <div class="ia-head">
-    <div class="ia-avatar"><img src="Seccion 1 HERO/assets/ia.png" alt="KIVO IA"></div>
-    <div style="flex:1">
-      <div class="ia-name">KIVO IA</div>
-      <div class="ia-status"><span class="ia-dot"></span>Asistente IA · En línea</div>
-    </div>
-    <button class="ia-btn-expand" onclick="toggleIAExpand()" title="Ampliar">
-      <svg id="ia-expand-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <button class="ia-btn-close" onclick="toggleIA()" title="Cerrar">✕</button>
-  </div>
-  <div class="ia-msgs" id="ia-msgs">
-    <div class="ia-bot">¡Hola! Soy el asistente IA de KIVO. Puedo ayudarte a entender las coberturas, comparar planes o resolver cualquier duda. ¿En qué te ayudo?</div>
-  </div>
-  <div class="ia-input-wrap">
-    <input class="ia-input" type="text" id="ia-input" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')sendIA()">
-    <button class="ia-send" onclick="sendIA()">
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13 2L7.5 7.5M13 2l-4 11-1.5-5.5M13 2L2 6l5.5 1.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</div>
+<!-- ═══ KIVO IA — módulo independiente ═══ -->
+<iframe src="./asistente/index.html" id="iframe-asistente" title="KIVO Asistente IA"
+  style="position:fixed;inset:0;width:100%;height:100%;border:none;pointer-events:none;z-index:9997;"
+  scrolling="no"></iframe>
 
 
 
@@ -7918,62 +7868,10 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 <script>
-/* ═══ KIVO IA — JS ═══ */
-var IA_RESP = [
-  'KIVO tiene tres planes de salud: CARE (80% reembolso, límite 3.500 €/año), CARE+ (90%, límite 4.000 €/año) y PREMIUM (100% sin copago, límite 5.000 €/año). También puedes añadir R.C. a cualquier plan o contratarlo solo.',
-  'Puedes consultar más detalles en kivo.es o contactarnos por WhatsApp.',
-  'Estamos aquí para ayudarte. Escríbenos por WhatsApp o a hola@kivoseguros.com.',
-  'El plan R.C. cubre hasta 300.000 € por daños a terceros causados por tu mascota. Incluye gastos de defensa jurídica. Puedes contratarlo solo o añadirlo a un plan de salud por solo 8,90 €/mes.',
-  'El período de carencia en KIVO es de 5 días para accidentes y 28 días para enfermedades.',
-  'Para solicitar un reembolso, accede a la app de KIVO y sube la factura del veterinario. Te reembolsamos en menos de 5 días hábiles.',
-  'Puedes contratar en menos de 2 minutos: elige tu plan, rellena tus datos y confirma el pago.',
-  'Puedes pagar mensualmente o de forma anual. Con el pago anual obtienes un 15% de descuento.'
-];
-var iaOpen = false;
+/* ═══ KIVO IA — puente postMessage hacia iframe asistente ═══ */
 function toggleIA() {
-  iaOpen = !iaOpen;
-  var box = document.getElementById('ia-panel');
-  if (!box) return;
-  box.classList.toggle('open', iaOpen);
-  if (iaOpen) { box.classList.remove('expanded'); var icon = document.getElementById('ia-expand-icon'); if (icon) icon.innerHTML = '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-}
-function sendIA() {
-  var inp = document.getElementById('ia-input');
-  if (!inp) return;
-  var q = (inp.value || '').trim();
-  if (!q) return;
-  inp.value = '';
-  _iaAddMsg(q, 'user');
-  setTimeout(function() { _iaAddMsg(_iaMatch(q), 'bot'); }, 400);
-}
-function _iaAddMsg(text, role) {
-  var log = document.getElementById('ia-msgs');
-  if (!log) return;
-  var div = document.createElement('div');
-  div.className = 'ia-' + role;
-  div.textContent = text;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
-}
-function toggleIAExpand() {
-  var panel = document.getElementById('ia-panel');
-  var icon = document.getElementById('ia-expand-icon');
-  if (!panel) return;
-  panel.classList.toggle('expanded');
-  if (panel.classList.contains('expanded')) { if (icon) icon.innerHTML = '<path d="M6 2H2v4M2 2l4.5 4.5M10 14h4v-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-  else { if (icon) icon.innerHTML = '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'; }
-}
-function _iaMatch(q) {
-  var ql = q.toLowerCase();
-  if (ql.includes('carencia') || ql.includes('espera')) return IA_RESP[4];
-  if (ql.includes('plan') || ql.includes('care') || ql.includes('premium')) return IA_RESP[0];
-  if (ql.includes('precio') || ql.includes('cuesta') || ql.includes('cuanto')) return 'El precio depende de la especie, raza y edad de tu mascota. Calcula en 2 minutos con el tarificador de arriba.';
-  if (ql.includes('rc') || ql.includes('responsabilidad')) return IA_RESP[3];
-  if (ql.includes('reembolso') || ql.includes('reclamacion') || ql.includes('siniestro')) return IA_RESP[5];
-  if (ql.includes('contratar') || ql.includes('comprar')) return IA_RESP[6];
-  if (ql.includes('pago') || ql.includes('mensual') || ql.includes('anual')) return IA_RESP[7];
-  if (ql.includes('hola') || ql.includes('buenas') || ql.includes('hey')) return '¡Hola! Soy KIVO IA. Pregúntame sobre coberturas, planes, carencias o reembolsos. ¿En qué te ayudo?';
-  return 'Para más información contáctanos por WhatsApp o escríbenos a hola@kivoseguros.com.';
+  var iframe = document.getElementById('iframe-asistente');
+  if (iframe) iframe.contentWindow.postMessage({ type: 'kivo-toggle-ia' }, '*');
 }
 window.addEventListener('message', function(e) {
   if (!e.data) return;
