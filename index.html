@@ -5953,9 +5953,9 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       .bottom-info-scroll-wrap{display:none!important}
       .kivo-privacy-desktop{display:none!important}
       .kivo-benefits-desktop{display:none!important}
+      .kivo-mobile-bands{display:flex!important;flex-direction:column;gap:8px;padding-top:40px}
       .kivo-ticker-wrap{display:block!important;overflow:hidden;padding:0}
-      .kivo-t1{margin-top:16px}
-      .kivo-privacy-mobile{display:flex!important;align-items:center;justify-content:center;text-align:center;font-size:13px;font-weight:520;height:54px;color:rgba(27,42,74,0.7)}
+      .kivo-privacy-mobile{display:flex!important;align-items:center;justify-content:center;text-align:center;font-size:13px;font-weight:520;height:40px;margin:0!important;color:rgba(27,42,74,0.7)}
       .kivo-ticker{display:flex;align-items:center;width:max-content;animation:kivo-rtl 28s linear infinite;white-space:nowrap;height:54px}
       .kivo-ticker-ltr{animation:kivo-ltr 28s linear infinite}
       .kivo-ticker-item{display:inline-flex;align-items:center;gap:9px;padding:0 20px;border-right:1px solid rgba(27,42,74,0.12);height:54px}
@@ -6186,6 +6186,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </div>
 
     <!-- ══ TICKERS MÓVIL (ocultos en desktop) ══ -->
+    <div class="kivo-mobile-bands">
     <div class="kivo-ticker-wrap kivo-t1">
       <div class="kivo-ticker">
         <!-- Item 1 -->
@@ -6331,6 +6332,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         </div>
       </div>
     </div>
+    </div><!-- /.kivo-mobile-bands -->
   </section>
 
 <!-- ═══ KIVO IA — botón en página principal ═══ -->
