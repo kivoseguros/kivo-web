@@ -413,6 +413,8 @@ function showScreen(id) {
   var el = document.getElementById(id);
   el.classList.add('active');
   el.style.display = (id === 's0' || id === 'fw') ? 'flex' : 'block';
+  var backBtn = el.querySelector('.btn-back');
+  if (backBtn) backBtn.style.display = 'flex';
   window.scrollTo(0, 0);
   if (id === 'sc4') { _renderSc4ResumenMascotas(); }
   if (id === 'sc5') { _initSc5(); }
