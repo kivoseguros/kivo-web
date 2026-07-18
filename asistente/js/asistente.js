@@ -23,6 +23,8 @@ function toggleIA() {
     var icon = document.getElementById('ia-expand-icon');
     if (icon) icon.innerHTML = '<path d="M2 6V2h4M2 2l4.5 4.5M14 10v4h-4M14 14l-4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
   }
+  // Avisar al padre para que expanda/contraiga el iframe
+  window.parent.postMessage({ type: 'kivo-ia-state', open: iaOpen }, '*');
 }
 
 function sendIA() {

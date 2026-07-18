@@ -9,10 +9,10 @@ body {
 /* Botón flotante */
 .ia-float {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 80px;
-  height: 80px;
+  bottom: 16px;
+  right: 16px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 9999;
@@ -35,8 +35,8 @@ body {
 /* Panel chat */
 .ia-panel {
   position: fixed;
-  bottom: 116px;
-  right: 24px;
+  bottom: 356px;
+  right: 16px;
   width: 340px;
   height: 460px;
   background: #fff;
@@ -153,6 +153,6 @@ body {
 .ia-send:hover { background: #3DBFA0; }
 
 @media(max-width:480px) {
-  .ia-float { width: 64px; height: 64px; bottom: 16px; right: 16px; }
-  .ia-panel { width: calc(100vw - 32px); right: 16px; }
+  .ia-float { width: 100px; height: 100px; bottom: 12px; right: 12px; }
+  .ia-panel { width: calc(100vw - 24px); right: 12px; bottom: 128px; }
 }
