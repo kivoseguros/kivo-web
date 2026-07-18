@@ -5953,16 +5953,14 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       .bottom-info-scroll-wrap{display:none!important}
       .kivo-privacy-desktop{display:none!important}
       .kivo-benefits-desktop{display:none!important}
-      .kivo-ticker-wrap{display:block!important;overflow:hidden;padding:4px 0}
-      .kivo-t1{margin-top:32px}
-      .kivo-privacy-mobile{display:block!important;text-align:center;font-size:13px;font-weight:520;padding:6px 0;color:#1B2A4A}
-      .kivo-ticker{display:flex;gap:0;align-items:center;width:max-content;animation:kivo-rtl 28s linear infinite;white-space:nowrap}
+      .kivo-ticker-wrap{display:block!important;overflow:hidden;padding:0}
+      .kivo-t1{margin-top:16px}
+      .kivo-privacy-mobile{display:flex!important;align-items:center;justify-content:center;text-align:center;font-size:13px;font-weight:520;height:54px;color:rgba(27,42,74,0.7)}
+      .kivo-ticker{display:flex;align-items:center;width:max-content;animation:kivo-rtl 28s linear infinite;white-space:nowrap;height:54px}
       .kivo-ticker-ltr{animation:kivo-ltr 28s linear infinite}
-      .kivo-ticker-item{display:inline-flex;align-items:center;gap:9px;padding:8px 20px;border-right:1px solid rgba(27,42,74,0.12)}
+      .kivo-ticker-item{display:inline-flex;align-items:center;gap:9px;padding:0 20px;border-right:1px solid rgba(27,42,74,0.12);height:54px}
       .kivo-ticker-title{font-size:14px;font-weight:800;color:#1B2A4A;line-height:1.2;white-space:nowrap}
       .kivo-ticker-sub{font-size:12px;font-weight:500;color:rgba(27,42,74,0.6);line-height:1.2;white-space:nowrap}
-      @keyframes kivo-rtl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-      @keyframes kivo-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
       @keyframes kivo-rtl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
       @keyframes kivo-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
     }
@@ -6102,7 +6100,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </main>
 
     <!-- ══ BENEFITS GRID — fila 1 + privacidad + fila 2 (grid único, iconos alineados) ══ -->
-    <div class="kivo-benefits-desktop" style="width:100%;background:transparent;padding:42px 24px 8px;display:flex;justify-content:center;">
+    <div class="kivo-benefits-desktop" style="width:100%;background:transparent;padding:24px 24px 8px;display:flex;justify-content:center;">
       <div style="display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:1100px;margin:0;padding:0;gap:0 8px;">
 
         <!-- ── FILA 1 ── -->
