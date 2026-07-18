@@ -6,36 +6,10 @@ body {
   overflow: hidden;
 }
 
-/* Botón flotante */
-.ia-float {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 9999;
-  padding: 0;
-  animation: kbeat 3.5s ease-in-out infinite;
-  border: none;
-  background: none;
-  pointer-events: auto;
-}
-.ia-float img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-}
-@keyframes kbeat { 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.06) } }
-.ia-float:hover { animation-play-state: paused; transform: scale(1.08) !important; }
-
 /* Panel chat */
 .ia-panel {
   position: fixed;
-  bottom: 356px;
+  bottom: 140px;
   right: 16px;
   width: 340px;
   height: 460px;
