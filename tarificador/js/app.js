@@ -9,6 +9,8 @@ window.addEventListener('DOMContentLoaded', function() {
     // Fullscreen: mostrar botón salir, ir directo al flow
     var salirBtn = document.getElementById('kivo-btn-salir-fixed');
     if (salirBtn) salirBtn.style.display = 'flex';
+    var btnSalirInterno = document.querySelector('.btn-salir-top');
+    if (btnSalirInterno) btnSalirInterno.style.display = 'none';
     var esp = params.get('especie');
     if (esp) {
       selectEspecie(esp);
@@ -481,6 +483,9 @@ function showStep(n) {
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
   if (btnBack) btnBack.style.display = (n === 1) ? 'none' : 'flex';
+  // Ocultar siempre btn-salir-top — se usa kivo-btn-salir-fixed en su lugar
+  var btnSalirTop = document.querySelector('.btn-salir-top');
+  if (btnSalirTop) btnSalirTop.style.display = 'none';
   // Botón Salir: solo visible en paso 1, solo si estamos en modo fullscreen
   var salirBtn = document.getElementById('kivo-btn-salir-fixed');
   if (salirBtn) {
@@ -525,6 +530,12 @@ function startWithEspecie(esp) {
 }
 
 function goBack() {
+  if (_fromEditResumen) {
+    _fromEditResumen = false;
+    _setStepBtnLabel(curStep, 'Continuar');
+    showEditResumen();
+    return;
+  }
   if (curStep <= 1) {
     if (pets.length > 0) {
       // Restaurar última mascota guardada como actual y volver a pantalla familia
@@ -555,36 +566,105 @@ function showExitModal() {
   modal.querySelector('.exit-modal-title').textContent = titulo;
   modal.querySelector('.exit-modal-desc').innerHTML = desc;
   modal.classList.add('active');
+  var salirBtn = document.getElementById('kivo-btn-salir-fixed');
+  if (salirBtn) salirBtn.style.display = 'none';
 }
 function closeExitModal() {
   document.getElementById('exit-modal').classList.remove('active');
+  // Restaurar botón salir si estamos en paso 1 y modo fullscreen
+  if (curStep === 1 && new URLSearchParams(window.location.search).get('modo') === 'fullscreen') {
+    var salirBtn = document.getElementById('kivo-btn-salir-fixed');
+    if (salirBtn) salirBtn.style.display = 'flex';
+  }
 }
 function confirmExit() {
-  closeExitModal();
-  // Colapsar fullscreen y volver a la web
-  try { window.parent.postMessage({ type: 'kivo-fullscreen', active: false }, '*'); } catch(e) {}
+  document.getElementById('exit-modal').classList.remove('active');
   try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
-  // Reiniciar estado
-  S.especie = null; S.nombre = ''; S.sexo = null;
-  S.noFecha = false; S.tipoRaza = 'pura'; S.raza = null; S.peso = null;
-  S.email = ''; S.tel = ''; S.plan = null; S.periodo = 'mensual';
-  // Limpiar campos visibles
-  document.getElementById('inp-nombre').value = '';
-  document.getElementById('tile-perro').classList.remove('sel');
-  document.getElementById('tile-gato').classList.remove('sel');
-  document.getElementById('btn-s1').disabled = true;
-  // Resetear selector s0
-  _s0Especie = null;
-  var hp = document.getElementById('hero-tile-perro');
-  var hg = document.getElementById('hero-tile-gato');
-  var sb = document.getElementById('s0-btn-cta');
-  if (hp) hp.classList.remove('sel');
-  if (hg) hg.classList.remove('sel');
-  if (sb) sb.disabled = true;
-  showScreen('s0');
+}
+
+/* ── RESUMEN EDITABLE ── */
+var _fromEditResumen = false;
+
+function showEditResumen() {
+  var rows = [];
+  rows.push({ label: 'Nombre', value: S.nombre || '—', step: 1 });
+  rows.push({ label: 'Especie', value: S.especie ? (S.especie.charAt(0).toUpperCase() + S.especie.slice(1)) : '—', step: 1 });
+  var sexoVal = S.sexo ? (S.sexo === 'macho' ? 'Macho' : 'Hembra') : '—';
+  if (S.esterilizada === true)  sexoVal += S.sexo === 'hembra' ? ' · Esterilizada' : ' · Castrado';
+  if (S.esterilizada === false) sexoVal += ' · No castrado/a';
+  rows.push({ label: 'Sexo', value: sexoVal, step: 2 });
+  var fechaVal = '—';
+  if (S.noFecha) {
+    var m2 = document.getElementById('sel-mes2') && document.getElementById('sel-mes2').value;
+    var a2 = document.getElementById('sel-anio2') && document.getElementById('sel-anio2').value;
+    if (m2 && a2) fechaVal = m2 + ' ' + a2;
+  } else {
+    var fd = document.getElementById('inp-fecha') && document.getElementById('inp-fecha').value;
+    if (fd) { var fp = fd.split('-'); fechaVal = fp[2] + '/' + fp[1] + '/' + fp[0]; }
+  }
+  rows.push({ label: 'Fecha de nacimiento', value: fechaVal, step: 3 });
+  var razaVal = '—';
+  if (S.tipoRaza === 'pura') razaVal = S.raza || '—';
+  else if (S.tipoRaza === 'cruce') razaVal = (S.raza || '?') + ' × ' + (S.raza2 || '?');
+  else if (S.tipoRaza === 'desconocida') razaVal = 'Desconocida' + (S.peso ? ' · ' + S.peso + ' kg' : '');
+  rows.push({ label: 'Raza', value: razaVal, step: 4 });
+  if (S.especie === 'gato') {
+    var intVal = S.interior === true ? 'Sí, interior' : S.interior === false ? 'No, con acceso al exterior' : '—';
+    rows.push({ label: 'Vive en interior', value: intVal, step: 5 });
+  }
+  var container = document.getElementById('edit-resumen-rows');
+  container.innerHTML = '';
+  rows.forEach(function(row, i) {
+    var div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:14px 16px;' + (i > 0 ? 'border-top:1px solid rgba(27,42,74,0.09)' : '');
+    div.innerHTML =
+      '<div style="flex:1;min-width:0">'
+      + '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(27,42,74,0.4);margin-bottom:2px">' + row.label + '</div>'
+      + '<div style="font-size:14px;font-weight:600;color:#1B2A4A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + row.value + '</div>'
+      + '</div>'
+      + '<button onclick="editFromResumen(' + row.step + ')" style="flex-shrink:0;background:none;border:1.5px solid rgba(27,42,74,0.18);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#1B2A4A;cursor:pointer;white-space:nowrap">✏️ Editar</button>';
+    container.appendChild(div);
+  });
+  document.querySelectorAll('.fstep').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('fs-edit').classList.add('active');
+  document.getElementById('prog-label').textContent = 'Revisa tus datos';
+  document.getElementById('prog-fill').style.width = '90%';
+  var btnBack = document.querySelector('#fw .btn-back');
+  if (btnBack) btnBack.style.display = 'none';
+  var salirBtn = document.getElementById('kivo-btn-salir-fixed');
+  if (salirBtn) salirBtn.style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+function editFromResumen(step) {
+  _fromEditResumen = true;
+  showStep(step);
+  _setStepBtnLabel(step, 'Guardar cambios');
+}
+
+function closeEditResumen() {
+  _fromEditResumen = false;
+  showStep(6);
+}
+
+function _setStepBtnLabel(n, label) {
+  var map = { 1: 'btn-s1', 2: 'btn-s2', 3: 'btn-s3', 4: 'btn-s4', 5: 'btn-s4b' };
+  var btn = document.getElementById(map[n]);
+  if (!btn) return;
+  btn.childNodes.forEach(function(node) {
+    if (node.nodeType === 3) { node.nodeValue = label + ' '; return; }
+  });
 }
 
 function nextStep() {
+  if (_fromEditResumen) {
+    _fromEditResumen = false;
+    // Restaurar texto del botón
+    var map = { 1: 'btn-s1', 2: 'btn-s2', 3: 'btn-s3', 4: 'btn-s4', 5: 'btn-s4b' };
+    _setStepBtnLabel(curStep, 'Continuar');
+    showStep(6); // volver directo a familia
+    return;
+  }
   var next = curStep + 1;
   // Perros saltan fs4b (paso 5, solo gatos)
   if (curStep === 4 && S.especie === 'perro') next = 6;
@@ -806,7 +886,7 @@ function buildPetCard(pet, idx, saved) {
     '<div class="mr-actions">' +
     (saved
       ? '<button class="mr-edit mr-del" onclick="removePet(' + idx + ')" title="Eliminar">✕</button>'
-      : '<button class="mr-edit" onclick="showStep(1)" title="Editar">✏️</button>' +
+      : '<button class="mr-edit" onclick="showEditResumen()" title="Editar">✏️</button>' +
         '<button class="mr-edit mr-del" onclick="removeCurrentPet()" title="Eliminar">✕</button>') +
     '</div>';
   return div;

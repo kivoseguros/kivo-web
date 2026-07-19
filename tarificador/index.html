@@ -10,7 +10,7 @@
 <body>
 
 <!-- ══ BOTÓN SALIR FIJO — siempre visible en fullscreen ══ -->
-<button id="kivo-btn-salir-fixed" onclick="try{window.parent.postMessage({type:'kivo-tarificador-exit'},'*')}catch(e){}" style="display:none;position:fixed;top:16px;right:20px;z-index:99999;align-items:center;gap:7px;padding:10px 20px;background:rgba(27,42,74,0.85);border:1.5px solid rgba(255,255,255,0.25);border-radius:50px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;backdrop-filter:blur(6px);transition:background .2s;">
+<button id="kivo-btn-salir-fixed" onclick="showExitModal()" style="display:none;position:fixed;top:16px;right:20px;z-index:99999;align-items:center;gap:7px;padding:10px 20px;background:rgba(27,42,74,0.85);border:1.5px solid rgba(255,255,255,0.25);border-radius:50px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;backdrop-filter:blur(6px);transition:background .2s;">
   <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l11 11M12 1L1 12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
   Salir
 </button>
@@ -287,6 +287,19 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <!-- Botón "Añadir otra mascota" movido a s6 para flujo post-tarificación -->
         <button class="btn-cta" id="btn-s5" onclick="prepararOferta()">
           Continuar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESUMEN EDITABLE -->
+    <div class="fstep" id="fs-edit">
+      <div class="scard">
+        <div class="sq" style="margin-bottom:6px">Revisa los datos</div>
+        <div class="shint" style="margin-bottom:20px">Pulsa "Editar" en cualquier campo para modificarlo</div>
+        <div id="edit-resumen-rows" style="border:1.5px solid rgba(27,42,74,0.12);border-radius:16px;overflow:hidden"></div>
+        <button class="btn-cta" style="margin-top:24px" onclick="closeEditResumen()">
+          Confirmar datos
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
