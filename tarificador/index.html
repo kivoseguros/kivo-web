@@ -91,6 +91,9 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
           Continuar
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
+        <button id="btn-cancelar-mascota" onclick="cancelarNuevaMascota()" style="display:none;margin-top:10px;width:100%;background:none;border:1.5px solid #e55;color:#c33;border-radius:12px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;">
+          🗑️ Eliminar esta mascota
+        </button>
       </div>
     </div>
 
@@ -845,7 +848,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <label class="lcheck"><input type="checkbox" id="c4-l3" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> Autorizo a KIVO a compartir mis datos con el asegurador para la gestión del servicio.</span></label>
         <label class="lcheck"><input type="checkbox" id="c4-l4" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> Declaro que la mascota asegurada no está en tratamiento veterinario activo por enfermedad grave.</span></label>
       </div>
-      <button class="btn-cta" id="btn-c4" onclick="showScreen('sc5')" disabled style="margin-top:24px">Continuar al pago <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-cta" id="btn-c4" onclick="showScreen('sc-excl')" disabled style="margin-top:24px">Continuar al pago <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
 
   </div>
@@ -1059,7 +1062,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <!-- ═══ SC-EXCL: EXCLUSIONES ═══ -->
 <div id="sc-excl" class="cscreen">
   <div class="ctop"><div class="ctop-inner">
-    <button class="btn-back" onclick="showScreen('s-letra')" id="excl-back-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <button class="btn-back" onclick="showScreen('sc4')" id="excl-back-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
     <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
     
     <div class="csteps">
@@ -1101,8 +1104,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <div class="excl-body" id="excl-body-4">Procedimientos estéticos, tratamientos experimentales o no aprobados por la comunidad veterinaria.</div>
       </div>
       <div class="excl-item" onclick="toggleExcl(5)">
-        <div class="excl-hdr"><span class="excl-num">6</span><strong>Razas PPP y perros de caza</strong><span class="excl-arr" id="excl-arr-5">▾</span></div>
-        <div class="excl-body" id="excl-body-5">No cubrimos perros de caza ni razas clasificadas como Potencialmente Peligrosas (PPP) en España.</div>
+        <div class="excl-hdr"><span class="excl-num">6</span><strong>Perros de caza</strong><span class="excl-arr" id="excl-arr-5">▾</span></div>
+        <div class="excl-body" id="excl-body-5">No cubrimos perros de caza.</div>
       </div>
       <div class="excl-item" onclick="toggleExcl(6)">
         <div class="excl-hdr"><span class="excl-num">7</span><strong>Daños causados intencionadamente</strong><span class="excl-arr" id="excl-arr-6">▾</span></div>
@@ -1121,7 +1124,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </label>
     </div>
 
-    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc2')" disabled style="margin-top:20px;width:100%">
+    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc5')" disabled style="margin-top:20px;width:100%">
       Continuar con la contratación
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>

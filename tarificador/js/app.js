@@ -417,13 +417,28 @@ function showScreen(id) {
   el.style.display = (id === 's0' || id === 'fw') ? 'flex' : 'block';
   var backBtn = el.querySelector('.btn-back');
   if (backBtn) backBtn.style.display = 'flex';
+  // Ocultar botón Salir siempre — solo showStep(1) lo muestra si procede
+  var salirFijo = document.getElementById('kivo-btn-salir-fixed');
+  if (salirFijo) salirFijo.style.display = 'none';
   window.scrollTo(0, 0);
   if (id === 'sc4') { _renderSc4ResumenMascotas(); }
   if (id === 'sc5') { _initSc5(); }
+  if (id === 'sc-excl') {
+    var exclChk2 = document.getElementById('excl-chk');
+    var btnExcl2 = document.getElementById('btn-excl');
+    if (exclChk2) exclChk2.checked = false;
+    if (btnExcl2) btnExcl2.disabled = true;
+  }
+  if (id === 'sc3') {
+    var btnC3 = document.getElementById('btn-c3');
+    if (btnC3) { btnC3.style.display = ''; }
+    document.getElementById('addr-confirm').classList.remove('open');
+    validateC3();
+  }
   // Altura dinámica para el iframe en la web principal
   var heights = {
     's0': 520, 'fw': 880, 's6': 920,
-    'sc1': 820, 'sc2': 860, 'sc3': 820, 'sc4': 880, 'sc5': 700,
+    'sc1': 820, 'sc2': 860, 'sc3': 820, 'sc4': 880, 'sc5': 700, 'sc-excl': 900,
     's-loading': 480, 's-letra': 780, 's-ok': 580
   };
   try { window.parent.postMessage({ type: 'kivo-iframe-height', height: heights[id] || 820 }, '*'); } catch(e) {}
@@ -493,14 +508,28 @@ function showStep(n) {
     salirBtn.style.display = (_isFS && n === 1) ? 'flex' : 'none';
   }
   if (n === 1) {
-    // Resetear especie para que el usuario elija explícitamente
-    S.especie = null;
-    var tPerro = document.getElementById('tile-perro');
-    var tGato  = document.getElementById('tile-gato');
-    if (tPerro) tPerro.classList.remove('sel');
-    if (tGato)  tGato.classList.remove('sel');
-    var btnS1 = document.getElementById('btn-s1');
-    if (btnS1) btnS1.disabled = true;
+    // Mostrar "Eliminar esta mascota" solo al añadir una segunda mascota
+    var btnCancelar = document.getElementById('btn-cancelar-mascota');
+    if (btnCancelar) btnCancelar.style.display = completedMascotas.length > 0 ? '' : 'none';
+
+    if (_fromEditResumen && S.especie) {
+      // En modo edición: conservar especie y marcar tile visualmente
+      var tPerro = document.getElementById('tile-perro');
+      var tGato  = document.getElementById('tile-gato');
+      if (tPerro) tPerro.classList.toggle('sel', S.especie === 'perro');
+      if (tGato)  tGato.classList.toggle('sel', S.especie === 'gato');
+      // El botón se activa si ya hay nombre
+      checkS1();
+    } else {
+      // Flujo normal: resetear especie
+      S.especie = null;
+      var tPerro = document.getElementById('tile-perro');
+      var tGato  = document.getElementById('tile-gato');
+      if (tPerro) tPerro.classList.remove('sel');
+      if (tGato)  tGato.classList.remove('sel');
+      var btnS1 = document.getElementById('btn-s1');
+      if (btnS1) btnS1.disabled = true;
+    }
   }
   if (n === 5) setupStep4b();
   if (n === 6) populateMascotaResumen();
@@ -651,9 +680,13 @@ function _setStepBtnLabel(n, label) {
   var map = { 1: 'btn-s1', 2: 'btn-s2', 3: 'btn-s3', 4: 'btn-s4', 5: 'btn-s4b' };
   var btn = document.getElementById(map[n]);
   if (!btn) return;
-  btn.childNodes.forEach(function(node) {
-    if (node.nodeType === 3) { node.nodeValue = label + ' '; return; }
-  });
+  var nodes = btn.childNodes;
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i].nodeType === 3 && nodes[i].nodeValue.trim()) {
+      nodes[i].nodeValue = label + ' ';
+      break;
+    }
+  }
 }
 
 function nextStep() {
@@ -2113,7 +2146,7 @@ function _irAlCheckout(allMascotas) {
     _enviarEmailCotizacion(email0, allMascotas, total, p);
   }
 
-  showScreen('sc-excl');
+  showScreen('sc2');
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2203,6 +2236,38 @@ function addMascotaDesdeS6() {
   _restoreEnfUI();
   showScreen('fw');
   showStep(1);
+}
+
+/**
+ * Cancela la adición de una nueva mascota y vuelve a s6 con la mascota anterior restaurada.
+ */
+function cancelarNuevaMascota() {
+  if (completedMascotas.length === 0) { showScreen('s6'); return; }
+
+  // Restaurar la última mascota guardada de vuelta a S
+  var pet = completedMascotas[completedMascotas.length - 1];
+  completedMascotas.splice(completedMascotas.length - 1, 1);
+
+  S.especie  = pet.especie;
+  S.nombre   = pet.nombre;
+  S.plan     = pet.plan !== 'rc' ? pet.plan : null;
+  S.rcAddon  = !!(pet.rcAddon || pet.plan === 'rc');
+  S.periodo  = pet.periodo || S.periodo;
+  S.email    = pet._email || S.email;
+  S.tel      = pet._tel   || S.tel;
+
+  _activePetIdx    = -1;
+  _newPetDraft     = null;
+  _saludRespondida = true;
+
+  // Actualizar visual de planes
+  ['care','careplus','premium','rc'].forEach(function(pid){ _applyPlanVisual(pid, false); });
+  if (S.plan && S.plan !== 'rc') _applyPlanVisual(S.plan, true);
+  if (S.rcAddon) _applyPlanVisual('rc', true);
+
+  _renderMascotasChips();
+  _updateContratar();
+  showScreen('s6');
 }
 
 /**
