@@ -197,7 +197,12 @@ function _renderSc4ResumenMascotas() {
   if (!container) return;
   if (!_checkoutPets || _checkoutPets.length === 0) { container.innerHTML = ''; return; }
 
-  var p = _checkoutPets[0].periodo || S.periodo;
+  var p = S.periodo || _checkoutPets[0].periodo || 'mensual';
+  // Sincronizar botones del toggle
+  var sc4BtnMes = document.getElementById('sc4-pbtn-mes');
+  var sc4BtnAno = document.getElementById('sc4-pbtn-ano');
+  if (sc4BtnMes) sc4BtnMes.classList.toggle('active', p === 'mensual');
+  if (sc4BtnAno) sc4BtnAno.classList.toggle('active', p === 'anual');
   var DESC = typeof DESC_ANUAL !== 'undefined' ? DESC_ANUAL : 0.15;
   var html = '';
 
@@ -580,8 +585,8 @@ function goBack() {
     return;
   }
   var prev = curStep - 1;
-  // Perros saltan fs4b al volver
-  if (curStep === 6 && S.especie === 'perro') prev = 4;
+  // fs4b (interior/exterior) solo es para gatos — perros y especie desconocida la saltan
+  if (curStep === 6 && S.especie !== 'gato') prev = 4;
   showStep(prev);
 }
 
@@ -808,27 +813,52 @@ function selectRazaTab(t) {
 }
 
 function buildCruceSelects() {
-  var breeds = BREEDS[S.especie] || [];
-  ['sel-raza1','sel-raza2'].forEach(function(id) {
-    var sel = document.getElementById(id);
-    var first = sel.options[0];
-    sel.innerHTML = '';
-    sel.appendChild(first);
-    breeds.forEach(function(b) {
-      var o = document.createElement('option');
-      o.value = b; o.textContent = b;
-      sel.appendChild(o);
-    });
+  // Resetear inputs al cambiar a pestaña cruce
+  ['inp-raza1','inp-raza2'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
   });
+  ['breed-list1','breed-list2'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) { el.innerHTML = ''; el.classList.remove('open'); }
+  });
+  S.raza = null; S.raza2 = null;
+  document.getElementById('btn-s4').disabled = true;
 }
 
-function onCruce() {
-  var r1 = document.getElementById('sel-raza1').value;
-  var r2 = document.getElementById('sel-raza2').value;
-  S.raza  = r1 || null;
-  S.raza2 = r2 || null;
-  document.getElementById('btn-s4').disabled = !(r1 && r2);
+function onCruce() { /* legacy — ya no se usa */ }
+
+function _buildBreedsFor(inputId, listId, fieldNum) {
+  var breeds = BREEDS[S.especie] || [];
+  var f = (document.getElementById(inputId).value || '').toLowerCase();
+  var list = f.length >= 1
+    ? breeds.filter(function(b) { return b.toLowerCase().indexOf(f) >= 0; })
+    : breeds;
+  var el = document.getElementById(listId);
+  if (!el) return;
+  el.innerHTML = '';
+  list.slice(0, 60).forEach(function(b) {
+    var d = document.createElement('div');
+    d.className = 'bitem';
+    d.textContent = b;
+    d.addEventListener('mousedown', function(e) { e.preventDefault(); });
+    d.addEventListener('click', function() {
+      if (fieldNum === 1) S.raza  = b;
+      else                S.raza2 = b;
+      document.getElementById(inputId).value = b;
+      el.innerHTML = ''; el.classList.remove('open');
+      document.getElementById('btn-s4').disabled = !(S.raza && S.raza2);
+    });
+    el.appendChild(d);
+  });
+  el.classList.toggle('open', list.length > 0);
 }
+
+function filterBreeds1() { _buildBreedsFor('inp-raza1','breed-list1',1); }
+function openBreeds1()   { _buildBreedsFor('inp-raza1','breed-list1',1); }
+function closeBreeds1()  { setTimeout(function(){ var e=document.getElementById('breed-list1'); if(e) e.classList.remove('open'); },200); }
+
+function filterBreeds2() { _buildBreedsFor('inp-raza2','breed-list2',2); }
+function openBreeds2()   { _buildBreedsFor('inp-raza2','breed-list2',2); }
+function closeBreeds2()  { setTimeout(function(){ var e=document.getElementById('breed-list2'); if(e) e.classList.remove('open'); },200); }
 
 function toggleNoRaza() {
   var checked = document.getElementById('chk-noraza').checked;
@@ -857,10 +887,13 @@ function selectPeso(p, el) {
 function buildBreeds(filter) {
   var breeds = BREEDS[S.especie] || [];
   var f = (filter || '').toLowerCase();
-  var list = f ? breeds.filter(function(b) { return b.toLowerCase().indexOf(f) >= 0; }) : breeds;
+  var list = f.length >= 1
+    ? breeds.filter(function(b) { return b.toLowerCase().indexOf(f) >= 0; })
+    : breeds;
   var el = document.getElementById('breed-list');
   if (!el) return;
-  list.forEach(function(b) {
+  el.innerHTML = '';
+  list.slice(0, 60).forEach(function(b) {
     var d = document.createElement('div');
     d.className = 'bitem';
     d.textContent = b;
@@ -868,7 +901,7 @@ function buildBreeds(filter) {
     d.addEventListener('click', function() { selectBreed(b); });
     el.appendChild(d);
   });
-  el.classList.add('open');
+  el.classList.toggle('open', list.length > 0);
 }
 
 function filterBreeds() { buildBreeds(document.getElementById('inp-raza').value); }
@@ -1113,6 +1146,19 @@ function setPeriod(p) {
   updatePrices();
   _renderMascotasChips();
   _updateS6Total();
+}
+
+function setSc4Period(p) {
+  S.periodo = p;
+  // Actualizar periodo en todos los checkoutPets para que los cálculos sean correctos
+  if (_checkoutPets) {
+    var DESC = typeof DESC_ANUAL !== 'undefined' ? DESC_ANUAL : 0.15;
+    _checkoutPets.forEach(function(pet) {
+      pet.periodo = p;
+      pet.precio  = (p === 'anual') ? pet.precioMes * 12 * (1 - DESC) : pet.precioMes;
+    });
+  }
+  _renderSc4ResumenMascotas();
 }
 
 function updatePrices() {
@@ -1728,6 +1774,18 @@ function onNumInput(el) {
   validateC3();
 }
 
+function handleSc3Back() {
+  var addrConfirm = document.getElementById('addr-confirm');
+  var btnC3 = document.getElementById('btn-c3');
+  if (addrConfirm && addrConfirm.classList.contains('open')) {
+    // Solo cerrar el confirm — el usuario quiere corregir la dirección
+    addrConfirm.classList.remove('open');
+    if (btnC3) btnC3.style.display = '';
+  } else {
+    showScreen('sc2');
+  }
+}
+
 function showAddrConfirm() {
   var tipoVia = document.getElementById('sel-tipoavia').value || '';
   var via     = document.getElementById('inp-via').value     || '';
@@ -2146,7 +2204,7 @@ function _irAlCheckout(allMascotas) {
     _enviarEmailCotizacion(email0, allMascotas, total, p);
   }
 
-  showScreen('sc2');
+  showScreen('sc-excl');
 }
 
 /* ═══════════════════════════════════════════════════════════════

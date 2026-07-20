@@ -235,19 +235,23 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
           </div>
         </div>
 
-        <!-- CRUCE: dos dropdowns -->
+        <!-- CRUCE: dos buscadores con autocomplete -->
         <div id="cruce-wrap" class="hidden">
           <div class="cruce-field">
-            <label class="cruce-label">Su raza es:</label>
-            <select class="ksel" id="sel-raza1" onchange="onCruce()">
-              <option value="">Selecciona la primera raza</option>
-            </select>
+            <label class="cruce-label">Primera raza:</label>
+            <div class="breed-wrap">
+              <input class="kinput" id="inp-raza1" type="text" placeholder="Busca la primera raza…"
+                     oninput="filterBreeds1()" onfocus="openBreeds1()" onblur="closeBreeds1()" autocomplete="off">
+              <div class="breed-list" id="breed-list1"></div>
+            </div>
           </div>
           <div class="cruce-field" style="margin-top:14px">
-            <label class="cruce-label">Su raza es:</label>
-            <select class="ksel" id="sel-raza2" onchange="onCruce()">
-              <option value="">Selecciona la segunda raza</option>
-            </select>
+            <label class="cruce-label">Segunda raza:</label>
+            <div class="breed-wrap">
+              <input class="kinput" id="inp-raza2" type="text" placeholder="Busca la segunda raza…"
+                     oninput="filterBreeds2()" onfocus="openBreeds2()" onblur="closeBreeds2()" autocomplete="off">
+              <div class="breed-list" id="breed-list2"></div>
+            </div>
           </div>
         </div>
 
@@ -345,7 +349,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <!-- ═══ PANTALLA CARGA ═══ -->
 <div id="s-loading" class="screen">
   <div class="of-wrap">
-    <button class="btn-back" onclick="showFW();showStep(6);" >
+    <button class="btn-back" onclick="showScreen('fw');showStep(6);" >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
     <img src="assets/images/kivo-loading.svg" alt="KIVO" class="of-logo">
     <h2 class="of-title">Ahora vamos a preparar tu oferta</h2>
@@ -612,7 +616,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <div id="s-letra" class="screen">
   <div class="letra-wrap">
     <div class="letra-top">
-      <button class="btn-back" onclick="showScreen('s6')" style="background:rgba(255,255,255,0.15);margin-bottom:16px" title="Volver a planes">
+      <button class="btn-back" onclick="showScreen('sc4')" style="background:rgba(255,255,255,0.15);margin-bottom:16px" title="Volver">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <img src="assets/images/logo.png" alt="KIVO" class="letra-logo" style="height:52px;width:auto;display:block;margin:0 auto 16px;">
@@ -672,7 +676,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 
     </div>
 
-    <button class="btn-cta letra-cta" id="letra-continuar" onclick="continuarContratar()">Continuar</button>
+    <button class="btn-cta letra-cta" id="letra-continuar" onclick="showScreen('sc5')">Continuar al pago</button>
   </div>
 </div>
 
@@ -766,9 +770,9 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <!-- ═══ C3: DIRECCIÓN ═══ -->
 <div id="sc3" class="cscreen">
   <div class="ctop"><div class="ctop-inner">
-    <button class="btn-back" onclick="showScreen('sc2')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <button class="btn-back" onclick="handleSc3Back()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
     <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
-    
+
     <div class="csteps">
       <div class="cs done"><div class="csdot">✓</div><span class="cs-label">Tus datos</span></div>
       <div class="csep"></div>
@@ -826,6 +830,12 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
   </div></div>
   <div style="max-width:760px;margin:0 auto;padding:32px 24px 80px">
 
+    <!-- TOGGLE PERIODO -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;justify-content:center">
+      <button class="pbtn active" id="sc4-pbtn-mes" onclick="setSc4Period('mensual')">Mensual</button>
+      <button class="pbtn" id="sc4-pbtn-ano" onclick="setSc4Period('anual')">Anual <span style="font-size:11px;color:#3DBFA0;font-weight:700">−15%</span></button>
+    </div>
+
     <!-- POR MASCOTA: plan + coberturas + docs (generado dinámicamente) -->
     <div id="sc4-mascotas-resumen"></div>
 
@@ -848,7 +858,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <label class="lcheck"><input type="checkbox" id="c4-l3" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> Autorizo a KIVO a compartir mis datos con el asegurador para la gestión del servicio.</span></label>
         <label class="lcheck"><input type="checkbox" id="c4-l4" onchange="checkC4()"><span class="lcheck-t"><strong>Obligatorio.</strong> Declaro que la mascota asegurada no está en tratamiento veterinario activo por enfermedad grave.</span></label>
       </div>
-      <button class="btn-cta" id="btn-c4" onclick="showScreen('sc-excl')" disabled style="margin-top:24px">Continuar al pago <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-cta" id="btn-c4" onclick="mostrarLetra()" disabled style="margin-top:24px">Continuar al pago <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
 
   </div>
@@ -1062,7 +1072,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <!-- ═══ SC-EXCL: EXCLUSIONES ═══ -->
 <div id="sc-excl" class="cscreen">
   <div class="ctop"><div class="ctop-inner">
-    <button class="btn-back" onclick="showScreen('sc4')" id="excl-back-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
+    <button class="btn-back" onclick="showScreen('s6')" id="excl-back-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
     <img src="assets/images/logo.png" alt="KIVO" style="height:38px;width:auto;display:block;flex-shrink:0;">
     
     <div class="csteps">
@@ -1124,7 +1134,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </label>
     </div>
 
-    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc5')" disabled style="margin-top:20px;width:100%">
+    <button class="btn-cta" id="btn-excl" onclick="showScreen('sc2')" disabled style="margin-top:20px;width:100%">
       Continuar con la contratación
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
