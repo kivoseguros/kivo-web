@@ -2464,50 +2464,66 @@ function _renderMascotasChips() {
     var precio = p === 'anual' ? fmt(pet.precioAno) + '/ano' : fmt(pet.precioMes) + '/mes';
     var ico    = pet.especie === 'gato' ? ICO_GATO : ICO_PERRO;
     var active = (_activePetIdx === i) ? ' prev-chip-active' : '';
+    // Separar plan y RC en dos líneas si tiene addon
+    var basePlanLabel = pet.rcAddon && pet.plan !== 'rc'
+      ? pet.planLabel.replace(' + R.C.', '') + ' - ' + precio
+      : pet.planLabel + ' - ' + precio;
+    var rcLine = (pet.rcAddon && pet.plan !== 'rc') ? '<div class="prev-chip-pl">+ R.C.</div>' : '';
     return (
       '<div class="prev-chip' + active + '" onclick="switchMascotaTab(' + i + ')">' +
         '<span class="prev-chip-ico">' + ico + '</span>' +
         '<div class="prev-chip-info">' +
           '<div class="prev-chip-nom">' + pet.nombre + '</div>' +
-          '<div class="prev-chip-pl">' + pet.planLabel + ' - ' + precio + '</div>' +
+          '<div class="prev-chip-pl">' + basePlanLabel + '</div>' +
+          rcLine +
         '</div>' +
         '<button class="prev-chip-del" onclick="event.stopPropagation();eliminarMascota(' + i + ')" title="Eliminar">x</button>' +
       '</div>'
     );
   }).join('');
 
-  // Chip de la mascota nueva en curso
-  var newNomSrc  = (_activePetIdx === -1) ? S : (_newPetDraft || {});
-  var newIco     = (newNomSrc.especie === 'gato') ? ICO_GATO : ((newNomSrc.especie === 'perro') ? ICO_PERRO : '+');
-  var newNom     = newNomSrc.nombre || 'Nueva mascota';
-  var chipNames  = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
-  var newPlanKey = (_activePetIdx === -1) ? (S.plan || (S.rcAddon ? 'rc' : null)) : (_newPetDraft && (_newPetDraft.plan || (_newPetDraft.rcAddon ? 'rc' : null)));
-  var newPlanLbl = '';
-  if (newPlanKey) {
-    var _npKeys = { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
-    var _npRcB  = (S.especie && RC_SUELTA) ? (RC_SUELTA[S.especie] || 14.90) : 14.90;
-    var _npPm   = 0;
-    if (newPlanKey !== 'rc') {
-      _npPm = calcBase(_npKeys[newPlanKey]) + (S.rcAddon ? RC_ADDON : 0);
+  // Chip de la mascota nueva en curso — solo si hay mascota nueva real en proceso
+  var hasNewPetInProgress = (_activePetIdx === -1 && S.especie) ||
+                            (_activePetIdx >= 0 && _newPetDraft && _newPetDraft.especie);
+
+  if (hasNewPetInProgress) {
+    var newNomSrc  = (_activePetIdx === -1) ? S : (_newPetDraft || {});
+    var newIco     = (newNomSrc.especie === 'gato') ? ICO_GATO : ((newNomSrc.especie === 'perro') ? ICO_PERRO : '+');
+    var newNom     = newNomSrc.nombre || 'Nueva mascota';
+    var chipNames  = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
+    var newPlanKey = (_activePetIdx === -1) ? (S.plan || (S.rcAddon ? 'rc' : null)) : (_newPetDraft && (_newPetDraft.plan || (_newPetDraft.rcAddon ? 'rc' : null)));
+    var newPlanLbl = '';
+    if (newPlanKey) {
+      var _npKeys = { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
+      var _npRcB  = (S.especie && RC_SUELTA) ? (RC_SUELTA[S.especie] || 14.90) : 14.90;
+      var _npPm   = 0;
+      if (newPlanKey !== 'rc') {
+        _npPm = calcBase(_npKeys[newPlanKey]) + (S.rcAddon ? RC_ADDON : 0);
+      } else {
+        _npPm = _npRcB;
+      }
+      var _npPrecio = (p === 'anual') ? fmt(_npPm * 12 * (1 - DESC_ANUAL)) + '/ano' : fmt(_npPm) + '/mes';
+      var _npRcAddon = (_activePetIdx === -1) ? S.rcAddon : (_newPetDraft ? _newPetDraft.rcAddon : false);
+      newPlanLbl = (chipNames[newPlanKey] || '') + ' - ' + _npPrecio;
+      if (_npRcAddon && newPlanKey !== 'rc') { newPlanLbl += '||RC'; }
     } else {
-      _npPm = _npRcB;
+      newPlanLbl = 'En configuracion';
     }
-    var _npPrecio = (p === 'anual') ? fmt(_npPm * 12 * (1 - DESC_ANUAL)) + '/ano' : fmt(_npPm) + '/mes';
-    newPlanLbl = (chipNames[newPlanKey] || '') + ' - ' + _npPrecio;
-  } else {
-    newPlanLbl = 'En configuracion';
+    var newActive  = (_activePetIdx === -1) ? ' prev-chip-active' : '';
+    var _plParts   = newPlanLbl.split('||RC');
+    var _plHtml    = '<div class="prev-chip-pl">' + _plParts[0] + '</div>' +
+                     (_plParts[1] !== undefined ? '<div class="prev-chip-pl">+ R.C.</div>' : '');
+    html += (
+      '<div class="prev-chip prev-chip-new' + newActive + '" onclick="switchMascotaTab(-1)">' +
+        '<span class="prev-chip-ico">' + newIco + '</span>' +
+        '<div class="prev-chip-info">' +
+          '<div class="prev-chip-nom">' + newNom + '</div>' +
+          _plHtml +
+        '</div>' +
+        '<button class="prev-chip-del" onclick="event.stopPropagation();eliminarMascotaEnCurso()" title="Eliminar">x</button>' +
+      '</div>'
+    );
   }
-  var newActive  = (_activePetIdx === -1) ? ' prev-chip-active' : '';
-  html += (
-    '<div class="prev-chip prev-chip-new' + newActive + '" onclick="switchMascotaTab(-1)">' +
-      '<span class="prev-chip-ico">' + newIco + '</span>' +
-      '<div class="prev-chip-info">' +
-        '<div class="prev-chip-nom">' + newNom + '</div>' +
-        '<div class="prev-chip-pl">' + newPlanLbl + '</div>' +
-      '</div>' +
-      '<button class="prev-chip-del" onclick="event.stopPropagation();eliminarMascotaEnCurso()" title="Eliminar">x</button>' +
-    '</div>'
-  );
 
   list.innerHTML = html;
   var label = row.querySelector('.mascotas-prev-label');
