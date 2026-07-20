@@ -187,6 +187,10 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             <select class="ksel" id="sel-mes2" onchange="onFecha()"><option value="">Mes</option><option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option><option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option><option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option></select>
             <select class="ksel" id="sel-anio2" onchange="onFecha()"><option value="">Año</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option></select>
           </div>
+          <div id="aviso-edad-estimada" style="margin-top:12px;background:#FFF7E8;border:1.5px solid #E8B84B;border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5;color:#1B2A4A;display:flex;gap:8px;align-items:flex-start">
+            <span style="flex-shrink:0">⚠️</span>
+            <span>Deberá aportarse un <strong>informe veterinario con estimación de la edad</strong> de tu mascota antes de recibir el primer reembolso.</span>
+          </div>
         </div>
 
         <button class="btn-cta" id="btn-s3" onclick="nextStep()" disabled>
