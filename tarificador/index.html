@@ -533,6 +533,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </div>
       <div class="pd-section">
         <div class="pd-title">Cuidados básicos</div>
+        <div class="cov"><span class="ctick">✓</span><strong>Los gastos de Cuidados Básicos se reembolsan al 100% sin franquicia</strong> en todos los planes CARE, CARE+ y PREMIUM, y estos engloban los siguientes:</div>
         <div class="cov"><span class="ctick">✓</span>Una revisión veterinaria anual preventiva que no esté relacionada con una enfermedad, accidente o síntoma de la mascota.</div>
         <div class="cov"><span class="ctick">✓</span>Todas las vacunas obligatorias por calendario prescritas por un veterinario colegiado:</div>
         <div class="cov" style="padding-left:20px;opacity:0.85"><span class="ctick" style="color:rgba(27,42,74,0.4)">·</span>Perros: Rabia, Vacuna polivalente, Tos de las perreras.</div>
@@ -833,11 +834,24 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     <!-- TOGGLE PERIODO -->
     <div style="display:flex;gap:8px;margin-bottom:20px;justify-content:center">
       <button class="pbtn active" id="sc4-pbtn-mes" onclick="setSc4Period('mensual')">Mensual</button>
-      <button class="pbtn" id="sc4-pbtn-ano" onclick="setSc4Period('anual')">Anual <span style="font-size:11px;color:#3DBFA0;font-weight:700">−15%</span></button>
+      <button class="pbtn" id="sc4-pbtn-ano" onclick="setSc4Period('anual')">Anual</button>
     </div>
 
     <!-- POR MASCOTA: plan + coberturas + docs (generado dinámicamente) -->
     <div id="sc4-mascotas-resumen"></div>
+
+    <!-- OVERLAY CONFIRMACIÓN ELIMINAR MASCOTA -->
+    <div id="sc4-delete-overlay" style="display:none;position:fixed;inset:0;background:rgba(27,42,74,0.55);z-index:9999;align-items:center;justify-content:center;padding:20px">
+      <div style="background:#fff;border-radius:20px;padding:32px 28px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(27,42,74,0.25);text-align:center">
+        <div style="font-size:36px;margin-bottom:12px">🗑️</div>
+        <div style="font-size:18px;font-weight:800;color:#1B2A4A;margin-bottom:10px">Eliminar mascota</div>
+        <div id="sc4-delete-msg" style="font-size:14px;color:rgba(27,42,74,0.65);margin-bottom:24px;line-height:1.5"></div>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <button onclick="cancelarEliminarPet()" style="flex:1;padding:14px;border:1.5px solid rgba(27,42,74,0.2);background:#fff;border-radius:12px;font-size:14px;font-weight:700;color:#1B2A4A;cursor:pointer">Cancelar</button>
+          <button onclick="confirmarEliminarPet()" style="flex:1;padding:14px;border:none;background:#e53935;border-radius:12px;font-size:14px;font-weight:700;color:#fff;cursor:pointer">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
 
     <!-- TOMADOR Y DIRECCIÓN -->
     <div class="ccard" style="margin-top:20px;margin-bottom:20px">

@@ -220,7 +220,12 @@ function _renderSc4ResumenMascotas() {
     var rcMes     = hasRc ? rcAddonP : (isRcOnly ? rcBase : 0);
     var rcAnual   = rcMes * 12 * (1 - DESC);
 
-    html += '<div class="ccard" style="margin-bottom:16px;border-top:4px solid ' + color + '">';
+    html += '<div class="ccard" style="margin-bottom:16px;border-top:4px solid ' + color + ';position:relative">';
+
+    // Botón eliminar esta mascota (solo si hay más de una)
+    if (_checkoutPets.length > 1) {
+      html += '<button onclick="pedirEliminarPet(' + i + ')" title="Eliminar esta mascota" style="position:absolute;top:12px;right:12px;background:none;border:1.5px solid #e55;color:#c33;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;z-index:2">🗑 Eliminar</button>';
+    }
 
     // ── CABECERA: nombre + especie + esterilización + salud ─────────────────
     var esterilStr = '';
@@ -371,6 +376,49 @@ function _renderSc4ResumenMascotas() {
 }
 
 
+/* ── ELIMINAR MASCOTA EN SC4 ── */
+var _petToDelete = -1;
+
+function pedirEliminarPet(i) {
+  _petToDelete = i;
+  var pet = _checkoutPets[i];
+  var nombre = pet ? pet.nombre : 'esta mascota';
+  var overlay = document.getElementById('sc4-delete-overlay');
+  var msg     = document.getElementById('sc4-delete-msg');
+  if (msg) msg.textContent = '¿Estás seguro de que deseas eliminar a ' + nombre + ' del contrato?';
+  if (overlay) overlay.style.display = 'flex';
+}
+
+function confirmarEliminarPet() {
+  if (_petToDelete < 0 || !_checkoutPets) return;
+  _checkoutPets.splice(_petToDelete, 1);
+  _petToDelete = -1;
+  cancelarEliminarPet();
+  if (_checkoutPets.length === 0) {
+    // Sin mascotas — volver a planes
+    showScreen('sc-excl');
+    return;
+  }
+  // Actualizar totales de cabecera
+  var p = S.periodo || (_checkoutPets[0] ? _checkoutPets[0].periodo : 'mensual');
+  var total = _checkoutPets.reduce(function(s, pet) {
+    return s + (p === 'anual' ? pet.precioMes * 12 : pet.precioMes);
+  }, 0);
+  var suffix = p === 'anual' ? '/año' : '/mes';
+  var totalEl = document.getElementById('c4-total');
+  if (totalEl) totalEl.textContent = fmt(total) + suffix;
+  var mascotaEl = document.getElementById('c4-mascota');
+  if (mascotaEl) mascotaEl.textContent = _checkoutPets.map(function(p){return p.nombre;}).join(', ');
+  _renderSc4ResumenMascotas();
+  checkC4();
+}
+
+function cancelarEliminarPet() {
+  _petToDelete = -1;
+  var overlay = document.getElementById('sc4-delete-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
 function validateChip(idx) {
   var inp = document.getElementById('chip-' + idx);
   var msg = document.getElementById('chip-msg-' + idx);
@@ -450,11 +498,46 @@ function showScreen(id) {
 }
 
 function _initSc5() {
-  // Reset pay button - user must re-confirm on payment screen
   var btnPagar = document.getElementById('btn-pagar');
-  if (btnPagar) btnPagar.disabled = false; // enable - no extra validation needed
-  // Sync plan summary from sc4 elements
-  // c4-logo, c4-pname, c4-mascota, c4-total already populated by _irAlCheckout
+  if (btnPagar) btnPagar.disabled = false;
+
+  var pets = _checkoutPets && _checkoutPets.length ? _checkoutPets : [];
+  var p    = S.periodo || (pets[0] ? pets[0].periodo : 'mensual');
+  var suffix = p === 'anual' ? '/año' : '/mes';
+  var _names = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
+
+  // Construir resumen por mascota en el sidebar
+  var sidebar = document.querySelector('#sc5 .c4-sidebar');
+  if (!sidebar) return;
+
+  var petsHtml = '';
+  var total = 0;
+
+  pets.forEach(function(pet) {
+    var pr = p === 'anual' ? pet.precioMes * 12 : pet.precioMes;
+    total += pr;
+    var ico = pet.especie === 'gato' ? '🐱' : '🐶';
+    var color = _PLAN_COLOR[pet.plan] || '#1B2A4A';
+    petsHtml +=
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid #eee">' +
+        '<div>' +
+          '<div style="font-weight:800;font-size:14px;color:#1B2A4A">' + ico + ' ' + (pet.nombre || 'Mascota') + '</div>' +
+          '<div style="font-size:11px;color:rgba(27,42,74,0.5);margin-top:2px">' + (pet.planLabel || _names[pet.plan] || pet.plan) + '</div>' +
+        '</div>' +
+        '<div style="font-weight:800;font-size:14px;color:' + color + ';white-space:nowrap">' + fmt(pr) + ' €<span style="font-size:10px;font-weight:500;color:rgba(27,42,74,0.45)">' + suffix + '</span></div>' +
+      '</div>';
+  });
+
+  sidebar.innerHTML =
+    '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(27,42,74,0.45);margin-bottom:8px">Resumen del contrato</div>' +
+    petsHtml +
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0 10px;margin-top:4px">' +
+      '<div style="font-weight:800;font-size:15px;color:#1B2A4A">TOTAL</div>' +
+      '<div style="font-weight:900;font-size:22px;color:#3DBFA0">' + fmt(total) + ' €<span style="font-size:12px;font-weight:500;color:rgba(27,42,74,0.5)">' + suffix + '</span></div>' +
+    '</div>' +
+    '<button class="btn-pagar" id="btn-pagar" onclick="procesarPago()">Pagar ahora</button>' +
+    '<div class="c4-note mt8"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zM7 4.5V7M7 9.5v.5" stroke="#3DBFA0" stroke-width="1.5" stroke-linecap="round"/></svg>14 días de desistimiento — reembolso 100%</div>' +
+    '<div class="c4-note mt8"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="3" stroke="#3DBFA0" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#3DBFA0" stroke-width="1.5" stroke-linecap="round"/></svg><a href="#" onclick="abrirWhatsApp();return false;">¿Dudas? Escríbenos por WhatsApp</a></div>';
 }
 
 function ageYears() {
@@ -779,16 +862,25 @@ function selectCastrado(valor) {
 
 /* ── STEP 3 ── */
 function toggleNoFecha() {
-  S.noFecha = document.getElementById('chk-nofecha').checked;
+  var chk = document.getElementById('chk-nofecha');
+  S.noFecha = chk ? chk.checked : false;
   document.getElementById('fecha-exact').classList.toggle('hidden', S.noFecha);
   document.getElementById('fecha-aprox').classList.toggle('hidden', !S.noFecha);
+  // Limpiar inp-fecha al activar modo aproximado para que no interfiera
+  if (S.noFecha) {
+    var inpF = document.getElementById('inp-fecha');
+    if (inpF) inpF.value = '';
+  }
   onFecha();
 }
 
 function onFecha() {
+  var chk = document.getElementById('chk-nofecha');
+  var noFecha = chk ? chk.checked : false;
+  S.noFecha = noFecha; // mantener estado sincronizado con el DOM
   var ok;
-  if (S.noFecha) {
-    ok = document.getElementById('sel-mes2').value && document.getElementById('sel-anio2').value;
+  if (noFecha) {
+    ok = !!(document.getElementById('sel-mes2').value && document.getElementById('sel-anio2').value);
   } else {
     ok = !!document.getElementById('inp-fecha').value;
   }
@@ -1150,12 +1242,9 @@ function setPeriod(p) {
 
 function setSc4Period(p) {
   S.periodo = p;
-  // Actualizar periodo en todos los checkoutPets para que los cálculos sean correctos
   if (_checkoutPets) {
-    var DESC = typeof DESC_ANUAL !== 'undefined' ? DESC_ANUAL : 0.15;
     _checkoutPets.forEach(function(pet) {
       pet.periodo = p;
-      pet.precio  = (p === 'anual') ? pet.precioMes * 12 * (1 - DESC) : pet.precioMes;
     });
   }
   _renderSc4ResumenMascotas();
@@ -1386,8 +1475,12 @@ function continuarContratar() {
     return {
       nombre: pet.nombre, especie: pet.especie,
       plan: pet.plan, planLabel: pet.planLabel, rcAddon: pet.rcAddon,
-      precio: (p==='anual') ? pet.precioMes*12*(1-DESC_ANUAL) : pet.precioMes,
-      precioMes: pet.precioMes, precioAno: pet.precioMes*12*(1-DESC_ANUAL),
+      sexo: pet.sexo, esterilizada: pet.esterilizada,
+      noFecha: pet.noFecha, _fecha: pet._fecha,
+      _enf: pet._enf ? pet._enf.slice() : [],
+      _saludRespondida: pet._saludRespondida,
+      precio: (p==='anual') ? pet.precioMes*12 : pet.precioMes,
+      precioMes: pet.precioMes, precioAno: pet.precioMes*12,
       periodo: p, _email: pet._email||S.email, _tel: pet._tel||S.tel
     };
   });
@@ -2272,6 +2365,9 @@ function addMascotaDesdeS6() {
   _activePetIdx = -1;
   _newPetDraft  = null;
 
+  // Limpiar visualmente todas las tarjetas de plan antes de resetear estado
+  ['care', 'careplus', 'premium', 'rc'].forEach(function(id) { _applyPlanVisual(id, false); });
+
   var savedEmail = S.email, savedTel = S.tel;
 
   S.especie  = null; S.nombre = ''; S.sexo = null; S.esterilizada = null;
@@ -2292,6 +2388,23 @@ function addMascotaDesdeS6() {
 
   _enfSeleccionadas = [];
   _restoreEnfUI();
+
+  // Resetear DOM del paso de fecha para la nueva mascota
+  var chkNof = document.getElementById('chk-nofecha');
+  if (chkNof) chkNof.checked = false;
+  var fechaExact = document.getElementById('fecha-exact');
+  var fechaAprox = document.getElementById('fecha-aprox');
+  if (fechaExact) fechaExact.classList.remove('hidden');
+  if (fechaAprox) fechaAprox.classList.add('hidden');
+  var inpFecha = document.getElementById('inp-fecha');
+  if (inpFecha) inpFecha.value = '';
+  var selMes = document.getElementById('sel-mes2');
+  var selAnio = document.getElementById('sel-anio2');
+  if (selMes)  { selMes.selectedIndex  = 0; }
+  if (selAnio) { selAnio.selectedIndex = 0; }
+  var btnS3 = document.getElementById('btn-s3');
+  if (btnS3) btnS3.disabled = true;
+
   showScreen('fw');
   showStep(1);
 }
