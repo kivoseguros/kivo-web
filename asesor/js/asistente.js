@@ -375,6 +375,8 @@
       let url = BASE_URL + '?desde=asesor';
       if (inclPlan) url += '&plan=' + plan;
       if (inclRC)   url += '&rc=extra';
+      if (answers.nombre) url += '&nombre=' + encodeURIComponent(answers.nombre);
+      if (answers.tipo)   url += '&especie=' + encodeURIComponent(answers.tipo);
       return url;
     }
 
@@ -466,7 +468,22 @@
         ctaLink.addEventListener('click', function(e) {
           e.preventDefault();
           if (!selPlan && !selRC) return;
-          window.parent.postMessage({ type: 'kivo-from-asesor', plan: selPlan ? plan : null, rc: selRC }, '*');
+          var _planSel = selPlan ? plan : null;
+          var _rcSel   = selRC;
+          // Pantalla de despedida del asesor antes de ir al tarificador
+          resultPanel.innerHTML =
+            '<div class="result-intro" style="text-align:center;padding:48px 24px">' +
+              '<div class="result-check-icon">' + svg(IC.check) + '</div>' +
+              '<h3 style="margin-bottom:14px">¡Perfecto' + (answers.nombre ? ', ya casi está listo el seguro de ' + answers.nombre : '') + '!</h3>' +
+              '<p style="max-width:420px;margin:0 auto 8px;line-height:1.6">Te voy a dirigir ahora al tarificador para completar tus datos y proceder a la contratación de tu póliza.</p>' +
+              '<p style="max-width:420px;margin:0 auto 28px;line-height:1.6;font-weight:600">Gracias por confiar en el Asesor KIVO.</p>' +
+              '<button class="result-cta-bar" id="btn-iniciar-contratacion" type="button" style="cursor:pointer;border:none;display:inline-flex;align-items:center;gap:8px">' +
+                '<span>Iniciar contratación</span>' + svg(IC.arrowRight) +
+              '</button>' +
+            '</div>';
+          document.getElementById('btn-iniciar-contratacion').addEventListener('click', function() {
+            window.parent.postMessage({ type: 'kivo-from-asesor', plan: _planSel, rc: _rcSel, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
+          });
         });
       }
     }

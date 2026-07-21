@@ -7412,7 +7412,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       <div class="s04-modal-robot-wrap">
         <img src="Sección 4/assets/kivo-ia.png" alt="Asesor KIVO" class="s04-modal-robot">
       </div>
-      <p class="s04-modal-robot-label">Asesor KIVO</p>
       <button class="s04-modal-close" id="s04ModalClose" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         Salir del asesor
@@ -8225,6 +8224,8 @@ window.addEventListener('message', function(e) {
     var _url  = './tarificador/index.html?modo=fullscreen&desde=asesor';
     if (_plan) _url += '&plan=' + encodeURIComponent(_plan);
     if (_rc)   _url += '&rc=extra';
+    if (e.data.nombre)  _url += '&nombre='  + encodeURIComponent(e.data.nombre);
+    if (e.data.especie) _url += '&especie=' + encodeURIComponent(e.data.especie);
     // Abrir tarificador en fullscreen
     var _tOv = document.getElementById('tarif-overlay');
     var _tFr = document.getElementById('tarif-fs-iframe');

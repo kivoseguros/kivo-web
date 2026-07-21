@@ -12,10 +12,17 @@ window.addEventListener('DOMContentLoaded', function() {
     var btnSalirInterno = document.querySelector('.btn-salir-top');
     if (btnSalirInterno) btnSalirInterno.style.display = 'none';
     var esp = params.get('especie');
+    var nom = params.get('nombre');
     if (esp) {
       selectEspecie(esp);
+      if (nom) {
+        // Nombre ya recogido por el Asesor KIVO: precargar y saltar al paso 2
+        var inpN = document.getElementById('inp-nombre');
+        if (inpN) inpN.value = nom;
+        onNombre();
+      }
       showScreen('fw');
-      showStep(1);
+      showStep(nom ? 2 : 1);
     } else {
       showFW();
     }
@@ -2721,8 +2728,20 @@ function _updateContratar() {
   if (banner) banner.style.display = 'block';
 
   // Parámetros del asesor
-  var planParam = params.get('plan');  // care | careplus | premium
-  var rcParam   = params.get('rc');    // extra | null
+  var planParam    = params.get('plan');     // care | careplus | premium
+  var rcParam      = params.get('rc');       // extra | null
+  var nombreParam  = params.get('nombre');   // nombre de la mascota
+  var especieParam = params.get('especie');  // perro | gato
+
+  // Precargar nombre + especie del asesor y saltar directo al paso 2
+  if (nombreParam && (especieParam === 'perro' || especieParam === 'gato')) {
+    var _inpN = document.getElementById('inp-nombre');
+    if (_inpN) _inpN.value = nombreParam;
+    onNombre();                    // fija S.nombre y personaliza las preguntas
+    selectEspecie(especieParam);   // fija S.especie y marca el tile
+    showStep(2);                   // paso 1 (nombre + especie) ya está hecho
+  }
+
   var validPlans = { care: true, careplus: true, premium: true };
   if (!planParam || !validPlans[planParam]) return;
 
