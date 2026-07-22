@@ -14,232 +14,285 @@
     body{font-family:'Inter',sans-serif;color:var(--blue);background:#fff}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
-    .kv-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-    .kv-nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
-    .kv-logo{font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-.03em}
-    .kv-logo span{color:var(--green-l)}
-    .kv-nav-links{display:flex;gap:24px}
-    .kv-nav-links a{font-size:13px;font-weight:600;color:rgba(27,42,74,0.65);transition:color .2s}
-    .kv-nav-links a:hover{color:var(--green-l)}
-    .kv-nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:100px;transition:background .2s}
-    .kv-nav-cta:hover{background:var(--green-l)}
-    @media(max-width:700px){.kv-nav-links{display:none}}
-    .kv-hero{background:var(--green-bg);padding:72px 24px 60px;text-align:center}
+
+    /* ── NAV BAR ── */
+    #blog-nav{
+      position:sticky;top:0;z-index:200;
+      background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      height:64px;display:flex;align-items:center;
+      justify-content:space-between;gap:12px;padding:0 24px;
+    }
+    .nav-logo{font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-.03em;flex-shrink:0;text-decoration:none;cursor:pointer}
+    .nav-logo span{color:var(--green-l)}
+    .nav-center{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .nav-arrow{
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--gray);border:1.5px solid var(--border);
+      color:var(--blue);font-size:13px;font-weight:700;
+      padding:8px 16px;border-radius:100px;cursor:pointer;
+      transition:all .2s;white-space:nowrap;
+    }
+    .nav-arrow:hover:not(:disabled){background:var(--blue);color:#fff;border-color:var(--blue)}
+    .nav-arrow:disabled{opacity:.35;cursor:not-allowed}
+    .nav-arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;fill:none}
+    .nav-web{
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--blue);color:#fff;
+      font-size:13px;font-weight:700;
+      padding:9px 18px;border-radius:100px;
+      transition:background .2s;flex-shrink:0;white-space:nowrap;
+    }
+    .nav-web:hover{background:var(--green-l)}
+    .nav-web svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;fill:none}
+
+    /* ── HERO ── */
+    #blog-hero{background:var(--green-bg);padding:72px 24px 60px;text-align:center}
     .kv-eyebrow{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--green-l);text-transform:uppercase;margin-bottom:16px}
-    .kv-hero h1{font-size:clamp(26px,5vw,42px);font-weight:900;color:var(--blue);letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
-    .kv-hero h1 span{color:var(--green-l)}
-    .kv-hero p{font-size:15px;color:rgba(27,42,74,0.6);max-width:600px;margin:0 auto;line-height:1.6}
-    .kv-section{padding:64px 24px}
-    .kv-section--gray{background:var(--gray)}
-    .kv-section--blue{background:var(--blue);color:#fff}
-    .kv-section--green{background:var(--green-bg)}
+    #blog-hero h1{font-size:clamp(26px,5vw,42px);font-weight:900;color:var(--blue);letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+    #blog-hero h1 span{color:var(--green-l)}
+    #blog-hero p{font-size:15px;color:rgba(27,42,74,0.6);max-width:600px;margin:0 auto;line-height:1.6}
+
+    /* ── FEATURED SECTION ── */
+    #featured{background:var(--green-bg);display:none}
+    .featured-inner{max-width:860px;margin:0 auto;padding:56px 24px 52px}
+    .featured-eyebrow{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green-l);margin-bottom:14px}
+    .featured-cat-badge{
+      display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+      color:#fff;background:var(--blue);border-radius:100px;padding:4px 12px;margin-bottom:18px;
+    }
+    .featured-emoji{font-size:48px;margin-bottom:16px;line-height:1}
+    .featured-title{font-size:clamp(20px,4vw,32px);font-weight:900;color:var(--blue);line-height:1.2;letter-spacing:-.02em;margin-bottom:18px}
+    .featured-excerpt{font-size:15px;line-height:1.75;color:rgba(27,42,74,0.72);margin-bottom:20px;max-width:700px}
+    .featured-meta{font-size:12px;color:rgba(27,42,74,0.45);margin-bottom:28px}
+    .featured-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--blue);color:#fff;
+      font-size:14px;font-weight:700;
+      padding:12px 28px;border-radius:100px;
+      transition:background .2s;
+    }
+    .featured-btn:hover{background:var(--green-l)}
+    .featured-btn svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;fill:none}
+
+    /* ── FILTER + GRID ── */
+    .section-articles{padding:52px 24px 72px}
     .kv-wrap{max-width:1100px;margin:0 auto}
-    .kv-wrap--sm{max-width:760px;margin:0 auto}
-    .kv-prose h2{font-size:17px;font-weight:800;margin-bottom:10px;margin-top:28px;color:var(--blue)}
-    .kv-prose h2:first-child{margin-top:0}
-    .kv-prose p{font-size:14px;line-height:1.75;color:rgba(27,42,74,0.72);margin-bottom:10px}
-    .kv-prose ul{padding-left:18px;margin-bottom:10px}
-    .kv-prose li{font-size:14px;line-height:1.7;color:rgba(27,42,74,0.72);margin-bottom:5px}
-    .kv-prose strong{color:var(--blue)}
-    .kv-prose a{color:var(--green-l);font-weight:600}
-    .kv-note{font-size:11px;color:rgba(27,42,74,0.38);margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
-    .kv-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(27,42,74,0.06)}
-    .kv-grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .kv-grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-    .kv-grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-    .kv-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
-    .kv-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:100px;transition:background .2s}
-    .kv-btn:hover{background:var(--green-l)}
-    .kv-btn--outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
-    .kv-btn--outline:hover{background:var(--blue);color:#fff}
-    /* FAQ accordion */
-    .faq-item{border-bottom:1px solid var(--border)}
-    .faq-item:last-child{border-bottom:none}
-    .faq-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;background:none;border:none;cursor:pointer;text-align:left}
-    .faq-q{font-size:14px;font-weight:600;color:var(--blue);line-height:1.4}
-    .faq-icon{width:16px;height:16px;flex-shrink:0;color:var(--green-l);transition:transform .25s}
-    .faq-icon.open{transform:rotate(180deg)}
-    .faq-body{font-size:13px;line-height:1.7;color:rgba(27,42,74,0.68);padding-bottom:16px;display:none}
-    .faq-body.open{display:block}
-    /* cats */
     .kv-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
-    .kv-cat{padding:8px 18px;border-radius:100px;font-size:13px;font-weight:600;border:1.5px solid var(--border);color:rgba(27,42,74,0.55);background:none;cursor:pointer;transition:all .2s}
+    .kv-cat{
+      padding:8px 18px;border-radius:100px;font-size:13px;font-weight:600;
+      border:1.5px solid var(--border);color:rgba(27,42,74,0.55);
+      background:none;cursor:pointer;transition:all .2s;
+    }
     .kv-cat.active,.kv-cat:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-    /* table */
-    .kv-table{width:100%;border-collapse:collapse;font-size:13px}
-    .kv-table th{background:var(--blue);color:#fff;padding:12px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em}
-    .kv-table th:not(:first-child){text-align:center}
-    .kv-table td{padding:11px 14px;border-top:1px solid var(--border);color:rgba(27,42,74,0.78);text-align:center;font-size:12px}
-    .kv-table td:first-child{text-align:left;font-weight:600;color:var(--blue)}
-    .kv-table tr:nth-child(even){background:rgba(27,42,74,0.02)}
-    .kv-check{color:var(--green-l);font-weight:700}
-    .kv-dash{color:rgba(27,42,74,0.2)}
-    /* blog card */
-    .blog-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 2px 8px rgba(27,42,74,0.05);display:flex;flex-direction:column;transition:box-shadow .2s}
-    .blog-card:hover{box-shadow:0 6px 24px rgba(27,42,74,0.12)}
+    .kv-grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+
+    /* ── BLOG CARD ── */
+    .blog-card{
+      background:#fff;border:2px solid var(--border);border-radius:16px;
+      padding:24px;box-shadow:0 2px 8px rgba(27,42,74,0.05);
+      display:flex;flex-direction:column;cursor:pointer;
+      transition:box-shadow .2s,border-color .2s;
+    }
+    .blog-card:hover{box-shadow:0 6px 24px rgba(27,42,74,0.12);border-color:rgba(27,42,74,0.18)}
+    .blog-card.active{border-color:var(--green-l);box-shadow:0 4px 20px rgba(61,191,160,0.18)}
     .blog-emoji{font-size:36px;margin-bottom:12px}
     .blog-cat{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
     .blog-title{font-size:14px;font-weight:800;color:var(--blue);line-height:1.35;margin-bottom:10px}
     .blog-excerpt{font-size:13px;color:rgba(27,42,74,0.6);line-height:1.6;flex:1}
     .blog-meta{margin-top:16px;font-size:11px;color:rgba(27,42,74,0.4);display:flex;justify-content:space-between}
-    /* plan */
-    .plan-cov-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-    .plan-cov-item:last-child{border-bottom:none}
-    .plan-check{color:var(--green-l);font-size:16px;flex-shrink:0;margin-top:1px}
-    .plan-cov-text{font-size:13px;color:rgba(27,42,74,0.75);line-height:1.5}
-    .plan-lim-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
-    .plan-lim-row:last-child{border-bottom:none}
-    .plan-lim-label{color:rgba(27,42,74,0.65)}
-    .plan-lim-val{font-weight:700;color:var(--blue)}
-    .plan-exc-item{display:flex;gap:10px;padding:8px 0;font-size:13px;color:rgba(27,42,74,0.65)}
-    .plan-exc-x{color:#f87171;flex-shrink:0}
-    /* footer */
-    .kv-footer{background:var(--blue);color:rgba(255,255,255,0.6);padding:48px 24px 28px}
-    .kv-footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px 40px}
-    .kv-footer h4{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px}
-    .kv-footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-    .kv-footer ul a{font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);transition:color .2s}
-    .kv-footer ul a:hover{color:var(--green-l)}
-    .kv-footer-bottom{max-width:1100px;margin:32px auto 0;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;font-size:11px;color:rgba(255,255,255,0.35)}
+
+    /* ── MOBILE ── */
+    @media(max-width:640px){
+      #blog-nav{height:auto;padding:10px 16px;flex-wrap:wrap;gap:8px}
+      .nav-logo{font-size:19px}
+      .nav-center{order:2;width:100%;justify-content:center}
+      .nav-web{order:1;font-size:12px;padding:7px 14px}
+      .nav-arrow{font-size:12px;padding:7px 12px}
+      .featured-inner{padding:40px 16px 36px}
+    }
   </style>
 </head>
 <body>
 
-<nav class="kv-nav">
-  <div class="kv-nav-inner">
-    <a href="../Seccion 1 HERO/index.html" class="kv-logo">KIVO<span>.</span></a>
-    <div class="kv-nav-links">
-      <a href="../pages/coberturas.html">Coberturas</a>
-      <a href="../pages/blog.html">Blog</a>
-      <a href="../pages/sobre-kivo.html">Sobre KIVO</a>
-      <a href="../pages/faq.html">FAQ</a>
-    </div>
-    <a href="../Seccion 1 HERO/index.html#calcular-precio" class="kv-nav-cta">Calcular precio</a>
+<!-- ── NAV BAR ── -->
+<nav id="blog-nav">
+  <a href="../index.html" class="nav-logo">KIVO<span>.</span></a>
+
+  <div class="nav-center">
+    <button class="nav-arrow" id="btn-prev" disabled onclick="prevArticle()">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
+      Retroceder
+    </button>
+    <button class="nav-arrow" id="btn-next" disabled onclick="nextArticle()">
+      Avanzar
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
   </div>
+
+  <a href="../index.html" class="nav-web">
+    Regresar a la web
+    <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
 </nav>
 
-
-<div class="kv-hero">
+<!-- ── HERO (visible cuando no hay artículo seleccionado) ── -->
+<div id="blog-hero">
   <div class="kv-eyebrow">BLOG KIVO</div>
   <h1>Consejos, legislación y <span>cuidados</span></h1>
   <p>Todo lo que necesitas saber para cuidar mejor a tu compañero de vida.</p>
 </div>
-<div class="kv-section">
+
+<!-- ── ARTÍCULO DESTACADO ── -->
+<div id="featured"></div>
+
+<!-- ── FILTROS + GRID ── -->
+<div class="section-articles">
   <div class="kv-wrap">
-    <div class="kv-cats" data-filter-group><button class="kv-cat active" data-cat="Todos">Todos</button><button class="kv-cat" data-cat="Legislación">Legislación</button><button class="kv-cat" data-cat="Salud">Salud</button><button class="kv-cat" data-cat="Cuidados">Cuidados</button><button class="kv-cat" data-cat="Seguros">Seguros</button></div>
-    <div class="kv-grid-3" data-filter-group><article class="blog-card" data-cat="Legislación">
-      <div class="blog-emoji">⚖️</div>
-      <div class="blog-cat">Legislación</div>
-      <h2 class="blog-title">Ley 7/2023 de Bienestar Animal: todo lo que debes saber como dueño de un perro o gato</h2>
-      <p class="blog-excerpt">La Ley de Bienestar Animal establece nuevas obligaciones para los propietarios de animales de compañía en España: seguro obligatorio de RC, microchip, y restricciones en razas PPP. Te explicamos qué cambia y qué debes hacer.</p>
-      <div class="blog-meta"><span>Junio 2025 · 5 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Legislación">
-      <div class="blog-emoji">📋</div>
-      <div class="blog-cat">Legislación</div>
-      <h2 class="blog-title">Seguro de Responsabilidad Civil para perros: obligatorio desde 2024</h2>
-      <p class="blog-excerpt">Con la entrada en vigor de la Ley 7/2023, todos los propietarios de perros en España están obligados a contratar un seguro de RC. Te explicamos qué cubre, cuánto cuesta y cómo cumplir con la normativa.</p>
-      <div class="blog-meta"><span>Mayo 2025 · 4 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Salud">
-      <div class="blog-emoji">🦟</div>
-      <div class="blog-cat">Salud</div>
-      <h2 class="blog-title">Leishmaniosis en perros: síntomas, tratamiento y prevención</h2>
-      <p class="blog-excerpt">La leishmaniosis es una enfermedad parasitaria transmitida por la picadura del mosquito flebotomo. En España es endémica en muchas zonas. Aprende a reconocer los síntomas, cómo se trata y qué puedes hacer para prevenirla.</p>
-      <div class="blog-meta"><span>Abril 2025 · 6 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Salud">
-      <div class="blog-emoji">🦷</div>
-      <div class="blog-cat">Salud</div>
-      <h2 class="blog-title">Salud dental en perros y gatos: por qué es más importante de lo que crees</h2>
-      <p class="blog-excerpt">El 80% de los perros mayores de 3 años tienen algún grado de enfermedad periodontal. La higiene dental no es estética, es salud. Te explicamos cómo cepillar los dientes de tu mascota y qué señales no debes ignorar.</p>
-      <div class="blog-meta"><span>Marzo 2025 · 5 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Cuidados">
-      <div class="blog-emoji">🚗</div>
-      <div class="blog-cat">Cuidados</div>
-      <h2 class="blog-title">Cómo preparar a tu perro para viajar en coche sin estrés</h2>
-      <p class="blog-excerpt">El viaje en coche puede ser estresante para muchos perros. Con la preparación adecuada, puedes convertir cada trayecto en una experiencia tranquila. Te damos los consejos clave para que tu perro viaje seguro y relajado.</p>
-      <div class="blog-meta"><span>Febrero 2025 · 4 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Cuidados">
-      <div class="blog-emoji">☀️</div>
-      <div class="blog-cat">Cuidados</div>
-      <h2 class="blog-title">Golpe de calor en mascotas: señales de alarma y qué hacer</h2>
-      <p class="blog-excerpt">Los golpes de calor son una emergencia veterinaria. En verano, el riesgo aumenta especialmente en razas braquicéfalas. Aprende a reconocer los síntomas y actuar rápido antes de llegar al veterinario.</p>
-      <div class="blog-meta"><span>Enero 2025 · 3 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Seguros">
-      <div class="blog-emoji">🛡️</div>
-      <div class="blog-cat">Seguros</div>
-      <h2 class="blog-title">¿Por qué contratar un seguro para tu mascota? 5 razones que no te esperabas</h2>
-      <p class="blog-excerpt">Una operación de urgencias puede costar entre 1.500 € y 5.000 €. Un proceso oncológico, mucho más. El seguro de mascotas no es un gasto extra: es la diferencia entre poder dar a tu compañero el mejor tratamiento o tener que elegir.</p>
-      <div class="blog-meta"><span>Diciembre 2024 · 4 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article><article class="blog-card" data-cat="Seguros">
-      <div class="blog-emoji">📊</div>
-      <div class="blog-cat">Seguros</div>
-      <h2 class="blog-title">CARE vs CARE+ vs PREMIUM: ¿qué plan KIVO te conviene más?</h2>
-      <p class="blog-excerpt">Los tres planes cubren accidentes, enfermedades y R.C., pero difieren en el porcentaje de reembolso, el límite anual y las coberturas adicionales. Esta guía te ayuda a elegir el que mejor se adapta a tu mascota y tu bolsillo.</p>
-      <div class="blog-meta"><span>Noviembre 2024 · 5 min de lectura</span><span style="color:#3DBFA0;font-weight:600">Leer →</span></div>
-    </article></div>
+
+    <div class="kv-cats">
+      <button class="kv-cat active" onclick="filterGrid('Todos', this)">Todos</button>
+      <button class="kv-cat" onclick="filterGrid('Legislación', this)">Legislación</button>
+      <button class="kv-cat" onclick="filterGrid('Salud', this)">Salud</button>
+      <button class="kv-cat" onclick="filterGrid('Cuidados', this)">Cuidados</button>
+      <button class="kv-cat" onclick="filterGrid('Seguros', this)">Seguros</button>
+    </div>
+
+    <div class="kv-grid-3" id="articles-grid"></div>
+
   </div>
 </div>
 
-<footer class="kv-footer">
-  <div class="kv-footer-grid">
-    <div>
-      <div style="font-size:20px;font-weight:900;color:#fff;letter-spacing:-.02em;margin-bottom:8px;">KIVO<span style="color:#3DBFA0">.</span></div>
-      <p style="font-size:12px;line-height:1.6;">Agencia de Suscripción (MGA)<br>especializada en seguros de mascotas.</p>
-    </div>
-    <div>
-      <h4>SEGUROS</h4>
-      <ul>
-        <li><a href="../pages/planes/care.html">KIVO CARE</a></li>
-        <li><a href="../pages/planes/care-plus.html">KIVO CARE+</a></li>
-        <li><a href="../pages/planes/premium.html">KIVO PREMIUM</a></li>
-        <li><a href="../pages/planes/rc.html">KIVO R.C.</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>INFORMACIÓN</h4>
-      <ul>
-        <li><a href="../pages/coberturas.html">Coberturas</a></li>
-        <li><a href="../pages/faq.html">FAQ</a></li>
-        <li><a href="../pages/sobre-kivo.html">Sobre KIVO</a></li>
-        <li><a href="../pages/blog.html">Blog</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>LEGAL</h4>
-      <ul>
-        <li><a href="../pages/legal/aviso-legal.html">Aviso Legal</a></li>
-        <li><a href="../pages/legal/privacidad.html">Política de Privacidad</a></li>
-        <li><a href="../pages/legal/cookies.html">Política de Cookies</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="kv-footer-bottom">
-    © 2026 KIVO Seguros para Mascotas, S.L. · Todos los derechos reservados · Marca registrada OEPM M4384477
-  </div>
-</footer>
-
 <script>
-// FAQ accordion
-document.querySelectorAll('.faq-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const body = btn.nextElementSibling;
-    const icon = btn.querySelector('.faq-icon');
-    const open = body.classList.toggle('open');
-    icon.classList.toggle('open', open);
+var ARTICLES = [
+  {
+    id: 'ley-bienestar', cat: 'Legislación', emoji: '⚖️',
+    title: 'Ley 7/2023 de Bienestar Animal: todo lo que debes saber como dueño de un perro o gato',
+    excerpt: 'La Ley de Bienestar Animal establece nuevas obligaciones para los propietarios de animales de compañía en España: seguro obligatorio de RC, microchip, y restricciones en razas PPP. Te explicamos qué cambia y qué debes hacer.',
+    date: 'Junio 2025', read: '5 min', page: 'blog-ley-bienestar.html'
+  },
+  {
+    id: 'seguro-rc', cat: 'Legislación', emoji: '📋',
+    title: 'Seguro de Responsabilidad Civil para perros: obligatorio desde 2024',
+    excerpt: 'Con la entrada en vigor de la Ley 7/2023, todos los propietarios de perros en España están obligados a contratar un seguro de RC. Te explicamos qué cubre, cuánto cuesta y cómo cumplir con la normativa.',
+    date: 'Mayo 2025', read: '4 min', page: null
+  },
+  {
+    id: 'leishmaniosis', cat: 'Salud', emoji: '🦟',
+    title: 'Leishmaniosis en perros: síntomas, tratamiento y prevención',
+    excerpt: 'La leishmaniosis es una enfermedad parasitaria transmitida por la picadura del mosquito flebotomo. En España es endémica en muchas zonas. Aprende a reconocer los síntomas, cómo se trata y qué puedes hacer para prevenirla.',
+    date: 'Abril 2025', read: '6 min', page: 'blog-leishmaniosis.html'
+  },
+  {
+    id: 'salud-dental', cat: 'Salud', emoji: '🦷',
+    title: 'Salud dental en perros y gatos: por qué es más importante de lo que crees',
+    excerpt: 'El 80% de los perros mayores de 3 años tienen algún grado de enfermedad periodontal. La higiene dental no es estética, es salud. Te explicamos cómo cepillar los dientes de tu mascota y qué señales no debes ignorar.',
+    date: 'Marzo 2025', read: '5 min', page: null
+  },
+  {
+    id: 'viaje-coche', cat: 'Cuidados', emoji: '🚗',
+    title: 'Cómo preparar a tu perro para viajar en coche sin estrés',
+    excerpt: 'El viaje en coche puede ser estresante para muchos perros. Con la preparación adecuada, puedes convertir cada trayecto en una experiencia tranquila. Te damos los consejos clave para que tu perro viaje seguro y relajado.',
+    date: 'Febrero 2025', read: '4 min', page: 'blog-viaje-coche.html'
+  },
+  {
+    id: 'golpe-calor', cat: 'Cuidados', emoji: '☀️',
+    title: 'Golpe de calor en mascotas: señales de alarma y qué hacer',
+    excerpt: 'Los golpes de calor son una emergencia veterinaria. En verano, el riesgo aumenta especialmente en razas braquicéfalas. Aprende a reconocer los síntomas y actuar rápido antes de llegar al veterinario.',
+    date: 'Enero 2025', read: '3 min', page: null
+  },
+  {
+    id: 'seguro-mascotas', cat: 'Seguros', emoji: '🛡️',
+    title: '¿Por qué contratar un seguro para tu mascota? 5 razones que no te esperabas',
+    excerpt: 'Una operación de urgencias puede costar entre 1.500 € y 5.000 €. Un proceso oncológico, mucho más. El seguro de mascotas no es un gasto extra: es la diferencia entre poder dar a tu compañero el mejor tratamiento o tener que elegir.',
+    date: 'Diciembre 2024', read: '4 min', page: 'blog-seguro-mascota.html'
+  },
+  {
+    id: 'comparativa-planes', cat: 'Seguros', emoji: '📊',
+    title: 'CARE vs CARE+ vs PREMIUM: ¿qué plan KIVO te conviene más?',
+    excerpt: 'Los tres planes cubren accidentes, enfermedades y R.C., pero difieren en el porcentaje de reembolso, el límite anual y las coberturas adicionales. Esta guía te ayuda a elegir el que mejor se adapta a tu mascota y tu bolsillo.',
+    date: 'Noviembre 2024', read: '5 min', page: null
+  }
+];
+
+var currentIdx = -1;
+
+function showArticle(id, scroll) {
+  var idx = ARTICLES.findIndex(function(a) { return a.id === id; });
+  if (idx === -1) return;
+  currentIdx = idx;
+  var a = ARTICLES[idx];
+
+  history.replaceState(null, '', '#' + id);
+
+  document.getElementById('blog-hero').style.display = 'none';
+  var featured = document.getElementById('featured');
+  featured.style.display = 'block';
+  featured.innerHTML =
+    '<div class="featured-inner">' +
+      '<div class="featured-eyebrow">ARTÍCULO DESTACADO</div>' +
+      '<div class="featured-cat-badge">' + a.cat + '</div>' +
+      '<div class="featured-emoji">' + a.emoji + '</div>' +
+      '<h1 class="featured-title">' + a.title + '</h1>' +
+      '<p class="featured-excerpt">' + a.excerpt + '</p>' +
+      '<div class="featured-meta">' + a.date + ' · ' + a.read + ' de lectura</div>' +
+      (a.page
+        ? '<a href="' + a.page + '" class="featured-btn">Leer artículo completo ' +
+          '<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>'
+        : '') +
+    '</div>';
+
+  document.getElementById('btn-prev').disabled = (idx === 0);
+  document.getElementById('btn-next').disabled = (idx === ARTICLES.length - 1);
+
+  document.querySelectorAll('.blog-card').forEach(function(card) {
+    card.classList.toggle('active', card.dataset.id === id);
   });
-});
-// Blog/FAQ category filter
-document.querySelectorAll('.kv-cat').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const group = btn.closest('[data-filter-group]');
-    if (!group) return;
-    group.querySelectorAll('.kv-cat').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const cat = btn.dataset.cat;
-    group.querySelectorAll('[data-cat]').forEach(el => {
-      el.style.display = (cat === 'Todos' || el.dataset.cat === cat) ? '' : 'none';
-    });
+
+  if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevArticle() {
+  if (currentIdx > 0) showArticle(ARTICLES[currentIdx - 1].id, true);
+}
+
+function nextArticle() {
+  if (currentIdx < ARTICLES.length - 1) showArticle(ARTICLES[currentIdx + 1].id, true);
+}
+
+function filterGrid(cat, btn) {
+  document.querySelectorAll('.kv-cat').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.blog-card').forEach(function(card) {
+    card.style.display = (cat === 'Todos' || card.dataset.cat === cat) ? '' : 'none';
   });
-});
+}
+
+function renderGrid() {
+  var html = '';
+  ARTICLES.forEach(function(a) {
+    html +=
+      '<article class="blog-card" data-id="' + a.id + '" data-cat="' + a.cat + '" ' +
+        'onclick="showArticle(\'' + a.id + '\', true)">' +
+        '<div class="blog-emoji">' + a.emoji + '</div>' +
+        '<div class="blog-cat">' + a.cat + '</div>' +
+        '<h2 class="blog-title">' + a.title + '</h2>' +
+        '<p class="blog-excerpt">' + a.excerpt + '</p>' +
+        '<div class="blog-meta">' +
+          '<span>' + a.date + ' · ' + a.read + ' de lectura</span>' +
+          '<span style="color:#3DBFA0;font-weight:600">Leer →</span>' +
+        '</div>' +
+      '</article>';
+  });
+  document.getElementById('articles-grid').innerHTML = html;
+}
+
+renderGrid();
+
+var hash = window.location.hash.slice(1);
+if (hash) {
+  showArticle(hash, false);
+}
 </script>
 </body>
 </html>

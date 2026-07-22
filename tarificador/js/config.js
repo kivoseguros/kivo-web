@@ -12,7 +12,7 @@ var PRECIOS_BASE = {
 /* ── ADICIONALES ──────────────────────────────────────────── */
 var RC_ADDON    = 8.90;
 var RC_SUELTA   = { perro: 14.90, gato: 11.90 };
-var DESC_ANUAL  = 0.15;
+var DESC_ANUAL  = 0;
 
 /* ── MULTIPLICADORES DE EDAD ──────────────────────────────── */
 var MULT_EDAD = [
