@@ -402,7 +402,7 @@
           '<p>Basado en sus respuestas, esta es nuestra recomendación personalizada.</p>' +
         '</div>' +
 
-        '<p class="result-select-hint">Acepta el plan o planes aconsejados y procede a la contratación</p>' +
+        '<p class="result-select-hint">Los planes aconsejados ya vienen marcados. Si lo deseas, puedes desmarcar el que no quieras o continuar con los dos.</p>' +
 
         '<div class="result-products">' +
 

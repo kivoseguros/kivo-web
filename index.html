@@ -25,7 +25,7 @@ html, body { margin:0; padding:0; overflow-x:hidden; }
 
 * { box-sizing: border-box; }
 html { background: #EAF7F3; }
-body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y; }
+body { background: url('assets/backgrounds/fondo-web.png') top center / 100% auto repeat-y; }
 html, body { margin: 0; min-width: 320px; }
 body {
   color: var(--blue);
@@ -2028,6 +2028,21 @@ body {
     margin: -2px 0 10px;
     line-height: 1;
 }
+
+.s03-card-ipid {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 10px auto 0;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #011C4B;
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+}
+.s03-card-ipid:hover { opacity: 1; text-decoration: underline; }
 
 .s03-card-price,
 .s03-card-capital {
@@ -5772,7 +5787,7 @@ body {
 }
 
 /* ── FONDO GLOBAL WEB ─────────────────────────────────── */
-body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !important; }
+body { background: url('assets/backgrounds/fondo-web.png') top center / 100% auto repeat-y !important; }
 
 /* ═══════════════════════════════════════════════════════
    KIVO — MOBILE RESPONSIVE — 16 julio 2026
@@ -5981,7 +5996,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 <!-- ── STICKY NAV ── -->
 <nav id="kivo-sticky-nav">
   <a class="sn-logo" href="#" onclick="kivoScrollTop()">
-    <img src="Seccion 1 HERO/assets/kivo-logo-transparent.png" alt="KIVO">
+    <img src="assets/logos/kivo-logo-transparent.png" alt="KIVO">
   </a>
   <span class="sn-center notranslate" translate="no">Seguros para mascotas</span>
   <button class="sn-btn" onclick="kivoScrollTop()">
@@ -6011,7 +6026,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
     <header class="hero-header">
       <a class="kivo-logo" href="#" aria-label="KIVO Seguros para Mascotas">
-        <img src="Seccion 1 HERO/assets/kivo-logo-transparent.png" alt="KIVO Seguros para Mascotas" />
+        <img src="assets/logos/kivo-logo-transparent.png" alt="KIVO Seguros para Mascotas" />
       </a>
 
       <nav class="hero-nav" aria-label="Navegación principal">
@@ -6091,11 +6106,11 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <p style="font-size:13px;color:rgba(27,42,74,0.5);text-align:center;margin:0 0 4px;max-width:320px;line-height:1.5;">Calcula el precio de tu seguro en 2 minutos.</p>
           <div style="display:flex;gap:20px;margin:20px 0 4px;width:100%;justify-content:center;">
             <button id="portal-tile-perro" class="portal-tile" onclick="portalSelectEspecie('perro')">
-              <img src="./tarificador/assets/icons/perro.svg" width="72" height="72" alt="Perro">
+              <img src="assets/icons/perro.svg" width="72" height="72" alt="Perro">
               Perro
             </button>
             <button id="portal-tile-gato" class="portal-tile" onclick="portalSelectEspecie('gato')">
-              <img src="./tarificador/assets/icons/gato.svg" width="72" height="72" alt="Gato">
+              <img src="assets/icons/gato.svg" width="72" height="72" alt="Gato">
               Gato
             </button>
           </div>
@@ -6347,7 +6362,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 <!-- ═══ KIVO IA — botón en página principal ═══ -->
 <button id="btn-ia-main" onclick="toggleIA()" aria-label="Abrir Asistente KIVO">
-  <img src="./asistente/assets/ia.png" alt="KIVO IA">
+  <img src="assets/images/ia-asistente.png" alt="KIVO IA">
 </button>
 
 <!-- ═══ KIVO IA — panel de chat (iframe independiente) ═══ -->
@@ -6399,13 +6414,13 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       </div>
 
       <div class="s02__image-wrap">
-        <img src="Sección 2/assets/s02-pets-clean.png" alt="Perro y gato KIVO" class="s02__image">
+        <img src="assets/images/s02-pets-clean.png" alt="Perro y gato KIVO" class="s02__image">
       </div>
     </header>
 
     <div class="s02__notice">
       <div class="s02__notice-icon">
-        <img src="Sección 2/assets/icons/03_huella.svg" alt="">
+        <img src="assets/icons/03_huella.svg" alt="">
       </div>
 
       <p>
@@ -6420,7 +6435,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     <div class="s02__cards">
       <article class="s02__card">
         <div class="s02__icon-bubble">
-          <img src="Sección 2/assets/icons/06_hueso.svg" alt="">
+          <img src="assets/icons/06_hueso.svg" alt="">
         </div>
         <h3>Tu perro se ha tragado un juguete.</h3>
         <span class="s02__line"></span>
@@ -6432,7 +6447,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
       <article class="s02__card">
         <div class="s02__icon-bubble">
-          <img src="Sección 2/assets/icons/01_perro.svg" alt="">
+          <img src="assets/icons/01_perro.svg" alt="">
         </div>
         <h3>Otro perro ha mordido al tuyo durante el paseo.</h3>
         <span class="s02__line"></span>
@@ -6444,7 +6459,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
       <article class="s02__card">
         <div class="s02__icon-bubble">
-          <img src="Sección 2/assets/icons/12_radiografia.svg" alt="">
+          <img src="assets/icons/12_radiografia.svg" alt="">
         </div>
         <h3>Una caída termina en una fractura.</h3>
         <span class="s02__line"></span>
@@ -6456,7 +6471,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
       <article class="s02__card">
         <div class="s02__icon-bubble">
-          <img src="Sección 2/assets/icons/22_urgencias.svg" alt="">
+          <img src="assets/icons/22_urgencias.svg" alt="">
         </div>
         <h3>Una urgencia veterinaria en plena noche.</h3>
         <span class="s02__line"></span>
@@ -6468,7 +6483,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
       <article class="s02__card">
         <div class="s02__icon-bubble">
-          <img src="Sección 2/assets/icons/10_hospital_veterinario.svg" alt="">
+          <img src="assets/icons/10_hospital_veterinario.svg" alt="">
         </div>
         <h3>Tu mascota necesita quedarse hospitalizada.</h3>
         <span class="s02__line"></span>
@@ -6494,102 +6509,102 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/04_estetoscopio.svg" alt="">Consulta</div>
+          <div><img src="assets/icons/04_estetoscopio.svg" alt="">Consulta</div>
           <strong>35 – 60 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/22_urgencias.svg" alt="">Urgencias</div>
+          <div><img src="assets/icons/22_urgencias.svg" alt="">Urgencias</div>
           <strong>50 – 150 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/18_analisis.svg" alt="">Analítica sanguínea</div>
+          <div><img src="assets/icons/18_analisis.svg" alt="">Analítica sanguínea</div>
           <strong>40 – 80 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/12_radiografia.svg" alt="">Radiografía</div>
+          <div><img src="assets/icons/12_radiografia.svg" alt="">Radiografía</div>
           <strong>35 – 80 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/13_ecografia.svg" alt="">Ecografía</div>
+          <div><img src="assets/icons/13_ecografia.svg" alt="">Ecografía</div>
           <strong>40 – 90 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/12_radiografia.svg" alt="">TAC</div>
+          <div><img src="assets/icons/12_radiografia.svg" alt="">TAC</div>
           <strong>300 – 500 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/13_ecografia.svg" alt="">Resonancia magnética</div>
+          <div><img src="assets/icons/13_ecografia.svg" alt="">Resonancia magnética</div>
           <strong>350 – 600 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/10_hospital_veterinario.svg" alt="">Hospitalización</div>
+          <div><img src="assets/icons/10_hospital_veterinario.svg" alt="">Hospitalización</div>
           <strong>40 – 150 €/día</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/16_medicacion.svg" alt="">Limpieza dental con anestesia</div>
+          <div><img src="assets/icons/16_medicacion.svg" alt="">Limpieza dental con anestesia</div>
           <strong>90 – 180 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/06_hueso.svg" alt="">Ingestión de cuerpo extraño sin cirugía</div>
+          <div><img src="assets/icons/06_hueso.svg" alt="">Ingestión de cuerpo extraño sin cirugía</div>
           <strong>300 – 500 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/14_cirugia.svg" alt="">Ingestión de cuerpo extraño con cirugía</div>
+          <div><img src="assets/icons/14_cirugia.svg" alt="">Ingestión de cuerpo extraño con cirugía</div>
           <strong>600 – 1.500 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/09_corazon_veterinario.svg" alt="">Infección de útero — piometra</div>
+          <div><img src="assets/icons/09_corazon_veterinario.svg" alt="">Infección de útero — piometra</div>
           <strong>600 – 1.500 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/14_cirugia.svg" alt="">Cirugía de rodilla — ligamento cruzado</div>
+          <div><img src="assets/icons/14_cirugia.svg" alt="">Cirugía de rodilla — ligamento cruzado</div>
           <strong>650 – 1.500 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/06_hueso.svg" alt="">Cirugía por fractura</div>
+          <div><img src="assets/icons/06_hueso.svg" alt="">Cirugía por fractura</div>
           <strong>600 – 2.000 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/18_analisis.svg" alt="">Cirugía por piedras en la vejiga</div>
+          <div><img src="assets/icons/18_analisis.svg" alt="">Cirugía por piedras en la vejiga</div>
           <strong>600 – 1.200 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/10_hospital_veterinario.svg" alt="">Cesárea</div>
+          <div><img src="assets/icons/10_hospital_veterinario.svg" alt="">Cesárea</div>
           <strong>500 – 1.000 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/14_cirugia.svg" alt="">Endoscopia</div>
+          <div><img src="assets/icons/14_cirugia.svg" alt="">Endoscopia</div>
           <strong>180 – 320 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/09_corazon_veterinario.svg" alt="">Ecocardiografía</div>
+          <div><img src="assets/icons/09_corazon_veterinario.svg" alt="">Ecocardiografía</div>
           <strong>90 – 150 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/13_ecografia.svg" alt="">Electrocardiograma — ECG</div>
+          <div><img src="assets/icons/13_ecografia.svg" alt="">Electrocardiograma — ECG</div>
           <strong>25 – 40 €</strong>
         </div>
 
         <div class="s02__row">
-          <div><img src="Sección 2/assets/icons/16_medicacion.svg" alt="">Fluidoterapia</div>
+          <div><img src="assets/icons/16_medicacion.svg" alt="">Fluidoterapia</div>
           <strong>15 – 35 €</strong>
         </div>
       </div>
@@ -6622,7 +6637,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
       <article class="s03-card s03-card--care">
         <div class="s03-card-glow"></div>
-        <img class="s03-card-logo" src="Sección 3/assets/logos/kivo-care.png" alt="KIVO CARE">
+        <img class="s03-card-logo" src="assets/logos/kivo-care.png" alt="KIVO CARE">
         <div class="s03-card-name">CARE</div>
         <div class="s03-card-price">80%</div>
         <div class="s03-card-label">REEMBOLSO</div>
@@ -6637,11 +6652,12 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <li>R.C. incluida hasta 200.000 €</li>
         </ul>
         <button class="s03-card-button" type="button" onclick="location.href='pages/planes/care.html'">Ver detalles <span>→</span></button>
+        <a class="s03-card-ipid" href="tarificador/assets/docs/ipid-care.pdf" target="_blank" rel="noopener">📄 Descargar IPID</a>
       </article>
 
       <article class="s03-card s03-card--careplus">
         <div class="s03-card-glow"></div>
-         <img class="s03-card-logo" src="Sección 3/assets/logos/kivo-care-plus.png" alt="KIVO CARE+">
+         <img class="s03-card-logo" src="assets/logos/kivo-care-plus.png" alt="KIVO CARE+">
         <div class="s03-card-name">CARE+</div>
         <div class="s03-card-price">90%</div>
         <div class="s03-card-label">REEMBOLSO</div>
@@ -6657,11 +6673,12 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <li>R.C. incluida hasta 250.000 €</li>
         </ul>
         <button class="s03-card-button" type="button" onclick="location.href='pages/planes/care-plus.html'">Ver detalles <span>→</span></button>
+        <a class="s03-card-ipid" href="tarificador/assets/docs/ipid-care-plus.pdf" target="_blank" rel="noopener">📄 Descargar IPID</a>
       </article>
 
       <article class="s03-card s03-card--premium">
         <div class="s03-card-glow"></div>
-        <img class="s03-card-logo" src="Sección 3/assets/logos/kivo-premium.png" alt="KIVO PREMIUM">
+        <img class="s03-card-logo" src="assets/logos/kivo-premium.png" alt="KIVO PREMIUM">
         <div class="s03-card-name">PREMIUM</div>
         <div class="s03-card-price">100%</div>
         <div class="s03-card-label">REEMBOLSO</div>
@@ -6678,11 +6695,12 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <li><strong>R.C. incluida hasta 300.000 € — no necesitas R.C. aparte</strong></li>
         </ul>
         <button class="s03-card-button" type="button" onclick="location.href='pages/planes/premium.html'">Ver detalles <span>→</span></button>
+        <a class="s03-card-ipid" href="tarificador/assets/docs/ipid-premium.pdf" target="_blank" rel="noopener">📄 Descargar IPID</a>
       </article>
 
       <article class="s03-card s03-card--rc">
         <div class="s03-card-glow"></div>
-         <img class="s03-card-logo" src="Sección 3/assets/logos/kivo-rc.png" alt="KIVO R.C.">
+         <img class="s03-card-logo" src="assets/logos/kivo-rc.png" alt="KIVO R.C.">
         <div class="s03-card-name">R.C.</div>
         <div class="s03-card-capital">300.000 €</div>
         <div class="s03-card-label">CAPITAL ASEGURADO</div>
@@ -6709,7 +6727,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
       <button class="s03-accordion-trigger" type="button" aria-expanded="false">
         <span>🛡 Comparativa de coberturas</span>
         <small>Consulta todas las coberturas, límites y exclusiones de cada plan.</small>
-        <img src="Sección 3/assets/icons/chevron-down.svg" alt="">
+        <img src="assets/icons/chevron-down.svg" alt="">
       </button>
 
       <div class="s03-accordion-panel">
@@ -6804,7 +6822,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <div class="s03-exclusions-main">
 
     <div class="s03-exclusions-left">
-      <img class="s03-exclusions-shield" src="Sección 3/assets/images/sections/info-shield.png.png" alt="Exclusiones KIVO">
+      <img class="s03-exclusions-shield" src="assets/images/info-shield.png" alt="Exclusiones KIVO">
 
       <h3>Lo que no<br>cubre ningún plan</h3>
       <div class="s03-exclusions-line"></div>
@@ -6816,49 +6834,49 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     <div class="s03-exclusions-right">
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/heart-pulse.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/heart-pulse.svg" alt=""></div>
         <strong>1. Enfermedades<br>preexistentes</strong>
         <p>No cubrimos enfermedades o lesiones diagnosticadas antes de contratar el seguro.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/dna.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/dna.svg" alt=""></div>
         <strong>2. Patologías hereditarias<br>y congénitas</strong>
         <p>Enfermedades de origen hereditario o congénito, aunque no se hayan manifestado aún.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/dog.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/dog.svg" alt=""></div>
         <strong>3. Gestación, parto<br>y cría</strong>
         <p>No cubrimos gestación, parto, ni los tratamientos relacionados con la cría.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/scissors.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/scissors.svg" alt=""></div>
         <strong>4. Esterilización<br>electiva</strong>
         <p>La esterilización realizada por motivos no médicos o preventivos.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/sparkles.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/sparkles.svg" alt=""></div>
         <strong>5. Tratamientos cosméticos<br>o experimentales</strong>
         <p>Procedimientos estéticos o tratamientos experimentales, en investigación o no aprobados.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/shield-alert.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/shield-alert.svg" alt=""></div>
         <strong>6. Perros de caza o razas<br>clasificadas como PPP</strong>
         <p>No cubrimos perros de caza ni razas clasificadas como Potencialmente Peligrosas.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/ban.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/ban.svg" alt=""></div>
         <strong>7. Daños causados<br>intencionadamente</strong>
         <p>No cubrimos lesiones o daños causados de forma deliberada o por negligencia grave.</p>
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="Sección 3/assets/icons/exclusions/bug-off.svg" alt=""></div>
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/bug-off.svg" alt=""></div>
         <strong>8. Parásitos<br>externos</strong>
         <p>Pulgas, garrapatas u otros parásitos externos y las enfermedades que estos causen.</p>
       </div>
@@ -6867,24 +6885,6 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </div>
   </div>
 
-  <div class="s03-exclusions-footer">
-    <span>▣</span>
-    Consulta las <strong>condiciones generales</strong> de tu plan para más información sobre exclusiones y limitaciones.
-    <div id="cg-links-wrap" style="position:relative;overflow:hidden;width:100%;margin-top:12px;">
-      <div id="cg-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:100%;background:linear-gradient(to left,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-start;padding-left:4px;pointer-events:none;font-size:22px;color:#1B4D3E;font-weight:900;">&#x2039;</div>
-      <div id="cg-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;padding-bottom:4px;">
-        <div style="display:flex;gap:12px;padding:2px 2px 2px;">
-          <a href="documentos/CG-KIVO-AyE-v2.3.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">
-            📄 CG Accidentes y Enfermedades
-          </a>
-          <a href="documentos/CG-KIVO-RC-v1.0.pdf" target="_blank" class="s03-cg-link" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:#1B2A4A;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">
-            📄 CG Responsabilidad Civil
-          </a>
-        </div>
-      </div>
-      <div id="cg-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:100%;background:linear-gradient(to right,transparent,rgba(228,238,230,0.95) 60%);align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none;font-size:22px;color:#1B4D3E;font-weight:900;">&#x203a;</div>
-    </div>
-  </div>
 </section>
 
 
@@ -6903,7 +6903,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
     <!-- Logo IA — abre el asistente IA -->
     <div class="s04-left" onclick="toggleIA()" style="cursor:pointer">
-      <img src="Seccion 1 HERO/assets/ia.png" alt="Asistente KIVO IA" class="s04-robot" style="cursor:pointer;">
+      <img src="assets/images/ia-hero.png" alt="Asistente KIVO IA" class="s04-robot" style="cursor:pointer;">
     </div>
 
     <!-- Texto -->
@@ -6967,7 +6967,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 <div class="s05-marquee-track">
 <a href="../pages/blog.html#ley-bienestar" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-ley.jpg" alt="Dos perros en plaza española — Ley de Bienestar Animal" loading="lazy">
+        <img src="assets/images/blog/img-ley.jpg" alt="Dos perros en plaza española — Ley de Bienestar Animal" loading="lazy">
         <span class="s05-badge s05-badge--ley">Ley y Normativa</span>
       </div>
       <div class="s05-article-body">
@@ -6981,7 +6981,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#ley-bienestar" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-leishmaniosis.jpg" alt="Labrador negro — Leishmaniosis" loading="lazy">
+        <img src="assets/images/blog/img-leishmaniosis.jpg" alt="Labrador negro — Leishmaniosis" loading="lazy">
         <span class="s05-badge s05-badge--salud">Salud</span>
       </div>
       <div class="s05-article-body">
@@ -6995,7 +6995,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#leishmaniosis" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-viaje.jpg" alt="Golden Retriever en coche" loading="lazy">
+        <img src="assets/images/blog/img-viaje.jpg" alt="Golden Retriever en coche" loading="lazy">
         <span class="s05-badge s05-badge--cuidados">Cuidados</span>
       </div>
       <div class="s05-article-body">
@@ -7009,7 +7009,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#viaje-coche" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-seguro.jpg" alt="Gato atigrado — por qué contratar un seguro" loading="lazy">
+        <img src="assets/images/blog/img-seguro.jpg" alt="Gato atigrado — por qué contratar un seguro" loading="lazy">
         <span class="s05-badge s05-badge--salud">Salud</span>
       </div>
       <div class="s05-article-body">
@@ -7023,7 +7023,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#seguro-mascotas" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-ley.jpg" alt="Dos perros en plaza española — Ley de Bienestar Animal" loading="lazy">
+        <img src="assets/images/blog/img-ley.jpg" alt="Dos perros en plaza española — Ley de Bienestar Animal" loading="lazy">
         <span class="s05-badge s05-badge--ley">Ley y Normativa</span>
       </div>
       <div class="s05-article-body">
@@ -7037,7 +7037,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#leishmaniosis" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-leishmaniosis.jpg" alt="Labrador negro — Leishmaniosis" loading="lazy">
+        <img src="assets/images/blog/img-leishmaniosis.jpg" alt="Labrador negro — Leishmaniosis" loading="lazy">
         <span class="s05-badge s05-badge--salud">Salud</span>
       </div>
       <div class="s05-article-body">
@@ -7051,7 +7051,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#viaje-coche" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-viaje.jpg" alt="Golden Retriever en coche" loading="lazy">
+        <img src="assets/images/blog/img-viaje.jpg" alt="Golden Retriever en coche" loading="lazy">
         <span class="s05-badge s05-badge--cuidados">Cuidados</span>
       </div>
       <div class="s05-article-body">
@@ -7065,7 +7065,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     </a>
 <a href="../pages/blog.html#seguro-mascotas" class="s05-article">
       <div class="s05-article-img">
-        <img src="Sección 5/assets/blog/img-seguro.jpg" alt="Gato atigrado — por qué contratar un seguro" loading="lazy">
+        <img src="assets/images/blog/img-seguro.jpg" alt="Gato atigrado — por qué contratar un seguro" loading="lazy">
         <span class="s05-badge s05-badge--salud">Salud</span>
       </div>
       <div class="s05-article-body">
@@ -7100,181 +7100,244 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 <!-- =====================================================
      PROCESO: 4 pasos con móvil por paso
 ====================================================== -->
-<section class="s06-proceso">
-  <div class="s06-proceso-inner">
+<!-- ===== Sección 6 — Proceso con móviles reales (22-07-2026) ===== -->
+<section class="kp6" id="kp6">
+<style>
+.kp6{background:linear-gradient(180deg,rgba(247,250,249,.72),rgba(247,250,249,.86)),url('assets/backgrounds/fondo-web.png') center center / cover no-repeat;padding:82px 20px 66px;font-family:'Inter',sans-serif;overflow:hidden}
+.kp6 *{box-sizing:border-box}
+.kp6-inner{max-width:1260px;margin:0 auto}
+.kp6-head{text-align:center;margin-bottom:50px}
+.kp6-eyebrow{display:inline-block;color:#1B4D3E;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;position:relative;padding-top:16px}
+.kp6-eyebrow::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:3px;border-radius:2px;background:#3DBFA0}
+.kp6-title{font-size:clamp(27px,3.9vw,44px);font-weight:900;color:#1B2A4A;letter-spacing:-.022em;line-height:1.13;margin:16px auto 14px;max-width:820px}
+.kp6-sub{color:rgba(27,42,74,.5);font-size:clamp(15px,1.5vw,18px);font-weight:600;margin:0}
+.kp6-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:stretch}
+.kp6-step{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(34px);transition:opacity .6s ease,transform .6s ease}
+.kp6.in .kp6-step{opacity:1;transform:translateY(0)}
+.kp6.in .kp6-step:nth-child(2){transition-delay:.1s}
+.kp6.in .kp6-step:nth-child(3){transition-delay:.2s}
+.kp6.in .kp6-step:nth-child(4){transition-delay:.3s}
+.kp6.in .kp6-step:nth-child(5){transition-delay:.4s}
+.kp6-numwrap{position:relative;width:100%;display:flex;justify-content:center;margin-bottom:6px;perspective:700px}
+.kp6-num{width:52px;height:52px;border-radius:50%;background:#1B4D3E;color:#fff;font-size:17px;font-weight:800;display:grid;place-items:center;flex:0 0 auto;box-shadow:0 8px 18px rgba(27,77,62,.28)}
+.kp6-arrow{position:absolute;top:50%;left:calc(50% + 38px);width:calc(100% - 76px);transform:translateY(-50%);color:#9FD8CB}
+.kp6-arrow svg{width:100%;height:12px;display:block}
+.kp6-step:last-child .kp6-arrow{display:none}
+.kp6-ico{color:#1B4D3E;margin:16px 0 10px;height:30px;display:flex;align-items:center;justify-content:center}
+.kp6-sttl{font-size:15.5px;font-weight:800;color:#1B2A4A;margin:0 0 4px;line-height:1.2}
+.kp6-sdesc{font-size:13px;color:rgba(27,42,74,.55);line-height:1.42;margin:0 0 20px;max-width:200px}
+/* ---- Phone (marco de aluminio) ---- */
+.kp6-phwrap{margin-top:auto;display:flex;justify-content:center}
+.kp6-phone{width:198px;max-width:100%;aspect-ratio:198/412;position:relative;border-radius:38px;padding:4px;
+  background:linear-gradient(135deg,#f2f4f7 0%,#b3b9c3 18%,#868d99 38%,#cbd0d8 56%,#7d8490 78%,#e2e5ea 100%);
+  box-shadow:0 24px 48px rgba(27,42,74,.24),inset 0 1px 2px rgba(255,255,255,.7),inset 0 -1px 2px rgba(0,0,0,.25)}
+.kp6-phone::before{content:"";position:absolute;inset:4px;border-radius:34px;background:#0a0e14;z-index:0}
+.kp6-phone i{position:absolute;z-index:0;border-radius:2px}
+.kp6-phone i.pw{right:-2px;top:112px;width:3px;height:52px;background:linear-gradient(90deg,#7d8490,#d2d6dd)}
+.kp6-phone i.v1{left:-2px;top:96px;width:3px;height:26px;background:linear-gradient(-90deg,#7d8490,#d2d6dd)}
+.kp6-phone i.v2{left:-2px;top:130px;width:3px;height:44px;background:linear-gradient(-90deg,#7d8490,#d2d6dd)}
+.kp6-scr{position:relative;z-index:1;width:100%;height:100%;background:#F3F6F6;border-radius:31px;overflow:hidden;display:flex;flex-direction:column;border:3px solid #0a0e14}
+.kp6-scr::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:50px;height:15px;background:#0a0e14;border-radius:10px;z-index:6}
+.kp6-sb{display:flex;justify-content:space-between;align-items:center;padding:11px 16px 3px;font-size:9px;font-weight:800;color:#1B2A4A}
+.kp6-sb-r i{width:15px;height:8px;border:1px solid #1B2A4A;border-radius:2px;display:inline-block;position:relative}
+.kp6-top{display:flex;align-items:center;gap:8px;padding:5px 14px 10px;font-size:12.5px;font-weight:800;color:#1B2A4A;border-bottom:1px solid #E7EDEC}
+.kp6-body{flex:1;padding:12px 13px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.kp6-lbl{font-size:10px;font-weight:700;color:rgba(27,42,74,.55);margin:0}
+.kp6-pets{display:flex;gap:8px}
+.kp6-pet{flex:1;border:1.5px solid #E7EDEC;border-radius:12px;padding:8px 4px;text-align:center;font-size:10px;font-weight:700;color:#1B2A4A;background:#fff}
+.kp6-pet.on{border-color:#3DBFA0;box-shadow:0 0 0 2px rgba(61,191,160,.18)}
+.kp6-pet .av{width:34px;height:34px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;font-size:19px}
+.kp6-pet .av.dog{background:#FDE9D6}.kp6-pet .av.cat{background:#E1EFF6}
+.kp6-select{border:1.5px solid #E7EDEC;border-radius:10px;padding:8px 10px;font-size:10px;font-weight:700;color:#1B2A4A;background:#fff;display:flex;justify-content:space-between;align-items:center}
+.kp6-btn{margin-top:auto;background:#1B4D3E;color:#fff;border-radius:11px;padding:10px;text-align:center;font-size:11px;font-weight:800}
+.kp6-doc{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #E7EDEC;border-radius:11px;padding:8px 9px}
+.kp6-doc .di{width:26px;height:26px;border-radius:7px;background:#EAF6F2;display:grid;place-items:center;color:#1B4D3E;flex:0 0 auto}
+.kp6-doc .dt{flex:1;min-width:0}
+.kp6-doc .dt b{display:block;font-size:10px;font-weight:800;color:#1B2A4A}
+.kp6-doc .dt span{font-size:8.5px;color:rgba(27,42,74,.5)}
+.kp6-doc .dc{width:16px;height:16px;border-radius:50%;background:#3DBFA0;display:grid;place-items:center;flex:0 0 auto}
+.kp6-adddoc{border:1.5px dashed #B9CFC9;border-radius:11px;padding:12px;text-align:center;color:rgba(27,42,74,.55);font-size:9.5px;font-weight:700}
+.kp6-adddoc .plus{width:24px;height:24px;border-radius:50%;background:#EAF6F2;color:#1B4D3E;display:grid;place-items:center;margin:0 auto 5px}
+.kp6-expid{text-align:center;font-size:11px;font-weight:800;color:#1B2A4A;margin:2px 0 0}
+.kp6-expid span{display:block;font-size:8.5px;font-weight:700;color:rgba(27,42,74,.45);letter-spacing:.05em}
+.kp6-ring{width:82px;height:82px;margin:6px auto;border-radius:50%;background:conic-gradient(#3DBFA0 62%,#E2ECEA 0);display:grid;place-items:center;position:relative}
+.kp6-ring::after{content:"";position:absolute;inset:8px;background:#F3F6F6;border-radius:50%}
+.kp6-ring svg{position:relative;z-index:1;color:#1B4D3E}
+.kp6-status{text-align:center;font-size:12px;font-weight:800;color:#1B4D3E;margin:0}
+.kp6-track{display:flex;align-items:center;gap:4px;margin:4px 2px}
+.kp6-track .d{width:9px;height:9px;border-radius:50%;background:#E2ECEA;flex:0 0 auto}
+.kp6-track .d.on{background:#3DBFA0}
+.kp6-track .l{flex:1;height:2px;background:#E2ECEA}
+.kp6-track .l.on{background:#3DBFA0}
+.kp6-est{border:1px solid #E7EDEC;border-radius:10px;padding:8px;text-align:center;background:#fff}
+.kp6-est span{font-size:8.5px;color:rgba(27,42,74,.5);font-weight:700}
+.kp6-est b{display:block;font-size:13px;font-weight:900;color:#1B2A4A}
+.kp6-check{width:52px;height:52px;border-radius:50%;background:#1B4D3E;display:grid;place-items:center;margin:8px auto 4px;color:#fff;box-shadow:0 8px 20px rgba(27,77,62,.3)}
+.kp6-approved{text-align:center;font-size:13px;font-weight:900;color:#1B2A4A;margin:0}
+.kp6-amount{text-align:center;font-size:23px;font-weight:900;color:#1B4D3E;margin:2px 0 4px;letter-spacing:-.02em}
+.kp6-transf{text-align:center;font-size:9px;color:rgba(27,42,74,.55);font-weight:600;line-height:1.4;margin:0 0 8px}
+.kp6-btn2{background:#EAF0EF;color:#1B2A4A;border-radius:11px;padding:9px;text-align:center;font-size:10px;font-weight:800}
+.kp6-done-logo{font-size:34px;font-weight:900;color:#1B2A4A;text-align:center;letter-spacing:-.02em;margin:auto 0 6px}
+.kp6-done-logo .h{color:#3DBFA0}
+.kp6-done-txt{text-align:center;font-size:10.5px;color:rgba(27,42,74,.6);font-weight:600;margin:0 0 12px}
+.kp6-nav{display:flex;justify-content:space-around;border-top:1px solid #E7EDEC;padding:7px 0 8px;color:rgba(27,42,74,.4)}
+.kp6-nav b{color:#1B4D3E}
+.kp6-nav div{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:7px;font-weight:700}
+.kp6-benefits{margin-top:56px;background:#fff;border:1px solid #E9F0EE;border-radius:22px;box-shadow:0 14px 40px rgba(27,42,74,.06);padding:26px 20px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kp6-ben{display:flex;align-items:center;gap:12px}
+.kp6-ben .bi{width:40px;height:40px;border-radius:12px;background:#EAF6F2;color:#1B4D3E;display:grid;place-items:center;flex:0 0 auto}
+.kp6-ben b{display:block;font-size:14px;font-weight:800;color:#1B2A4A;line-height:1.2}
+.kp6-ben span{font-size:12px;color:rgba(27,42,74,.55);font-weight:600}
+.kp6-nota{text-align:center;color:rgba(27,42,74,.42);font-size:12px;font-style:italic;margin:26px 0 0}
+/* ---- Efecto de atención (recorre los pasos 01→05, sin mover el móvil) ---- */
+.kp6-arrow svg path{animation:kp6flow 1.1s linear infinite}
+@keyframes kp6flow{to{stroke-dashoffset:-9}}
+.kp6-num{transition:transform .5s cubic-bezier(.34,1.5,.5,1),background .5s}
+.kp6-step.act .kp6-num{background:#3DBFA0;animation:kp6flip .72s cubic-bezier(.4,.75,.3,1) both,kp6pulse 1.7s ease-in-out 1s infinite}
+@keyframes kp6flip{0%{transform:rotateY(0) scale(1)}100%{transform:rotateY(360deg) scale(1.14)}}
+@keyframes kp6pulse{0%,100%{box-shadow:0 0 0 4px rgba(61,191,160,.20),0 8px 22px rgba(61,191,160,.45)}50%{box-shadow:0 0 0 12px rgba(61,191,160,.04),0 10px 26px rgba(61,191,160,.6)}}
+.kp6-step.act .kp6-sttl{color:#1B4D3E}
+.kp6-scr::after{content:"";position:absolute;inset:0;z-index:7;pointer-events:none;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.5) 48%,transparent 60%);transform:translateX(-130%)}
+.kp6-step.act .kp6-scr::after{animation:kp6shine 1.15s ease forwards}
+@keyframes kp6shine{to{transform:translateX(130%)}}
+@media(max-width:920px){.kp6-steps{grid-template-columns:repeat(2,1fr);gap:30px 16px}.kp6-arrow{display:none}.kp6-benefits{grid-template-columns:repeat(2,1fr);gap:22px}}
+@media(max-width:520px){.kp6-steps{grid-template-columns:1fr}.kp6-benefits{grid-template-columns:1fr}.kp6-phone{width:214px}}
+</style>
 
-    <div class="s06-header">
-      <span class="s06-badge">Reembolso sin complicaciones</span>
-      <h2>Así de fácil funciona KIVO</h2>
-      <p>Sin papeleo interminable. Sin esperas eternas. Sin sorpresas.</p>
+  <div class="kp6-inner">
+    <div class="kp6-head">
+      <span class="kp6-eyebrow">Así de fácil funciona KIVO</span>
+      <h2 class="kp6-title">Te ayudamos cuando más lo necesitas, sin complicaciones.</h2>
+      <p class="kp6-sub">Sin papeleo interminable. Sin esperas eternas. Sin sorpresas.</p>
     </div>
 
-    <div class="s06-steps-grid">
+    <div class="kp6-steps">
 
-      <!-- ─── PASO 1 ─── -->
-      <div class="s06-step-card">
-        <div class="s06-step-num-wrap">
-          <span class="s06-step-num">01</span>
-          <svg class="s06-arrow" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 8 H34 M28 2 L40 8 L28 14" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="s06-phone">
-          <div class="s06-phone-frame">
-            <div class="s06-phone-notch"></div>
-            <div class="s06-phone-screen s06-screen--1">
-              <div class="s06-screen-topbar">Nueva solicitud</div>
-              <div class="s06-screen-body">
-                <div class="s06-icon-circle s06-icon-circle--blue">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                    <rect width="14" height="18" x="5" y="3" rx="2"/>
-                    <path d="M9 7h6M9 11h6M9 15h4"/>
-                  </svg>
-                </div>
-                <p class="s06-sc-label">Selecciona tu mascota</p>
-                <div class="s06-chips">
-                  <span class="s06-chip s06-chip--on">Luna 🐕</span>
-                  <span class="s06-chip">Rocky 🐈</span>
-                </div>
-                <p class="s06-sc-label" style="margin-top:6px">Tipo de visita</p>
-                <div class="s06-select-row">Consulta veterinaria ▾</div>
-                <div class="s06-sc-btn">Siguiente →</div>
-              </div>
-            </div>
+      <div class="kp6-step">
+        <div class="kp6-numwrap"><span class="kp6-num">01</span><span class="kp6-arrow"><svg viewBox="0 0 100 12" fill="none"><path d="M0 6h88M82 1l8 5-8 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/></svg></span></div>
+        <div class="kp6-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 19h2"/></svg></div>
+        <h3 class="kp6-sttl">Haces tu solicitud</h3>
+        <p class="kp6-sdesc">Desde la App en menos de 1&nbsp;minuto.</p>
+        <div class="kp6-phwrap"><div class="kp6-phone"><i class="pw"></i><i class="v1"></i><i class="v2"></i><div class="kp6-scr">
+          <div class="kp6-sb"><span>9:41</span><span class="kp6-sb-r"><i></i></span></div>
+          <div class="kp6-top"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Nueva solicitud</div>
+          <div class="kp6-body">
+            <p class="kp6-lbl">Selecciona tu mascota</p>
+            <div class="kp6-pets"><div class="kp6-pet on"><div class="av dog">🐶</div>Luna</div><div class="kp6-pet"><div class="av cat">🐱</div>Rocky</div></div>
+            <p class="kp6-lbl" style="margin-top:2px">Tipo de visita</p>
+            <div class="kp6-select">Consulta veterinaria<span>▾</span></div>
+            <div class="kp6-btn">Siguiente →</div>
           </div>
-        </div>
-
-        <div class="s06-step-text">
-          <h3>Haces tu solicitud</h3>
-          <p>Desde la App en menos de 1&nbsp;minuto.</p>
-        </div>
+        </div></div></div>
       </div>
 
-      <!-- ─── PASO 2 ─── -->
-      <div class="s06-step-card">
-        <div class="s06-step-num-wrap">
-          <span class="s06-step-num">02</span>
-          <svg class="s06-arrow" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 8 H34 M28 2 L40 8 L28 14" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="s06-phone">
-          <div class="s06-phone-frame">
-            <div class="s06-phone-notch"></div>
-            <div class="s06-phone-screen s06-screen--2">
-              <div class="s06-screen-topbar">Documentos</div>
-              <div class="s06-screen-body">
-                <div class="s06-doc-row s06-doc-ok">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#3DBFA0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>
-                  Informe veterinario
-                </div>
-                <div class="s06-doc-row s06-doc-ok">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#3DBFA0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>
-                  Factura clínica
-                </div>
-                <div class="s06-doc-row s06-doc-add">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M12 5v14M5 12h14"/></svg>
-                  Añadir documento
-                </div>
-                <div class="s06-sc-btn s06-sc-btn--green">Enviar →</div>
-              </div>
-            </div>
+      <div class="kp6-step">
+        <div class="kp6-numwrap"><span class="kp6-num">02</span><span class="kp6-arrow"><svg viewBox="0 0 100 12" fill="none"><path d="M0 6h88M82 1l8 5-8 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/></svg></span></div>
+        <div class="kp6-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15h6"/></svg></div>
+        <h3 class="kp6-sttl">Mandas el informe y la factura</h3>
+        <p class="kp6-sdesc">Adjunta los documentos desde la cámara o tu galería.</p>
+        <div class="kp6-phwrap"><div class="kp6-phone"><i class="pw"></i><i class="v1"></i><i class="v2"></i><div class="kp6-scr">
+          <div class="kp6-sb"><span>9:41</span><span class="kp6-sb-r"><i></i></span></div>
+          <div class="kp6-top"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Documentos</div>
+          <div class="kp6-body">
+            <p class="kp6-lbl">Adjunta los documentos</p>
+            <div class="kp6-doc"><div class="di"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="dt"><b>Informe veterinario</b><span>PDF · 2,4 MB</span></div><div class="dc"><svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4 7-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="kp6-doc"><div class="di"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div class="dt"><b>Factura clínica</b><span>PDF · 1,6 MB</span></div><div class="dc"><svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4 7-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="kp6-adddoc"><div class="plus"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>Añadir documento<br>PDF, JPG o PNG</div>
+            <div class="kp6-btn">Enviar</div>
           </div>
-        </div>
-
-        <div class="s06-step-text">
-          <h3>Mandas el informe y la factura</h3>
-          <p>Adjunta los documentos desde la cámara o tu galería.</p>
-        </div>
+        </div></div></div>
       </div>
 
-      <!-- ─── PASO 3 ─── -->
-      <div class="s06-step-card">
-        <div class="s06-step-num-wrap">
-          <span class="s06-step-num">03</span>
-          <svg class="s06-arrow" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 8 H34 M28 2 L40 8 L28 14" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="s06-phone">
-          <div class="s06-phone-frame">
-            <div class="s06-phone-notch"></div>
-            <div class="s06-phone-screen s06-screen--3">
-              <div class="s06-screen-topbar">Estado</div>
-              <div class="s06-screen-body">
-                <div class="s06-icon-circle s06-icon-circle--yellow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                </div>
-                <p class="s06-status-tag">En revisión</p>
-                <div class="s06-track">
-                  <div class="s06-track-dot s06-track-dot--done"></div>
-                  <div class="s06-track-line s06-track-line--done"></div>
-                  <div class="s06-track-dot s06-track-dot--active"></div>
-                  <div class="s06-track-line"></div>
-                  <div class="s06-track-dot"></div>
-                </div>
-                <div class="s06-track-labels">
-                  <span class="s06-tl s06-tl--done">Recibida</span>
-                  <span class="s06-tl s06-tl--active">Revisión</span>
-                  <span class="s06-tl">Pagada</span>
-                </div>
-                <p class="s06-eta-text">Tiempo estimado: <strong>24–48h</strong></p>
-              </div>
-            </div>
+      <div class="kp6-step">
+        <div class="kp6-numwrap"><span class="kp6-num">03</span><span class="kp6-arrow"><svg viewBox="0 0 100 12" fill="none"><path d="M0 6h88M82 1l8 5-8 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/></svg></span></div>
+        <div class="kp6-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3 class="kp6-sttl">Esperas 24/48h</h3>
+        <p class="kp6-sdesc">Sigue el estado de tu expediente en tiempo real desde la App.</p>
+        <div class="kp6-phwrap"><div class="kp6-phone"><i class="pw"></i><i class="v1"></i><i class="v2"></i><div class="kp6-scr">
+          <div class="kp6-sb"><span>9:41</span><span class="kp6-sb-r"><i></i></span></div>
+          <div class="kp6-top" style="justify-content:center">Estado del expediente</div>
+          <div class="kp6-body">
+            <p class="kp6-expid">EXP-2024-1528<span>REEMBOLSO</span></p>
+            <div class="kp6-ring"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <p class="kp6-status">En revisión</p>
+            <div class="kp6-track"><span class="d on"></span><span class="l on"></span><span class="d on"></span><span class="l"></span><span class="d"></span></div>
+            <div style="display:flex;justify-content:space-between;font-size:7.5px;font-weight:700;color:rgba(27,42,74,.5);margin:-2px 2px 0"><span>Recibida</span><span>Revisión</span><span>Pagada</span></div>
+            <div class="kp6-est" style="margin-top:auto"><span>Tiempo estimado</span><b>24 – 48h</b></div>
           </div>
-        </div>
-
-        <div class="s06-step-text">
-          <h3>Esperas 24/48h</h3>
-          <p>Sigue el estado de tu expediente en tiempo real desde la App.</p>
-        </div>
+          <div class="kp6-nav"><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Inicio</div><div><b><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Mis solicitudes</b></div><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 6-5 8-5s7 1 8 5"/></svg>Perfil</div></div>
+        </div></div></div>
       </div>
 
-      <!-- ─── PASO 4 ─── -->
-      <div class="s06-step-card">
-        <div class="s06-step-num-wrap">
-          <span class="s06-step-num">04</span>
-        </div>
-
-        <div class="s06-phone">
-          <div class="s06-phone-frame">
-            <div class="s06-phone-notch"></div>
-            <div class="s06-phone-screen s06-screen--4">
-              <div class="s06-screen-topbar">Reembolso</div>
-              <div class="s06-screen-body s06-screen-body--center">
-                <div class="s06-success-ring">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M20 6L9 17l-5-5"/></svg>
-                </div>
-                <p class="s06-success-title">¡Reembolsado!</p>
-                <p class="s06-success-amount">+ 244,00 €</p>
-                <p class="s06-success-sub">Transferencia a tu cuenta<br>terminada en ··1234</p>
-                <div class="s06-success-tag">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#3DBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
-                  Luna · Consulta especialista
-                </div>
-              </div>
-            </div>
+      <div class="kp6-step">
+        <div class="kp6-numwrap"><span class="kp6-num">04</span><span class="kp6-arrow"><svg viewBox="0 0 100 12" fill="none"><path d="M0 6h88M82 1l8 5-8 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/></svg></span></div>
+        <div class="kp6-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/><path d="M9 12l2 2 4-5"/></svg></div>
+        <h3 class="kp6-sttl">Reembolso aprobado</h3>
+        <p class="kp6-sdesc">Revisamos tu solicitud y aprobamos el reembolso.</p>
+        <div class="kp6-phwrap"><div class="kp6-phone"><i class="pw"></i><i class="v1"></i><i class="v2"></i><div class="kp6-scr">
+          <div class="kp6-sb"><span>9:41</span><span class="kp6-sb-r"><i></i></span></div>
+          <div class="kp6-top" style="justify-content:center">Reembolso aprobado</div>
+          <div class="kp6-body">
+            <div class="kp6-check"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></div>
+            <p class="kp6-approved">¡Aprobado!</p>
+            <p class="kp6-amount">+ 244,00 €</p>
+            <p class="kp6-transf">Transferencia a tu cuenta<br>terminada en ····1234</p>
+            <div class="kp6-btn2" style="margin-top:auto">Ver detalle del reembolso</div>
           </div>
-        </div>
+          <div class="kp6-nav"><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Inicio</div><div><b><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Mis solicitudes</b></div><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 6-5 8-5s7 1 8 5"/></svg>Perfil</div></div>
+        </div></div></div>
+      </div>
 
-        <div class="s06-step-text">
-          <h3>Recibes tu dinero</h3>
-          <p>Por transferencia directa a tu cuenta bancaria. Sin más pasos.</p>
-        </div>
+      <div class="kp6-step">
+        <div class="kp6-numwrap"><span class="kp6-num">05</span></div>
+        <div class="kp6-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 10l8-6 8 6M6 10v9M18 10v9M10 10v9M14 10v9"/></svg></div>
+        <h3 class="kp6-sttl">Recibes tu dinero</h3>
+        <p class="kp6-sdesc">Por transferencia directa a tu cuenta bancaria. Sin más pasos.</p>
+        <div class="kp6-phwrap"><div class="kp6-phone"><i class="pw"></i><i class="v1"></i><i class="v2"></i><div class="kp6-scr">
+          <div class="kp6-sb"><span>9:41</span><span class="kp6-sb-r"><i></i></span></div>
+          <div class="kp6-top" style="justify-content:center">¡Hecho!</div>
+          <div class="kp6-body" style="align-items:center;justify-content:center">
+            <div class="kp6-done-logo">KIVO<span class="h">♥</span></div>
+            <p class="kp6-done-txt">Gracias por confiar en KIVO</p>
+            <div class="kp6-btn" style="width:100%">Nueva solicitud</div>
+          </div>
+          <div class="kp6-nav"><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Inicio</div><div><b><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Mis solicitudes</b></div><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 6-5 8-5s7 1 8 5"/></svg>Perfil</div></div>
+        </div></div></div>
       </div>
 
     </div>
 
-    <p class="s06-nota">* El plazo puede variar según la complejidad del expediente y la documentación aportada.</p>
+    <div class="kp6-benefits">
+      <div class="kp6-ben"><div class="bi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6M12 5V2"/></svg></div><div><b>Reembolso en 24/48h</b><span>Sin esperas innecesarias.</span></div></div>
+      <div class="kp6-ben"><div class="bi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div><div><b>Sin letras pequeñas</b><span>Todo claro desde el principio.</span></div></div>
+      <div class="kp6-ben"><div class="bi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z"/><path d="M9 12l2 2 4-5"/></svg></div><div><b>100% digital</b><span>Fácil, rápido y seguro.</span></div></div>
+      <div class="kp6-ben"><div class="bi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 22l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></div><div><b>Atención cercana</b><span>Estamos cuando nos necesitas.</span></div></div>
+    </div>
 
+    <p class="kp6-nota">* El plazo puede variar según la complejidad del expediente y la documentación aportada.</p>
   </div>
+
+  <script>
+  (function(){
+    var sec=document.getElementById('kp6');if(!sec)return;
+    var steps=sec.querySelectorAll('.kp6-step'),i=-1,timer=null;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function cycle(){
+      if(timer||reduce)return;
+      timer=setInterval(function(){
+        steps.forEach(function(s){s.classList.remove('act')});
+        i=(i+1)%steps.length; steps[i].classList.add('act');
+      },2200);
+    }
+    function reveal(){ sec.classList.add('in'); cycle(); }
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){reveal();io.disconnect();}})},{threshold:.15});
+      io.observe(sec);
+    }else{reveal();}
+  })();
+  </script>
 </section>
+
 
 
 <!-- ===== Sección 7 ===== -->
@@ -7285,7 +7348,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
     <div class="s07-col s07-col--brand">
 
       <div class="s07-logo">
-        <img src="Sección 7/assets/kivo-logo-clean.png" alt="KIVO Seguros para Mascotas" class="s07-logo-img">
+        <img src="assets/logos/kivo-logo-clean.png" alt="KIVO Seguros para Mascotas" class="s07-logo-img">
       </div>
 
 
@@ -7427,7 +7490,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
   <div class="s04-modal-box">
     <div class="s04-modal-left">
       <div class="s04-modal-robot-wrap">
-        <img src="Sección 4/assets/kivo-ia.png" alt="Asesor KIVO" class="s04-modal-robot">
+        <img src="assets/images/kivo-ia.png" alt="Asesor KIVO" class="s04-modal-robot">
       </div>
       <button class="s04-modal-close" id="s04ModalClose" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -8149,7 +8212,7 @@ window.addEventListener('message', function(e) {
 
 <!-- ══ PANTALLA EXIT — fondo negro ══ -->
 <div id="tarif-exit-screen" style="display:none;position:fixed;inset:0;z-index:9996;background:#000;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:Inter,sans-serif;">
-  <img src="tarificador/assets/images/exit-dog.jpg.png" alt="Hasta pronto" style="width:200px;height:200px;object-fit:cover;border-radius:50%;border:4px solid rgba(255,255,255,0.15);">
+  <img src="assets/images/exit-dog.png" alt="Hasta pronto" style="width:200px;height:200px;object-fit:cover;border-radius:50%;border:4px solid rgba(255,255,255,0.15);">
   <h2 style="color:#fff;font-size:26px;font-weight:800;letter-spacing:-0.02em;text-align:center;">¿Seguro que quieres salir?</h2>
   <p style="color:rgba(255,255,255,0.6);font-size:15px;text-align:center;max-width:360px;line-height:1.6;">Si decides hacerlo, dejas a tu mascota sin protección y tu proceso se perderá.</p>
   <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
