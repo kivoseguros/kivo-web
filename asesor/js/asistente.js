@@ -478,17 +478,7 @@
               '<button class="result-cta-reset" id="btn-volver-resultado" type="button" style="cursor:pointer;margin-top:16px">↩ Volver</button>' +
             '</div>';
           document.getElementById('btn-iniciar-contratacion').addEventListener('click', function() {
-            // Mensaje flash antes de ir al tarificador
-            var _nom = answers.nombre ? answers.nombre : 'tu mascota';
-            resultPanel.innerHTML =
-              '<div class="result-intro" style="text-align:center;padding:64px 24px">' +
-                '<div class="result-check-icon">' + svg(IC.check) + '</div>' +
-                '<h3 style="margin-bottom:16px">Gracias por aceptar el consejo del asesor</h3>' +
-                '<p style="max-width:440px;margin:0 auto;line-height:1.6;font-size:17px">Vamos a proceder a tarificar el precio de <strong>' + _nom + '</strong>, en base al plan elegido.</p>' +
-              '</div>';
-            setTimeout(function() {
-              window.parent.postMessage({ type: 'kivo-from-asesor', plan: _planSel, rc: _rcSel, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
-            }, 2600);
+            window.parent.postMessage({ type: 'kivo-from-asesor', plan: _planSel, rc: _rcSel, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
           });
           document.getElementById('btn-volver-resultado').addEventListener('click', function() {
             renderResult();

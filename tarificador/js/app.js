@@ -2723,9 +2723,9 @@ function _updateContratar() {
   var params = new URLSearchParams(window.location.search);
   if (params.get('desde') !== 'asesor') return;
 
-  // Mostrar banner de bienvenida
+  // Banner de bienvenida DESACTIVADO: se entra directo al tarificador (el mensaje ya lo da el asesor)
   var banner = document.getElementById('banner-asesor');
-  if (banner) banner.style.display = 'block';
+  if (banner) banner.style.display = 'none';
 
   // Parámetros del asesor
   var planParam    = params.get('plan');     // care | careplus | premium
