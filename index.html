@@ -6864,21 +6864,27 @@ body { background: url('assets/backgrounds/fondo-web.png') top center / 100% aut
       </div>
 
       <div class="s03-exclusion-item">
-        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/shield-alert.svg" alt=""></div>
-        <strong>6. Perros de caza o razas<br>clasificadas como PPP</strong>
-        <p>No cubrimos perros de caza ni razas clasificadas como Potencialmente Peligrosas.</p>
-      </div>
-
-      <div class="s03-exclusion-item">
         <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/ban.svg" alt=""></div>
-        <strong>7. Daños causados<br>intencionadamente</strong>
+        <strong>6. Daños causados<br>intencionadamente</strong>
         <p>No cubrimos lesiones o daños causados de forma deliberada o por negligencia grave.</p>
       </div>
 
       <div class="s03-exclusion-item">
         <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/bug-off.svg" alt=""></div>
-        <strong>8. Parásitos<br>externos</strong>
+        <strong>7. Parásitos<br>externos</strong>
         <p>Pulgas, garrapatas u otros parásitos externos y las enfermedades que estos causen.</p>
+      </div>
+
+      <div class="s03-exclusion-item">
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/shield-alert.svg" alt=""></div>
+        <strong>8. Animales sin<br>microchip</strong>
+        <p>El animal debe estar identificado con microchip para tener cobertura.</p>
+      </div>
+
+      <div class="s03-exclusion-item">
+        <div class="s03-exclusion-icon"><img src="assets/icons/exclusions/dog.svg" alt=""></div>
+        <strong>9. Edad fuera<br>de cobertura</strong>
+        <p>Perros y gatos menores de 2 meses, y gatos mayores de 10 años en la fecha de efecto.</p>
       </div>
 
 
@@ -7609,17 +7615,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Efecto sutil fondo en casillas exclusiones
-  document.querySelectorAll('.s03-exclusion-item').forEach(function(card) {
-    function cycle() {
-      card.classList.add('kivo-excl-glow');
-      setTimeout(function() {
-        card.classList.remove('kivo-excl-glow');
-        setTimeout(cycle, 3000 + Math.random() * 6000);
-      }, 2500 + Math.random() * 2000);
+  // Efecto vivo: se ilumina UNA casilla cada vez, al azar y con intensidad aleatoria
+  (function(){
+    var cards = document.querySelectorAll('.s03-exclusion-item');
+    if(!cards.length) return;
+    cards.forEach(function(c){ c.style.transition = 'background-color 1.4s ease'; });
+    var last = -1;
+    function tick(){
+      var i; do { i = Math.floor(Math.random()*cards.length); } while(i===last && cards.length>1);
+      last = i;
+      var card = cards[i];
+      var intensidad = (0.06 + Math.random()*0.16).toFixed(3);
+      card.style.backgroundColor = 'rgba(61,191,160,' + intensidad + ')';
+      setTimeout(function(){ card.style.backgroundColor = 'transparent'; }, 1500);
+      setTimeout(tick, 1700 + Math.random()*1300);
     }
-    setTimeout(cycle, Math.random() * 5000);
-  });
+    setTimeout(tick, 700);
+  })();
 
   // Modal asistente
   const modal    = document.getElementById("kivoModal");
