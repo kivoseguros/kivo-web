@@ -136,14 +136,10 @@
       id: 'rc',
       question: 'Todos nuestros planes incluyen RC básica. ¿Necesitas algo más?',
       options: [
-        { icon: 'shieldcheck', text: 'Me basta con la RC incluida', sub: 'RC básica ya viene en tu plan',              value: 'rc_basica' },
-        { icon: 'shieldplus',  text: 'Quiero una RC independiente', sub: 'Mayor capital: 150k · 200k · 300k €',        value: 'rc_extra'  },
-        { icon: 'shieldalert', text: 'Necesito RC para raza PPP',   sub: 'Mi perro está en lista de razas peligrosas', value: 'rc_ppp'    },
-        { icon: 'help',        text: 'No sé qué diferencia hay',    sub: 'Explícame las opciones',                     value: 'rc_info'   },
+        { icon: 'shieldcheck', text: 'Me basta con la RC incluida', sub: 'RC ya incluida en tu plan',   value: 'rc_basica' },
+        { icon: 'shieldplus',  text: 'Quiero una RC independiente', sub: 'Capital de 300.000 €',        value: 'rc_extra'  },
       ],
       skipIfGato: true,
-      infoOption: 'rc_info',
-      infoText: 'La RC básica incluida en todos los planes cubre daños cotidianos. La RC independiente amplía el capital hasta 300.000 € y es obligatoria para algunas razas PPP en ciertas comunidades autónomas.',
     },
   ];
 
@@ -175,8 +171,6 @@
     if (answers.presupuesto === 'medio_alto') { s.careplus += 2; s.premium += 3; }
     if (answers.presupuesto === 'alto')       { s.premium += 5; }
     if (answers.rc === 'rc_extra') { s.rcExtra += 4; }
-    if (answers.rc === 'rc_ppp')   { s.rcExtra += 5; }
-    if (answers.rc === 'rc_info')  { s.rcExtra += 1; }
     return s;
   }
 
@@ -184,7 +178,8 @@
     const plans = ['care', 'careplus', 'premium'];
     let best = plans.reduce((a, b) => scores[a] >= scores[b] ? a : b);
     if (best === 'care' && scores.careplus >= scores.care - 1) best = 'careplus';
-    const addRCExtra = answers.tipo === 'perro' && scores.rcExtra >= 3;
+    // PREMIUM ya incluye el máximo de R.C. (300.000 €): no se ofrece R.C. independiente
+    const addRCExtra = answers.tipo === 'perro' && scores.rcExtra >= 3 && best !== 'premium';
     return { plan: best, addRCExtra };
   }
 
@@ -193,17 +188,17 @@
     care: {
       name: 'KIVO CARE', accent: '#FB740B', badge: 'Plan Esencial',
       pct: '80%', pctLabel: 'REEMBOLSO', limit: 'Hasta 1.500 € anuales',
-      features: ['Enfermedad y accidente','Cirugías y hospitalización','Pruebas diagnósticas','Medicamentos y tratamientos','Urgencias 24/7','Sin franquicia anual','RC básica incluida'],
+      features: ['Enfermedad y accidente','Cirugías y hospitalización','Pruebas diagnósticas','Medicamentos y tratamientos','Urgencias 24/7','Sin franquicia anual','R.C. incluida hasta 200.000 €'],
     },
     careplus: {
       name: 'KIVO CARE+', accent: '#1B4D3E', badge: 'Más popular',
       pct: '90%', pctLabel: 'REEMBOLSO', limit: 'Hasta 2.500 € anuales',
-      features: ['Enfermedad y accidente','Cirugías y hospitalización','Pruebas diagnósticas avanzadas','Medicamentos y tratamientos','Rehabilitación y fisioterapia','Urgencias 24/7','Sin franquicia anual','RC básica incluida'],
+      features: ['Enfermedad y accidente','Cirugías y hospitalización','Pruebas diagnósticas avanzadas','Medicamentos y tratamientos','Rehabilitación y fisioterapia','Urgencias 24/7','Sin franquicia anual','R.C. incluida hasta 250.000 €'],
     },
     premium: {
       name: 'KIVO PREMIUM', accent: '#7C3AED', badge: 'Máxima protección',
       pct: '100%', pctLabel: 'REEMBOLSO', limit: 'Sin límite anual',
-      features: ['Enfermedad y accidente','Cirugías y hospitalización','Pruebas diagnósticas avanzadas','Medicamentos y tratamientos','Rehabilitación y fisioterapia','Chequeos y prevención','Urgencias 24/7','Sin franquicia anual','RC básica incluida'],
+      features: ['Enfermedad y accidente','Cirugías y hospitalización','Pruebas diagnósticas avanzadas','Medicamentos y tratamientos','Rehabilitación y fisioterapia','Chequeos y prevención','Urgencias 24/7','Sin franquicia anual','R.C. incluida hasta 300.000 € — no necesitas R.C. aparte'],
     },
   };
 
@@ -480,9 +475,23 @@
               '<button class="result-cta-bar" id="btn-iniciar-contratacion" type="button" style="cursor:pointer;border:none;display:inline-flex;align-items:center;gap:8px">' +
                 '<span>Iniciar contratación</span>' + svg(IC.arrowRight) +
               '</button>' +
+              '<button class="result-cta-reset" id="btn-volver-resultado" type="button" style="cursor:pointer;margin-top:16px">↩ Volver</button>' +
             '</div>';
           document.getElementById('btn-iniciar-contratacion').addEventListener('click', function() {
-            window.parent.postMessage({ type: 'kivo-from-asesor', plan: _planSel, rc: _rcSel, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
+            // Mensaje flash antes de ir al tarificador
+            var _nom = answers.nombre ? answers.nombre : 'tu mascota';
+            resultPanel.innerHTML =
+              '<div class="result-intro" style="text-align:center;padding:64px 24px">' +
+                '<div class="result-check-icon">' + svg(IC.check) + '</div>' +
+                '<h3 style="margin-bottom:16px">Gracias por aceptar el consejo del asesor</h3>' +
+                '<p style="max-width:440px;margin:0 auto;line-height:1.6;font-size:17px">Vamos a proceder a tarificar el precio de <strong>' + _nom + '</strong>, en base al plan elegido.</p>' +
+              '</div>';
+            setTimeout(function() {
+              window.parent.postMessage({ type: 'kivo-from-asesor', plan: _planSel, rc: _rcSel, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
+            }, 2600);
+          });
+          document.getElementById('btn-volver-resultado').addEventListener('click', function() {
+            renderResult();
           });
         });
       }

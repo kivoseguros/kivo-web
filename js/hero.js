@@ -1,31 +1,40 @@
-/* ══ KIVO hero.js — funciones del hero y efectos ══ */
-
-/* ── Destello aleatorio en filas de beneficios ── */
+/* ══ KIVO hero.js — ciclo de color global (--cycle-color) ══
+   Toda la web (botones, título hero, badges, bordes de tarjetas, iconos…)
+   usa var(--cycle-color) con transiciones suaves ya definidas en el CSS.
+   Este script es el único responsable de ir rotando esa variable en :root.
+   ORDEN: 1º VERDE, 2º NARANJA, luego el resto de colores de marca KIVO.
+   Actualizado 22-07-2026. */
 (function(){
-  var palette=['#3DBFA0','#F97316','#8B5CF6','#3B82F6','#EC4899','#EAB308','#10B981','#06B6D4','#F43F5E'];
-  var BASE_ICON='rgba(61,191,160,0.12)';
-  var BASE_TEXT='#1B2A4A';
+  var palette = [
+    '#3DBFA0', // 1º Verde
+    '#FB740B', // 2º Naranja
+    '#B48841', // Dorado
+    '#0C8B9D', // Turquesa (R.C.)
+    '#011C4B'  // Azul KIVO
+  ];
+  var i = 0;
+  var INTERVALO = 4000; // ms entre cambios
 
-  function doFlash(){
-    var items=Array.from(document.querySelectorAll('.hero-benefit, .bottom-info > div'));
-    if(!items.length){setTimeout(doFlash,800);return;}
-    var el=items[Math.floor(Math.random()*items.length)];
-    var col=palette[Math.floor(Math.random()*palette.length)];
-    var light=col+'22';
-    var icon=el.querySelector('div[style*="border-radius:50%"], span');
-    var strong=el.querySelector('strong');
-    if(icon) icon.style.setProperty('background',light,'important');
-    if(strong) strong.style.setProperty('color',col,'important');
-    setTimeout(function(){
-      if(icon) icon.style.setProperty('background',BASE_ICON,'important');
-      if(strong) strong.style.setProperty('color',BASE_TEXT,'important');
-    },700);
-    setTimeout(doFlash,350+Math.random()*700);
+  function setColor(hex){
+    document.documentElement.style.setProperty('--cycle-color', hex);
   }
 
-  document.addEventListener('DOMContentLoaded',function(){
-    setTimeout(doFlash,600);
-    setTimeout(doFlash,1100);
-    setTimeout(doFlash,1700);
-  });
+  function tick(){
+    i = (i + 1) % palette.length;
+    setColor(palette[i]);
+  }
+
+  function start(){
+    // Arranca en verde.
+    setColor(palette[0]);
+    // Respeta reduce-motion: se queda en verde fijo.
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      return;
+    }
+    setInterval(tick, INTERVALO); // primer cambio (4s) → naranja
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', start)
+    : start();
 })();

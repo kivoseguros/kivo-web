@@ -157,7 +157,7 @@ body {
 .quiz-question {
   font-size: clamp(20px, 2.4vw, 26px);
   font-weight: 900;
-  color: var(--blue);
+  color: #011C4B;
   letter-spacing: -0.02em;
   line-height: 1.2;
   margin-bottom: 28px;

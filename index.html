@@ -6068,7 +6068,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
         <p class="hero-text">
           Reembolso en 24/48 horas, sin complicaciones y sin letra pequeña.
-          Calcula en menos de 30 segundos cuánto costaría proteger a tu mascota
+          Calcula en menos de un minuto cuánto costaría proteger a tu mascota
           y descubre la protección que mejor se adapta a ella.
         </p>
 
@@ -6348,7 +6348,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 
 
-  <script src="./js/hero.js"></script>
+  <script src="./js/hero.js?v=2"></script>
 
 <!-- ===== Sección ASESOR ===== -->
 <section id="asesor" style="width:100%;background:rgba(255,255,255,0.82);padding:0;margin:0;position:relative;overflow-x:hidden;overflow-y:visible;">
@@ -6623,6 +6623,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <li>Medicamentos y tratamientos</li>
           <li>Urgencias 24/7</li>
           <li>Sin franquicia anual</li>
+          <li>R.C. incluida hasta 200.000 €</li>
         </ul>
         <button class="s03-card-button" type="button" onclick="location.href='pages/planes/care.html'">Ver detalles <span>→</span></button>
       </article>
@@ -6641,6 +6642,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <li>Rehabilitación y fisioterapia</li>
           <li>Urgencias 24/7</li>
           <li>Sin franquicia anual</li>
+          <li>R.C. incluida hasta 250.000 €</li>
         </ul>
         <button class="s03-card-button" type="button" onclick="location.href='pages/planes/care-plus.html'">Ver detalles <span>→</span></button>
       </article>
@@ -6660,6 +6662,7 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
           <li>Chequeos y prevención</li>
           <li>Urgencias 24/7</li>
           <li>Sin franquicia anual</li>
+          <li><strong>R.C. incluida hasta 300.000 € — no necesitas R.C. aparte</strong></li>
         </ul>
         <button class="s03-card-button" type="button" onclick="location.href='pages/planes/premium.html'">Ver detalles <span>→</span></button>
       </article>
@@ -6772,8 +6775,8 @@ body { background: url('assets/fondo-web.png') top center / 100% auto repeat-y !
 
 <tr>
     <td>Responsabilidad Civil</td>
-    <td>Hasta 150.000 €</td>
     <td>Hasta 200.000 €</td>
+    <td>Hasta 250.000 €</td>
     <td>Hasta 300.000 €</td>
     <td>Hasta 300.000 €</td>
 </tr>
@@ -8108,7 +8111,7 @@ window.addEventListener('message', function(e) {
 </script>
 
 <!-- ══ ASESOR FULLSCREEN OVERLAY ══ -->
-<div id="asesor-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9992;background:#000;overflow:hidden;">
+<div id="asesor-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9992;background:#011C4B;overflow:hidden;">
   <iframe id="asesor-fs-iframe" src="" title="KIVO Asesor" style="width:100%;height:100%;min-height:-webkit-fill-available;border:none;display:block;" scrolling="yes" allowfullscreen></iframe>
 </div>
 
@@ -8116,6 +8119,9 @@ window.addEventListener('message', function(e) {
 <style>
 @keyframes kivoFadeBackdrop { from { background:rgba(0,0,0,0); } to { background:rgba(0,0,0,0.52); } }
 #tarif-overlay.open { animation: kivoFadeBackdrop 1.2s ease forwards; }
+/* Al venir del asesor: tarificador a pantalla completa (su propia página, no ventana modal) */
+#tarif-overlay.from-asesor { background:#011C4B !important; animation:none !important; }
+#tarif-overlay.from-asesor #tarif-modal { width:100vw !important; max-width:100vw !important; height:100vh !important; height:100dvh !important; max-height:100vh !important; border-radius:0 !important; box-shadow:none !important; }
 .exit-btn-continuar { padding:13px 26px;border-radius:50px;border:none;background:#3DBFA0;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
 .exit-btn-continuar:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(61,191,160,0.45); }
 .exit-btn-salir { padding:13px 26px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.35);background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:transform .2s,box-shadow .2s; }
@@ -8190,6 +8196,7 @@ function kivoCerrarTodo() {
   var ov = document.getElementById('tarif-overlay');
   ov.style.display = 'none';
   ov.classList.remove('open');
+  ov.classList.remove('from-asesor');
   document.getElementById('tarif-exit-screen').style.display = 'none';
   document.body.style.overflow = '';
   var fr = document.getElementById('tarif-fs-iframe');
@@ -8234,6 +8241,7 @@ window.addEventListener('message', function(e) {
       _tFr.setAttribute('data-loaded', '1');
       _tOv.style.display = 'flex';
       _tOv.classList.add('open');
+      _tOv.classList.add('from-asesor'); // abrir a pantalla completa, no como ventana
       document.body.style.overflow = 'hidden';
     }
   }
