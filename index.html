@@ -103,7 +103,15 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   97%    { --cycle-color: rgba(12,139,157,0); }
   100%   { --cycle-color: rgba(1,70,46,0); }
 }
-html { animation: kivoCycleGlobal 24s linear infinite; }
+@property --cycle-color-solid { syntax: '<color>'; inherits: true; initial-value: #01462E; }
+@keyframes kivoCycleSolid {
+  0%,18%   { --cycle-color-solid: #01462E; }
+  30%,43%  { --cycle-color-solid: #FB740B; }
+  55%,68%  { --cycle-color-solid: #B48841; }
+  80%,93%  { --cycle-color-solid: #0C8B9D; }
+  100%     { --cycle-color-solid: #01462E; }
+}
+html { animation: kivoCycleGlobal 24s linear infinite, kivoCycleSolid 24s linear infinite; }
 /* Todas las ventanas de cristal transparentes (como el asesor) para que cojan el azul del cielo */
 .hero-glass, .kivo-benefits-desktop, #asesor, .s03-exclusions, .s03-accordion,
 .s07-footer, .s04-inner, .s05-blog, .kp6-inner, .v3-lamina, .tarificador-wrap { background: transparent !important; }
@@ -5555,7 +5563,7 @@ body {
   font-size: 15px;
   font-weight: 800;
   font-family: var(--font);
-  cursor: not-allowed;
+  cursor: pointer;
   transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.15s;
 }
 .quiz-btn-next.active {
@@ -5615,15 +5623,15 @@ body {
 /* ══ KIVO Color Cycle 15-07-2026 ══ */
 @property --cycle-color { syntax: '<color>'; inherits: true; initial-value: #0C8B9D; }
 :root { --cycle-color: #0C8B9D; }
-.s02__cta-button   { background: var(--cycle-color) !important; transition: none !important; }
-.s03-price-button  { background: var(--cycle-color) !important; transition: none !important; }
-.s03-ai-cta-btn:not(.active) { background: var(--cycle-color) !important; transition: none !important; }
-.s03-cg-link       { background: var(--cycle-color) !important; transition: none !important; }
+.s02__cta-button   { background: var(--cycle-color-solid) !important; transition: none !important; }
+.s03-price-button  { background: var(--cycle-color-solid) !important; transition: none !important; }
+.s03-ai-cta-btn:not(.active) { background: var(--cycle-color-solid) !important; transition: none !important; }
+.s03-cg-link       { background: var(--cycle-color-solid) !important; transition: none !important; }
 .hero-badge        { color: var(--cycle-color) !important; transition: none !important; }
 .hero-title span   { color: var(--cycle-color) !important; transition: none !important; }
 .s02__subheadline  { color: var(--cycle-color) !important; transition: none !important; }
-.s02__toggle       { background: var(--cycle-color) !important; transition: none !important; }
-.ia-send           { background: var(--cycle-color) !important; transition: none !important; }
+.s02__toggle       { background: var(--cycle-color-solid) !important; transition: none !important; }
+.ia-send           { background: var(--cycle-color-solid) !important; transition: none !important; }
 .ia-dot            { background: var(--cycle-color) !important; transition: none !important; }
 .tarificador-wrap  { box-shadow: 0 20px 60px rgba(27,42,74,.12) !important; transition: box-shadow 0.3s ease, transform 0.3s ease !important; }
 .tarificador-wrap:hover { transform: translateY(-5px); box-shadow: 0 0 0 2.5px var(--cycle-color), 0 20px 60px rgba(27,42,74,.18) !important; }
@@ -5631,15 +5639,26 @@ body {
 .portal-tile { flex:1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px 20px;border-radius:18px;border:2px solid rgba(255,255,255,0.95);background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);font-size:1rem;font-weight:700;color:#1B2A4A;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif; }
 .portal-tile:hover { border-color:#0C8B9D;border-width:3px;background:rgba(12,139,157,0.07);transform:translateY(-4px);box-shadow:0 0 0 4px rgba(12,139,157,0.18),0 12px 32px rgba(12,139,157,0.25); }
 .portal-tile.sel { border-color:#0C8B9D;border-width:3px;background:rgba(12,139,157,0.12);box-shadow:0 0 0 4px rgba(12,139,157,0.22),0 8px 24px rgba(12,139,157,0.25); }
-#portal-btn-cta { width:100%;max-width:380px;padding:18px;border-radius:16px;background:var(--cycle-color) !important;transition:transform .2s !important;color:#fff;font-size:16px;font-weight:800;border:none;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-top:4px;opacity:0.42;cursor:not-allowed; }
+#portal-btn-cta { width:100%;max-width:380px;padding:18px;border-radius:16px;background:var(--cycle-color) !important;transition:transform .2s !important;color:#fff;font-size:16px;font-weight:800;border:none;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-top:4px;opacity:0.42;cursor:default; }
+#portal-btn-cta { background:var(--cycle-color-solid) !important; }
 #portal-btn-cta:not(:disabled) { opacity:1 !important;cursor:pointer; }
 #portal-btn-cta:not(:disabled):hover { filter:brightness(1.08);transform:translateY(-1px); }
+#portal-btn-cta:not(:disabled):active { transform:translateY(3px) scale(0.98) !important; transition:transform .06s ease !important; }
 .plan-badge        { background: var(--cycle-color) !important; transition: none !important; }
 
-/* Efecto PULSADO (se hunde al hacer clic) — SOLO el efecto, sin tocar colores */
+/* Efecto PULSADO (se hunde al hacer clic) — TODOS los botones de la web */
+button:active,
+a[class*="btn"]:active, a[class*="cta"]:active,
+[class*="-btn"]:active, [class*="btn-"]:active,
+[class*="cta"]:active,
+.portal-tile:active, .hero-lang-btn:active,
+.s07-social-btn:active, .s07-store-btn:active,
+.kp6-btn:active, .kp6-btn2:active, .sn-btn:active,
+.s03-table-btn:active, .s03-price-cta:active, .rpc-cta:active,
+.exit-btn-salir:active, .exit-btn-continuar:active,
 #portal-btn-cta:active, .s03-price-button:active, .s04-cta-btn:active,
 .s02__cta-button:active, .s03-ai-cta-btn:active, .s02__help-btn:active, .s03-card-button:active,
-#s0-btn-cta:active, .portal-tile:active {
+#s0-btn-cta:active {
   transform: translateY(3px) scale(0.98) !important;
   box-shadow: 0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16) !important;
   transition: transform .06s ease, box-shadow .06s ease !important;
@@ -5649,8 +5668,8 @@ body {
 .s02__icon-bubble  { border: 2px solid var(--cycle-color) !important; transition: none !important; }
 .s02__card         { border-color: var(--cycle-color) !important; transition: none !important; }
 .s02__more .s02__card { border-color: var(--cycle-color) !important; transition: none !important; }
-.s04-cta-btn       { background: var(--cycle-color) !important; transition: none !important; }
-.s02__help-btn     { background: var(--cycle-color) !important; transition: none !important; }
+.s04-cta-btn       { background: var(--cycle-color-solid) !important; transition: none !important; }
+.s02__help-btn     { background: var(--cycle-color-solid) !important; transition: none !important; }
 
 /* ── Iconos de ambas filas — cycle color ── */
 .kivo-row-icon { width:34px;height:34px;border-radius:50%;background:color-mix(in srgb,var(--cycle-color) 12%,white);display:grid;place-items:center;flex-shrink:0;color:var(--cycle-color);transition:none;margin-top:-7px; }
@@ -6139,6 +6158,14 @@ body {
       @keyframes kivo-ltr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
     }
   </style>
+<style id="kivo-nohover">
+/* KIVO: sin efecto hover en botones (solo hundido al pulsar) */
+html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [class*="button"]:hover,html [class*="cta"]:hover,html [class*="boton"]:hover,html .portal-tile:hover,html .kivo-fab-main:hover,html .kivo-fab-option:hover,html #kivo-top-btn:hover,html .s04-cta-btn:hover{transform:none!important;filter:none!important;}
+</style>
+<style id="kivo-press-fx">
+/* Efecto PULSADO (hundido) — gana a los hover (KIVO) */
+html button:active,html [role="button"]:active,html [onclick]:active,html input[type="submit"]:active,html input[type="button"]:active,html input[type="reset"]:active,html [class*="btn"]:active,html [class*="button"]:active,html [class*="cta"]:active,html [class*="boton"]:active,html [class*="tile"]:active,html [class*="chip"]:active,html .plan-selector:active,html .excl-item:active,html .otile:active,html .wtile:active,html .pbtn:active,html .sbtn:active,html .editbtn:active{transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+</style>
 </head>
 <body>
 

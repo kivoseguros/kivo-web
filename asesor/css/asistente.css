@@ -1248,3 +1248,6 @@ body {
 
 /* Efecto PULSADO (se hunde al hacer clic) */
 .quiz-option:active, .quiz-next-btn:active, .quiz-btn-next:active, .quiz-btn-back:active, .result-cta-bar:active, .result-cta-reset:active { transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }
+
+/* ── KIVO: efecto PULSADO (hundido) global en todos los botones ── */
+button:active,[role="button"]:active,[onclick]:active,input[type="submit"]:active,input[type="button"]:active,input[type="reset"]:active,[class*="btn"]:active,[class*="button"]:active,[class*="cta"]:active,[class*="boton"]:active,[class*="tile"]:active,[class*="chip"]:active,.plan-selector:active,.excl-item:active,.otile:active,.wtile:active,.pbtn:active,.sbtn:active,.quiz-option:active{transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
