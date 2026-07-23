@@ -1,0 +1,24 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1800000,
+  "local-history.path": "C:\\Users\\mrcar\\Desktop\\KIVO Backups VSCODE",
+  "local-history.saveDelay": 1800,
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.CustomBrowser": "chrome",
+  "liveServer.settings.root": "/",
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.printWidth": 120,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.rar": true
+  }
+}

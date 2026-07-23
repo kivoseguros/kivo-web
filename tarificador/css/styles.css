@@ -13,7 +13,7 @@
   --sh:    0 4px 24px rgba(27,42,74,0.08);
   --shh:   0 12px 40px rgba(27,42,74,0.14)
 }
-html,body{font-family:'Inter',sans-serif;color:var(--navy);background:#fff;min-height:0;overscroll-behavior:none;overscroll-behavior-y:none}
+html,body{font-family:'Inter',sans-serif;color:var(--navy);background:#eef3f0;min-height:0;overscroll-behavior:none;overscroll-behavior-y:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none;outline:none}
 input,select{font-family:inherit;outline:none;border:none}
 .screen,.cscreen{display:none;min-height:0}
@@ -892,3 +892,18 @@ input,select{font-family:inherit;outline:none;border:none}
   .especie-tile img { width: 54px !important; height: 54px !important; }
 }
              
+
+/* ── KIVO: VENTANAS DE CRISTAL + DEGRADADO DISTINTO POR PASO ── */
+body{background-attachment:fixed;transition:background .45s ease}
+#fw,#fw.active,#s0{background:transparent!important}
+.ftop{background:rgba(255,255,255,0.28)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.scard{background:rgba(255,255,255,0.42)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.70)!important;box-shadow:0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85)!important}
+body[data-step="1"]{background:radial-gradient(55% 45% at 15% 10%,rgba(251,116,11,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(180,136,65,0.16) 0%,transparent 60%),linear-gradient(180deg,#f7f5f2,#eef3f0)}
+body[data-step="2"]{background:radial-gradient(55% 45% at 15% 10%,rgba(12,139,157,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(1,28,75,0.14) 0%,transparent 60%),linear-gradient(180deg,#f2f8f8,#eef3f0)}
+body[data-step="3"]{background:radial-gradient(55% 45% at 15% 10%,rgba(1,70,46,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(12,139,157,0.14) 0%,transparent 60%),linear-gradient(180deg,#f2f8f4,#eef3f0)}
+body[data-step="4"]{background:radial-gradient(55% 45% at 15% 10%,rgba(180,136,65,0.22) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(251,116,11,0.14) 0%,transparent 60%),linear-gradient(180deg,#f7f5f0,#eef3f0)}
+body[data-step="5"]{background:radial-gradient(55% 45% at 15% 10%,rgba(12,139,157,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(1,70,46,0.14) 0%,transparent 60%),linear-gradient(180deg,#f2f8f7,#eef3f0)}
+body[data-step="6"]{background:radial-gradient(55% 45% at 15% 10%,rgba(1,28,75,0.22) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(251,116,11,0.14) 0%,transparent 60%),linear-gradient(180deg,#f4f6f8,#eef3f0)}
+
+/* Efecto PULSADO (se hunde al hacer clic) */
+.btn-cta:active, #s0-btn-cta:active, .btn-back:active, .btn-salir-top:active, .otile:active, .especie-tile:active, .hero-sp-btn:active, .s03-price-button:active, .tab:active { transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }

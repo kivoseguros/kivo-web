@@ -30,6 +30,7 @@ window.addEventListener('DOMContentLoaded', function() {
     // Preview: mostrar solo portal de paso (s0)
     var s0 = document.getElementById('s0');
     if (s0) s0.style.display = 'flex';
+    try { document.body.removeAttribute('data-step'); } catch(e){}
     try { window.parent.postMessage({ type: 'kivo-iframe-height', height: 480 }, '*'); } catch(e) {}
   }
 });
@@ -475,6 +476,7 @@ function showScreen(id) {
   var el = document.getElementById(id);
   el.classList.add('active');
   el.style.display = (id === 's0' || id === 'fw') ? 'flex' : 'block';
+  try { if (id === 's0') document.body.removeAttribute('data-step'); } catch(e){}
   var backBtn = el.querySelector('.btn-back');
   if (backBtn) backBtn.style.display = 'flex';
   // Ocultar botón Salir siempre — solo showStep(1) lo muestra si procede
@@ -590,6 +592,7 @@ function showStep(n) {
   document.getElementById('prog-label').textContent = 'Paso ' + n + ' de 6';
   document.getElementById('prog-fill').style.width = (n / 6 * 100) + '%';
   curStep = n;
+  try { document.body.dataset.step = n; } catch(e){}
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
   if (btnBack) btnBack.style.display = (n === 1) ? 'none' : 'flex';

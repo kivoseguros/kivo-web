@@ -8,13 +8,13 @@
 }
 
 /* Fondo verde en todo el body para evitar espacio blanco bajo la sección */
-body { font-family: var(--font); background: var(--green-bg); }
+body { font-family: var(--font); background: transparent; }
 
 /* ════════════════════════════════════
    SECCIÓN AMPLIADA (3× más grande)
 ════════════════════════════════════ */
 .s04 {
-  background: var(--green-bg);
+  background: transparent;
   padding: 16px 24px 16px 32px;
   display: flex;
   align-items: center;
@@ -101,11 +101,13 @@ body { font-family: var(--font); background: var(--green-bg); }
 .s04-features li svg { color: var(--green); flex-shrink: 0; width: 20px; height: 20px; }
 
 .s04-cta-card {
-  background: #fff;
+  background: rgba(255,255,255,0.42);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-radius: 20px;
   padding: 36px 32px 32px;
-  box-shadow: 0 8px 40px rgba(27,42,74,0.12);
-  border: 1px solid rgba(27,77,62,0.08);
+  box-shadow: 0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.70);
 }
 
 .s04-cta-title {
@@ -123,11 +125,11 @@ body { font-family: var(--font); background: var(--green-bg); }
 }
 
 @keyframes kivoCycleBtn {
-  0%   { background: #3DBFA0; }
-  25%  { background: #4F7EDB; }
-  50%  { background: #E8823A; }
-  75%  { background: #C9A227; }
-  100% { background: #3DBFA0; }
+  0%   { background: #01462E; }  /* verde inglés */
+  25%  { background: #FB740B; }  /* naranja */
+  50%  { background: #B48841; }  /* dorado */
+  75%  { background: #0C8B9D; }  /* turquesa */
+  100% { background: #01462E; }
 }
 
 .s04-cta-btn {
@@ -138,14 +140,14 @@ body { font-family: var(--font); background: var(--green-bg); }
   width: 100%;
   padding: 18px 24px;
   border-radius: 14px;
-  background: #3DBFA0;
+  background: #0C8B9D;
   color: #fff;
   font-family: var(--font);
   font-size: 17px;
   font-weight: 700;
   border: none;
   cursor: pointer;
-  animation: kivoCycleBtn 14s ease-in-out infinite;
+  animation: kivoCycleBtn 14s step-end infinite;
   transition: transform 0.15s;
   box-shadow: 0 6px 24px rgba(27,77,62,0.30);
 }
@@ -172,8 +174,8 @@ body { font-family: var(--font); background: var(--green-bg); }
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(10,20,40,0.60);
-  backdrop-filter: blur(5px);
+  background: linear-gradient(180deg,#f4f8f6,#eef3f0);
+  transition: background .45s ease;
   z-index: 9999;
   align-items: center;
   justify-content: center;
@@ -192,13 +194,17 @@ body { font-family: var(--font); background: var(--green-bg); }
 
 .s04-modal-box {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 340px 1fr;
   width: 100%;
   max-width: 860px;
   height: min(90vh, 680px);
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 28px 80px rgba(10,20,40,0.35);
+  background: rgba(255,255,255,0.42);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.70);
+  box-shadow: 0 30px 70px rgba(27,42,74,0.20), inset 0 1px 0 rgba(255,255,255,0.85);
   animation: modalSlide 0.26s cubic-bezier(0.34,1.2,0.64,1);
   position: relative;
 }
@@ -217,9 +223,9 @@ body { font-family: var(--font); background: var(--green-bg); }
   margin-top: 20px;
   padding: 10px 20px;
   border-radius: 10px;
-  border: 1.5px solid rgba(255,255,255,0.40);
-  background: rgba(255,255,255,0.12);
-  color: #fff;
+  border: 1.5px solid rgba(27,42,74,0.20);
+  background: rgba(27,42,74,0.06);
+  color: #1B2A4A;
   font-family: var(--font);
   font-size: 13px;
   font-weight: 700;
@@ -228,13 +234,13 @@ body { font-family: var(--font); background: var(--green-bg); }
   width: 100%;
 }
 .s04-modal-close:hover {
-  background: rgba(255,255,255,0.22);
-  border-color: rgba(255,255,255,0.70);
+  background: rgba(27,42,74,0.12);
+  border-color: rgba(27,42,74,0.35);
 }
 
-/* Columna izquierda: verde con robot */
+/* Columna izquierda: transparente (cristal + degradado) */
 .s04-modal-left {
-  background: var(--green);
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -252,11 +258,14 @@ body { font-family: var(--font); background: var(--green-bg); }
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
+
+/* (efecto hélice/halo retirado a petición) */
 
 .s04-modal-robot {
   width: 100%;
-  max-width: 220px;        /* antes 300px — se salía de la columna de 280px */
+  max-width: 300px;
   height: auto;
   filter: drop-shadow(0 12px 30px rgba(0,0,0,0.25));
   animation: robotFloat 3s ease-in-out infinite;
@@ -265,7 +274,7 @@ body { font-family: var(--font); background: var(--green-bg); }
 .s04-modal-robot-label {
   font-size: 11px;
   font-weight: 800;
-  color: rgba(255,255,255,0.75);
+  color: rgba(27,42,74,0.60);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-top: 14px;
@@ -275,7 +284,7 @@ body { font-family: var(--font); background: var(--green-bg); }
 /* Columna derecha: quiz en blanco — min-height:0 es clave
    para que overflow-y:auto funcione dentro del grid */
 .s04-modal-right {
-  background: #fff;
+  background: transparent;
   overflow-y: auto;
   min-height: 0;
 }
@@ -300,3 +309,15 @@ body { font-family: var(--font); background: var(--green-bg); }
   .s04-modal-robot { width: 80px; }
   .s04-modal-right .quiz-card { padding: 24px 20px 20px; }
 }
+
+
+/* ── Degradado por paso en el modal del asesor (idéntico al tarificador) ── */
+body[data-step="1"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(251,116,11,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(180,136,65,0.16) 0%,transparent 60%),linear-gradient(180deg,#f7f5f2,#eef3f0)}
+body[data-step="2"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(12,139,157,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(1,28,75,0.14) 0%,transparent 60%),linear-gradient(180deg,#f2f8f8,#eef3f0)}
+body[data-step="3"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(1,70,46,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(12,139,157,0.14) 0%,transparent 60%),linear-gradient(180deg,#f2f8f4,#eef3f0)}
+body[data-step="4"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(180,136,65,0.22) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(251,116,11,0.14) 0%,transparent 60%),linear-gradient(180deg,#f7f5f0,#eef3f0)}
+body[data-step="5"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(12,139,157,0.20) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(1,70,46,0.14) 0%,transparent 60%),linear-gradient(180deg,#f2f8f7,#eef3f0)}
+body[data-step="6"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(1,28,75,0.22) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(251,116,11,0.14) 0%,transparent 60%),linear-gradient(180deg,#f4f6f8,#eef3f0)}
+
+/* Efecto PULSADO (se hunde al hacer clic) */
+.s04-cta-btn:active, .s04-modal-close:active, .kv-btn:active { transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }

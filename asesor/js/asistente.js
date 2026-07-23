@@ -117,7 +117,6 @@
         { icon: 'tag',      text: 'Precio ajustado',     sub: 'Protección básica al mejor coste', value: 'precio'    },
         { icon: 'shield',   text: 'Buena cobertura',     sub: 'Sin pasarse, pero bien cubierto',  value: 'cobertura' },
         { icon: 'sparkles', text: 'Todo incluido',        sub: 'Sin límites ni sorpresas',         value: 'completo'  },
-        { icon: 'timer',    text: 'Rapidez de reembolso',sub: 'Quiero recuperar mi dinero rápido',value: 'rapidez'   },
       ],
       skipIfGato: false,
     },
@@ -165,7 +164,6 @@
     if (answers.prioridad === 'precio')    { s.care += 5; }
     if (answers.prioridad === 'cobertura') { s.careplus += 5; }
     if (answers.prioridad === 'completo')  { s.premium += 5; }
-    if (answers.prioridad === 'rapidez')   { s.careplus += 2; s.premium += 3; }
     if (answers.presupuesto === 'bajo')       { s.care += 5; }
     if (answers.presupuesto === 'medio_bajo') { s.care += 2; s.careplus += 3; }
     if (answers.presupuesto === 'medio_alto') { s.careplus += 2; s.premium += 3; }
@@ -252,6 +250,7 @@
   }
 
   function renderQuestion(idx) {
+    try { document.body.dataset.step = (idx % 6) + 1; } catch(e){}
     const q     = activeQuestions[idx];
     const total = activeQuestions.length;
     progressFill.style.width  = Math.round((idx / total) * 100) + '%';
@@ -353,6 +352,7 @@
   }
 
   function showResult() {
+    try { document.body.dataset.step = 6; } catch(e){}
     const scores = calcScore(answers);
     const { plan, addRCExtra } = getRecommendation(scores, answers);
     const pd = PLAN_DATA[plan];
@@ -364,7 +364,7 @@
     resultPanel.classList.add('visible');
 
     const BASE_URL = '../KIVO Tarificador/index.html';
-    const TICK = '<svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d=\'m2.5 8 4 4 7-7\' stroke=\'#fff\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>';
+    const TICK = '<svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d=\'m2.5 8 4 4 7-7\' stroke=\'#1B2A4A\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>';
 
     function buildURL(inclPlan, inclRC) {
       let url = BASE_URL + '?desde=asesor';
@@ -410,6 +410,7 @@
             '<div class="rpc-sel-row">' +
               '<span class="rpc-sel-chk' + (selPlan ? ' active' : '') + '" id="rpc-plan-chkbox">' + (selPlan ? TICK : '') + '</span>' +
               '<span class="rpc-sel-label">Accidentes y Enfermedades &nbsp;·&nbsp; <strong>Recomendado</strong></span>' +
+              '<span class="rpc-sel-toggle" id="rpc-plan-toggle">' + (selPlan ? 'Desmarcar' : 'Marcar') + '</span>' +
             '</div>' +
             cardInner(pd, 'Plan recomendado') +
           '</div>' +
@@ -418,6 +419,7 @@
             '<div class="rpc-sel-row">' +
               '<span class="rpc-sel-chk' + (selRC ? ' active' : '') + '" id="rpc-rc-chkbox">' + (selRC ? TICK : '') + '</span>' +
               '<span class="rpc-sel-label">Responsabilidad Civil &nbsp;·&nbsp; ' + (addRCExtra ? '<strong>Recomendado</strong>' : 'Complemento opcional') + '</span>' +
+              '<span class="rpc-sel-toggle" id="rpc-rc-toggle">' + (selRC ? 'Desmarcar' : 'Marcar') + '</span>' +
             '</div>' +
             cardInner(RC_EXTRA, addRCExtra ? 'Complemento recomendado' : 'Complemento opcional') +
           '</div>' +
@@ -431,7 +433,10 @@
           svg(IC.arrowRight) +
         '</a>' +
         '<p class="result-nota-contrat">📋 Los datos específicos de ' + (answers.nombre ? answers.nombre : 'tu mascota') + ' (raza, fecha de nacimiento, código postal...) se completarán en el propio formulario de contratación.</p>' +
-        '<button class="result-cta-reset" id="resetBtn">↩ Volver a empezar</button>';
+        '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">' +
+          '<button class="result-cta-reset" id="backToQuizBtn" type="button">← Volver</button>' +
+          '<button class="result-cta-reset" id="resetBtn" type="button">↩ Volver a empezar</button>' +
+        '</div>';
 
       /* ── Eventos checkboxes ── */
       function refresh() {
@@ -440,11 +445,15 @@
         var chkP  = document.getElementById('rpc-plan-chkbox');
         var chkR  = document.getElementById('rpc-rc-chkbox');
         var cta   = document.getElementById('result-cta-link');
-        var T     = '<svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d=\'m2.5 8 4 4 7-7\' stroke=\'#fff\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>';
+        var T     = '<svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d=\'m2.5 8 4 4 7-7\' stroke=\'#1B2A4A\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>';
         if (cardP) cardP.classList.toggle('selected', selPlan);
         if (cardR) cardR.classList.toggle('selected', selRC);
         if (chkP)  { chkP.classList.toggle('active', selPlan); chkP.innerHTML = selPlan ? T : ''; }
         if (chkR)  { chkR.classList.toggle('active', selRC);   chkR.innerHTML = selRC   ? T : ''; }
+        var tglP = document.getElementById('rpc-plan-toggle');
+        var tglR = document.getElementById('rpc-rc-toggle');
+        if (tglP) tglP.textContent = selPlan ? 'Desmarcar' : 'Marcar';
+        if (tglR) tglR.textContent = selRC   ? 'Desmarcar' : 'Marcar';
         if (cta) {
           var none = !selPlan && !selRC;
           cta.style.opacity       = none ? '0.4' : '1';
@@ -456,6 +465,15 @@
       document.getElementById('rpc-plan-card').addEventListener('click', function() { selPlan = !selPlan; refresh(); });
       document.getElementById('rpc-rc-card').addEventListener('click',   function() { selRC   = !selRC;   refresh(); });
       document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+      document.getElementById('backToQuizBtn').addEventListener('click', function() {
+        resultPanel.classList.remove('visible');
+        resultPanel.innerHTML = '';
+        if (quizCard) quizCard.style.display = '';
+        quizPanel.style.display = 'block';
+        var lastIdx = activeQuestions.length - 1;
+        currentIdx = lastIdx;
+        renderQuestion(lastIdx);
+      });
 
       /* ── CTA: abrir tarificador en el padre via postMessage ── */
       var ctaLink = document.getElementById('result-cta-link');
@@ -493,6 +511,7 @@
 
   /* ── Paso 0: bienvenida + nombre mascota ── */
   function showNameStep() {
+    try { document.body.dataset.step = 1; } catch(e){}
     answers = {}; currentIdx = 0; activeQuestions = [];
     resultPanel.classList.remove('visible');
     resultPanel.innerHTML = '';

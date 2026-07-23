@@ -11,7 +11,7 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--blue:#1B2A4A;--green:#1B4D3E;--green-l:#3DBFA0;--green-bg:#EAF4EE;--gray:#F7F8FA;--border:rgba(27,42,74,0.08)}
-    body{font-family:'Inter',sans-serif;color:var(--blue);background:#fff}
+    body{font-family:'Inter',sans-serif;color:var(--blue);background:radial-gradient(42% 30% at 4% 3%, #011C4B 0%, transparent 55%),radial-gradient(42% 30% at 96% 4%, #B48841 0%, transparent 55%),radial-gradient(46% 32% at 97% 50%, #0C8B9D 0%, transparent 58%),radial-gradient(46% 32% at 3% 55%, #01462E 0%, transparent 58%),radial-gradient(40% 26% at 50% 98%, #FB740B 0%, transparent 55%),linear-gradient(180deg,#eef3f0 0%,#e6efeb 100%);background-attachment:fixed}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     .kv-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
@@ -24,7 +24,7 @@
     .kv-nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:100px;transition:background .2s}
     .kv-nav-cta:hover{background:var(--green-l)}
     @media(max-width:700px){.kv-nav-links{display:none}}
-    .kv-hero{background:var(--green-bg);padding:72px 24px 60px;text-align:center}
+    .kv-hero{background:transparent;padding:72px 24px 60px;text-align:center}
     .kv-eyebrow{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--green-l);text-transform:uppercase;margin-bottom:16px}
     .kv-hero h1{font-size:clamp(26px,5vw,42px);font-weight:900;color:var(--blue);letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
     .kv-hero h1 span{color:var(--green-l)}
@@ -32,7 +32,7 @@
     .kv-section{padding:64px 24px}
     .kv-section--gray{background:var(--gray)}
     .kv-section--blue{background:var(--blue);color:#fff}
-    .kv-section--green{background:var(--green-bg)}
+    .kv-section--green{background:transparent}
     .kv-wrap{max-width:1100px;margin:0 auto}
     .kv-wrap--sm{max-width:760px;margin:0 auto}
     .kv-prose h2{font-size:17px;font-weight:800;margin-bottom:10px;margin-top:28px;color:var(--blue)}
@@ -105,18 +105,7 @@
 </head>
 <body>
 
-<nav class="kv-nav">
-  <div class="kv-nav-inner">
-    <a href="../../index.html" class="kv-logo">KIVO<span>.</span></a>
-    <div class="kv-nav-links">
-      <a href="../../pages/coberturas.html">Coberturas</a>
-      <a href="../../pages/blog.html">Blog</a>
-      <a href="../../pages/sobre-kivo.html">Sobre KIVO</a>
-      <a href="../../pages/faq.html">FAQ</a>
-    </div>
-    <a href="../../index.html#calcular-precio" class="kv-nav-cta">Calcular precio</a>
-  </div>
-</nav>
+<nav style="position:sticky;top:0;z-index:200;display:flex;align-items:center;padding:12px 24px;background:rgba(255,255,255,0.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(27,42,74,0.08)"><a href="../../index.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#1B2A4A;text-decoration:none;padding:9px 18px;border:1.5px solid rgba(27,42,74,0.15);border-radius:100px;background:rgba(255,255,255,0.55)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>Volver a la web</a></nav>
 
 
 <div class="kv-hero">

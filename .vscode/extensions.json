@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ritwickdey.liveserver",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "ecmel.vscode-html-css",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "ms-vscode.live-share"
+  ]
+}
