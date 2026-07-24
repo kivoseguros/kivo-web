@@ -116,9 +116,14 @@ html button:active,html [role="button"]:active,html [onclick]:active,html input[
     document.body.style.overflow = 'hidden';
   }
   function closeModal() {
+    // En pantalla completa (iframe): NO ocultar nada aquí — el padre quita el overlay entero
+    // de golpe. Ocultar el modal primero era lo que provocaba el destello azul al salir.
+    if (window.self !== window.top) {
+      try { window.parent.postMessage({ type: 'kivo-asesor-close' }, '*'); } catch(e) {}
+      return;
+    }
     modal.classList.remove('active');
     document.body.style.overflow = '';
-    try { window.parent.postMessage({ type: 'kivo-asesor-close' }, '*'); } catch(e) {}
   }
 
   openBtn.addEventListener('click', openModal);
