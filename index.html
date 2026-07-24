@@ -8464,17 +8464,29 @@ window.addEventListener('message', function(e) {
 </div>
 
 <script>
+// Precargar el asesor (iframe a pantalla completa) al cargar la web, para que abra al instante sin pantalla en blanco
+window.addEventListener('load', function(){
+  var fr = document.getElementById('asesor-fs-iframe');
+  if (fr && !fr.getAttribute('data-loaded')) {
+    fr.src = './asesor/index.html#openModal';
+    fr.setAttribute('data-loaded','1');
+  }
+});
 function kivoAbrirAsesor() {
   var ov = document.getElementById('asesor-overlay');
   var fr = document.getElementById('asesor-fs-iframe');
-  fr.src = './asesor/index.html#openModal';
+  // Si por lo que sea aún no está precargado, lo cargamos ahora
+  if (!fr.getAttribute('data-loaded')) {
+    fr.src = './asesor/index.html#openModal';
+    fr.setAttribute('data-loaded','1');
+  }
   ov.style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
 function kivoSalirAsesor() {
   document.getElementById('asesor-overlay').style.display = 'none';
-  document.getElementById('asesor-fs-iframe').src = '';
   document.body.style.overflow = '';
+  // NO limpiamos el src: el asesor queda precargado para que la próxima apertura sea instantánea
 }
 var _portalEspecie = null;
 function portalSelectEspecie(esp) {
@@ -8545,8 +8557,7 @@ window.addEventListener('message', function(e) {
     var _asOv = document.getElementById('asesor-overlay');
     if (_asOv && _asOv.style.display !== 'none') {
       _asOv.style.display = 'none';
-      var _asFr = document.getElementById('asesor-fs-iframe');
-      if (_asFr) _asFr.src = '';
+      // No limpiamos el src para no perder la precarga del asesor
     }
     // Construir URL del tarificador con recomendación del asesor
     var _plan = e.data.plan;
