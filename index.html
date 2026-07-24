@@ -5653,6 +5653,12 @@ body {
 .portal-img { position:relative;display:inline-block;line-height:0; }
 .portal-check { position:absolute;top:-8px;right:-10px;width:24px;height:24px;border-radius:50%;background:#01462E;color:#fff;display:none;align-items:center;justify-content:center;font-size:14px;font-weight:900;border:2px solid #fff;box-shadow:0 2px 6px rgba(1,70,46,0.35); }
 .portal-tile.sel .portal-check { display:flex; }
+/* Botón "Asesor KIVO" (tarjeta móvil): mismo cristal que el tarificador, letras verdes, al pulsar hunde y pasa a azul */
+.asesor-btn-glass { display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.95);box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);color:#01462E;font-weight:800;font-size:19px;padding:17px 36px;border-radius:50px;cursor:pointer;transition:transform .18s ease, color .12s ease, box-shadow .12s ease; }
+.asesor-btn-glass:active { transform:translateY(3px) scale(0.985) !important; color:#1B2A4A !important; box-shadow:inset 0 5px 14px rgba(27,42,74,0.16) !important; }
+/* Robot del Asesor: efecto levitación (sube y baja) */
+@keyframes kivoLevitate { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-14px); } }
+.asesor-robot { animation:kivoLevitate 3.2s ease-in-out infinite; will-change:transform; }
 #portal-btn-cta { width:100%;max-width:380px;padding:18px;border-radius:16px;background:rgba(255,255,255,0.18) !important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.95) !important;box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);transition:transform .2s, color .15s ease !important;color:#1B2A4A;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-top:4px;opacity:0.42;cursor:default; }
 #portal-btn-cta:not(:disabled) { opacity:1 !important;cursor:pointer; }
 #portal-btn-cta:not(:disabled):hover { filter:brightness(1.08);transform:translateY(-1px); }
@@ -6174,6 +6180,10 @@ body {
       .advisor-card{ min-height:auto !important; }
       .hero-glass{ margin-bottom:0 !important; }
       .kivo-mobile-bands{ padding-top:28px !important; margin-bottom:28px !important; }
+      /* Móvil: ensanchar SOLO el tarificador (tira hacia los lados sin tocar el resto del hero) */
+      .portal-section{ margin-left:-30px !important; margin-right:-30px !important; }
+      .portal-section .tarificador-wrap{ padding:22px 16px !important; }
+      #portal-tile-perro, #portal-tile-gato{ padding:24px 8px !important; }
       /* Móvil: ocultar el iframe del asesor y mostrar la tarjeta táctil (robot + etiqueta) */
       #asesor-scroll{ display:none !important; }
       #asesor-hint-left, #asesor-hint-right{ display:none !important; }
@@ -6297,7 +6307,7 @@ html button:active,html [role="button"]:active,html [onclick]:active,html input[
       </section>
 
       <!-- Columna derecha: portal de paso (nativo, sin iframe) -->
-      <section style="align-self:start;width:100%;min-width:320px;">
+      <section class="portal-section" style="align-self:start;width:100%;min-width:320px;">
         <div class="tarificador-wrap" style="background:rgba(255,255,255,0.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.7);border-radius:20px;padding:40px 28px 36px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:460px;font-family:'Inter',sans-serif;">
           <h2 style="font-size:26px;font-weight:900;color:#1B2A4A;text-align:center;letter-spacing:-.02em;margin:0 0 6px;">Selecciona tu mascota</h2>
           <p style="font-size:13px;color:rgba(27,42,74,0.5);text-align:center;margin:0 0 4px;max-width:320px;line-height:1.5;">Calcula el precio de tu seguro en 2 minutos.</p>
@@ -6577,9 +6587,9 @@ html button:active,html [role="button"]:active,html [onclick]:active,html input[
   <div id="asesor-hint-left" style="display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to left,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-start;padding-left:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x2039;</div>
   <!-- Móvil: tarjeta táctil para abrir el asesor (robot + etiqueta verde) -->
   <div class="asesor-mobile-cover" onclick="kivoAbrirAsesor()" role="button" tabindex="0" aria-label="Abrir Asesor KIVO" style="display:none;flex-direction:column;align-items:center;gap:16px;padding:24px 16px 20px;cursor:pointer;text-align:center;">
-    <img src="assets/images/kivo-ia.png" alt="Asesor KIVO" style="width:150px;max-width:55%;height:auto;">
-    <span style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#01462E;color:#fff;font-weight:800;font-size:17px;padding:14px 28px;border-radius:50px;box-shadow:0 8px 22px rgba(1,70,46,0.30);">Asesor KIVO</span>
-    <span style="font-size:13px;color:rgba(27,42,74,0.62);font-weight:520;">Pulsa para hablar con tu asesor virtual</span>
+    <img src="assets/images/kivo-ia.png" alt="Asesor KIVO" class="asesor-robot" style="width:210px;max-width:72%;height:auto;">
+    <span class="asesor-btn-glass">Asesor KIVO</span>
+    <span style="font-size:13px;color:rgba(27,42,74,0.62);font-weight:520;">Pulsa para que el Asesor KIVO te recomiende el mejor plan</span>
   </div>
   <div id="asesor-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
     <iframe
