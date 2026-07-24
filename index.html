@@ -1267,7 +1267,6 @@ body {
 }
 .hero-glass:hover, .kivo-benefits-desktop:hover, #asesor:hover, .s03-exclusions:hover, .s07-footer:hover,
 .s04-inner:hover, .s05-blog:hover, .kp6-inner:hover, .s03-accordion:hover {
-  transform: translateY(-6px);
   box-shadow: 0 40px 84px rgba(27,42,74,0.20), inset 0 1px 0 rgba(255,255,255,0.9) !important;
 }
 /* Evitar que los contenedores recorten el panel al levantarse */
@@ -1553,10 +1552,12 @@ body { top:0 !important; }
 .s02__notice {
   margin: 34px 0 40px;
   padding: 26px 34px;
-  border: 1px solid rgba(27, 77, 62, 0.16);
+  border: 1px solid rgba(255,255,255,0.70);
   border-radius: 18px;
-  background: rgba(247, 251, 249, 0.92);
-  box-shadow: 0 18px 50px rgba(27, 42, 74, 0.06);
+  background: rgba(255,255,255,0.42);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85);
   display: flex;
   align-items: center;
   gap: 26px;
@@ -2326,16 +2327,15 @@ body {
 .s03-accordion {
     max-width: 1360px;
     margin: 16px auto;
-    border: 2px solid rgba(255,255,255,0.70);
+    border: 0 !important;
     border-radius: 20px;
-    background: rgba(255,255,255,0.42);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85);
-    transition: border-color 1.4s ease;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
 }
 .s03-accordion:hover {
-    border-color: var(--cycle-color) !important;
+    border-color: transparent !important;
 }
 
 .s03-accordion-trigger {
@@ -3237,12 +3237,17 @@ body { font-family: var(--font); }
 .s04-features li svg { color: var(--green); flex-shrink: 0; width: 20px; height: 20px; }
 
 .s04-cta-card {
-  background: #fff;
+  background: rgba(255,255,255,0.42);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-radius: 20px;
   padding: 36px 32px 32px;
-  box-shadow: 0 8px 40px rgba(27,42,74,0.12);
-  border: 1px solid rgba(27,77,62,0.08);
+  box-shadow: 0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85);
+  border: 2px solid rgba(255,255,255,0.70);
+  transition: border-color .25s ease;
 }
+/* Marco de colores cambiantes al pasar el puntero */
+.s04-cta-card:hover { border-color: var(--cycle-color) !important; }
 
 .s04-cta-title {
   font-size: 22px;
@@ -5667,13 +5672,11 @@ body {
 
 /* Efecto PULSADO (se hunde al hacer clic) — TODOS los botones de la web */
 button:active,
-a[class*="btn"]:active, a[class*="cta"]:active,
-[class*="-btn"]:active, [class*="btn-"]:active,
-[class*="cta"]:active,
+a[class*="btn"]:active,
 .portal-tile:active, .hero-lang-btn:active,
 .s07-social-btn:active, .s07-store-btn:active,
 .kp6-btn:active, .kp6-btn2:active, .sn-btn:active,
-.s03-table-btn:active, .s03-price-cta:active, .rpc-cta:active,
+.s03-table-btn:active, .rpc-cta:active,
 .exit-btn-salir:active, .exit-btn-continuar:active,
 #portal-btn-cta:active, .s03-price-button:active, .s04-cta-btn:active,
 .s02__cta-button:active, .s03-ai-cta-btn:active, .s02__help-btn:active, .s03-card-button:active,
@@ -5682,11 +5685,11 @@ a[class*="btn"]:active, a[class*="cta"]:active,
   box-shadow: 0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16) !important;
   transition: transform .06s ease, box-shadow .06s ease !important;
 }
-.s05-article       { border: 2px solid var(--cycle-color) !important; transition: none !important; }
+.s05-article       { border: 1px solid rgba(255,255,255,0.70) !important; transition: none !important; }
 .benefit-icon      { color: var(--cycle-color) !important; background: color-mix(in srgb, var(--cycle-color) 12%, white) !important; transition: none !important; }
-.s02__icon-bubble  { border: 2px solid var(--cycle-color) !important; transition: none !important; }
-.s02__card         { border-color: var(--cycle-color) !important; transition: none !important; }
-.s02__more .s02__card { border-color: var(--cycle-color) !important; transition: none !important; }
+.s02__icon-bubble  { border: 2px solid rgba(255,255,255,0.70) !important; transition: none !important; }
+.s02__card         { border-color: rgba(255,255,255,0.70) !important; transition: none !important; }
+.s02__more .s02__card { border-color: rgba(255,255,255,0.70) !important; transition: none !important; }
 .s04-cta-btn       { background: var(--cycle-color-solid) !important; transition: none !important; }
 .s02__help-btn     { background: var(--cycle-color-solid) !important; transition: none !important; }
 
@@ -5761,6 +5764,24 @@ a[class*="btn"]:active, a[class*="cta"]:active,
   box-shadow: 0 16px 40px rgba(27,42,74,0.18) !important;
 }
 .s05-marquee-track .s05-article svg { display: none !important; }
+/* ── Móvil: arrastrar el carrusel de consejos con el dedo (los dos sentidos) ── */
+@media (max-width: 768px) {
+  .s05-articles {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    touch-action: pan-x !important;
+    cursor: grab;
+  }
+  .s05-marquee-track {
+    animation: none !important;
+    width: max-content !important;
+  }
+  .s05-marquee-track .s05-article { scroll-snap-align: start; }
+}
 
 
 
@@ -6196,15 +6217,15 @@ body {
   </style>
 <style id="kivo-nohover">
 /* KIVO: sin efecto hover en botones (solo hundido al pulsar) */
-html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [class*="button"]:hover,html [class*="cta"]:hover,html [class*="boton"]:hover,html .portal-tile:hover,html .kivo-fab-main:hover,html .kivo-fab-option:hover,html #kivo-top-btn:hover,html .s04-cta-btn:hover{transform:none!important;filter:none!important;}
+html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [class*="button"]:hover,html [class*="cta"]:hover,html [class*="boton"]:hover,html .portal-tile:hover,html .kivo-fab-main:hover,html .kivo-fab-option:hover,html #kivo-top-btn:hover,html .s04-cta-btn:hover{filter:none!important;}
 </style>
 <style id="kivo-press-fx">
 /* Efecto PULSADO (hundido) — gana a los hover (KIVO) */
-html button:active,html [role="button"]:active,html [onclick]:active,html input[type="submit"]:active,html input[type="button"]:active,html input[type="reset"]:active,html [class*="btn"]:active,html [class*="button"]:active,html [class*="cta"]:active,html [class*="boton"]:active,html [class*="tile"]:active,html [class*="chip"]:active,html .plan-selector:active,html .excl-item:active,html .otile:active,html .wtile:active,html .pbtn:active,html .sbtn:active,html .editbtn:active{transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+html button:active,html [role="button"]:active,html input[type="submit"]:active,html input[type="button"]:active,html input[type="reset"]:active,html .plan-selector:active,html .excl-item:active,html .otile:active,html .wtile:active,html .pbtn:active,html .sbtn:active,html .editbtn:active{transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
 </style>
 <style id="kivo-portal-press-fix">
 /* Portal perro/gato: al pulsar, hundido limpio SIN la sombra azul cuadrada del press global */
-html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4px 12px rgba(0,0,0,0.07) !important; }
+html .portal-tile:active{ transform:translateY(3px) !important; box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4px 12px rgba(0,0,0,0.07) !important; }
 /* Quitar el resaltado azul de toque en móvil (tap highlight) en todos los elementos interactivos */
 html, html *{ -webkit-tap-highlight-color: transparent !important; }
 html button, html [role="button"], html a, html .portal-tile, html #portal-btn-cta, html .asesor-btn-glass, html .asesor-mobile-cover{ -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
@@ -6212,6 +6233,49 @@ html button, html [role="button"], html a, html .portal-tile, html #portal-btn-c
 html #tarif-overlay:active, html #tarif-modal:active, html #tarif-fs-iframe:active,
 html #asesor-overlay:active, html #asesor-fs-iframe:active,
 html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !important; }
+/* ── Botones unificados: cristal AZUL CLARO fijo + hundimiento. Lo único que cambia es el color de la letra ── */
+.s02__toggle, .s03-price-button, .s03-card-button, #openAsistenteBtn {
+  background: rgba(200,222,247,0.55) !important;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.85) !important;
+  box-shadow: 0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.9) !important;
+  animation: none !important;
+  transition: transform .2s, color .15s ease !important;
+  will-change: transform;
+  transform: translateZ(0);
+}
+/* Color de letra por botón */
+.s02__toggle, .s03-price-button { color: #1B2A4A !important; }
+#openAsistenteBtn { color: #01462E !important; }
+/* Calcular mi precio: compacto y centrado (que NO se estire a todo el ancho) */
+.s03-price-cta { display: flex !important; justify-content: center !important; }
+.s03-price-button { display: inline-flex !important; width: auto !important; max-width: none !important; min-width: 0 !important; padding: 18px 56px !important; flex: 0 0 auto !important; }
+/* "Ver detalles": el color de cada plan */
+.s03-card--care    .s03-card-button { color: #FB740B !important; }
+.s03-card--careplus .s03-card-button { color: #01462E !important; }
+.s03-card--premium .s03-card-button { color: #B48841 !important; }
+.s03-card--rc      .s03-card-button { color: #0C8B9D !important; }
+/* Calcular mi precio: botón NUEVO y limpio, copia de la fórmula del asesor (cristal + compacto + hundido) */
+.s03-price-cta { display:flex !important; justify-content:center !important; }
+.kivo-calc-btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:18px 56px; border-radius:14px;
+  background:rgba(200,222,247,0.55);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  color:#1B2A4A; font-size:19px; font-weight:800; letter-spacing:-0.01em;
+  border:2px solid rgba(255,255,255,0.95);
+  box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);
+  cursor:pointer; font-family:'Inter',sans-serif;
+  transition:transform .15s, color .12s ease;
+  will-change:transform; transform:translateZ(0);
+}
+.kivo-calc-btn:active { transform:translateY(3px) !important; color:#01462E !important; box-shadow:inset 0 5px 14px rgba(27,42,74,0.16) !important; }
+/* Hundimiento al pulsar (regla propia, gana al hover) */
+.s02__toggle:active, .s03-price-button:active, .s03-card-button:active, #openAsistenteBtn:active {
+  transform: translateY(3px) !important;
+  box-shadow: inset 0 5px 14px rgba(27,42,74,0.16) !important;
+  transition: transform .06s ease, box-shadow .06s ease !important;
+}
 </style>
 </head>
 <body>
@@ -6954,7 +7018,7 @@ html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !imp
     </div><!-- /s03-cards-scroll-wrap -->
     <div class="s03-scroll-hint" style="display:none;text-align:center;padding:4px 0 0;font-size:22px;color:#1B2A4A;font-weight:900;" id="s03-cards-hint">›</div>
     <div class="s03-price-cta">
-      <button class="s03-price-button" type="button" onclick="kivoAbrirTarif()">▣ Calcular mi precio <span>→</span></button>
+      <button class="kivo-calc-btn" type="button" onclick="kivoAbrirTarif()">Calcular mi precio</button>
     </div>
 
     <div class="s03-accordion">

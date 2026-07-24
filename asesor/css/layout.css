@@ -107,8 +107,18 @@ body { font-family: var(--font); background: transparent; }
   border-radius: 20px;
   padding: 36px 32px 32px;
   box-shadow: 0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85);
-  border: 1px solid rgba(255,255,255,0.70);
+  border: 2px solid rgba(255,255,255,0.70);
+  transition: border-color .25s ease;
 }
+/* Marco de colores cambiantes al pasar el puntero */
+@keyframes kivoCardBorder {
+  0%,18%   { border-color:#01462E; }
+  30%,43%  { border-color:#FB740B; }
+  55%,68%  { border-color:#B48841; }
+  80%,93%  { border-color:#0C8B9D; }
+  100%     { border-color:#01462E; }
+}
+.s04-cta-card:hover { animation: kivoCardBorder 8s linear infinite; }
 
 .s04-cta-title {
   font-size: 22px;
@@ -140,21 +150,26 @@ body { font-family: var(--font); background: transparent; }
   width: 100%;
   padding: 18px 24px;
   border-radius: 14px;
-  background: #0C8B9D;
-  color: #fff;
+  background: rgba(200,222,247,0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #01462E;
   font-family: var(--font);
   font-size: 17px;
-  font-weight: 700;
-  border: none;
+  font-weight: 800;
+  border: 2px solid rgba(255,255,255,0.95);
   cursor: pointer;
-  animation: kivoCycleBtn 14s step-end infinite;
-  transition: transform 0.15s;
-  box-shadow: 0 6px 24px rgba(27,77,62,0.30);
+  transition: transform 0.15s, color 0.12s ease;
+  box-shadow: 0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .s04-cta-btn svg { width: 20px; height: 20px; }
 
-.s04-cta-btn:hover { transform: translateY(-2px); }
+.s04-cta-btn:hover { }
+/* Al pulsar: se hunde y el texto pasa a azul marino */
+.s04-cta-btn:active { color: #1B2A4A !important; }
 
 @media (max-width: 1000px) {
   .s04-inner { grid-template-columns: 1fr 320px; gap: 32px; }
@@ -320,7 +335,7 @@ body[data-step="5"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15%
 body[data-step="6"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15% 10%,rgba(1,28,75,0.22) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(251,116,11,0.14) 0%,transparent 60%),linear-gradient(180deg,#f4f6f8,#eef3f0)}
 
 /* Efecto PULSADO (se hunde al hacer clic) */
-.s04-cta-btn:active, .s04-modal-close:active, .kv-btn:active { transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }
+.s04-cta-btn:active, .s04-modal-close:active, .kv-btn:active { transform:translateY(3px)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }
 
 /* ── KIVO: efecto PULSADO (hundido) global en todos los botones ── */
-button:active,[role="button"]:active,[onclick]:active,input[type="submit"]:active,input[type="button"]:active,input[type="reset"]:active,[class*="btn"]:active,[class*="button"]:active,[class*="cta"]:active,[class*="boton"]:active,[class*="tile"]:active,[class*="chip"]:active,.plan-selector:active,.excl-item:active,.otile:active,.wtile:active,.pbtn:active,.sbtn:active,.quiz-option:active{transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+button:active,[role="button"]:active,input[type="submit"]:active,input[type="button"]:active,input[type="reset"]:active,.plan-selector:active,.excl-item:active,.otile:active,.wtile:active,.pbtn:active,.sbtn:active,.quiz-option:active{transform:translateY(3px)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}

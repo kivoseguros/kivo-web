@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="css/styles.css">
 <style id="kivo-nohover">
 /* KIVO: sin efecto hover en botones (solo hundido al pulsar) */
-html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [class*="button"]:hover,html [class*="cta"]:hover,html [class*="boton"]:hover,html .portal-tile:hover,html .kivo-fab-main:hover,html .kivo-fab-option:hover,html #kivo-top-btn:hover,html .s04-cta-btn:hover{transform:none!important;filter:none!important;}
+html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [class*="button"]:hover,html [class*="cta"]:hover,html [class*="boton"]:hover,html .portal-tile:hover,html .kivo-fab-main:hover,html .kivo-fab-option:hover,html #kivo-top-btn:hover,html .s04-cta-btn:hover{filter:none!important;}
 </style>
 <style id="kivo-press-fx">
 /* Efecto PULSADO (hundido) — gana a los hover (KIVO) */
@@ -28,6 +28,22 @@ html body .fw:active,
 html body .screen:active,
 html body [class*="-row"]:active,
 html body [class*="-grid"]:active{ transform:none !important; box-shadow:none !important; }
+/* Restaurar el hundimiento SOLO en los botones reales (bajada limpia, sin el scale que encogía) */
+html body button:active,
+html body [role="button"]:active,
+html body .especie-tile:active,
+html body .otile:active,
+html body .wtile:active,
+html body .yn-tile:active,
+html body .plan-selector:active,
+html body .echip:active,
+html body .tab:active,
+html body .bitem:active,
+html body .btn-cta:active,
+html body #s0-btn-cta:active,
+html body .s03-price-button:active,
+html body .btn-back:active,
+html body .btn-salir-top:active{ transform:translateY(3px) !important; }
 /* En pantallas táctiles: quitar el lift de :hover que se queda pegado al tocar (movía la tarjeta/página) */
 @media (hover: none) {
   html body .scard:hover,
