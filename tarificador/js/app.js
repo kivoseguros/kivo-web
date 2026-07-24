@@ -811,6 +811,14 @@ function selectInterior(val, el) {
 
 /* ── STEP 0 ── */
 function selectEspecie(esp) {
+  // Toggle: si vuelves a pulsar la ya elegida, se deselecciona
+  if (S.especie === esp) {
+    S.especie = null;
+    document.getElementById('tile-perro').classList.remove('sel');
+    document.getElementById('tile-gato').classList.remove('sel');
+    checkS1();
+    return;
+  }
   S.especie = esp;
   document.getElementById('tile-perro').classList.toggle('sel', esp === 'perro');
   document.getElementById('tile-gato').classList.toggle('sel', esp === 'gato');
@@ -835,6 +843,18 @@ function onNombre() {
 
 /* ── STEP 2 ── */
 function selectSexo(sexo) {
+  // Toggle: si vuelves a pulsar el ya elegido, se deselecciona todo el paso
+  if (S.sexo === sexo) {
+    S.sexo = null;
+    S.esterilizada = null;
+    document.getElementById('tile-macho').classList.remove('sel');
+    document.getElementById('tile-hembra').classList.remove('sel');
+    var _wh = document.getElementById('esteril-wrap'); if (_wh) _wh.style.display = 'none';
+    var _wm = document.getElementById('castrado-wrap'); if (_wm) _wm.style.display = 'none';
+    ['tile-esteril-si','tile-esteril-no','tile-castrado-si','tile-castrado-no'].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('sel'); });
+    document.getElementById('btn-s2').disabled = true;
+    return;
+  }
   S.sexo = sexo;
   S.esterilizada = null; // resetear al cambiar sexo
   document.getElementById('tile-macho').classList.toggle('sel', sexo === 'macho');
@@ -857,6 +877,13 @@ function selectSexo(sexo) {
 }
 
 function selectEsterilizada(valor) {
+  if (S.esterilizada === valor) {
+    S.esterilizada = null;
+    document.getElementById('tile-esteril-si').classList.remove('sel');
+    document.getElementById('tile-esteril-no').classList.remove('sel');
+    document.getElementById('btn-s2').disabled = true;
+    return;
+  }
   S.esterilizada = valor;
   document.getElementById('tile-esteril-si').classList.toggle('sel', valor === true);
   document.getElementById('tile-esteril-no').classList.toggle('sel', valor === false);
@@ -864,11 +891,50 @@ function selectEsterilizada(valor) {
 }
 
 function selectCastrado(valor) {
+  if (S.esterilizada === valor) {
+    S.esterilizada = null;
+    document.getElementById('tile-castrado-si').classList.remove('sel');
+    document.getElementById('tile-castrado-no').classList.remove('sel');
+    document.getElementById('btn-s2').disabled = true;
+    return;
+  }
   S.esterilizada = valor; // reutilizamos el mismo campo
   document.getElementById('tile-castrado-si').classList.toggle('sel', valor === true);
   document.getElementById('tile-castrado-no').classList.toggle('sel', valor === false);
   document.getElementById('btn-s2').disabled = false;
 }
+
+/* ── Clic FUERA de la opción seleccionada → deseleccionar (comportamiento estándar) ── */
+function _tarifDeselectOutside(e){
+  var t = e.target;
+  if (!t || !t.closest) return;
+  // Si el clic es en una opción seleccionable o en un control, no deseleccionar
+  if (t.closest('.especie-tile,.otile,.otile-label,.wtile,.yn-tile,.plan-selector,.echip,.tab,.bitem,button,input,select,textarea,label,a,.promo-toggle,.plans-detail-bar,.kinput')) return;
+  var active = document.querySelector('.fstep.active');
+  var id = active ? active.id : '';
+  if (id === 'fs1' && S.especie) {
+    S.especie = null;
+    var p=document.getElementById('tile-perro'), g=document.getElementById('tile-gato');
+    if(p) p.classList.remove('sel'); if(g) g.classList.remove('sel');
+    if (typeof checkS1 === 'function') checkS1();
+  } else if (id === 'fs2' && S.sexo) {
+    S.sexo = null; S.esterilizada = null;
+    ['tile-macho','tile-hembra','tile-esteril-si','tile-esteril-no','tile-castrado-si','tile-castrado-no'].forEach(function(i){ var el=document.getElementById(i); if(el) el.classList.remove('sel'); });
+    var wh=document.getElementById('esteril-wrap'); if(wh) wh.style.display='none';
+    var wm=document.getElementById('castrado-wrap'); if(wm) wm.style.display='none';
+    var b2=document.getElementById('btn-s2'); if(b2) b2.disabled=true;
+  } else if (id === 'fs4' && S.peso) {
+    S.peso = null;
+    document.querySelectorAll('.wtile').forEach(function(w){ w.classList.remove('sel'); });
+    var b4=document.getElementById('btn-s4'); if(b4) b4.disabled=true;
+  } else if (id === 'fs4b' && (S.interior === true || S.interior === false)) {
+    S.interior = null;
+    var ys=document.getElementById('yn-si'), yn=document.getElementById('yn-no');
+    if(ys) ys.classList.remove('sel'); if(yn) yn.classList.remove('sel');
+    var b4b=document.getElementById('btn-s4b'); if(b4b) b4b.disabled=true;
+  }
+}
+document.addEventListener('click', _tarifDeselectOutside);
 
 /* ── STEP 3 ── */
 function toggleNoFecha() {

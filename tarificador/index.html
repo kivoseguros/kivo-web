@@ -12,7 +12,33 @@ html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [cla
 </style>
 <style id="kivo-press-fx">
 /* Efecto PULSADO (hundido) — gana a los hover (KIVO) */
-html button:active,html [role="button"]:active,html [onclick]:active,html input[type="submit"]:active,html input[type="button"]:active,html input[type="reset"]:active,html [class*="btn"]:active,html [class*="button"]:active,html [class*="cta"]:active,html [class*="boton"]:active,html [class*="tile"]:active,html [class*="chip"]:active,html .plan-selector:active,html .excl-item:active,html .otile:active,html .wtile:active,html .pbtn:active,html .sbtn:active,html .editbtn:active{transform:translateY(3px) scale(0.98)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+html button:active,html [role="button"]:active,html [onclick]:active,html input[type="submit"]:active,html input[type="button"]:active,html input[type="reset"]:active,html [class*="btn"]:active,html [class*="button"]:active,html [class*="cta"]:active,html [class*="boton"]:active,html [class*="chip"]:active,html .plan-selector:active,html .excl-item:active,html .otile:active,html .wtile:active,html .pbtn:active,html .sbtn:active,html .editbtn:active{box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+</style>
+<style id="kivo-tarif-press-fix">
+/* FIX: el pulsado NO debe hundir contenedores (varios llevan "tile"/"tiles" en el nombre y recibían el :active de sus botones). Solo se hunde el botón/tile pulsado. */
+html body [class*="-tiles"]:active,
+html body .especie-tiles:active,
+html body .yn-tiles:active,
+html body .opt-grid:active,
+html body .plans-grid:active,
+html body .scard:active,
+html body .fstep:active,
+html body .fbody:active,
+html body .fw:active,
+html body .screen:active,
+html body [class*="-row"]:active,
+html body [class*="-grid"]:active{ transform:none !important; box-shadow:none !important; }
+/* En pantallas táctiles: quitar el lift de :hover que se queda pegado al tocar (movía la tarjeta/página) */
+@media (hover: none) {
+  html body .scard:hover,
+  html body .especie-tile:hover,
+  html body .otile:hover,
+  html body .wtile:hover,
+  html body .yn-tile:hover,
+  html body .plan-selector:hover,
+  html body .tab:hover,
+  html body [class*="tile"]:hover{ transform:none !important; }
+}
 </style>
 </head>
 <body>

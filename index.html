@@ -6208,6 +6208,10 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
 /* Quitar el resaltado azul de toque en móvil (tap highlight) en todos los elementos interactivos */
 html, html *{ -webkit-tap-highlight-color: transparent !important; }
 html button, html [role="button"], html a, html .portal-tile, html #portal-btn-cta, html .asesor-btn-glass, html .asesor-mobile-cover{ -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
+/* FIX: los contenedores a pantalla completa (tarificador/asesor) tienen onclick y la regla de pulsado les metía scale(0.98) al pinchar en cualquier sitio → encogía toda la ventana. Se excluyen. */
+html #tarif-overlay:active, html #tarif-modal:active, html #tarif-fs-iframe:active,
+html #asesor-overlay:active, html #asesor-fs-iframe:active,
+html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !important; }
 </style>
 </head>
 <body>
@@ -8474,12 +8478,6 @@ window.addEventListener('load', function(){
     fr.src = './asesor/index.html#openModal';
     fr.setAttribute('data-loaded','1');
   }
-  // Precargar (warm cache) el tarificador para que abra sin el tironcito de carga
-  try {
-    ['./tarificador/index.html?modo=fullscreen','./tarificador/index.html?modo=fullscreen&especie=perro','./tarificador/index.html?modo=fullscreen&especie=gato'].forEach(function(u){
-      var l = document.createElement('link'); l.rel='prefetch'; l.as='document'; l.href=u; document.head.appendChild(l);
-    });
-  } catch(e){}
 });
 function kivoAbrirAsesor() {
   var ov = document.getElementById('asesor-overlay');

@@ -164,7 +164,7 @@ input,select{font-family:inherit;outline:none;border:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* STEP CARD */
-.scard{background:rgba(255,255,255,0.88);border-radius:24px;box-shadow:var(--sh);padding:52px;border:2px solid transparent;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.scard:hover{box-shadow:0 20px 48px rgba(27,42,74,0.15);border-color:#3DBFA0}
+.scard{background:rgba(255,255,255,0.88);border-radius:24px;box-shadow:var(--sh);padding:52px;border:2px solid transparent;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.scard:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(27,42,74,0.15);border-color:#3DBFA0}
 .sicon{width:52px;height:52px;border-radius:16px;background:rgba(61,191,160,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
 .sicon svg{width:26px;height:26px}
 .sq{font-size:clamp(20px,3vw,26px);font-weight:900;color:var(--navy);letter-spacing:-.02em;line-height:1.2;margin-bottom:6px;margin-top:-16px}
@@ -906,7 +906,7 @@ body[data-step="5"]{background:radial-gradient(55% 45% at 15% 10%,rgba(12,139,15
 body[data-step="6"]{background:radial-gradient(55% 45% at 15% 10%,rgba(1,28,75,0.22) 0%,transparent 60%),radial-gradient(55% 45% at 85% 90%,rgba(251,116,11,0.14) 0%,transparent 60%),linear-gradient(180deg,#f4f6f8,#eef3f0)}
 
 /* Efecto PULSADO (se hunde al hacer clic) */
-.btn-cta:active, #s0-btn-cta:active, .btn-back:active, .btn-salir-top:active, .otile:active, .especie-tile:active, .hero-sp-btn:active, .s03-price-button:active, .tab:active { box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }
+.btn-cta:active, #s0-btn-cta:active, .btn-back:active, .btn-salir-top:active, .otile:active, .especie-tile:active, .hero-sp-btn:active, .s03-price-button:active, .tab:active { transform:translateY(2px)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12), inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease, box-shadow .06s ease!important; }
 
 /* ── KIVO: efecto PULSADO (hundido) global en todos los botones ── */
-button:active,[role="button"]:active,[onclick]:active,input[type="submit"]:active,input[type="button"]:active,input[type="reset"]:active,[class*="btn"]:active,[class*="button"]:active,[class*="cta"]:active,[class*="boton"]:active,[class*="chip"]:active,.plan-selector:active,.excl-item:active,.otile:active,.wtile:active,.pbtn:active,.sbtn:active,.quiz-option:active{box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+button:active,[role="button"]:active,[onclick]:active,input[type="submit"]:active,input[type="button"]:active,input[type="reset"]:active,[class*="btn"]:active,[class*="button"]:active,[class*="cta"]:active,[class*="boton"]:active,[class*="chip"]:active,.plan-selector:active,.excl-item:active,.otile:active,.wtile:active,.pbtn:active,.sbtn:active,.quiz-option:active{transform:translateY(2px)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
