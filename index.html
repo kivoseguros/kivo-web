@@ -5653,7 +5653,7 @@ body {
 .portal-img { position:relative;display:inline-block;line-height:0; }
 .portal-check { position:absolute;top:-8px;right:-10px;width:24px;height:24px;border-radius:50%;background:#01462E;color:#fff;display:none;align-items:center;justify-content:center;font-size:14px;font-weight:900;border:2px solid #fff;box-shadow:0 2px 6px rgba(1,70,46,0.35); }
 .portal-tile.sel .portal-check { display:flex; }
-/* Botón "Asesor KIVO" (tarjeta móvil): mismo cristal que el tarificador, letras verdes, al pulsar hunde y pasa a azul */
+/* Botón "Asesor <span translate="no" class="notranslate">KIVO</span>" (tarjeta móvil): mismo cristal que el tarificador, letras verdes, al pulsar hunde y pasa a azul */
 .asesor-btn-glass { display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.95);box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);color:#01462E;font-weight:800;font-size:19px;padding:17px 36px;border-radius:50px;cursor:pointer;transition:transform .18s ease, color .12s ease, box-shadow .12s ease; }
 .asesor-btn-glass:active { transform:translateY(3px) scale(0.985) !important; color:#1B2A4A !important; box-shadow:inset 0 5px 14px rgba(27,42,74,0.16) !important; }
 /* Robot del Asesor: efecto levitación (sube y baja) */
@@ -6205,6 +6205,9 @@ html button:active,html [role="button"]:active,html [onclick]:active,html input[
 <style id="kivo-portal-press-fix">
 /* Portal perro/gato: al pulsar, hundido limpio SIN la sombra azul cuadrada del press global */
 html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4px 12px rgba(0,0,0,0.07) !important; }
+/* Quitar el resaltado azul de toque en móvil (tap highlight) en todos los elementos interactivos */
+html, html *{ -webkit-tap-highlight-color: transparent !important; }
+html button, html [role="button"], html a, html .portal-tile, html #portal-btn-cta, html .asesor-btn-glass, html .asesor-mobile-cover{ -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
 </style>
 </head>
 <body>
@@ -6242,7 +6245,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
 
     <div class="hero-glass">
     <header class="hero-header">
-      <a class="kivo-logo" href="#" aria-label="KIVO Seguros para Mascotas" style="width:auto;font-size:48px;font-weight:900;color:#011C4B;letter-spacing:-0.02em;text-decoration:none;display:inline-flex;align-items:center;line-height:1;">KIVO<span style="font-size:39px;margin-left:4px;animation:kivoHeartCycle 6s ease-in-out infinite;">♥</span></a>
+      <a class="kivo-logo notranslate" translate="no" href="#" aria-label="KIVO Seguros para Mascotas" style="width:auto;font-size:48px;font-weight:900;color:#011C4B;letter-spacing:-0.02em;text-decoration:none;display:inline-flex;align-items:center;line-height:1;">KIVO<span style="font-size:39px;margin-left:4px;animation:kivoHeartCycle 6s ease-in-out infinite;">♥</span></a>
 
       <nav class="hero-nav" aria-label="Navegación principal">
         <div class="hero-lang notranslate" translate="no">
@@ -6260,7 +6263,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
 
       <!-- App download — top right -->
       <div class="hero-app-download">
-        <span class="hero-app-label">Descarga la app de KIVO</span>
+        <span class="hero-app-label">Descarga la app de <span translate="no" class="notranslate">KIVO</span></span>
         <div class="hero-app-badges">
           <!-- Google Play -->
           <a href="#" class="hero-app-badge" aria-label="Descargar en Google Play">
@@ -6376,7 +6379,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/><circle cx="12" cy="16" r="1" fill="currentColor" stroke="none"/></svg>
           </div>
           <div>
-            <div style="font-size:18px;font-weight:800;color:#1B2A4A;line-height:1.2;">Asistente IA KIVO</div>
+            <div style="font-size:18px;font-weight:800;color:#1B2A4A;line-height:1.2;">Asistente IA <span translate="no" class="notranslate">KIVO</span></div>
             <div style="font-size:15px;font-weight:500;color:rgba(27,42,74,0.6);line-height:1.3;">para resolver tus dudas.</div>
           </div>
         </div>
@@ -6455,7 +6458,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/><circle cx="12" cy="16" r="1" fill="currentColor" stroke="none"/></svg>
           </div>
           <div>
-            <div class="kivo-ticker-title">Asistente IA KIVO</div>
+            <div class="kivo-ticker-title">Asistente IA <span translate="no" class="notranslate">KIVO</span></div>
             <div class="kivo-ticker-sub">para resolver tus dudas.</div>
           </div>
         </div>
@@ -6483,7 +6486,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 3a4 4 0 0 1 4 4v4H8V7a4 4 0 0 1 4-4Z"/><circle cx="12" cy="16" r="1" fill="currentColor" stroke="none"/></svg>
           </div>
           <div>
-            <div class="kivo-ticker-title">Asistente IA KIVO</div>
+            <div class="kivo-ticker-title">Asistente IA <span translate="no" class="notranslate">KIVO</span></div>
             <div class="kivo-ticker-sub">para resolver tus dudas.</div>
           </div>
         </div>
@@ -6594,8 +6597,8 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
   <!-- Móvil: tarjeta táctil para abrir el asesor (robot + etiqueta verde) -->
   <div class="asesor-mobile-cover" onclick="kivoAbrirAsesor()" role="button" tabindex="0" aria-label="Abrir Asesor KIVO" style="display:none;flex-direction:column;align-items:center;gap:16px;padding:24px 16px 20px;cursor:pointer;text-align:center;">
     <img src="assets/images/kivo-ia.png" alt="Asesor KIVO" class="asesor-robot" style="width:210px;max-width:72%;height:auto;">
-    <span class="asesor-btn-glass">Asesor KIVO</span>
-    <span style="font-size:13px;color:rgba(27,42,74,0.62);font-weight:520;">Pulsa para que el Asesor KIVO te recomiende el mejor plan</span>
+    <span class="asesor-btn-glass">Asesor <span translate="no" class="notranslate">KIVO</span></span>
+    <span style="font-size:13px;color:rgba(27,42,74,0.62);font-weight:520;">Pulsa para que el Asesor <span translate="no" class="notranslate">KIVO</span> te recomiende el mejor plan</span>
   </div>
   <div id="asesor-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;">
     <iframe
@@ -7142,7 +7145,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
     <!-- Texto -->
     <div class="s04-info-block">
       <span class="s04-badge">NUEVO</span>
-      <h2 class="s04-title">Asistente KIVO IA</h2>
+      <h2 class="s04-title">Asistente <span translate="no" class="notranslate">KIVO</span> IA</h2>
       <p class="s04-desc">Resuelve todas tus dudas sobre coberturas y elige el plan ideal para tu mascota.</p>
       <ul class="s04-features">
         <li>
@@ -7442,7 +7445,7 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
 
   <div class="kp6-inner">
     <div class="kp6-head">
-      <span class="kp6-eyebrow">Así de fácil funciona KIVO</span>
+      <span class="kp6-eyebrow">Así de fácil funciona <span translate="no" class="notranslate">KIVO</span></span>
       <h2 class="kp6-title">Te ayudamos cuando más lo necesitas, sin complicaciones.</h2>
       <p class="kp6-sub">Sin papeleo interminable. Sin esperas eternas. Sin sorpresas.</p>
     </div>
@@ -7533,8 +7536,8 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
           <div class="kp6-sb"><span>9:41</span><span class="kp6-sb-r"><i></i></span></div>
           <div class="kp6-top" style="justify-content:center">¡Hecho!</div>
           <div class="kp6-body" style="align-items:center;justify-content:center">
-            <div class="kp6-done-logo">KIVO<span class="h">♥</span></div>
-            <p class="kp6-done-txt">Gracias por confiar en KIVO</p>
+            <div class="kp6-done-logo notranslate" translate="no">KIVO<span class="h">♥</span></div>
+            <p class="kp6-done-txt">Gracias por confiar en <span translate="no" class="notranslate">KIVO</span></p>
             <div class="kp6-btn" style="width:100%">Nueva solicitud</div>
           </div>
           <div class="kp6-nav"><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Inicio</div><div><b><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Mis solicitudes</b></div><div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 6-5 8-5s7 1 8 5"/></svg>Perfil</div></div>
@@ -7651,10 +7654,10 @@ html .portal-tile:active{ box-shadow:0 0 0 3px rgba(255,255,255,0.35), inset 0 4
     <div class="s07-col">
       <h4 class="s07-col-title">SEGUROS</h4>
       <ul class="s07-links">
-        <li><a href="../pages/planes/care.html">KIVO CARE</a></li>
-        <li><a href="../pages/planes/care-plus.html">KIVO CARE+</a></li>
-        <li><a href="../pages/planes/premium.html">KIVO PREMIUM</a></li>
-        <li><a href="../pages/planes/rc.html">KIVO R.C.</a></li>
+        <li><a href="../pages/planes/care.html" translate="no" class="notranslate">KIVO CARE</a></li>
+        <li><a href="../pages/planes/care-plus.html" translate="no" class="notranslate">KIVO CARE+</a></li>
+        <li><a href="../pages/planes/premium.html" translate="no" class="notranslate">KIVO PREMIUM</a></li>
+        <li><a href="../pages/planes/rc.html" translate="no" class="notranslate">KIVO R.C.</a></li>
       </ul>
     </div>
 
@@ -8430,7 +8433,7 @@ window.addEventListener('message', function(e) {
 </script>
 
 <!-- ══ ASESOR FULLSCREEN OVERLAY ══ -->
-<div id="asesor-overlay" style="visibility:hidden;pointer-events:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9992;background:#EEF3F0;overflow:hidden;">
+<div id="asesor-overlay" style="visibility:hidden;opacity:0;pointer-events:none;transition:opacity .14s ease;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9992;background:#EEF3F0;overflow:hidden;transform:translateZ(0);-webkit-transform:translateZ(0);will-change:opacity;backface-visibility:hidden;">
   <iframe id="asesor-fs-iframe" src="" title="KIVO Asesor" style="width:100%;height:100%;min-height:-webkit-fill-available;border:none;display:block;" scrolling="yes" allowfullscreen></iframe>
 </div>
 
@@ -8447,8 +8450,8 @@ window.addEventListener('message', function(e) {
 .exit-btn-salir:hover { transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,0.35); }
 </style>
 <div id="tarif-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9990;flex-direction:column;align-items:center;justify-content:center;" onclick="kivoCerrarDesdeBackdrop(event)">
-  <div id="tarif-modal" style="position:relative;width:1140px;max-width:96vw;height:820px;max-height:94vh;border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.40);">
-    <iframe id="tarif-fs-iframe" src="" title="KIVO Tarificador" style="width:100%;height:100%;border:none;display:block;" scrolling="yes"></iframe>
+  <div id="tarif-modal" style="position:relative;width:1140px;max-width:96vw;height:820px;max-height:94vh;border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.40);background:#EEF3F0;">
+    <iframe id="tarif-fs-iframe" src="" title="KIVO Tarificador" style="width:100%;height:100%;border:none;display:block;background:#EEF3F0;" scrolling="yes"></iframe>
   </div>
 </div>
 
@@ -8471,6 +8474,12 @@ window.addEventListener('load', function(){
     fr.src = './asesor/index.html#openModal';
     fr.setAttribute('data-loaded','1');
   }
+  // Precargar (warm cache) el tarificador para que abra sin el tironcito de carga
+  try {
+    ['./tarificador/index.html?modo=fullscreen','./tarificador/index.html?modo=fullscreen&especie=perro','./tarificador/index.html?modo=fullscreen&especie=gato'].forEach(function(u){
+      var l = document.createElement('link'); l.rel='prefetch'; l.as='document'; l.href=u; document.head.appendChild(l);
+    });
+  } catch(e){}
 });
 function kivoAbrirAsesor() {
   var ov = document.getElementById('asesor-overlay');
@@ -8483,13 +8492,16 @@ function kivoAbrirAsesor() {
   ov.style.visibility = 'visible';
   ov.style.pointerEvents = 'auto';
   document.body.style.overflow = 'hidden';
+  // Fundido corto que tapa el repintado del móvil
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ ov.style.opacity = '1'; }); });
 }
 function kivoSalirAsesor() {
   var ov = document.getElementById('asesor-overlay');
-  ov.style.visibility = 'hidden';
+  ov.style.opacity = '0';
   ov.style.pointerEvents = 'none';
   document.body.style.overflow = '';
-  // NO limpiamos el src ni usamos display:none: el asesor queda pintado y precargado para que abra 100% instantáneo
+  // Ocultar del todo tras el fundido (el asesor queda precargado, no limpiamos el src)
+  setTimeout(function(){ ov.style.visibility = 'hidden'; }, 170);
 }
 var _portalEspecie = null;
 function portalSelectEspecie(esp) {
@@ -8559,8 +8571,9 @@ window.addEventListener('message', function(e) {
     // Cerrar overlay del asesor si estaba abierto en pantalla completa
     var _asOv = document.getElementById('asesor-overlay');
     if (_asOv && _asOv.style.visibility === 'visible') {
-      _asOv.style.visibility = 'hidden';
+      _asOv.style.opacity = '0';
       _asOv.style.pointerEvents = 'none';
+      setTimeout(function(){ _asOv.style.visibility = 'hidden'; }, 170);
       // No limpiamos el src para no perder la precarga del asesor
     }
     // Construir URL del tarificador con recomendación del asesor
