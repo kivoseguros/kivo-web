@@ -8478,6 +8478,18 @@ window.addEventListener('load', function(){
     fr.src = './asesor/index.html#openModal';
     fr.setAttribute('data-loaded','1');
   }
+  // Precargar el tarificador (todos sus recursos) en un iframe oculto para que abra al instante
+  setTimeout(function(){
+    if (!document.getElementById('tarif-preload')) {
+      var pf = document.createElement('iframe');
+      pf.id = 'tarif-preload';
+      pf.setAttribute('aria-hidden','true');
+      pf.setAttribute('tabindex','-1');
+      pf.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;border:0;opacity:0;visibility:hidden;pointer-events:none;';
+      pf.src = './tarificador/index.html?modo=fullscreen&preload=1';
+      document.body.appendChild(pf);
+    }
+  }, 1500);
 });
 function kivoAbrirAsesor() {
   var ov = document.getElementById('asesor-overlay');
