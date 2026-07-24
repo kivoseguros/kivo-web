@@ -103,6 +103,12 @@ section[id="asesor"], section[id="situaciones-reales"], section[id="planes"] {
   97%    { --cycle-color: rgba(12,139,157,0); }
   100%   { --cycle-color: rgba(1,70,46,0); }
 }
+@keyframes kivoHeartCycle {
+  0%,22%   { color:#01462E; }  /* verde inglés */
+  38%,55%  { color:#FB740B; }  /* naranja */
+  72%,90%  { color:#B48841; }  /* dorado */
+  100%     { color:#01462E; }
+}
 @property --cycle-color-solid { syntax: '<color>'; inherits: true; initial-value: #01462E; }
 @keyframes kivoCycleSolid {
   0%,18%   { --cycle-color-solid: #01462E; }
@@ -1277,9 +1283,10 @@ body { top:0 !important; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 9980;
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(27,42,74,0.10);
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.6);
   padding: 10px 36px;
   display: flex;
   align-items: center;
@@ -1287,7 +1294,7 @@ body { top:0 !important; }
   gap: 16px;
   transform: translateY(-100%);
   transition: transform 0.30s cubic-bezier(0.4,0,0.2,1);
-  box-shadow: 0 2px 20px rgba(27,42,74,0.10);
+  box-shadow: 0 2px 20px rgba(27,42,74,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
 }
 #kivo-sticky-nav.visible { transform: translateY(0); }
 #kivo-sticky-nav .sn-logo img { height: 36px; width: auto; display: block; }
@@ -1308,7 +1315,8 @@ body { top:0 !important; }
   transition: background 0.2s;
   text-decoration: none;
 }
-#kivo-sticky-nav .sn-btn:hover { background: #0C8B9D; }
+#kivo-sticky-nav .sn-btn:hover { background: #1B2A4A; }
+#kivo-sticky-nav .sn-btn:active { background: #01462E; transform: translateY(1px); }
 
 /* ── BOTÓN VOLVER ARRIBA (abajo izq) ── */
 #kivo-top-btn {
@@ -5634,16 +5642,21 @@ body {
 .ia-send           { background: var(--cycle-color-solid) !important; transition: none !important; }
 .ia-dot            { background: var(--cycle-color) !important; transition: none !important; }
 .tarificador-wrap  { box-shadow: 0 20px 60px rgba(27,42,74,.12) !important; transition: box-shadow 0.3s ease, transform 0.3s ease !important; }
-.tarificador-wrap:hover { transform: translateY(-5px); box-shadow: 0 0 0 2.5px var(--cycle-color), 0 20px 60px rgba(27,42,74,.18) !important; }
+.tarificador-wrap:hover { transform: translateY(-5px); box-shadow: 0 0 0 2.5px rgba(255,255,255,0.7), 0 20px 60px rgba(27,42,74,.18) !important; }
 /* ── Portal de paso (nativo) ── */
-.portal-tile { flex:1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px 20px;border-radius:18px;border:2px solid rgba(255,255,255,0.95);background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);font-size:1rem;font-weight:700;color:#1B2A4A;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif; }
-.portal-tile:hover { border-color:#0C8B9D;border-width:3px;background:rgba(12,139,157,0.07);transform:translateY(-4px);box-shadow:0 0 0 4px rgba(12,139,157,0.18),0 12px 32px rgba(12,139,157,0.25); }
-.portal-tile.sel { border-color:#0C8B9D;border-width:3px;background:rgba(12,139,157,0.12);box-shadow:0 0 0 4px rgba(12,139,157,0.22),0 8px 24px rgba(12,139,157,0.25); }
-#portal-btn-cta { width:100%;max-width:380px;padding:18px;border-radius:16px;background:var(--cycle-color) !important;transition:transform .2s !important;color:#fff;font-size:16px;font-weight:800;border:none;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-top:4px;opacity:0.42;cursor:default; }
-#portal-btn-cta { background:var(--cycle-color-solid) !important; }
+.portal-tile { position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px 20px;border-radius:18px;border:2px solid rgba(255,255,255,0.95);background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);font-size:1rem;font-weight:700;color:#1B2A4A;cursor:pointer;transition:all .18s ease;font-family:'Inter',sans-serif; }
+/* Hover: se ilumina el cuadro (sin cambiar el fondo ni color de marco), solo brillo */
+.portal-tile:hover { border-color:rgba(255,255,255,0.95);border-width:3px;box-shadow:0 0 0 4px rgba(255,255,255,0.30),0 14px 32px rgba(27,42,74,0.14); }
+/* Seleccionado: efecto de hundimiento (mismo fondo/marco de inicio, sin color) */
+.portal-tile.sel { border-color:rgba(255,255,255,0.95);border-width:3px;transform:translateY(3px) scale(0.985);box-shadow:inset 0 5px 14px rgba(27,42,74,0.16),0 0 0 4px rgba(255,255,255,0.30); }
+/* Marca "esta es la elegida" — ✓ arriba a la derecha de la cabeza de la mascota */
+.portal-img { position:relative;display:inline-block;line-height:0; }
+.portal-check { position:absolute;top:-8px;right:-10px;width:24px;height:24px;border-radius:50%;background:#01462E;color:#fff;display:none;align-items:center;justify-content:center;font-size:14px;font-weight:900;border:2px solid #fff;box-shadow:0 2px 6px rgba(1,70,46,0.35); }
+.portal-tile.sel .portal-check { display:flex; }
+#portal-btn-cta { width:100%;max-width:380px;padding:18px;border-radius:16px;background:rgba(255,255,255,0.18) !important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.95) !important;box-shadow:0 12px 28px rgba(27,42,74,0.18), inset 0 1px 0 rgba(255,255,255,0.95);transition:transform .2s, color .15s ease !important;color:#1B2A4A;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-top:4px;opacity:0.42;cursor:default; }
 #portal-btn-cta:not(:disabled) { opacity:1 !important;cursor:pointer; }
 #portal-btn-cta:not(:disabled):hover { filter:brightness(1.08);transform:translateY(-1px); }
-#portal-btn-cta:not(:disabled):active { transform:translateY(3px) scale(0.98) !important; transition:transform .06s ease !important; }
+#portal-btn-cta:not(:disabled):active { transform:translateY(3px) scale(0.985) !important; color:#01462E !important; box-shadow:inset 0 5px 14px rgba(27,42,74,0.16) !important; transition:transform .06s ease, box-shadow .06s ease, color .06s ease !important; }
 .plan-badge        { background: var(--cycle-color) !important; transition: none !important; }
 
 /* Efecto PULSADO (se hunde al hacer clic) — TODOS los botones de la web */
@@ -6202,7 +6215,7 @@ html button:active,html [role="button"]:active,html [onclick]:active,html input[
 
     <div class="hero-glass">
     <header class="hero-header">
-      <a class="kivo-logo" href="#" aria-label="KIVO Seguros para Mascotas" style="width:auto;font-size:48px;font-weight:900;color:#011C4B;letter-spacing:-0.02em;text-decoration:none;display:inline-flex;align-items:center;line-height:1;">KIVO<span style="color:#01462E;font-size:39px;margin-left:4px;">♥</span></a>
+      <a class="kivo-logo" href="#" aria-label="KIVO Seguros para Mascotas" style="width:auto;font-size:48px;font-weight:900;color:#011C4B;letter-spacing:-0.02em;text-decoration:none;display:inline-flex;align-items:center;line-height:1;">KIVO<span style="font-size:39px;margin-left:4px;animation:kivoHeartCycle 6s ease-in-out infinite;">♥</span></a>
 
       <nav class="hero-nav" aria-label="Navegación principal">
         <div class="hero-lang notranslate" translate="no">
@@ -6279,18 +6292,18 @@ html button:active,html [role="button"]:active,html [onclick]:active,html input[
           <p style="font-size:13px;color:rgba(27,42,74,0.5);text-align:center;margin:0 0 4px;max-width:320px;line-height:1.5;">Calcula el precio de tu seguro en 2 minutos.</p>
           <div style="display:flex;gap:20px;margin:20px 0 4px;width:100%;justify-content:center;">
             <button id="portal-tile-perro" class="portal-tile" onclick="portalSelectEspecie('perro')">
-              <img src="assets/icons/perro.svg" width="72" height="72" alt="Perro">
+              <span class="portal-img"><img src="assets/icons/perro.svg" width="72" height="72" alt="Perro"><span class="portal-check">&#10003;</span></span>
               Perro
             </button>
             <button id="portal-tile-gato" class="portal-tile" onclick="portalSelectEspecie('gato')">
-              <img src="assets/icons/gato.svg" width="72" height="72" alt="Gato">
+              <span class="portal-img"><img src="assets/icons/gato.svg" width="72" height="72" alt="Gato"><span class="portal-check">&#10003;</span></span>
               Gato
             </button>
           </div>
           <p style="font-size:12px;color:rgba(27,42,74,0.42);text-align:center;margin:10px 0 18px;max-width:300px;">🐾 Si tienes más de una mascota, podrás agregarla luego.</p>
           <button id="portal-btn-cta" onclick="kivoAbrirTarif(_portalEspecie)" disabled>
             Calcular mi precio
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
       </section>
@@ -8433,6 +8446,8 @@ function kivoSalirAsesor() {
 }
 var _portalEspecie = null;
 function portalSelectEspecie(esp) {
+  // Toggle: si vuelves a pinchar la ya elegida, se deselecciona y se quita la ✓
+  if (_portalEspecie === esp) { portalReset(); return; }
   _portalEspecie = esp;
   document.getElementById('portal-tile-perro').classList.toggle('sel', esp === 'perro');
   document.getElementById('portal-tile-gato').classList.toggle('sel', esp === 'gato');
@@ -8446,8 +8461,10 @@ function portalReset() {
   document.getElementById('portal-btn-cta').disabled = true;
 }
 document.addEventListener('click', function(e) {
-  var wrap = document.querySelector('.tarificador-wrap');
-  if (wrap && !wrap.contains(e.target)) { portalReset(); }
+  // Si el clic NO es en una casilla (perro/gato) ni en el botón de calcular,
+  // se resetea: se quita la ✓ y las tarjetas vuelven a su posición/estado original.
+  if (e.target.closest('.portal-tile') || e.target.closest('#portal-btn-cta')) return;
+  portalReset();
 });
 function kivoAbrirTarif(especie) {
   var ov = document.getElementById('tarif-overlay');
