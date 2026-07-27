@@ -3289,6 +3289,11 @@ body { font-family: var(--font); }
   .s04-inner { grid-template-columns: 1fr; gap: 20px; }
   .s04-left { order: -1; align-items: center; }
   .s04-robot { width: 90px; margin-bottom: 0; }
+  /* Móvil: que la sección NO se salga a lo ancho (quitar el min-width:960px en línea y el scroll horizontal) */
+  .s04 { min-width: 0 !important; width: 100% !important; }
+  #s04-scroll { overflow-x: visible !important; }
+  #s04-outer { overflow-x: hidden !important; }
+  #s04-hint-left, #s04-hint-right { display: none !important; }
 }
 
 /* ════════════════════════════════════
