@@ -3156,12 +3156,25 @@ body { font-family: var(--font); }
 }
 
 .s04-inner {
-  max-width: 1300px;
+  max-width: 720px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 320px 1fr 340px;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: 22px;
+}
+.s04-info-block { align-items: center; }
+.s04-features { align-items: center; }
+/* Frase bajo el logo del Asistente */
+.s04-logo-hint {
+  margin: 0;
+  max-width: 420px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blue, #1B2A4A);
+  line-height: 1.4;
+  cursor: pointer;
 }
 
 .s04-left {
@@ -3286,9 +3299,9 @@ body { font-family: var(--font); }
 .s04-cta-btn:hover { transform: translateY(-2px); }
 
 @media (max-width: 860px) {
-  .s04-inner { grid-template-columns: 1fr; gap: 20px; }
-  .s04-left { order: -1; align-items: center; }
-  .s04-robot { width: 90px; margin-bottom: 0; }
+  .s04-inner { gap: 18px; }
+  .s04-left { order: 0; align-items: center; }
+  .s04-robot { width: 150px; height: 150px; margin-bottom: 0; }
   /* Móvil: que la sección NO se salga a lo ancho (quitar el min-width:960px en línea y el scroll horizontal) */
   .s04 { min-width: 0 !important; width: 100% !important; padding-left: 20px !important; padding-right: 20px !important; }
   .s04-inner { max-width: 100% !important; width: 100% !important; justify-items: stretch !important; }
@@ -7211,11 +7224,6 @@ html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !imp
 <section class="s04" style="min-width:960px;">
   <div class="s04-inner">
 
-    <!-- Logo IA — abre el asistente IA -->
-    <div class="s04-left" onclick="toggleIA()" style="cursor:pointer">
-      <img src="assets/images/ia-hero.png" alt="Asistente KIVO IA" class="s04-robot" style="cursor:pointer;">
-    </div>
-
     <!-- Texto -->
     <div class="s04-info-block">
       <span class="s04-badge">NUEVO</span>
@@ -7237,15 +7245,13 @@ html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !imp
       </ul>
     </div>
 
-    <!-- CTA card -->
-    <div class="s04-cta-card">
-      <p class="s04-cta-title">¡Pregunta lo que necesites!</p>
-      <p class="s04-cta-desc">Te ayudamos a elegir el plan ideal en menos de 2 minutos.</p>
-      <button class="s04-cta-btn" id="openAsistenteBtn" onclick="toggleIA()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Abrir Asistente KIVO
-      </button>
+    <!-- Logo pulsable — abre el asistente IA -->
+    <div class="s04-left" onclick="toggleIA()" style="cursor:pointer">
+      <img src="assets/images/ia-hero.png" alt="Asistente KIVO IA" class="s04-robot" style="cursor:pointer;">
     </div>
+
+    <!-- Frase -->
+    <p class="s04-logo-hint" onclick="toggleIA()">Pulsa el logo para abrir el Asistente y pregunta lo que necesites</p>
 
   </div>
 </section>

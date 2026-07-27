@@ -1280,7 +1280,48 @@ function mostrarResultados() {
 }
 
 /* ── RESULTS ── */
+/* ═══ Atribución marketing: ¿Cómo conociste KIVO? → Supabase ═══ */
+/* ⬇️ PEGA AQUÍ tus datos de Supabase (panel Supabase → Project Settings → API):
+     SUPABASE_URL      = "Project URL"  (ej: https://abcd1234.supabase.co)
+     SUPABASE_ANON_KEY = clave "anon public"                                */
+var SUPABASE_URL = 'https://duzsfindosmoigwjjcjx.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1enNmaW5kb3Ntb2lnd2pqY2p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NjIyODMsImV4cCI6MjA5ODAzODI4M30.l5LZtOcqXmGq4UwSXdQGDa4a590x9c5vCYBv2rIDCPw';
+
+function showAtribucion() {
+  showScreen('s-atribucion');
+  window.scrollTo(0, 0);
+}
+function selectOrigen(val, el) {
+  S.origen = val;
+  document.querySelectorAll('.orig-tile').forEach(function(t){ t.classList.remove('sel'); });
+  if (el) el.classList.add('sel');
+  guardarOrigenSupabase(val);
+  window._atribDone = true;
+  setTimeout(showResults, 220); // pequeño respiro visual y directo al precio
+}
+function guardarOrigenSupabase(origen) {
+  if (!SUPABASE_URL || SUPABASE_URL.indexOf('http') !== 0) return; // aún sin configurar → no rompe nada
+  try {
+    fetch(SUPABASE_URL + '/rest/v1/atribucion', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        origen: origen,
+        nombre: (typeof S !== 'undefined' && S.nombre) || null,
+        especie: (typeof S !== 'undefined' && S.especie) || null
+      })
+    }).catch(function(){});
+  } catch (e) {}
+}
+
 function showResults() {
+  // Antes de mostrar el precio: preguntar "¿Cómo conociste KIVO?" una sola vez
+  if (!window._atribDone) { showAtribucion(); return; }
   _activePetIdx = -1; // siempre empezar en la mascota nueva
   _newPetDraft  = null;
   _enfSeleccionadas = [];

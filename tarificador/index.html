@@ -56,6 +56,18 @@ html body .btn-salir-top:active{ transform:translateY(3px) !important; }
   html body [class*="tile"]:hover{ transform:none !important; }
 }
 </style>
+<style id="kivo-atribucion">
+/* ¿Cómo conociste KIVO? — opciones selección única */
+.orig-list { display:flex; flex-direction:column; gap:12px; margin-top:18px; }
+.orig-tile {
+  width:100%; text-align:left; padding:16px 20px; border-radius:14px;
+  border:2px solid #e0e4ec; background:#fff; color:#1B2A4A;
+  font-size:15px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif;
+  transition:border-color .2s, background .2s;
+}
+.orig-tile:hover { border-color:#3DBFA0; background:rgba(61,191,160,0.06); }
+.orig-tile.sel  { border-color:#3DBFA0; background:rgba(61,191,160,0.12); }
+</style>
 </head>
 <body>
 
@@ -434,6 +446,25 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </label>
 
       <button class="btn-cta of-btn" id="of-continuar" disabled onclick="mostrarResultados()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ATRIBUCIÓN: ¿Cómo conociste KIVO? (antes del precio) ═══ -->
+<div id="s-atribucion" class="screen">
+  <div class="fbody">
+    <div class="fstep active">
+      <div class="scard">
+        <div class="sq">Antes de darte tu precio, ¿cómo conociste KIVO?</div>
+        <div class="orig-list">
+          <button type="button" class="orig-tile" onclick="selectOrigen('veterinario', this)">Mi veterinario me habló de KIVO</button>
+          <button type="button" class="orig-tile" onclick="selectOrigen('google', this)">Buscando en Google</button>
+          <button type="button" class="orig-tile" onclick="selectOrigen('redes_sociales', this)">En redes sociales</button>
+          <button type="button" class="orig-tile" onclick="selectOrigen('comparador', this)">En un comparador de seguros</button>
+          <button type="button" class="orig-tile" onclick="selectOrigen('publicidad', this)">Viendo publicidad</button>
+          <button type="button" class="orig-tile" onclick="selectOrigen('conocido', this)">Un conocido me ha hablado de KIVO</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
