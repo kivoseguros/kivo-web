@@ -1280,27 +1280,35 @@ function mostrarResultados() {
 }
 
 /* ── RESULTS ── */
-/* ═══ Atribución marketing: ¿Cómo conociste KIVO? → Supabase ═══ */
-/* ⬇️ PEGA AQUÍ tus datos de Supabase (panel Supabase → Project Settings → API):
-     SUPABASE_URL      = "Project URL"  (ej: https://abcd1234.supabase.co)
-     SUPABASE_ANON_KEY = clave "anon public"                                */
+/* ═══ Atribución: ¿Cómo conociste KIVO? → Supabase ═══ */
 var SUPABASE_URL = 'https://duzsfindosmoigwjjcjx.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1enNmaW5kb3Ntb2lnd2pqY2p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NjIyODMsImV4cCI6MjA5ODAzODI4M30.l5LZtOcqXmGq4UwSXdQGDa4a590x9c5vCYBv2rIDCPw';
+var _origenPrevScreen = 's-loading';
 
 function showAtribucion() {
+  var active = document.querySelector('.screen.active');
+  _origenPrevScreen = (active && active.id) ? active.id : 's-loading';
   showScreen('s-atribucion');
   window.scrollTo(0, 0);
 }
 function selectOrigen(val, el) {
   S.origen = val;
-  document.querySelectorAll('.orig-tile').forEach(function(t){ t.classList.remove('sel'); });
+  document.querySelectorAll('#s-atribucion .orig-tile').forEach(function(t){ t.classList.remove('sel'); });
   if (el) el.classList.add('sel');
-  guardarOrigenSupabase(val);
+  var b = document.getElementById('btn-atrib');
+  if (b) b.disabled = false;
+}
+function volverAtribucion() {
+  showScreen(_origenPrevScreen || 's-loading');
+}
+function continuarAtribucion() {
+  if (!S.origen) return;
+  guardarOrigenSupabase(S.origen);
   window._atribDone = true;
-  setTimeout(showResults, 220); // pequeño respiro visual y directo al precio
+  showResults();
 }
 function guardarOrigenSupabase(origen) {
-  if (!SUPABASE_URL || SUPABASE_URL.indexOf('http') !== 0) return; // aún sin configurar → no rompe nada
+  if (!SUPABASE_URL || SUPABASE_URL.indexOf('http') !== 0) return;
   try {
     fetch(SUPABASE_URL + '/rest/v1/atribucion', {
       method: 'POST',
