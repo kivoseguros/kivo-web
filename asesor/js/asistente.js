@@ -245,12 +245,48 @@
   const resultPanel   = document.getElementById('resultPanel');
   const quizCard      = document.getElementById('quizCard');
 
+  /* ── Navegación superior: "Salir del asesor" solo en la bienvenida, "Volver" en el resto (móvil) ── */
+  let _asesorScreen = 'welcome';
+  function _isAsesorMobile(){ return window.matchMedia('(max-width:640px)').matches; }
+  function _setAsesorTopNav(screen){
+    _asesorScreen = screen;                       // 'welcome' | 'question' | 'result'
+    const salir  = document.getElementById('s04ModalClose');
+    const volver = document.getElementById('asesorBackBtn');
+    if (!_isAsesorMobile()) {                      // escritorio: comportamiento de siempre
+      if (salir)  salir.style.display  = '';
+      if (volver) volver.style.display = 'none';
+      return;
+    }
+    const showVolver = (screen !== 'welcome');
+    if (salir)  salir.style.display  = showVolver ? 'none' : 'flex';
+    if (volver) volver.style.display = showVolver ? 'flex' : 'none';
+  }
+  (function(){
+    const vb = document.getElementById('asesorBackBtn');
+    if (!vb) return;
+    vb.addEventListener('click', function(){
+      if (_asesorScreen === 'result') {
+        resultPanel.classList.remove('visible');
+        resultPanel.innerHTML = '';
+        if (quizCard) quizCard.style.display = '';
+        quizPanel.style.display = 'block';
+        const lastIdx = activeQuestions.length - 1;
+        currentIdx = lastIdx;
+        renderQuestion(lastIdx);
+      } else {
+        if (currentIdx > 0) goBack(currentIdx);
+        else showNameStep();
+      }
+    });
+  })();
+
   function buildActiveQuestions(tipo) {
     activeQuestions = QUESTIONS.filter(q => !(q.skipIfGato && tipo === 'gato'));
   }
 
   function renderQuestion(idx) {
     try { document.body.dataset.step = (idx % 6) + 1; } catch(e){}
+    _setAsesorTopNav('question');
     const q     = activeQuestions[idx];
     const total = activeQuestions.length;
     progressFill.style.width  = Math.round((idx / total) * 100) + '%';
@@ -362,6 +398,7 @@
     quizPanel.style.display   = 'none';
     if (quizCard) quizCard.style.display = 'none';
     resultPanel.classList.add('visible');
+    _setAsesorTopNav('result');
 
     const BASE_URL = '../KIVO Tarificador/index.html';
     const TICK = '<svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d=\'m2.5 8 4 4 7-7\' stroke=\'#1B2A4A\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>';
@@ -430,7 +467,6 @@
 
         '<a class="result-cta-bar" id="result-cta-link" href="' + buildURL(selPlan, selRC) + '">' +
           '<span>Aceptar recomendación del asesor y contratar</span>' +
-          svg(IC.arrowRight) +
         '</a>' +
         '<p class="result-nota-contrat">📋 Los datos específicos de ' + (answers.nombre ? answers.nombre : 'tu mascota') + ' (raza, fecha de nacimiento, código postal...) se completarán en el propio formulario de contratación.</p>' +
         '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">' +
@@ -475,32 +511,13 @@
         renderQuestion(lastIdx);
       });
 
-      /* ── CTA: abrir tarificador en el padre via postMessage ── */
+      /* ── CTA: ir directo al tarificador en el padre (sin pantalla intermedia, más rápido) ── */
       var ctaLink = document.getElementById('result-cta-link');
       if (ctaLink) {
         ctaLink.addEventListener('click', function(e) {
           e.preventDefault();
           if (!selPlan && !selRC) return;
-          var _planSel = selPlan ? plan : null;
-          var _rcSel   = selRC;
-          // Pantalla de despedida del asesor antes de ir al tarificador
-          resultPanel.innerHTML =
-            '<div class="result-intro" style="text-align:center;padding:48px 24px">' +
-              '<div class="result-check-icon">' + svg(IC.check) + '</div>' +
-              '<h3 style="margin-bottom:14px">¡Perfecto' + (answers.nombre ? ', ya casi está listo el seguro de ' + answers.nombre : '') + '!</h3>' +
-              '<p style="max-width:420px;margin:0 auto 8px;line-height:1.6">Te voy a dirigir ahora al tarificador para completar tus datos y proceder a la contratación de tu póliza.</p>' +
-              '<p style="max-width:420px;margin:0 auto 28px;line-height:1.6;font-weight:600">Gracias por confiar en el Asesor KIVO.</p>' +
-              '<button class="result-cta-bar" id="btn-iniciar-contratacion" type="button" style="cursor:pointer;border:none;display:inline-flex;align-items:center;gap:8px">' +
-                '<span>Iniciar contratación</span>' + svg(IC.arrowRight) +
-              '</button>' +
-              '<button class="result-cta-reset" id="btn-volver-resultado" type="button" style="cursor:pointer;margin-top:16px">↩ Volver</button>' +
-            '</div>';
-          document.getElementById('btn-iniciar-contratacion').addEventListener('click', function() {
-            window.parent.postMessage({ type: 'kivo-from-asesor', plan: _planSel, rc: _rcSel, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
-          });
-          document.getElementById('btn-volver-resultado').addEventListener('click', function() {
-            renderResult();
-          });
+          window.parent.postMessage({ type: 'kivo-from-asesor', plan: selPlan ? plan : null, rc: selRC, nombre: answers.nombre || null, especie: answers.tipo || null }, '*');
         });
       }
     }
@@ -512,6 +529,7 @@
   /* ── Paso 0: bienvenida + nombre mascota ── */
   function showNameStep() {
     try { document.body.dataset.step = 1; } catch(e){}
+    _setAsesorTopNav('welcome');
     answers = {}; currentIdx = 0; activeQuestions = [];
     resultPanel.classList.remove('visible');
     resultPanel.innerHTML = '';

@@ -318,12 +318,49 @@ body { font-family: var(--font); background: transparent; }
 }
 
 @media (max-width: 640px) {
-  .s04-modal-box { grid-template-columns: 1fr; }
-  .s04-modal-left { padding: 20px; flex-direction: row; justify-content: center; min-height: 100px; }
+  /* La caja se ajusta al contenido y hace scroll si es alto (evita el "partido") */
+  .s04-modal-box { grid-template-columns: 1fr; height: auto; max-height: 92vh; overflow-y: auto; }
+  /* Robot grande y centrado arriba, sin franja ni cuadrado */
+  .s04-modal-left { padding: 26px 16px 2px; flex-direction: column; justify-content: flex-start; min-height: 0; }
   .s04-modal-robot-wrap { flex: none; }
-  .s04-modal-robot { width: 80px; }
-  .s04-modal-right .quiz-card { padding: 24px 20px 20px; }
+  .s04-modal-robot { width: 150px; max-width: 150px; }
+  /* Salir: pequeño, arriba a la derecha */
+  .s04-modal-close {
+    position: absolute; top: 12px; right: 12px; z-index: 5;
+    width: auto; margin-top: 0;
+    padding: 7px 12px; font-size: 12px; gap: 5px; border-radius: 20px;
+  }
+  .s04-modal-right { overflow: visible; }
+  .s04-modal-right .quiz-card { padding: 14px 20px 22px; }
+  /* Volver del asesor: arriba a la izquierda (pequeño) */
+  .s04-modal-back {
+    position: absolute; top: 12px; left: 12px; z-index: 6;
+    padding: 7px 12px; font-size: 12px; border-radius: 20px;
+  }
+  /* En móvil el "Volver" del asesor va arriba: ocultar los de abajo */
+  .quiz-btn-back { display: none !important; }
+  #backToQuizBtn { display: none !important; }
 }
+
+/* Botón "Volver" del asesor (preguntas/resultado) */
+.s04-modal-back {
+  display: none; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 20px;
+  border: 1.5px solid rgba(27,42,74,0.20);
+  background: rgba(27,42,74,0.06); color: #1B2A4A;
+  font-family: var(--font); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .2s;
+}
+.s04-modal-back:hover { background: rgba(27,42,74,0.12); }
+
+/* CTA de recomendación: texto centrado (la frase larga se comía el botón) */
+.result-cta-bar { justify-content: center !important; text-align: center !important; }
+
+/* Contener el scroll para que no se mueva la web/página de detrás */
+html, body { overscroll-behavior: none; }
+.s04-modal-overlay { overscroll-behavior: none; }
+.s04-modal-box { overscroll-behavior: contain; }
+body.s04-modal-open { overflow: hidden; }
 
 
 /* ── Degradado por paso en el modal del asesor (idéntico al tarificador) ── */

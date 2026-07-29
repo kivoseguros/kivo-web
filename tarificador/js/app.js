@@ -624,15 +624,14 @@ function showStep(n) {
   // Ocultar Volver en paso 1, mostrar a partir de paso 2
   var btnBack = document.querySelector('#fw .btn-back');
   if (btnBack) btnBack.style.display = (n === 1) ? 'none' : 'flex';
-  // Ocultar siempre btn-salir-top — se usa kivo-btn-salir-fixed en su lugar
+  // Botón Salir en el paso 1: en la barra superior (móvil, idéntico al Volver) y
+  // como botón fijo (escritorio). El CSS decide cuál se ve según el tamaño de pantalla.
+  var _isFS = new URLSearchParams(window.location.search).get('modo') === 'fullscreen';
+  var _showSalir = (_isFS && n === 1) ? 'flex' : 'none';
   var btnSalirTop = document.querySelector('.btn-salir-top');
-  if (btnSalirTop) btnSalirTop.style.display = 'none';
-  // Botón Salir: solo visible en paso 1, solo si estamos en modo fullscreen
+  if (btnSalirTop) btnSalirTop.style.display = _showSalir;
   var salirBtn = document.getElementById('kivo-btn-salir-fixed');
-  if (salirBtn) {
-    var _isFS = new URLSearchParams(window.location.search).get('modo') === 'fullscreen';
-    salirBtn.style.display = (_isFS && n === 1) ? 'flex' : 'none';
-  }
+  if (salirBtn) salirBtn.style.display = _showSalir;
   if (n === 1) {
     // Mostrar "Eliminar esta mascota" solo al añadir una segunda mascota
     var btnCancelar = document.getElementById('btn-cancelar-mascota');

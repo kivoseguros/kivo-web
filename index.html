@@ -8583,15 +8583,26 @@ function kivoAbrirAsesor() {
   }
   ov.style.visibility = 'visible';
   ov.style.pointerEvents = 'auto';
+  // Bloquear el scroll de la web de detrás (position:fixed evita el arrastre en móvil)
+  _kivoScrollLock = window.scrollY || 0;
   document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = (-_kivoScrollLock) + 'px';
+  document.body.style.width = '100%';
   // Fundido corto que tapa el repintado del móvil
   requestAnimationFrame(function(){ requestAnimationFrame(function(){ ov.style.opacity = '1'; }); });
 }
+var _kivoScrollLock = 0;
 function kivoSalirAsesor() {
   var ov = document.getElementById('asesor-overlay');
   ov.style.opacity = '0';
   ov.style.pointerEvents = 'none';
+  // Restaurar el scroll de la web
   document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, _kivoScrollLock || 0);
   // Ocultar del todo tras el fundido (el asesor queda precargado, no limpiamos el src)
   setTimeout(function(){ ov.style.visibility = 'hidden'; }, 170);
 }

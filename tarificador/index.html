@@ -365,6 +365,10 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6z" fill="#3DBFA0"/></svg>
           <span><strong>Oferta Multimascota:</strong> ¡Añade otra mascota y te regalamos 50€ en la tercera mensualidad!</span>
         </div>
+        <div class="fs5-revisa">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 20h9" stroke="#0C8B9D" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" stroke="#0C8B9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Antes de continuar, <strong>revisa que todo esté correcto</strong>. Puedes editar cualquier dato pulsando el lápiz&nbsp;✏️.</span>
+        </div>
         <div id="mascotas-lista"></div>
         <!-- Botón "Añadir otra mascota" movido a s6 para flujo post-tarificación -->
         <button class="btn-cta" id="btn-s5" onclick="prepararOferta()">
@@ -465,7 +469,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
           <input class="of-input" id="of-tel" type="tel" placeholder="600 000 000" oninput="checkOferta()" style="border-radius:0 12px 12px 0;border-left:none;width:100%">
         </div>
       <div class="of-descuento-row">
-        <input class="of-input of-desc-inp" id="of-codigo" type="text" placeholder="¿Tienes un código de descuento?">
+        <input class="of-input of-desc-inp" id="of-codigo" type="text" placeholder="¿Tienes un código de descuento?" autocomplete="off" name="kivo-promo" inputmode="text">
         <button class="of-desc-btn" onclick="aplicarCodigo()">Aplicar</button>
       </div>
 
@@ -1308,6 +1312,15 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
   }
   /* Oferta en móvil: menos margen lateral para que el email tenga más ancho */
   #s-loading .of-wrap { padding-left: 12px !important; padding-right: 12px !important; }
+  /* Flujo: fondo que cubre toda la pantalla (evita el corte en móvil) */
+  body { background-attachment: scroll !important; min-height: 100vh; min-height: 100dvh; }
+  #fw.active { min-height: 100vh; min-height: 100dvh; }
+  /* Página 1: bajar la ventana ~2cm para alcanzarla con el pulgar */
+  #fs1 { margin-top: 48px !important; }
+  /* Salir del paso 1 en móvil: usar el botón de la barra (idéntico al Volver), ocultar el fijo */
+  #kivo-btn-salir-fixed { display: none !important; }
+  /* Pago: mostrar primero los totales (resumen) y luego el método de pago */
+  #sc5 .cbody > div:last-child { order: -1; }
   /* Checkout (dirección, confirmar, pagar): Volver arriba a la derecha y
      ocultar las etiquetas de los pasos para que la barra no desborde en móvil */
   .cscreen .btn-back {
@@ -1321,6 +1334,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
   .cscreen .cs-label { display: none !important; }
   .cscreen .ctop-inner { overflow-x: hidden !important; }
 }
+/* Escritorio: en el paso 1 se usa el botón Salir fijo, no el de la barra */
+@media (min-width:601px) { #fw .btn-salir-top { display: none !important; } }
 /* ── Letra pequeña: casilla dentro del botón (azul marino) + Volver arriba dcha ── */
 #s-letra .letra-back { position:fixed; top:12px; right:12px; left:auto; z-index:200; display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:20px; background:rgba(27,42,74,0.08); border:1px solid rgba(27,42,74,0.12); color:#1B2A4A; font-size:13px; font-weight:600; cursor:pointer; }
 #s-letra .letra-back:hover { background:rgba(27,42,74,0.14); }
@@ -1331,13 +1346,51 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 #s-letra .li-done .li-btn:hover { background:var(--teal); }
 #s-letra .li-btn:hover .li-check { border-color:#fff; }
 #s-letra .li-done .li-btn:hover .li-check { border-color:#1B2A4A; }
-/* Pago: etiquetas visibles sobre la tarjeta oscura + mensaje de error */
-#pay-card label { color: rgba(255,255,255,0.82) !important; }
+/* Pago: etiquetas visibles sobre las tarjetas oscuras (tarjeta e IBAN) + mensaje de error */
+.pago-section label { color: rgba(255,255,255,0.82) !important; }
 #pay-card .pago-msg { display:block; font-size:11px; margin-top:4px; min-height:13px; color:#ff9a9a; }
-/* Póliza activa / error: ocupar todo el alto y centrar (evita la mitad inferior vacía) */
+/* Alinear las cajas de Fecha de expiración y CVV aunque una etiqueta ocupe 2 líneas */
+#pay-card .frow-pago label { min-height:2.4em; display:flex; align-items:flex-end; }
+/* Póliza activa / error: ocupar todo el alto; contenido centrado y el pie (©KIVO) abajo */
 #s-ok.cscreen.active, #s-error.cscreen.active {
   min-height: 100vh; min-height: 100dvh;
-  display: flex; flex-direction: column; justify-content: center;
+  display: flex !important; flex-direction: column;
+}
+#s-ok .s-error-wrap, #s-error .s-error-wrap {
+  flex: 1; display: flex; flex-direction: column;
+}
+#s-ok .s-error-body, #s-error .s-error-body {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+}
+#s-ok .s-error-foot, #s-error .s-error-foot {
+  text-align: center; padding: 16px 20px 22px;
+}
+/* ── Desplegable propio de fecha (móvil): media altura y deslizable con el dedo ── */
+.csel { position:relative; flex:1; min-width:0; }
+.fecha-selects .csel-dia { flex:0.82; }
+.fecha-selects .csel-mes { flex:1.6; }
+.fecha-selects .csel-anio { flex:1.02; }
+.csel-trigger { width:100%; border:2px solid var(--border); border-radius:14px; padding:14px 20px 14px 8px; font-size:12px; font-weight:600; color:var(--navy); text-align:left; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231B2A4A' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 7px center; }
+.csel-list { display:none; position:fixed; max-height:40vh; overflow-y:auto; -webkit-overflow-scrolling:touch; background:#fff; border:2px solid var(--border); border-radius:12px; z-index:100000; box-shadow:0 12px 34px rgba(27,42,74,0.22); }
+.csel-item { padding:13px 16px; font-size:15px; color:var(--navy); cursor:pointer; border-bottom:1px solid #f0f2f5; }
+.csel-item:last-child { border-bottom:none; }
+.csel-item.sel { background:#eef7f4; font-weight:800; color:#01462E; }
+.csel-item:active { background:#e6f1ee; }
+/* Paso "¿Tu familia está completa?": panel de repaso + realce del lápiz (solo móvil) */
+.fs5-revisa { display:none; }
+@keyframes mrEditPulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(12,139,157,0); transform:scale(1); }
+  50%     { box-shadow:0 0 0 6px rgba(12,139,157,0.18); transform:scale(1.12); border-color:#0C8B9D; }
+}
+@media (max-width:600px) {
+  .fs5-revisa {
+    display:flex; align-items:flex-start; gap:10px;
+    background:rgba(12,139,157,0.08); border:1.5px solid rgba(12,139,157,0.35);
+    border-radius:14px; padding:12px 14px; margin-bottom:16px;
+    font-size:13px; color:#0C5A66; line-height:1.45; text-align:left;
+  }
+  .fs5-revisa svg { flex-shrink:0; margin-top:1px; }
+  .mascota-resumen .mr-edit:not(.mr-del) { animation:mrEditPulse 1.6s ease-in-out 3; }
 }
 </style>
 <script>
@@ -1367,6 +1420,59 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     if(inp){ inp.value=(dd&&mm&&yy)?(yy+'-'+mm+'-'+dd):''; }
     if(typeof validateC2==='function') validateC2();
   };
+
+  // ── Desplegable propio (solo móvil, donde se ven las casillas): más corto y deslizable con el dedo ──
+  var _cselAll = [];
+  function _closeAllCsel(){ _cselAll.forEach(function(w){ w.classList.remove('open'); var l=w.querySelector('.csel-list'); if(l) l.style.display=''; }); }
+  function _enhanceSelect(sel){
+    if(!sel || sel._enhanced) return;
+    sel._enhanced = true;
+    sel.style.display = 'none';
+    var kind = sel.id.indexOf('dia')>=0 ? 'csel-dia' : (sel.id.indexOf('mes')>=0 ? 'csel-mes' : 'csel-anio');
+    var wrap = document.createElement('div'); wrap.className = 'csel ' + kind;
+    var trig = document.createElement('button'); trig.type='button'; trig.className='csel-trigger';
+    function labelFor(){ var o=sel.options[sel.selectedIndex]; return o?o.text:''; }
+    trig.textContent = labelFor();
+    var list = document.createElement('div'); list.className='csel-list';
+    Array.prototype.forEach.call(sel.options, function(o){
+      if(o.value==='') return; // el placeholder no va en la lista
+      var it=document.createElement('div'); it.className='csel-item'; it.textContent=o.text;
+      it.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        sel.value=o.value; trig.textContent=o.text;
+        wrap.classList.remove('open'); list.style.display='';
+        sel.dispatchEvent(new Event('change',{bubbles:true}));
+      });
+      list.appendChild(it);
+    });
+    trig.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      var open = wrap.classList.contains('open');
+      _closeAllCsel();
+      if(!open){
+        var r = trig.getBoundingClientRect();
+        list.style.top = (r.bottom + 4) + 'px';
+        list.style.left = r.left + 'px';
+        list.style.width = r.width + 'px';
+        list.style.display = 'block';
+        wrap.classList.add('open');
+        var selText = labelFor(), selItem = null;
+        Array.prototype.forEach.call(list.children, function(c){ var on=(c.textContent===selText); c.classList.toggle('sel', on); if(on) selItem=c; });
+        if(selItem) list.scrollTop = selItem.offsetTop - list.clientHeight/2 + selItem.offsetHeight/2;
+      }
+    });
+    wrap.appendChild(trig); wrap.appendChild(list);
+    sel.parentNode.insertBefore(wrap, sel);
+    _cselAll.push(wrap);
+  }
+  document.addEventListener('click', function(){ _closeAllCsel(); });
+  window.addEventListener('scroll', function(e){
+    if(e.target && e.target.classList && e.target.classList.contains('csel-list')) return; // scroll dentro de la lista: no cerrar
+    _closeAllCsel();
+  }, true);
+  ['fs-dia-m','fs-mes-m','fs-anio-m','fs-dia-t','fs-mes-t','fs-anio-t'].forEach(function(id){
+    _enhanceSelect(document.getElementById(id));
+  });
 })();
 </script>
 
