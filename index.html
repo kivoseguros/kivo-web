@@ -6073,6 +6073,8 @@ body {
     transform: none !important;
     justify-content: flex-start !important;
   }
+  /* Ocultar "Seguros para mascotas" en la barra flotante en móvil */
+  #kivo-sticky-nav .sn-center { display: none !important; }
 
   /* ── TARIFICADOR WIDGET (inline styles override) ── */
   .tarificador-wrap {
@@ -8561,18 +8563,14 @@ window.addEventListener('load', function(){
     fr.src = './asesor/index.html#openModal';
     fr.setAttribute('data-loaded','1');
   }
-  // Precargar el tarificador (todos sus recursos) en un iframe oculto para que abra al instante
+  // Precargar el tarificador REAL (ya renderizado) para que abra al instante
   setTimeout(function(){
-    if (!document.getElementById('tarif-preload')) {
-      var pf = document.createElement('iframe');
-      pf.id = 'tarif-preload';
-      pf.setAttribute('aria-hidden','true');
-      pf.setAttribute('tabindex','-1');
-      pf.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;border:0;opacity:0;visibility:hidden;pointer-events:none;';
-      pf.src = './tarificador/index.html?modo=fullscreen&preload=1';
-      document.body.appendChild(pf);
+    var _tFr = document.getElementById('tarif-fs-iframe');
+    if (_tFr && !_tFr.getAttribute('data-loaded') && _tFr.getAttribute('data-ready') !== '1') {
+      _tFr.addEventListener('load', function(){ _tFr.setAttribute('data-ready','1'); });
+      _tFr.src = './tarificador/index.html?modo=fullscreen';
     }
-  }, 1500);
+  }, 1200);
 });
 function kivoAbrirAsesor() {
   var ov = document.getElementById('asesor-overlay');
@@ -8621,10 +8619,16 @@ document.addEventListener('click', function(e) {
 function kivoAbrirTarif(especie) {
   var ov = document.getElementById('tarif-overlay');
   var fr = document.getElementById('tarif-fs-iframe');
-  var url = './tarificador/index.html?modo=fullscreen';
-  if (especie) url += '&especie=' + encodeURIComponent(especie);
-  fr.src = url;
-  fr.setAttribute('data-loaded','1');
+  if (fr.getAttribute('data-ready') === '1') {
+    // Ya está precargado y renderizado: mostrar al instante y mandarle la especie elegida
+    try { fr.contentWindow.postMessage({ type:'kivo-portal-abrir', especie: especie || null }, '*'); } catch(e){}
+  } else {
+    // Aún no ha terminado de precargar: cargar ahora con la especie en la URL
+    var url = './tarificador/index.html?modo=fullscreen';
+    if (especie) url += '&especie=' + encodeURIComponent(especie);
+    fr.src = url;
+    fr.setAttribute('data-loaded','1');
+  }
   ov.style.display = 'flex';
   ov.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -8642,9 +8646,8 @@ function kivoCerrarTodo() {
   ov.classList.remove('from-asesor');
   document.getElementById('tarif-exit-screen').style.display = 'none';
   document.body.style.overflow = '';
-  var fr = document.getElementById('tarif-fs-iframe');
-  fr.src = '';
-  fr.removeAttribute('data-loaded');
+  // NO limpiamos el src: dejamos el tarificador precargado para que la próxima apertura sea instantánea.
+  // (El reseteo del contenido se hace al abrir, vía mensaje 'kivo-portal-abrir'.)
 }
 function kivoCerrarDesdeBackdrop(e) {
   if (e.target === document.getElementById('tarif-overlay')) { kivoCerrarTodo(); }

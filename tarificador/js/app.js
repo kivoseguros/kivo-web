@@ -69,6 +69,16 @@ window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'kivo-open') {
     goFullscreen();
   }
+  // Apertura instantánea desde el portal: el iframe ya está precargado, solo reseteamos
+  // y mostramos directamente la primera página con la especie elegida.
+  if (e.data && e.data.type === 'kivo-portal-abrir') {
+    _resetSUI();
+    showScreen('fw');
+    showStep(1);
+    // Marcar la especie DESPUÉS de showStep(1) (que resetea especie a null)
+    if (e.data.especie) selectEspecie(e.data.especie);
+    try { window.scrollTo(0, 0); } catch(_e){}
+  }
 });
 
 /* ═══════════════════════════════════════════════════════
