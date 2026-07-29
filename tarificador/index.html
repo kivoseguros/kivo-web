@@ -239,6 +239,12 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             </svg>
           </div>
           <p class="date-hint">Escribe la fecha o utiliza el selector</p>
+          <!-- Casillas día/mes/año (solo móvil) -->
+          <div class="fecha-selects" id="fsel-mascota">
+            <select class="ksel" id="fs-dia-m" onchange="syncFechaMascota()"><option value="">Día</option></select>
+            <select class="ksel" id="fs-mes-m" onchange="syncFechaMascota()"><option value="">Mes</option></select>
+            <select class="ksel" id="fs-anio-m" onchange="syncFechaMascota()"><option value="">Año</option></select>
+          </div>
         </div>
 
         <!-- No sé la fecha exacta -->
@@ -427,8 +433,36 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     <div class="of-form">
       <input class="of-input" id="of-email" type="email" placeholder="Tu email" oninput="checkOferta()">
       <div style="display:flex;gap:0;width:100%">
-          <span style="display:flex;align-items:center;padding:0 10px;background:rgba(27,42,74,0.06);border:1.5px solid rgba(27,42,74,0.15);border-right:none;border-radius:10px 0 0 10px;font-size:13px;color:#1B2A4A;font-weight:600;white-space:nowrap">🇪🇸 +34</span>
-          <input class="of-input" id="of-tel" type="tel" placeholder="600 000 000" oninput="checkOferta()" style="border-radius:0 10px 10px 0;border-left:none;width:100%">
+          <select id="of-prefijo" aria-label="Prefijo país">
+            <option value="+34" selected>🇪🇸 España +34</option>
+            <option value="+49">🇩🇪 Alemania +49</option>
+            <option value="+43">🇦🇹 Austria +43</option>
+            <option value="+32">🇧🇪 Bélgica +32</option>
+            <option value="+359">🇧🇬 Bulgaria +359</option>
+            <option value="+357">🇨🇾 Chipre +357</option>
+            <option value="+385">🇭🇷 Croacia +385</option>
+            <option value="+45">🇩🇰 Dinamarca +45</option>
+            <option value="+421">🇸🇰 Eslovaquia +421</option>
+            <option value="+386">🇸🇮 Eslovenia +386</option>
+            <option value="+372">🇪🇪 Estonia +372</option>
+            <option value="+358">🇫🇮 Finlandia +358</option>
+            <option value="+33">🇫🇷 Francia +33</option>
+            <option value="+30">🇬🇷 Grecia +30</option>
+            <option value="+36">🇭🇺 Hungría +36</option>
+            <option value="+353">🇮🇪 Irlanda +353</option>
+            <option value="+39">🇮🇹 Italia +39</option>
+            <option value="+371">🇱🇻 Letonia +371</option>
+            <option value="+370">🇱🇹 Lituania +370</option>
+            <option value="+352">🇱🇺 Luxemburgo +352</option>
+            <option value="+356">🇲🇹 Malta +356</option>
+            <option value="+31">🇳🇱 Países Bajos +31</option>
+            <option value="+48">🇵🇱 Polonia +48</option>
+            <option value="+351">🇵🇹 Portugal +351</option>
+            <option value="+420">🇨🇿 Chequia +420</option>
+            <option value="+40">🇷🇴 Rumanía +40</option>
+            <option value="+46">🇸🇪 Suecia +46</option>
+          </select>
+          <input class="of-input" id="of-tel" type="tel" placeholder="600 000 000" oninput="checkOferta()" style="border-radius:0 12px 12px 0;border-left:none;width:100%">
         </div>
       <div class="of-descuento-row">
         <input class="of-input of-desc-inp" id="of-codigo" type="text" placeholder="¿Tienes un código de descuento?">
@@ -441,7 +475,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </label>
       <label class="of-check-label">
         <input type="checkbox" id="chk-whatsapp">
-        <span>Acepto recibir información sobre mi seguro y asistencia por WhatsApp a través de KIVO Seguros, S.L. Podré darme de baja respondiendo "STOP".</span>
+        <span>Acepto recibir información sobre mi seguro y asistencia por WhatsApp a través de KIVO Seguros, S.L. Podré darme de baja respondiendo "BAJAINFO".</span>
       </label>
       <label class="of-check-label">
         <input type="checkbox" id="chk-comercial">
@@ -480,7 +514,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <div id="s6" class="screen">
   <div class="rh">
     <div class="rh-inner">
-      <button class="btn-back" onclick="showScreen('s-loading')">
+      <button class="btn-back" onclick="showScreen('s-atribucion')">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span></button>
       <img src="assets/images/logo.png" alt="KIVO" class="rh-logo">
       <div class="rh-title" id="res-title">Planes personalizados</div>
@@ -625,7 +659,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </div>
       <div class="pd-section">
         <div class="pd-title">Cuidados básicos</div>
-        <div class="cov"><span class="ctick">✓</span><strong>Los gastos de Cuidados Básicos se reembolsan al 100% sin franquicia</strong> en todos los planes CARE, CARE+ y PREMIUM, y estos engloban los siguientes:</div>
+        <div class="cov"><span class="ctick">✓</span><span><strong>Los gastos de Cuidados Básicos se reembolsan al 100% sin franquicia</strong> en todos los planes CARE, CARE+ y PREMIUM, y estos engloban los siguientes:</span></div>
         <div class="cov"><span class="ctick">✓</span>Una revisión veterinaria anual preventiva que no esté relacionada con una enfermedad, accidente o síntoma de la mascota.</div>
         <div class="cov"><span class="ctick">✓</span>Todas las vacunas obligatorias por calendario prescritas por un veterinario colegiado:</div>
         <div class="cov" style="padding-left:20px;opacity:0.85"><span class="ctick" style="color:rgba(27,42,74,0.4)">·</span>Perros: Rabia, Vacuna polivalente, Tos de las perreras.</div>
@@ -709,8 +743,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <div id="s-letra" class="screen">
   <div class="letra-wrap">
     <div class="letra-top">
-      <button class="btn-back" onclick="showScreen('sc4')" style="background:rgba(255,255,255,0.15);margin-bottom:16px" title="Volver">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <button class="letra-back" onclick="showScreen('sc4')" title="Volver">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Volver</span>
       </button>
       <img src="assets/images/logo.png" alt="KIVO" class="letra-logo" style="height:52px;width:auto;display:block;margin:0 auto 16px;">
       <h2 class="letra-title">Sin letra pequeña porque la agrandamos:</h2>
@@ -726,9 +760,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             <div class="li-titulo">Microchip</div>
             <div class="li-desc">Para que puedas solicitar reembolsos, tu mascota debe tener el microchip implantado. Una vez lo tengas, podrás añadirlo fácilmente desde la app de KIVO.</div>
           </div>
-          <div class="li-check-wrap"><span class="li-check" id="lc-microchip">✓</span></div>
         </div>
-        <button class="li-btn" id="lb-microchip" onclick="marcarLeido('microchip')">He leído y entiendo.</button>
+        <button class="li-btn" id="lb-microchip" onclick="marcarLeido('microchip')"><span class="li-check" id="lc-microchip">✓</span><span class="li-btn-txt">He leído y entiendo.</span></button>
       </div>
 
       <div class="letra-item" id="li-cartilla">
@@ -738,9 +771,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             <div class="li-titulo">Cartilla de vacunación</div>
             <div class="li-desc">Para poder solicitar reembolsos, será necesario adjuntar en la app de KIVO la cartilla de vacunación y/o el pasaporte de la mascota. En el momento de solicitar un reembolso, KIVO verificará la información facilitada.</div>
           </div>
-          <div class="li-check-wrap"><span class="li-check" id="lc-cartilla">✓</span></div>
         </div>
-        <button class="li-btn" id="lb-cartilla" onclick="marcarLeido('cartilla')">He leído y entiendo.</button>
+        <button class="li-btn" id="lb-cartilla" onclick="marcarLeido('cartilla')"><span class="li-check" id="lc-cartilla">✓</span><span class="li-btn-txt">He leído y entiendo.</span></button>
       </div>
 
       <div class="letra-item" id="li-carencia">
@@ -750,9 +782,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             <div class="li-titulo">Período de carencia</div>
             <div class="li-desc">En KIVO, el período de carencia es de 28 días para enfermedades y 5 días para accidentes. Durante esos días no podremos cubrir tus gastos, pero después estaremos aquí para ti y tu mascota.</div>
           </div>
-          <div class="li-check-wrap"><span class="li-check" id="lc-carencia">✓</span></div>
         </div>
-        <button class="li-btn" id="lb-carencia" onclick="marcarLeido('carencia')">He leído y entiendo.</button>
+        <button class="li-btn" id="lb-carencia" onclick="marcarLeido('carencia')"><span class="li-check" id="lc-carencia">✓</span><span class="li-btn-txt">He leído y entiendo.</span></button>
       </div>
 
       <div class="letra-item" id="li-preexistentes">
@@ -762,9 +793,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             <div class="li-titulo">Enfermedades y lesiones preexistentes</div>
             <div class="li-desc">Las enfermedades y/o lesiones que tu mascota ya tiene o ha tenido antes de unirse a KIVO (preexistentes) no estarán cubiertas. Pero te cubrimos todas las demás para que tu peludo siempre esté protegido.</div>
           </div>
-          <div class="li-check-wrap"><span class="li-check" id="lc-preexistentes">✓</span></div>
         </div>
-        <button class="li-btn" id="lb-preexistentes" onclick="marcarLeido('preexistentes')">He leído y entiendo.</button>
+        <button class="li-btn" id="lb-preexistentes" onclick="marcarLeido('preexistentes')"><span class="li-check" id="lc-preexistentes">✓</span><span class="li-btn-txt">He leído y entiendo.</span></button>
       </div>
 
     </div>
@@ -831,7 +861,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <div class="ffield"><label>Apellidos *</label><input class="kinput" type="text" id="c2-apellidos" placeholder="Apellidos" oninput="validateC2()"><span class="field-msg" id="msg-apellidos"></span></div>
       </div>
       <div class="frow">
-        <div class="ffield"><label>Fecha de nacimiento *</label><input class="kinput" type="date" id="c2-fnac" onchange="validateC2()"><span class="field-msg" id="msg-fnac"></span></div>
+        <div class="ffield"><label>Fecha de nacimiento *</label><input class="kinput fnac-native" type="date" id="c2-fnac" onchange="validateC2()"><div class="fecha-selects" id="fsel-titular"><select class="ksel" id="fs-dia-t" onchange="syncFnacTitular()"><option value="">Día</option></select><select class="ksel" id="fs-mes-t" onchange="syncFnacTitular()"><option value="">Mes</option></select><select class="ksel" id="fs-anio-t" onchange="syncFnacTitular()"><option value="">Año</option></select></div><span class="field-msg" id="msg-fnac"></span></div>
         <div class="ffield"><label>DNI / NIE *</label><input class="kinput" type="text" id="c2-dni" placeholder="12345678A" maxlength="9" oninput="validateC2()"><span class="field-msg" id="msg-dni"></span></div>
       </div>
       <div class="frow">
@@ -898,7 +928,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       </div>
       <div class="addr-confirm" id="addr-confirm">
         <div class="addr-formatted" id="addr-formatted">—</div>
-        <button class="btn-adrok" onclick="goToC4()">Confirmar y continuar →</button>
+        <button class="btn-adrok" onclick="goToC4()">Confirmar y continuar</button>
       </div>
       <button class="btn-cta" id="btn-c3" onclick="showAddrConfirm()" disabled>Comprobar dirección <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
@@ -986,7 +1016,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       <div class="cs active"><div class="csdot">4</div><span class="cs-label">Pagar</span></div>
     </div>
   </div></div>
-  <div class="cbody" style="grid-template-columns:1fr 360px">
+  <div class="cbody">
     <!-- COLUMNA IZQUIERDA: FORMULARIO PAGO -->
     <div>
       <div class="ccard">
@@ -1026,18 +1056,21 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             <div class="card-icon mc" style="font-size:9px;font-weight:900">MC</div>
             <div class="card-icon amex" style="font-size:9px;font-weight:900">AMEX</div>
           </div>
-          <div class="card-num-wrap">
-            <input class="kinput" type="text" id="card-num" placeholder="1234 5678 9012 3456"
-                   maxlength="19" oninput="formatCardNum(this)" inputmode="numeric">
-            <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="0.5" y="0.5" width="19" height="13" rx="2" stroke="rgba(255,255,255,0.5)"/><path d="M1 4h18" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="2" y="7" width="4" height="2" rx="1" fill="rgba(255,255,255,0.4)" opacity=".8"/></svg>
+          <div class="ffield" style="margin-bottom:14px">
+            <label>Nombre del titular</label>
+            <input class="kinput" type="text" id="card-name" placeholder="Tal como aparece en la tarjeta">
           </div>
-          <div class="frow-pago">
-            <div class="ffield" style="grid-column:span 2"><label>Nombre en la tarjeta</label><input class="kinput" type="text" placeholder="TAL COMO APARECE"></div>
-            <div></div>
+          <div class="ffield" style="margin-bottom:14px">
+            <label>Número de tarjeta</label>
+            <div class="card-num-wrap">
+              <input class="kinput" type="text" id="card-num" placeholder="1234 5678 9012 3456"
+                     maxlength="19" oninput="formatCardNum(this)" inputmode="numeric">
+              <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="0.5" y="0.5" width="19" height="13" rx="2" stroke="rgba(255,255,255,0.5)"/><path d="M1 4h18" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="2" y="7" width="4" height="2" rx="1" fill="rgba(255,255,255,0.4)" opacity=".8"/></svg>
+            </div>
           </div>
           <div class="frow-pago" style="grid-template-columns:1fr 1fr">
-            <div class="ffield"><label>Caducidad</label><input class="kinput" type="text" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" inputmode="numeric"></div>
-            <div class="ffield"><label>CVV</label><input class="kinput" type="text" placeholder="•••" maxlength="4" inputmode="numeric"></div>
+            <div class="ffield"><label>Fecha de expiración</label><input class="kinput" type="text" id="card-exp" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this);validarCaducidad()" inputmode="numeric"><span class="pago-msg" id="card-exp-msg"></span></div>
+            <div class="ffield"><label>CVV</label><input class="kinput" type="text" id="card-cvv" placeholder="•••" maxlength="4" inputmode="numeric"></div>
           </div>
           <div class="secure-badge">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l5 2v4c0 3-2.5 5.5-5 6C4.5 12.5 2 10 2 7V3l5-2z" stroke="#3DBFA0" stroke-width="1.3"/><path d="M4.5 7l2 2 3-3" stroke="#3DBFA0" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -1156,7 +1189,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       <h3 class="exit-modal-title">¿Dejas a tu mascota sin protección?</h3>
       <p class="exit-modal-desc">Tan solo estás a 1 minuto de recibir el precio del seguro sin compromiso.<br><em>Cuida su salud como se merece.</em></p>
       <div class="exit-modal-btns">
-        <button class="exit-btn-continuar" onclick="closeExitModal()">Quiero continuar →</button>
+        <button class="exit-btn-continuar" onclick="closeExitModal()">Quiero continuar</button>
         <button class="exit-btn-salir" onclick="confirmExit()">Salir</button>
       </div>
     </div>
@@ -1246,6 +1279,89 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     </button>
   </div>
 </div>
+
+<!-- ══ CASILLAS DÍA/MES/AÑO (móvil) — sustituyen al calendario ══ -->
+<style>
+.fecha-selects { display:none; gap:8px; margin-top:8px; }
+.fecha-selects .ksel { flex:1; min-width:0; }
+/* Oferta: contenedor más ancho para que quepa un email largo */
+#s-loading .of-wrap { max-width: 600px !important; }
+#of-prefijo { flex-shrink:0; padding:0 8px; border:1.5px solid #dde2ed; border-right:none; border-radius:12px 0 0 12px; background:#fff; font-size:0.9rem; color:#1B2A4A; font-weight:600; font-family:inherit; outline:none; cursor:pointer; max-width:150px; }
+#of-prefijo:focus { border-color: var(--teal); }
+@media (max-width:600px) {
+  #fecha-exact .date-input-wrap, #fecha-exact .date-hint { display:none !important; }
+  #fecha-exact .fecha-selects { display:flex !important; }
+  .ffield .fnac-native { display:none !important; }
+  .ffield .fecha-selects { display:flex !important; }
+  /* Página de la oferta: botón Volver arriba a la derecha (no debajo de Continuar) */
+  #s-loading .btn-back {
+    position: fixed !important;
+    top: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    order: 0 !important;
+    z-index: 200 !important;
+  }
+  /* Checkout (dirección, confirmar, pagar): Volver arriba a la derecha y
+     ocultar las etiquetas de los pasos para que la barra no desborde en móvil */
+  .cscreen .btn-back {
+    position: fixed !important;
+    top: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    order: 0 !important;
+    z-index: 200 !important;
+  }
+  .cscreen .cs-label { display: none !important; }
+  .cscreen .ctop-inner { overflow-x: hidden !important; }
+}
+/* ── Letra pequeña: casilla dentro del botón (azul marino) + Volver arriba dcha ── */
+#s-letra .letra-back { position:fixed; top:12px; right:12px; left:auto; z-index:200; display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:20px; background:rgba(27,42,74,0.08); border:1px solid rgba(27,42,74,0.12); color:#1B2A4A; font-size:13px; font-weight:600; cursor:pointer; }
+#s-letra .letra-back:hover { background:rgba(27,42,74,0.14); }
+#s-letra .li-btn { display:flex; align-items:center; justify-content:center; gap:10px; }
+#s-letra .li-check { width:22px; height:22px; border-radius:50%; border:2px solid #1B2A4A; background:transparent; color:transparent; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:800; flex-shrink:0; transition:all .2s; }
+#s-letra .li-done .li-check { background:#1B2A4A; border-color:#1B2A4A; color:#fff; }
+#s-letra .li-done .li-btn { background:var(--teal); border-color:var(--teal); color:#fff; }
+#s-letra .li-done .li-btn:hover { background:var(--teal); }
+#s-letra .li-btn:hover .li-check { border-color:#fff; }
+#s-letra .li-done .li-btn:hover .li-check { border-color:#1B2A4A; }
+/* Pago: etiquetas visibles sobre la tarjeta oscura + mensaje de error */
+#pay-card label { color: rgba(255,255,255,0.82) !important; }
+#pay-card .pago-msg { display:block; font-size:11px; margin-top:4px; min-height:13px; color:#ff9a9a; }
+/* Póliza activa / error: ocupar todo el alto y centrar (evita la mitad inferior vacía) */
+#s-ok.cscreen.active, #s-error.cscreen.active {
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column; justify-content: center;
+}
+</style>
+<script>
+(function(){
+  function val(id){ var e=document.getElementById(id); return e?e.value:''; }
+  function opt(v,l){ var o=document.createElement('option'); o.value=v; o.textContent=l; return o; }
+  function fill(id, items){ var s=document.getElementById(id); if(!s) return; items.forEach(function(it){ s.appendChild(opt(it[0],it[1])); }); }
+  var dias=[]; for(var d=1; d<=31; d++){ dias.push([(d<10?'0':'')+d, String(d)]); }
+  var MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var meses=MESES.map(function(n,i){ var m=i+1; return [(m<10?'0':'')+m, n]; });
+  function yearsDesc(from,to){ var a=[]; for(var y=to; y>=from; y--){ a.push([String(y),String(y)]); } return a; }
+  // Mascota: años 2010–2050
+  fill('fs-dia-m', dias); fill('fs-mes-m', meses); fill('fs-anio-m', yearsDesc(2010,2050));
+  // Titular: años 1930–2002 (el titular debe tener al menos 18 años)
+  fill('fs-dia-t', dias); fill('fs-mes-t', meses); fill('fs-anio-t', yearsDesc(1930,2002));
+
+  window.syncFechaMascota = function(){
+    var dd=val('fs-dia-m'), mm=val('fs-mes-m'), yy=val('fs-anio-m');
+    var inp=document.getElementById('inp-fecha');
+    if(inp){ inp.value=(dd&&mm&&yy)?(yy+'-'+mm+'-'+dd):''; }
+    if(typeof onFecha==='function') onFecha();
+  };
+  window.syncFnacTitular = function(){
+    var dd=val('fs-dia-t'), mm=val('fs-mes-t'), yy=val('fs-anio-t');
+    var inp=document.getElementById('c2-fnac');
+    if(inp){ inp.value=(dd&&mm&&yy)?(yy+'-'+mm+'-'+dd):''; }
+    if(typeof validateC2==='function') validateC2();
+  };
+})();
+</script>
 
 </body>
 </html>

@@ -6073,8 +6073,9 @@ body {
     transform: none !important;
     justify-content: flex-start !important;
   }
-  /* Ocultar "Seguros para mascotas" en la barra flotante en móvil */
-  #kivo-sticky-nav .sn-center { display: none !important; }
+  /* Ocultar "Seguros para mascotas" en la barra flotante en móvil,
+     sin mover el botón Inicio (se mantiene el hueco con visibility) */
+  #kivo-sticky-nav .sn-center { visibility: hidden !important; }
 
   /* ── TARIFICADOR WIDGET (inline styles override) ── */
   .tarificador-wrap {

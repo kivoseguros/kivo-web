@@ -385,11 +385,29 @@ function _renderSc4ResumenMascotas() {
     html += '</div>'; // end ccard
   });
 
-  container.innerHTML = html;
-  // Re-attach chip validation listeners after render
+  // Guardar el estado del microchip (nº + casilla) ANTES de reconstruir,
+  // para no perderlo al cambiar mes/año
+  var _chipPrev = [];
   _checkoutPets.forEach(function(pet, i) {
-    var ndEl = document.getElementById('chip-nd-' + i);
-    if(ndEl) ndEl.addEventListener('change', function(){ toggleChipNd(i); });
+    var inp = document.getElementById('chip-' + i);
+    var nd  = document.getElementById('chip-nd-' + i);
+    _chipPrev[i] = { val: inp ? inp.value : '', nd: nd ? nd.checked : false };
+  });
+
+  container.innerHTML = html;
+
+  // Restaurar el microchip y re-enganchar listeners
+  _checkoutPets.forEach(function(pet, i) {
+    var prev = _chipPrev[i];
+    var inp  = document.getElementById('chip-' + i);
+    var nd   = document.getElementById('chip-nd-' + i);
+    if (prev) {
+      if (inp && prev.val) inp.value = prev.val;
+      if (nd) nd.checked = prev.nd;
+      if (nd) toggleChipNd(i);
+      if (inp && prev.val && !(nd && nd.checked)) validateChip(i);
+    }
+    if (nd) nd.addEventListener('change', function(){ toggleChipNd(i); });
   });
 }
 
@@ -1005,8 +1023,18 @@ function buildCruceSelects() {
 function onCruce() { /* legacy — ya no se usa */ }
 
 function _buildBreedsFor(inputId, listId, fieldNum) {
+  // Cerrar la OTRA lista para que nunca se solapen dos desplegables (bug de bloqueo en móvil)
+  var otherId = (listId === 'breed-list1') ? 'breed-list2' : 'breed-list1';
+  var ol = document.getElementById(otherId);
+  if (ol) ol.classList.remove('open');
   var breeds = BREEDS[S.especie] || [];
   var f = (document.getElementById(inputId).value || '').toLowerCase();
+  // Si el campo está vacío (el usuario ha borrado para corregir), limpiar su raza
+  if (!f) {
+    if (fieldNum === 1) S.raza = null; else S.raza2 = null;
+    var btnS4 = document.getElementById('btn-s4');
+    if (btnS4) btnS4.disabled = !(S.raza && S.raza2);
+  }
   var list = f.length >= 1
     ? breeds.filter(function(b) { return b.toLowerCase().indexOf(f) >= 0; })
     : breeds;
@@ -1285,7 +1313,9 @@ function aplicarCodigo() {
 
 function mostrarResultados() {
   S.email = (document.getElementById('of-email').value || '').trim();
-  S.tel   = (document.getElementById('of-tel').value   || '').trim();
+  var _pref = document.getElementById('of-prefijo');
+  var _tel  = (document.getElementById('of-tel').value || '').trim();
+  S.tel = (_pref && _pref.value ? _pref.value + ' ' : '') + _tel;
   showResults();
 }
 
@@ -1550,41 +1580,42 @@ function toggleLetra(id) { /* headers ya no son clicables */ }
 function mostrarLetra() {
   _letraLeidos = {};
   _letraItems.forEach(function(id) {
-    var btn = document.getElementById('lb-' + id);
-    if (btn) { btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; btn.style.cursor=''; btn.textContent='He leído y entiendo.'; }
-    var chk = document.getElementById('lc-' + id);
-    if (chk) { chk.style.background=''; chk.style.color=''; chk.style.borderColor=''; }
     var item = document.getElementById('li-' + id);
     if (item) item.classList.remove('li-done');
   });
-  document.getElementById('letra-continuar').disabled = true;
+  _updateLetraContinuar();
   showScreen('s-letra');
 }
 
+function _updateLetraContinuar() {
+  var all = _letraItems.every(function(k) { return _letraLeidos[k]; });
+  var cont = document.getElementById('letra-continuar');
+  if (cont) cont.disabled = !all;
+}
+
 function marcarLeido(id) {
+  // Al pulsar el botón: se marca la casilla (azul marino) y el botón cambia de color
   _letraLeidos[id] = true;
-  // Barra se pone verde
-  var btn = document.getElementById('lb-' + id);
-  if (btn) {
-    btn.style.background = 'var(--teal)';
-    btn.style.color = '#fff';
-    btn.style.borderColor = 'var(--teal)';
-    btn.style.cursor = 'default';
-    btn.textContent = '✓ He leído y entiendo';
-  }
-  // Checkmark arriba a la derecha se activa
-  var chk = document.getElementById('lc-' + id);
-  if (chk) {
-    chk.style.background = 'var(--teal)';
-    chk.style.color = '#fff';
-    chk.style.borderColor = 'var(--teal)';
-  }
   var item = document.getElementById('li-' + id);
   if (item) item.classList.add('li-done');
-  // Habilitar Continuar solo si los 4 están marcados
-  var all = _letraItems.every(function(k) { return _letraLeidos[k]; });
-  document.getElementById('letra-continuar').disabled = !all;
+  _updateLetraContinuar();
 }
+
+function desmarcarLetra(id) {
+  _letraLeidos[id] = false;
+  var item = document.getElementById('li-' + id);
+  if (item) item.classList.remove('li-done');
+  _updateLetraContinuar();
+}
+
+// Desmarcar todas las tarjetas al pinchar fuera de ellas (dentro de la pantalla de letra)
+document.addEventListener('click', function(e) {
+  var letra = document.getElementById('s-letra');
+  if (!letra || !letra.classList.contains('active')) return;
+  if (e.target.closest('.letra-item, .letra-back, #letra-continuar')) return;
+  var any = _letraItems.some(function(k) { return _letraLeidos[k]; });
+  if (any) _letraItems.forEach(desmarcarLetra);
+});
 
 function continuarContratar() {
   try {
@@ -2212,6 +2243,29 @@ function formatExpiry(el) {
   var v = el.value.replace(/\D/g, '').substring(0, 4);
   if (v.length >= 2) el.value = v.substring(0, 2) + '/' + v.substring(2);
   else el.value = v;
+}
+
+// Valida la fecha de expiración: una tarjeta caducada (mes ya pasado) no es válida
+function validarCaducidad() {
+  var el  = document.getElementById('card-exp');
+  var msg = document.getElementById('card-exp-msg');
+  var btn = document.getElementById('btn-pagar');
+  if (!el) return true;
+  var v = el.value.replace(/\D/g, '');
+  if (v.length < 4) { if (msg) msg.textContent = ''; if (btn) btn.disabled = false; return false; }
+  var mm = parseInt(v.substring(0, 2), 10);
+  var yy = parseInt(v.substring(2, 4), 10);
+  var ok = true, txt = '';
+  if (mm < 1 || mm > 12) { ok = false; txt = 'Mes inválido'; }
+  else {
+    var now  = new Date();
+    var curY = now.getFullYear() % 100;
+    var curM = now.getMonth() + 1;
+    if (yy < curY || (yy === curY && mm < curM)) { ok = false; txt = 'Tarjeta caducada'; }
+  }
+  if (msg) msg.textContent = ok ? '' : txt;
+  if (btn) btn.disabled = !ok;
+  return ok;
 }
 
 /* ── PROCESAR PAGO ── */
