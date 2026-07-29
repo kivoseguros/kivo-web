@@ -6061,10 +6061,17 @@ body {
     flex-wrap: wrap !important;
     gap: 10px 14px !important;
     padding-top: 0 !important;
+    justify-content: flex-start !important;
   }
   .hero-lang-bar {
     flex-wrap: wrap !important;
     gap: 4px !important;
+  }
+  /* Idiomas a la izquierda, alineados con el logo (la E de ES bajo la K) */
+  .hero-lang {
+    margin-left: -4px !important;
+    transform: none !important;
+    justify-content: flex-start !important;
   }
 
   /* ── TARIFICADOR WIDGET (inline styles override) ── */
@@ -8520,7 +8527,7 @@ window.addEventListener('message', function(e) {
 <!-- ══ TARIFICADOR MODAL ══ -->
 <style>
 @keyframes kivoFadeBackdrop { from { background:rgba(0,0,0,0); } to { background:rgba(0,0,0,0.52); } }
-#tarif-overlay.open { animation: kivoFadeBackdrop 1.2s ease forwards; }
+#tarif-overlay.open { animation: kivoFadeBackdrop 0.15s ease forwards; }
 /* Al venir del asesor: tarificador a pantalla completa (su propia página, no ventana modal) */
 #tarif-overlay.from-asesor { background:#011C4B !important; animation:none !important; }
 #tarif-overlay.from-asesor #tarif-modal { width:100vw !important; max-width:100vw !important; height:100vh !important; height:100dvh !important; max-height:100vh !important; border-radius:0 !important; box-shadow:none !important; }
