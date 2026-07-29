@@ -1283,7 +1283,11 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 <!-- ══ CASILLAS DÍA/MES/AÑO (móvil) — sustituyen al calendario ══ -->
 <style>
 .fecha-selects { display:none; gap:8px; margin-top:8px; }
-.fecha-selects .ksel { flex:1; min-width:0; }
+.fecha-selects .ksel { flex:1; min-width:0; padding:14px 26px 14px 10px !important; font-size:13px !important; background-position:right 8px center !important; }
+/* Repartir el ancho: el mes necesita más sitio (p. ej. "Septiembre") */
+.fecha-selects #fs-dia-m, .fecha-selects #fs-dia-t { flex:0.75; }
+.fecha-selects #fs-mes-m, .fecha-selects #fs-mes-t { flex:1.5; }
+.fecha-selects #fs-anio-m, .fecha-selects #fs-anio-t { flex:1.05; }
 /* Oferta: contenedor más ancho para que quepa un email largo */
 #s-loading .of-wrap { max-width: 600px !important; }
 #of-prefijo { flex-shrink:0; padding:0 8px; border:1.5px solid #dde2ed; border-right:none; border-radius:12px 0 0 12px; background:#fff; font-size:0.9rem; color:#1B2A4A; font-weight:600; font-family:inherit; outline:none; cursor:pointer; max-width:150px; }
@@ -1302,6 +1306,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     order: 0 !important;
     z-index: 200 !important;
   }
+  /* Oferta en móvil: menos margen lateral para que el email tenga más ancho */
+  #s-loading .of-wrap { padding-left: 12px !important; padding-right: 12px !important; }
   /* Checkout (dirección, confirmar, pagar): Volver arriba a la derecha y
      ocultar las etiquetas de los pasos para que la barra no desborde en móvil */
   .cscreen .btn-back {
@@ -1343,8 +1349,9 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
   var MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   var meses=MESES.map(function(n,i){ var m=i+1; return [(m<10?'0':'')+m, n]; });
   function yearsDesc(from,to){ var a=[]; for(var y=to; y>=from; y--){ a.push([String(y),String(y)]); } return a; }
-  // Mascota: años 2010–2050
-  fill('fs-dia-m', dias); fill('fs-mes-m', meses); fill('fs-anio-m', yearsDesc(2010,2050));
+  // Mascota: años 2010 hasta el año que viene (sube solo cada año; ahora 2027)
+  var _maxAnioM = new Date().getFullYear() + 1;
+  fill('fs-dia-m', dias); fill('fs-mes-m', meses); fill('fs-anio-m', yearsDesc(2010,_maxAnioM));
   // Titular: años 1930–2002 (el titular debe tener al menos 18 años)
   fill('fs-dia-t', dias); fill('fs-mes-t', meses); fill('fs-anio-t', yearsDesc(1930,2002));
 
