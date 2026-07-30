@@ -318,29 +318,39 @@ body { font-family: var(--font); background: transparent; }
 }
 
 @media (max-width: 640px) {
-  /* La caja se ajusta al contenido y hace scroll si es alto (evita el "partido") */
-  .s04-modal-box { grid-template-columns: 1fr; height: auto; max-height: 92vh; overflow-y: auto; }
-  /* Robot grande y centrado arriba, sin franja ni cuadrado */
-  .s04-modal-left { padding: 26px 16px 2px; flex-direction: column; justify-content: flex-start; min-height: 0; }
+  /* Sin cuadrado: caja transparente y ajustada al contenido */
+  .s04-modal-box {
+    grid-template-columns: 1fr; height: auto; max-height: 94vh; overflow-y: auto;
+    background: transparent !important; border: none !important; box-shadow: none !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  }
+  .s04-modal-left { padding: 8px 16px 2px; flex-direction: column; justify-content: flex-start; min-height: 0; }
   .s04-modal-robot-wrap { flex: none; }
   .s04-modal-robot { width: 150px; max-width: 150px; }
-  /* Salir: pequeño, arriba a la derecha */
+  /* Botones fijos arriba (más arriba, sin chocar con el margen) */
   .s04-modal-close {
-    position: absolute; top: 12px; right: 12px; z-index: 5;
+    position: fixed; top: 10px; right: 12px; z-index: 20;
     width: auto; margin-top: 0;
     padding: 7px 12px; font-size: 12px; gap: 5px; border-radius: 20px;
   }
-  .s04-modal-right { overflow: visible; }
-  .s04-modal-right .quiz-card { padding: 14px 20px 22px; }
-  /* Volver del asesor: arriba a la izquierda (pequeño) */
   .s04-modal-back {
-    position: absolute; top: 12px; left: 12px; z-index: 6;
+    position: fixed; top: 10px; left: 12px; z-index: 20;
     padding: 7px 12px; font-size: 12px; border-radius: 20px;
   }
+  .s04-modal-right { overflow: visible; }
+  .s04-modal-right .quiz-card { padding: 8px 20px 22px; background: transparent !important; }
   /* En móvil el "Volver" del asesor va arriba: ocultar los de abajo */
   .quiz-btn-back { display: none !important; }
   #backToQuizBtn { display: none !important; }
+  /* Bienvenida: robot debajo del título/subtítulo, ocultar el robot de arriba y el icono */
+  .s04-modal-box.is-welcome .s04-modal-robot-wrap { display: none; }
+  .s04-modal-box.is-welcome .quiz-welcome-icon { display: none; }
+  .quiz-welcome-robot { display: block; width: 150px; height: auto; margin: 6px auto 14px; }
+  /* La bienvenida arranca un poco más abajo para no chocar con los botones fijos */
+  .s04-modal-box.is-welcome .s04-modal-right .quiz-card { padding-top: 40px; }
 }
+/* El robot dentro del contenido solo en móvil */
+.quiz-welcome-robot { display: none; }
 
 /* Botón "Volver" del asesor (preguntas/resultado) */
 .s04-modal-back {

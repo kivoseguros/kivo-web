@@ -250,6 +250,8 @@
   function _isAsesorMobile(){ return window.matchMedia('(max-width:640px)').matches; }
   function _setAsesorTopNav(screen){
     _asesorScreen = screen;                       // 'welcome' | 'question' | 'result'
+    const box = document.querySelector('.s04-modal-box');
+    if (box) box.classList.toggle('is-welcome', screen === 'welcome');
     const salir  = document.getElementById('s04ModalClose');
     const volver = document.getElementById('asesorBackBtn');
     if (!_isAsesorMobile()) {                      // escritorio: comportamiento de siempre
@@ -541,7 +543,8 @@
     quizContent.innerHTML = `
       <div class="quiz-welcome-icon">${svg(IC.user)}</div>
       <p class="quiz-welcome-title">¡Bienvenido al Asesor KIVO!</p>
-      <p class="quiz-welcome-sub">En menos de 2 minutos encontraremos el plan perfecto para tu mascota.</p>
+      <p class="quiz-welcome-sub">En menos de un minuto encontraremos el plan perfecto para tu mascota.</p>
+      <img class="quiz-welcome-robot" src="assets/images/kivo_asesor-sin fondo.png" alt="Asesor KIVO">
       <p class="quiz-question">Para empezar, ¿cómo se llama tu mascota?</p>
       <div class="quiz-name-wrap">
         <input id="inputNombre" class="quiz-name-input" type="text" placeholder="Nombre de tu mascota" maxlength="30" autocomplete="off" />
