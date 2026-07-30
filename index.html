@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KIVO - Seguros para mascotas</title>
+  <link rel="icon" type="image/png" href="assets/logos/kivo-logo-transparent.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -6076,6 +6077,8 @@ body {
   /* Ocultar "Seguros para mascotas" en la barra flotante en móvil,
      sin mover el botón Inicio (se mantiene el hueco con visibility) */
   #kivo-sticky-nav .sn-center { visibility: hidden !important; }
+  /* Mostrar "Descarga la app KIVO" también en móvil (centrado, en la cabecera) */
+  .hero-app-download { display: flex !important; justify-self: center !important; align-self: center !important; margin: 8px auto 0 !important; }
 
   /* ── TARIFICADOR WIDGET (inline styles override) ── */
   .tarificador-wrap {
@@ -6939,7 +6942,6 @@ html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !imp
   </div>
 </section>
 
-<script src="script/s02.js"></script>
 
 <!-- ===== Sección 3 ===== -->
 <section class="s03-plans" id="planes">
@@ -7224,7 +7226,6 @@ html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !imp
   </div>
 </section>
 
-<script src="script/s03.js"></script>
 
 <!-- ===== Sección 4 ===== -->
 <!-- ── SECCIÓN COMPACTA ── -->

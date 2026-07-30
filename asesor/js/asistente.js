@@ -252,16 +252,11 @@
     _asesorScreen = screen;                       // 'welcome' | 'question' | 'result'
     const box = document.querySelector('.s04-modal-box');
     if (box) box.classList.toggle('is-welcome', screen === 'welcome');
-    const salir  = document.getElementById('s04ModalClose');
-    const volver = document.getElementById('asesorBackBtn');
-    if (!_isAsesorMobile()) {                      // escritorio: comportamiento de siempre
-      if (salir)  salir.style.display  = '';
-      if (volver) volver.style.display = 'none';
-      return;
-    }
-    const showVolver = (screen !== 'welcome');
-    if (salir)  salir.style.display  = showVolver ? 'none' : 'flex';
-    if (volver) volver.style.display = showVolver ? 'flex' : 'none';
+    const salir = document.getElementById('s04ModalClose');
+    const bar   = document.getElementById('asesorTopbar');
+    const showBar = (screen !== 'welcome');     // barra flotante en todas menos bienvenida
+    if (salir) salir.style.display = showBar ? 'none' : 'flex';
+    if (bar)   bar.style.display   = showBar ? 'flex' : 'none';
   }
   (function(){
     const vb = document.getElementById('asesorBackBtn');
@@ -301,7 +296,6 @@
 
     quizContent.innerHTML = `
       ${_headerNombre}
-      <span class="quiz-step-num">${idx + 1}</span>
       <p class="quiz-question">${q.question}</p>
       <div class="quiz-options">
         ${q.options.map(o => `
@@ -468,7 +462,7 @@
         '<div class="result-reason">' + buildReason(plan, answers) + '</div>' +
 
         '<a class="result-cta-bar" id="result-cta-link" href="' + buildURL(selPlan, selRC) + '">' +
-          '<span>Aceptar recomendación del asesor y contratar</span>' +
+          '<span>Aceptar la recomendación y pasar a contratar</span>' +
         '</a>' +
         '<p class="result-nota-contrat">📋 Los datos específicos de ' + (answers.nombre ? answers.nombre : 'tu mascota') + ' (raza, fecha de nacimiento, código postal...) se completarán en el propio formulario de contratación.</p>' +
         '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">' +

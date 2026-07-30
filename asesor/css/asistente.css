@@ -542,8 +542,7 @@ body {
 
 /* ── Tarjeta producto seleccionable ── */
 .result-product-card {
-  border: 2px solid #E2E8F0;
-  border-top: 4px solid var(--accent, var(--green));
+  border: 1.5px solid var(--accent, var(--green));
   border-radius: var(--radius);
   background: #fff;
   box-shadow: 0 2px 10px rgba(27,42,74,0.06);
@@ -560,7 +559,7 @@ body {
 
 .result-product-card.selected {
   border-color: var(--accent, var(--green));
-  box-shadow: 0 0 0 3px var(--accent, var(--green)), 0 6px 22px rgba(27,42,74,0.16);
+  box-shadow: 0 6px 22px rgba(27,42,74,0.12);
 }
 
 /* ── Fila checkbox + label ── */
@@ -569,8 +568,8 @@ body {
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
-  background: var(--green-light);
-  border-bottom: 1px solid rgba(27,77,62,0.10);
+  background: transparent;
+  border-bottom: 1px solid rgba(27,42,74,0.08);
 }
 
 .result-product-card.selected .rpc-sel-row {

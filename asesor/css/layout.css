@@ -209,17 +209,16 @@ body { font-family: var(--font); background: transparent; }
 
 .s04-modal-box {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 1fr;
   width: 100%;
-  max-width: 860px;
-  height: min(90vh, 680px);
-  border-radius: 22px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.42);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.70);
-  box-shadow: 0 30px 70px rgba(27,42,74,0.20), inset 0 1px 0 rgba(255,255,255,0.85);
+  max-width: 420px;
+  height: auto;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   animation: modalSlide 0.26s cubic-bezier(0.34,1.2,0.64,1);
   position: relative;
 }
@@ -318,17 +317,16 @@ body { font-family: var(--font); background: transparent; }
 }
 
 @media (max-width: 640px) {
-  /* Ventana del asesor: misma tarjeta y ancho que el resto (tarificador) */
+  /* Ventana del asesor: transparente en TODAS las páginas (sin caja de tono distinto), pero con ancho contenido */
   .s04-modal-overlay { padding: 12px !important; }
   .s04-modal-box {
     grid-template-columns: 1fr; height: auto; max-height: 94vh; overflow-y: auto;
-    max-width: 420px !important; width: 100% !important; margin: 0 auto !important;
-    background: rgba(255,255,255,0.42) !important;
-    backdrop-filter: blur(14px) !important; -webkit-backdrop-filter: blur(14px) !important;
-    border: 1px solid rgba(255,255,255,0.70) !important;
-    box-shadow: 0 30px 70px rgba(27,42,74,0.16), inset 0 1px 0 rgba(255,255,255,0.85) !important;
-    border-radius: 20px !important;
+    max-width: 400px !important; width: 100% !important; margin: 0 auto !important;
+    background: transparent !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    border: none !important; box-shadow: none !important; border-radius: 0 !important;
   }
+  .s04-modal-left, .s04-modal-robot-wrap { background: transparent !important; }
   .s04-modal-left { padding: 8px 16px 2px; flex-direction: column; justify-content: flex-start; min-height: 0; }
   .s04-modal-robot-wrap { flex: none; }
   .s04-modal-robot { width: 150px; max-width: 150px; }
@@ -339,7 +337,7 @@ body { font-family: var(--font); background: transparent; }
     padding: 7px 12px; font-size: 12px; gap: 5px; border-radius: 20px;
   }
   .s04-modal-back {
-    position: fixed; top: 10px; left: 12px; z-index: 20;
+    position: fixed; top: 10px; right: 12px; left: auto; z-index: 20;
     padding: 7px 12px; font-size: 12px; border-radius: 20px;
   }
   .s04-modal-right { overflow: visible; }
@@ -354,8 +352,8 @@ body { font-family: var(--font); background: transparent; }
   /* La bienvenida arranca un poco más abajo para no chocar con los botones fijos */
   .s04-modal-box.is-welcome .s04-modal-right .quiz-card { padding-top: 40px; }
 }
-/* El robot dentro del contenido solo en móvil */
-.quiz-welcome-robot { display: none; }
+/* El robot dentro del contenido solo se oculta en escritorio (en móvil manda la regla de arriba) */
+@media (min-width: 641px) { .quiz-welcome-robot { display: none; } }
 
 /* Botón "Volver" del asesor (preguntas/resultado) */
 .s04-modal-back {
@@ -370,6 +368,39 @@ body { font-family: var(--font); background: transparent; }
 
 /* CTA de recomendación: texto centrado (la frase larga se comía el botón) */
 .result-cta-bar { justify-content: center !important; text-align: center !important; }
+/* Al pulsar (se hunde), pasa a azul marino KIVO */
+.result-cta-bar:active { background: #1B2A4A !important; border-color: #1B2A4A !important; }
+/* Barra flotante superior del asesor (todas las páginas menos la bienvenida) */
+.asesor-topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+  height: 54px; display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 14px;
+  background: rgba(255,255,255,0.18);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+}
+.asesor-topbar-back {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 20px;
+  border: 1.5px solid rgba(27,42,74,0.18);
+  background: rgba(27,42,74,0.06); color: #1B2A4A;
+  font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.asesor-topbar-back:hover { background: rgba(27,42,74,0.12); }
+/* Con barra (no bienvenida), el contenido empieza debajo de ella */
+.s04-modal-box:not(.is-welcome) { padding-top: 62px; }
+/* Quiz del asesor sin caja de fondo (en todas las anchuras) */
+.s04-modal-right .quiz-card { background: transparent !important; }
+/* Robot sin caja: sin recorte rectangular ni fondo, en todas las anchuras */
+html .s04-modal-robot-wrap { overflow: visible !important; background: transparent !important; }
+html .s04-modal-left { background: transparent !important; }
+/* En móvil, letra más pequeña y con aire (que no se pegue a los bordes del botón) */
+@media (max-width: 640px) {
+  .result-cta-bar { font-size: 13px !important; line-height: 1.35 !important; padding: 15px 22px !important; white-space: normal !important; }
+  /* Solo un contorno fino del color de cada tarjeta (sin el marco grueso recargado) */
+  .result-product-card { border-width: 1.5px !important; }
+  .result-product-card.selected { border-width: 1.5px !important; }
+}
 
 /* Contener el scroll para que no se mueva la web/página de detrás */
 html, body { overscroll-behavior: none; }
