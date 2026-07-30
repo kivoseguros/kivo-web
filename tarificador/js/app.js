@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', function() {
     if (salirBtn) salirBtn.style.display = 'flex';
     var btnSalirInterno = document.querySelector('.btn-salir-top');
     if (btnSalirInterno) btnSalirInterno.style.display = 'none';
+    if (params.get('retomar') === '1') { _retomarDesdeEmail(params); return; }
     var esp = params.get('especie');
     var nom = params.get('nombre');
     if (esp) {
@@ -733,7 +734,36 @@ function closeExitModal() {
 }
 function confirmExit() {
   document.getElementById('exit-modal').classList.remove('active');
+  // Correo de abandono: solo si NO ha contratado y hay una cotizacion con email
+  if (!_haContratado && !_abandonoEnviado && _datosCotizacion && _datosCotizacion.email) {
+    _abandonoEnviado = true;
+    _enviarEmailAbandono(_datosCotizacion.email, _datosCotizacion.mascotas, _datosCotizacion.total, _datosCotizacion.periodo);
+  }
   try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
+}
+
+/* -- Retomar una cotizacion desde el enlace del email -- */
+function _retomarDesdeEmail(params) {
+  try {
+    var mascotas = [];
+    for (var i = 0; i < 20; i++) {
+      var raw = params.get('pet' + i);
+      if (!raw) break;
+      var pd = JSON.parse(raw);
+      if (pd.precioMes == null && pd.precio != null) pd.precioMes = pd.precio;
+      mascotas.push(pd);
+    }
+    if (!mascotas.length) { showFW(); showStep(1); return; }
+    var periodo = params.get('periodo') || 'mensual';
+    var email   = params.get('email') || '';
+    S.periodo = periodo; S.email = email;
+    mascotas.forEach(function(pet){ pet.periodo = periodo; pet._email = email; });
+    _cotizacionEnviada = true; // ya recibio el detalle antes; no reenviar
+    _retomando = true;
+    showScreen('fw');
+    _irAlCheckout(mascotas);
+    _retomando = false;
+  } catch(e) { showFW(); showStep(1); }
 }
 
 /* ── RESUMEN EDITABLE ── */
@@ -1622,16 +1652,22 @@ function continuarContratar() {
   var planKeys = { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
   var p        = S.periodo;
 
-  // Si estamos viendo una mascota confirmada, restaurar la nueva mascota al S
-  // para que calcBase() use los datos correctos (especie, edad) de la nueva mascota
-  if (_activePetIdx >= 0 && _newPetDraft) {
-    S.especie = _newPetDraft.especie;
-    S.nombre  = _newPetDraft.nombre;
-    S.plan    = _newPetDraft.plan;
-    S.rcAddon = _newPetDraft.rcAddon;
-    S.noFecha = _newPetDraft.noFecha;
-    var inpF  = document.getElementById('inp-fecha');
-    if (inpF) inpF.value = _newPetDraft._fecha || '';
+  // Si estamos editando una mascota confirmada: guardar sus cambios en su sitio y
+  // restaurar la mascota nueva en curso (si la habia) para que se anada aparte.
+  if (_activePetIdx >= 0) {
+    _persistActivePet();
+    if (_newPetDraft) {
+      S.especie = _newPetDraft.especie;
+      S.nombre  = _newPetDraft.nombre;
+      S.plan    = _newPetDraft.plan;
+      S.rcAddon = _newPetDraft.rcAddon;
+      S.noFecha = _newPetDraft.noFecha;
+      var inpF  = document.getElementById('inp-fecha');
+      if (inpF) inpF.value = _newPetDraft._fecha || '';
+    } else {
+      // No hay mascota nueva en curso: la editada ya esta guardada; no re-anadir como nueva.
+      S.plan = null; S.rcAddon = false;
+    }
     _activePetIdx = -1;
   }
 
@@ -1715,8 +1751,9 @@ function seleccionarPlan(id) {
     }
   }
 
-  // Si estamos viendo una mascota confirmada, sincronizar cambios de vuelta
-  if (_activePetIdx >= 0 && _activePetIdx < completedMascotas.length) {
+  // Si estamos viendo una mascota confirmada, sincronizar cambios de vuelta.
+  // Solo si hay plan o RC: nunca guardar una mascota confirmada sin plan (null).
+  if (_activePetIdx >= 0 && _activePetIdx < completedMascotas.length && (S.plan || S.rcAddon)) {
     var pet      = completedMascotas[_activePetIdx];
     var _names   = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
     var _planKeys= { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
@@ -2274,6 +2311,7 @@ function procesarPago() {
 
   // Simula pago (aquí irá Stripe)
   setTimeout(function() {
+    _haContratado = true;
     // Enviar email de bienvenida/póliza por Resend
     _enviarEmailPoliza().then(function() {
       showScreen('s-ok');
@@ -2377,63 +2415,106 @@ function _enviarEmailPoliza() {
 
 /* ── CHECKOUT COMBINADO MULTI-MASCOTA ── */
 
-function _enviarEmailCotizacion(email, mascotas, total, periodo) {
-  var suffix = periodo === 'anual' ? '/año' : '/mes';
-  var planResumen = mascotas.map(function(pet) {
+/* -- Estado de correos / contratacion -- */
+var _haContratado      = false;
+var _abandonoEnviado   = false;
+var _cotizacionEnviada = false;
+var _retomando         = false;
+var _datosCotizacion   = null; // {email, mascotas, total, periodo}
+
+function _buildRetomarUrl(mascotas, periodo, email) {
+  var parts = mascotas.map(function(pet, i) {
+    return 'pet' + i + '=' + encodeURIComponent(JSON.stringify({
+      nombre: pet.nombre, especie: pet.especie, raza: pet.raza,
+      plan: pet.plan, precio: pet.precio, precioMes: pet.precioMes,
+      planLabel: pet.planLabel, rcAddon: pet.rcAddon
+    }));
+  });
+  parts.push('periodo=' + encodeURIComponent(periodo));
+  parts.push('email=' + encodeURIComponent(email));
+  parts.push('modo=fullscreen');
+  parts.push('retomar=1');
+  return 'https://kivo-web-seven.vercel.app/tarificador/index.html?' + parts.join('&');
+}
+
+function _cotizacionTablaHtml(mascotas, total, periodo) {
+  var suffix = periodo === 'anual' ? '/ano' : '/mes';
+  var rows = mascotas.map(function(pet) {
     var pr = periodo === 'anual' ? (pet.precioMes||pet.precio)*12*(1-DESC_ANUAL) : (pet.precioMes||pet.precio);
     return '<tr><td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;">' + pet.nombre + ' (' + (pet.especie==='perro'?'Perro':'Gato') + ')</td>' +
            '<td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;">' + pet.planLabel + '</td>' +
            '<td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;font-weight:bold;">' + fmt(pr) + suffix + '</td></tr>';
   }).join('');
+  return '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">' +
+    '<thead><tr style="background:#f0faf6;">' +
+    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Mascota</th>' +
+    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Plan</th>' +
+    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Precio</th>' +
+    '</tr></thead><tbody>' + rows +
+    '<tr style="background:#f0faf6;"><td colspan="2" style="padding:10px 12px;font-weight:700;color:#1B2A4A;">TOTAL</td>' +
+    '<td style="padding:10px 12px;font-weight:700;color:#3DBFA0;font-size:18px;">' + fmt(total) + suffix + '</td></tr>' +
+    '</tbody></table>';
+}
 
-  var params = mascotas.map(function(pet, i) {
-    return 'pet' + i + '=' + encodeURIComponent(JSON.stringify({
-      nombre: pet.nombre, especie: pet.especie, raza: pet.raza,
-      plan: pet.plan, precio: pet.precio, precioMes: pet.precioMes,
-      planLabel: pet.planLabel
-    }));
-  }).join('&');
-  params += '&periodo=' + periodo + '&email=' + encodeURIComponent(email);
-  var retomar = 'https://kivo-web-seven.vercel.app/tarificador/tarificador.html?' + params;
-
-  var html = [
+function _emailWrapper(titulo, cuerpo) {
+  return [
     '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">',
     '<div style="background:#1B2A4A;padding:28px 32px;text-align:center;">',
     '<img src="https://kivo-web-seven.vercel.app/assets/logo-kivo-blanco.png" alt="KIVO Seguros" style="height:48px;" onerror="this.style.display=\'none\'">',
-    '<h1 style="color:#fff;margin:12px 0 0;font-size:22px;font-weight:700;">Tu cotización KIVO está lista</h1>',
+    '<h1 style="color:#fff;margin:12px 0 0;font-size:22px;font-weight:700;">' + titulo + '</h1>',
     '</div>',
     '<div style="padding:32px;">',
-    '<p style="color:#444;font-size:15px;margin:0 0 20px;">Hemos guardado tu cotización. Si en cualquier momento decides proteger a tu mascota, puedes retomar el proceso exactamente donde lo dejaste.</p>',
-    '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">',
-    '<thead><tr style="background:#f0faf6;">',
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Mascota</th>',
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Plan</th>',
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Precio</th>',
-    '</tr></thead><tbody>',
-    planResumen,
-    '<tr style="background:#f0faf6;"><td colspan="2" style="padding:10px 12px;font-weight:700;color:#1B2A4A;">TOTAL</td>',
-    '<td style="padding:10px 12px;font-weight:700;color:#3DBFA0;font-size:18px;">' + fmt(total) + suffix + '</td></tr>',
-    '</tbody></table>',
-    '<div style="text-align:center;margin:28px 0;">',
-    '<a href="' + retomar + '" style="background:#3DBFA0;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;display:inline-block;">Retomar mi contratación →</a>',
-    '</div>',
-    '<p style="color:#888;font-size:13px;text-align:center;margin:0;">Si tienes dudas, nuestro asesor KIVO está disponible en <a href="https://kivoseguros.com" style="color:#3DBFA0;">kivoseguros.com</a></p>',
+    cuerpo,
+    '<p style="color:#888;font-size:13px;text-align:center;margin:0;">Si tienes dudas, nuestro asesor KIVO esta disponible en <a href="https://kivoseguros.com" style="color:#3DBFA0;">kivoseguros.com</a></p>',
     '</div>',
     '<div style="background:#f8f8f8;padding:16px 32px;text-align:center;border-top:1px solid #eee;">',
-    '<p style="color:#aaa;font-size:12px;margin:0;">KIVO Seguros S.L. · no-reply@kivoseguros.com<br>Este email es automático, no respondas a este mensaje.</p>',
+    '<p style="color:#aaa;font-size:12px;margin:0;">KIVO Seguros S.L. &middot; no-reply@kivoseguros.com<br>Este email es automatico, no respondas a este mensaje.</p>',
     '</div>',
     '</div>'
   ].join('\n');
+}
 
+// Correo 1: DETALLE de la tarificacion (al meter el email / llegar al resumen)
+function _enviarEmailCotizacion(email, mascotas, total, periodo) {
+  var url = _buildRetomarUrl(mascotas, periodo, email);
+  var nombres = mascotas.map(function(p){ return p.nombre; }).join(', ');
+  var cuerpo =
+    '<p style="color:#444;font-size:15px;margin:0 0 20px;">&iexcl;Gracias por tarificar con KIVO! Aqui tienes el detalle de la tarificacion que has realizado' + (nombres ? ' para <strong>' + nombres + '</strong>' : '') + ':</p>' +
+    _cotizacionTablaHtml(mascotas, total, periodo) +
+    '<p style="color:#444;font-size:15px;margin:0 0 20px;">Cuando quieras, puedes continuar con la contratacion desde donde lo dejaste:</p>' +
+    '<div style="text-align:center;margin:28px 0;">' +
+    '<a href="' + url + '" style="background:#3DBFA0;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;display:inline-block;">Continuar con la contratacion &rarr;</a>' +
+    '</div>';
   fetch('/api/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       to: email,
-      subject: '🐾 Tu cotización KIVO está guardada — retómala cuando quieras',
-      html: html
+      subject: 'Tu cotizacion KIVO esta lista - aqui tienes el detalle',
+      html: _emailWrapper('Tu cotizacion KIVO esta lista', cuerpo)
     })
-  }).catch(function() {}); // silencioso, no interrumpe el flujo
+  }).catch(function() {});
+}
+
+// Correo 2: ABANDONO (solo si el cliente sale sin contratar)
+function _enviarEmailAbandono(email, mascotas, total, periodo) {
+  var url = _buildRetomarUrl(mascotas, periodo, email);
+  var nombres = mascotas.map(function(p){ return p.nombre; }).join(', ');
+  var cuerpo =
+    '<p style="color:#444;font-size:15px;margin:0 0 20px;">Vimos que empezaste a proteger' + (nombres ? ' a <strong>' + nombres + '</strong>' : ' a tu mascota') + ' pero no llegaste a terminar. No te preocupes: hemos guardado tu cotizacion y puedes retomar el proceso exactamente donde lo dejaste.</p>' +
+    _cotizacionTablaHtml(mascotas, total, periodo) +
+    '<div style="text-align:center;margin:28px 0;">' +
+    '<a href="' + url + '" style="background:#3DBFA0;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;display:inline-block;">Retomar mi contratacion &rarr;</a>' +
+    '</div>';
+  fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to: email,
+      subject: 'Tu cotizacion KIVO te espera - retomala cuando quieras',
+      html: _emailWrapper('Tu cotizacion sigue guardada', cuerpo)
+    })
+  }).catch(function() {});
 }
 
 function _irAlCheckout(allMascotas) {
@@ -2480,9 +2561,14 @@ function _irAlCheckout(allMascotas) {
   if (exclChk) exclChk.checked = false;
   if (btnExcl) btnExcl.disabled = true;
 
-  // Email de cotización al llegar al resumen
+  // Guardar datos por si el cliente abandona (correo de abandono al salir)
   if (email0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email0)) {
-    _enviarEmailCotizacion(email0, allMascotas, total, p);
+    _datosCotizacion = { email: email0, mascotas: allMascotas, total: total, periodo: p };
+    // Correo con el DETALLE de la tarificacion (no es abandono). Solo una vez y no al retomar.
+    if (!_retomando && !_cotizacionEnviada) {
+      _cotizacionEnviada = true;
+      _enviarEmailCotizacion(email0, allMascotas, total, p);
+    }
   }
 
   showScreen('sc-excl');
@@ -2497,16 +2583,13 @@ function _irAlCheckout(allMascotas) {
 /**
  * Guarda la mascota actual (con su plan seleccionado en s6) en completedMascotas[].
  */
-function _saveCurrentToCompleted() {
+function _buildPetFromS() {
   var plan    = S.plan;
   var rcAddon = S.rcAddon;
-  if (!plan && !rcAddon) return;
-
   var names    = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
   var planKeys = { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
   var rcBase   = RC_SUELTA[S.especie] || 14.90;
   var precioMes = 0, planLabel = '';
-
   if (plan && plan !== 'rc') {
     var base = calcBase(planKeys[plan]);
     precioMes = base;
@@ -2522,9 +2605,8 @@ function _saveCurrentToCompleted() {
     precioMes = rcBase;
     planLabel = names['rc'];
   }
-
   var inpF = document.getElementById('inp-fecha');
-  completedMascotas.push({
+  return {
     nombre:    S.nombre    || 'Tu mascota',
     especie:   S.especie,
     sexo:      S.sexo,
@@ -2540,7 +2622,24 @@ function _saveCurrentToCompleted() {
     _email:    S.email,
     _tel:      S.tel,
     _saludRespondida: _saludRespondida
-  });
+  };
+}
+
+// Si estabamos editando una mascota YA confirmada, escribe los cambios en su misma posicion.
+function _persistActivePet() {
+  if (_activePetIdx >= 0 && _activePetIdx < completedMascotas.length && (S.plan || S.rcAddon)) {
+    completedMascotas[_activePetIdx] = _buildPetFromS();
+  }
+}
+
+function _saveCurrentToCompleted() {
+  if (!S.plan && !S.rcAddon) return;
+  var pet = _buildPetFromS();
+  if (_activePetIdx >= 0 && _activePetIdx < completedMascotas.length) {
+    completedMascotas[_activePetIdx] = pet; // actualizar en su sitio (NO duplicar)
+  } else {
+    completedMascotas.push(pet);
+  }
 }
 
 /**
@@ -2735,6 +2834,9 @@ function switchMascotaTab(idx) {
       _enf: _enfSeleccionadas.slice(),
       _saludRespondida: _saludRespondida
     };
+  } else {
+    // Salimos de una mascota confirmada que estabamos editando: guardar sus cambios.
+    _persistActivePet();
   }
 
   _activePetIdx = idx;
@@ -2801,11 +2903,27 @@ function eliminarMascota(idx) {
     // Quedan mascotas confirmadas — ir a la primera
     switchMascotaTab(0);
   } else {
-    // No quedan mascotas confirmadas — resetear y preguntar
-    _activePetIdx = -1;
-    S.plan = null; S.rcAddon = false;
-    ['care','careplus','premium','rc'].forEach(function(pid){ _applyPlanVisual(pid, false); });
-    showUltimaModal();
+    // No quedan mascotas confirmadas. ¿Hay una mascota nueva en curso con plan?
+    var _hayNueva = (_activePetIdx === -1 && (S.plan || S.rcAddon)) ||
+                    (_newPetDraft && (_newPetDraft.plan || _newPetDraft.rcAddon));
+    if (_hayNueva) {
+      if (_newPetDraft) {
+        // Estábamos viendo la confirmada borrada: restaurar la mascota nueva en curso.
+        S.especie = _newPetDraft.especie; S.nombre = _newPetDraft.nombre; S.sexo = _newPetDraft.sexo;
+        S.esterilizada = _newPetDraft.esterilizada; S.plan = _newPetDraft.plan; S.rcAddon = _newPetDraft.rcAddon;
+        S.noFecha = _newPetDraft.noFecha;
+        var _if = document.getElementById('inp-fecha'); if (_if) _if.value = _newPetDraft._fecha || '';
+      }
+      _activePetIdx = -1; _newPetDraft = null;
+      showScreen('s6');
+      try { _renderMascotasChips(); _updateS6Total(); _updateContratar(); _updateAddBtn(); } catch(e) {}
+    } else {
+      // Nada que conservar: resetear y ofrecer empezar de nuevo.
+      _activePetIdx = -1;
+      S.plan = null; S.rcAddon = false;
+      ['care','careplus','premium','rc'].forEach(function(pid){ _applyPlanVisual(pid, false); });
+      showUltimaModal();
+    }
   }
 }
 /**
@@ -2826,6 +2944,26 @@ function eliminarMascotaEnCurso() {
   } else {
     showUltimaModal();
   }
+}
+
+/* ── Modal "no quedan mascotas" (#ultima-modal) ── */
+function showUltimaModal() {
+  var m = document.getElementById('ultima-modal');
+  if (m) m.classList.add('active');
+}
+function _closeUltimaModal() {
+  var m = document.getElementById('ultima-modal');
+  if (m) m.classList.remove('active');
+}
+function ultimaMascotaVolver() {
+  _closeUltimaModal();
+  _resetSUI();
+  showScreen('fw');
+  showStep(1);
+}
+function ultimaMascotaSalir() {
+  _closeUltimaModal();
+  try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
 }
 
 
@@ -2914,14 +3052,11 @@ function _updateContratar() {
   var nombreParam  = params.get('nombre');   // nombre de la mascota
   var especieParam = params.get('especie');  // perro | gato
 
-  // Precargar nombre + especie del asesor y saltar directo al paso 2
-  if (nombreParam && (especieParam === 'perro' || especieParam === 'gato')) {
-    var _inpN = document.getElementById('inp-nombre');
-    if (_inpN) _inpN.value = nombreParam;
-    onNombre();                    // fija S.nombre y personaliza las preguntas
-    selectEspecie(especieParam);   // fija S.especie y marca el tile
-    showStep(2);                   // paso 1 (nombre + especie) ya está hecho
-  }
+  // NOTA: nombre + especie + salto al paso 2 ya los gestiona el bloque
+  // DOMContentLoaded (arriba, rama modo=fullscreen). NO repetir aquí:
+  // selectEspecie() es un toggle y una segunda llamada desmarcaba la especie
+  // (dejaba S.especie=null), por eso a los perros les salía la pregunta de
+  // interior/exterior (que es solo de gatos).
 
   var validPlans = { care: true, careplus: true, premium: true };
   if (!planParam || !validPlans[planParam]) return;

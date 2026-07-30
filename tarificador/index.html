@@ -864,7 +864,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <div class="ffield"><label>Nombre *</label><input class="kinput" type="text" id="c2-nombre" placeholder="Nombre" oninput="validateC2()"><span class="field-msg" id="msg-nombre"></span></div>
         <div class="ffield"><label>Apellidos *</label><input class="kinput" type="text" id="c2-apellidos" placeholder="Apellidos" oninput="validateC2()"><span class="field-msg" id="msg-apellidos"></span></div>
       </div>
-      <div class="frow">
+      <div class="frow frow-fnac">
         <div class="ffield"><label>Fecha de nacimiento *</label><input class="kinput fnac-native" type="date" id="c2-fnac" onchange="validateC2()"><div class="fecha-selects" id="fsel-titular"><select class="ksel" id="fs-dia-t" onchange="syncFnacTitular()"><option value="">Día</option></select><select class="ksel" id="fs-mes-t" onchange="syncFnacTitular()"><option value="">Mes</option></select><select class="ksel" id="fs-anio-t" onchange="syncFnacTitular()"><option value="">Año</option></select></div><span class="field-msg" id="msg-fnac"></span></div>
         <div class="ffield"><label>DNI / NIE *</label><input class="kinput" type="text" id="c2-dni" placeholder="12345678A" maxlength="9" oninput="validateC2()"><span class="field-msg" id="msg-dni"></span></div>
       </div>
@@ -1301,6 +1301,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
   #fecha-exact .fecha-selects { display:flex !important; }
   .ffield .fnac-native { display:none !important; }
   .ffield .fecha-selects { display:flex !important; }
+  /* Fecha de nacimiento del titular: fila entera para que Día/Mes/Año no queden aplastados */
+  .frow-fnac { grid-template-columns: 1fr !important; display:grid !important; }
   /* Página de la oferta: botón Volver arriba a la derecha (no debajo de Continuar) */
   #s-loading .btn-back {
     position: fixed !important;
