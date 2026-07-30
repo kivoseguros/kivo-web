@@ -2323,73 +2323,19 @@ function procesarPago() {
 }
 
 function _buildEmailHtml(mascotas, periodo) {
-  var suffix = periodo === 'anual' ? '/año' : '/mes';
-  var planNames = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
-
-  var mascoRow = mascotas.map(function(pet) {
-    var pr = periodo === 'anual'
-      ? (pet.precioMes * 12 * (1 - DESC_ANUAL))
-      : pet.precioMes;
-    var docs = '';
-    var planKey = pet.plan;
-    if (planKey && planKey !== 'rc') {
-      docs += '<a href="https://kivoseguros.com/docs/ipid-' + planKey + '.pdf" style="color:#3DBFA0;text-decoration:none;font-size:13px;">📄 IPID ' + planNames[planKey] + '</a><br>';
-      docs += '<a href="https://kivoseguros.com/docs/cg-' + planKey + '.pdf" style="color:#3DBFA0;text-decoration:none;font-size:13px;">📄 Condicionado General</a><br>';
-    }
-    if (pet.rcAddon || planKey === 'rc') {
-      docs += '<a href="https://kivoseguros.com/docs/ipid-rc.pdf" style="color:#3DBFA0;text-decoration:none;font-size:13px;">📄 IPID R.C.</a><br>';
-      docs += '<a href="https://kivoseguros.com/docs/cg-rc.pdf" style="color:#3DBFA0;text-decoration:none;font-size:13px;">📄 Condicionado General R.C.</a><br>';
-    }
-    return (
-      '<tr>' +
-        '<td style="padding:16px;border-bottom:1px solid #eee;vertical-align:top">' +
-          '<strong style="font-size:15px;color:#1B2A4A">' + (pet.especie === 'gato' ? '🐱' : '🐶') + ' ' + pet.nombre + '</strong><br>' +
-          '<span style="font-size:13px;color:#555">' + (pet.planLabel || planNames[planKey]) + '</span>' +
-        '</td>' +
-        '<td style="padding:16px;border-bottom:1px solid #eee;vertical-align:top;text-align:right">' +
-          '<strong style="font-size:15px;color:#1B2A4A">' + pr.toFixed(2).replace('.', ',') + ' €' + suffix + '</strong>' +
-        '</td>' +
-        '<td style="padding:16px;border-bottom:1px solid #eee;vertical-align:top">' + docs + '</td>' +
-      '</tr>'
-    );
-  }).join('');
-
   var total = mascotas.reduce(function(s, pet) {
     return s + (periodo === 'anual' ? pet.precioMes * 12 * (1 - DESC_ANUAL) : pet.precioMes);
   }, 0);
-
-  return (
-    '<!DOCTYPE html><html><body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f5f5">' +
-    '<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:32px 0">' +
-    '<tr><td align="center">' +
-    '<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden">' +
-    '<tr><td style="background:#1B2A4A;padding:32px;text-align:center">' +
-      '<img src="https://kivoseguros.com/assets/images/logo-blanco.png" alt="KIVO" height="36" style="display:block;margin:0 auto 16px">' +
-      '<h1 style="color:#fff;margin:0;font-size:22px;font-weight:700">¡Tu póliza KIVO ya está activa! 🎉</h1>' +
-    '</td></tr>' +
-    '<tr><td style="padding:32px">' +
-      '<p style="font-size:15px;color:#555;margin:0 0 24px">Hola, tu contratación se ha completado con éxito. Aquí tienes el resumen de tus coberturas:</p>' +
-      '<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #eee;border-radius:8px;overflow:hidden">' +
-        '<tr style="background:#f8f8f8"><th style="padding:12px 16px;text-align:left;font-size:12px;color:#888;font-weight:600">MASCOTA / PLAN</th>' +
-        '<th style="padding:12px 16px;text-align:right;font-size:12px;color:#888;font-weight:600">PRECIO</th>' +
-        '<th style="padding:12px 16px;text-align:left;font-size:12px;color:#888;font-weight:600">DOCUMENTOS</th></tr>' +
-        mascoRow +
-        '<tr><td colspan="2" style="padding:16px;font-size:14px;color:#1B2A4A;font-weight:700">Total</td>' +
-        '<td style="padding:16px;text-align:right;font-size:16px;color:#1B2A4A;font-weight:700">' + total.toFixed(2).replace('.', ',') + ' €' + suffix + '</td></tr>' +
-      '</table>' +
-      '<div style="margin-top:24px;padding:16px;background:#f0fdf9;border-radius:8px;font-size:13px;color:#555">' +
-        '⏱️ <strong>Período de carencia:</strong> 5 días para accidentes · 28 días para enfermedades<br>' +
-        '📱 <strong>Gestiona tus siniestros</strong> desde la app de KIVO (disponible próximamente)<br>' +
-        '✉️ ¿Dudas? Escríbenos a <a href="mailto:hola@kivoseguros.com" style="color:#3DBFA0">hola@kivoseguros.com</a>' +
-      '</div>' +
-    '</td></tr>' +
-    '<tr><td style="background:#f8f8f8;padding:20px;text-align:center;font-size:12px;color:#aaa">' +
-      'KIVO Seguros S.L. · Agencia de Suscripción de Seguros · DGS Nº X-XXXX<br>' +
-      '<a href="https://kivoseguros.com/privacidad" style="color:#aaa">Política de Privacidad</a>' +
-    '</td></tr>' +
-    '</table></td></tr></table>' +
-    '</body></html>'
-  );
+  var cuerpo =
+    '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:0 0 18px;font-family:Inter,Arial,sans-serif;">&iexcl;Enhorabuena! Tu contratación se ha completado con éxito y tu póliza ya está activa. Aquí tienes el resumen de tus coberturas:</p>' +
+    _cotizacionTablaHtml(mascotas, total, periodo) +
+    '<div style="margin-top:22px;padding:16px 18px;background:#EAF4EE;border-radius:12px;font-size:13px;line-height:1.7;color:#3a4657;font-family:Inter,Arial,sans-serif;">' +
+      '⏱️ <strong style="color:#1B2A4A;">Período de carencia:</strong> 5 días para accidentes · 28 días para enfermedades<br>' +
+      '📄 <strong style="color:#1B2A4A;">Documentación:</strong> tienes el IPID y el Condicionado General en tu área de cliente.<br>' +
+      '📱 <strong style="color:#1B2A4A;">Gestiona tus siniestros</strong> desde la app de KIVO (disponible próximamente).<br>' +
+      '✉️ ¿Dudas? Escríbenos a <a href="mailto:hola@kivoseguros.com" style="color:#0C8B9D;text-decoration:none;">hola@kivoseguros.com</a>' +
+    '</div>';
+  return _emailWrapper('¡Tu póliza KIVO ya está activa! 🎉', 'Gracias por confiar en nosotros para cuidar de tu mascota', cuerpo);
 }
 
 function _enviarEmailPoliza() {
@@ -2438,40 +2384,61 @@ function _buildRetomarUrl(mascotas, periodo, email) {
 }
 
 function _cotizacionTablaHtml(mascotas, total, periodo) {
-  var suffix = periodo === 'anual' ? '/ano' : '/mes';
+  var suffix = periodo === 'anual' ? '/año' : '/mes';
   var rows = mascotas.map(function(pet) {
-    var pr = periodo === 'anual' ? (pet.precioMes||pet.precio)*12*(1-DESC_ANUAL) : (pet.precioMes||pet.precio);
-    return '<tr><td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;">' + pet.nombre + ' (' + (pet.especie==='perro'?'Perro':'Gato') + ')</td>' +
-           '<td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;">' + pet.planLabel + '</td>' +
-           '<td style="padding:6px 12px;border-bottom:1px solid #e8f5f1;font-weight:bold;">' + fmt(pr) + suffix + '</td></tr>';
+    var pr  = periodo === 'anual' ? (pet.precioMes||pet.precio)*12*(1-DESC_ANUAL) : (pet.precioMes||pet.precio);
+    var ico = pet.especie === 'gato' ? '🐱' : '🐶';
+    return '<tr>' +
+      '<td style="padding:12px 14px;border-bottom:1px solid #e6efe9;font-size:14px;color:#1B2A4A;font-family:Inter,Arial,sans-serif;">' + ico + ' <strong>' + pet.nombre + '</strong></td>' +
+      '<td style="padding:12px 14px;border-bottom:1px solid #e6efe9;font-size:13px;color:#5b6b82;font-family:Inter,Arial,sans-serif;">' + pet.planLabel + '</td>' +
+      '<td style="padding:12px 14px;border-bottom:1px solid #e6efe9;font-size:14px;color:#1B2A4A;font-weight:700;text-align:right;white-space:nowrap;font-family:Inter,Arial,sans-serif;">' + fmt(pr) + suffix + '</td>' +
+    '</tr>';
   }).join('');
-  return '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">' +
-    '<thead><tr style="background:#f0faf6;">' +
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Mascota</th>' +
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Plan</th>' +
-    '<th style="padding:8px 12px;text-align:left;color:#1B2A4A;">Precio</th>' +
-    '</tr></thead><tbody>' + rows +
-    '<tr style="background:#f0faf6;"><td colspan="2" style="padding:10px 12px;font-weight:700;color:#1B2A4A;">TOTAL</td>' +
-    '<td style="padding:10px 12px;font-weight:700;color:#3DBFA0;font-size:18px;">' + fmt(total) + suffix + '</td></tr>' +
-    '</tbody></table>';
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6efe9;border-radius:12px;overflow:hidden;margin:6px 0;">' +
+    '<tr style="background:#EAF4EE;">' +
+      '<th align="left" style="padding:11px 14px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#1B4D3E;font-family:Inter,Arial,sans-serif;">Mascota</th>' +
+      '<th align="left" style="padding:11px 14px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#1B4D3E;font-family:Inter,Arial,sans-serif;">Plan</th>' +
+      '<th align="right" style="padding:11px 14px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#1B4D3E;font-family:Inter,Arial,sans-serif;">Precio</th>' +
+    '</tr>' + rows +
+    '<tr style="background:#1B2A4A;">' +
+      '<td colspan="2" style="padding:13px 14px;font-size:14px;font-weight:700;color:#ffffff;font-family:Inter,Arial,sans-serif;">TOTAL</td>' +
+      '<td style="padding:13px 14px;font-size:17px;font-weight:800;color:#ffffff;text-align:right;white-space:nowrap;font-family:Inter,Arial,sans-serif;">' + fmt(total) + suffix + '</td>' +
+    '</tr>' +
+  '</table>';
 }
 
-function _emailWrapper(titulo, cuerpo) {
+function _emailWrapper(titulo, subtitulo, cuerpo) {
+  var LOGO = 'https://kivo-web-seven.vercel.app/assets/logos/kivo-logo-clean.png';
   return [
-    '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">',
-    '<div style="background:#1B2A4A;padding:28px 32px;text-align:center;">',
-    '<img src="https://kivo-web-seven.vercel.app/assets/logo-kivo-blanco.png" alt="KIVO Seguros" style="height:48px;" onerror="this.style.display=\'none\'">',
-    '<h1 style="color:#fff;margin:12px 0 0;font-size:22px;font-weight:700;">' + titulo + '</h1>',
+    '<div style="margin:0;padding:0;background:#EAF4EE;">',
+    '<div style="max-width:600px;margin:0 auto;padding:24px 12px;font-family:Inter,Arial,Helvetica,sans-serif;">',
+    '<div style="background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 6px 24px rgba(27,42,74,0.10);">',
+    '<div style="background:#1B2A4A;padding:26px 32px;text-align:center;">',
+    '<img src="' + LOGO + '" alt="KIVO Seguros" height="34" style="height:34px;width:auto;display:inline-block;border:0;">',
     '</div>',
-    '<div style="padding:32px;">',
+    '<div style="height:4px;background:#1B4D3E;line-height:4px;font-size:0;">&nbsp;</div>',
+    '<div style="padding:30px 32px 4px;text-align:center;">',
+    '<h1 style="margin:0;color:#1B2A4A;font-size:22px;font-weight:800;font-family:Inter,Arial,sans-serif;">' + titulo + '</h1>',
+    (subtitulo ? '<p style="margin:8px 0 0;color:#5b6b82;font-size:14px;font-family:Inter,Arial,sans-serif;">' + subtitulo + '</p>' : '') +
+    '</div>',
+    '<div style="padding:16px 32px 28px;">',
     cuerpo,
-    '<p style="color:#888;font-size:13px;text-align:center;margin:0;">Si tienes dudas, nuestro asesor KIVO esta disponible en <a href="https://kivoseguros.com" style="color:#3DBFA0;">kivoseguros.com</a></p>',
     '</div>',
-    '<div style="background:#f8f8f8;padding:16px 32px;text-align:center;border-top:1px solid #eee;">',
-    '<p style="color:#aaa;font-size:12px;margin:0;">KIVO Seguros S.L. &middot; no-reply@kivoseguros.com<br>Este email es automatico, no respondas a este mensaje.</p>',
+    '<div style="background:#f5f8f7;padding:18px 32px;text-align:center;border-top:1px solid #e6efe9;">',
+    '<p style="margin:0;color:#9aa7b4;font-size:11.5px;line-height:1.7;font-family:Inter,Arial,sans-serif;">KIVO Seguros S.L. &middot; Agencia de Suscripción de Seguros<br>Correo automático desde no-reply@kivoseguros.com — no respondas a este mensaje.<br><a href="https://kivoseguros.com" style="color:#0C8B9D;text-decoration:none;">kivoseguros.com</a></p>',
+    '</div>',
+    '</div>',
+    '<p style="text-align:center;color:#9aa7b4;font-size:11px;margin:14px 0 0;font-family:Inter,Arial,sans-serif;">© 2026 KIVO Seguros · Cuidamos de quien más quieres 🐾</p>',
     '</div>',
     '</div>'
   ].join('\n');
+}
+
+function _emailCTA(url, texto) {
+  return '<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:24px auto 8px;">' +
+    '<tr><td style="border-radius:10px;background:#1B4D3E;">' +
+    '<a href="' + url + '" style="display:inline-block;padding:15px 34px;font-family:Inter,Arial,sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:10px;">' + texto + ' &rarr;</a>' +
+    '</td></tr></table>';
 }
 
 // Correo 1: DETALLE de la tarificacion (al meter el email / llegar al resumen)
@@ -2479,19 +2446,17 @@ function _enviarEmailCotizacion(email, mascotas, total, periodo) {
   var url = _buildRetomarUrl(mascotas, periodo, email);
   var nombres = mascotas.map(function(p){ return p.nombre; }).join(', ');
   var cuerpo =
-    '<p style="color:#444;font-size:15px;margin:0 0 20px;">&iexcl;Gracias por tarificar con KIVO! Aqui tienes el detalle de la tarificacion que has realizado' + (nombres ? ' para <strong>' + nombres + '</strong>' : '') + ':</p>' +
+    '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:0 0 18px;font-family:Inter,Arial,sans-serif;">&iexcl;Gracias por tarificar con KIVO! Aquí tienes el detalle de la tarificación que has realizado' + (nombres ? ' para <strong>' + nombres + '</strong>' : '') + ':</p>' +
     _cotizacionTablaHtml(mascotas, total, periodo) +
-    '<p style="color:#444;font-size:15px;margin:0 0 20px;">Cuando quieras, puedes continuar con la contratacion desde donde lo dejaste:</p>' +
-    '<div style="text-align:center;margin:28px 0;">' +
-    '<a href="' + url + '" style="background:#3DBFA0;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;display:inline-block;">Continuar con la contratacion &rarr;</a>' +
-    '</div>';
+    '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:20px 0 0;font-family:Inter,Arial,sans-serif;">Cuando quieras, puedes continuar con la contratación justo desde donde lo dejaste:</p>' +
+    _emailCTA(url, 'Continuar con la contratación');
   fetch('/api/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       to: email,
-      subject: 'Tu cotizacion KIVO esta lista - aqui tienes el detalle',
-      html: _emailWrapper('Tu cotizacion KIVO esta lista', cuerpo)
+      subject: '🐾 Tu cotización KIVO está lista — aquí tienes el detalle',
+      html: _emailWrapper('Tu cotización está lista', 'Este es el detalle de lo que has tarificado', cuerpo)
     })
   }).catch(function() {});
 }
@@ -2501,18 +2466,17 @@ function _enviarEmailAbandono(email, mascotas, total, periodo) {
   var url = _buildRetomarUrl(mascotas, periodo, email);
   var nombres = mascotas.map(function(p){ return p.nombre; }).join(', ');
   var cuerpo =
-    '<p style="color:#444;font-size:15px;margin:0 0 20px;">Vimos que empezaste a proteger' + (nombres ? ' a <strong>' + nombres + '</strong>' : ' a tu mascota') + ' pero no llegaste a terminar. No te preocupes: hemos guardado tu cotizacion y puedes retomar el proceso exactamente donde lo dejaste.</p>' +
+    '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:0 0 18px;font-family:Inter,Arial,sans-serif;">Empezaste a proteger' + (nombres ? ' a <strong>' + nombres + '</strong>' : ' a tu mascota') + ' pero no llegaste a terminar. No te preocupes: hemos guardado tu cotización y puedes retomar el proceso exactamente donde lo dejaste.</p>' +
     _cotizacionTablaHtml(mascotas, total, periodo) +
-    '<div style="text-align:center;margin:28px 0;">' +
-    '<a href="' + url + '" style="background:#3DBFA0;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;display:inline-block;">Retomar mi contratacion &rarr;</a>' +
-    '</div>';
+    '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:20px 0 0;font-family:Inter,Arial,sans-serif;">Tu mascota merece estar protegida. Solo te queda un paso:</p>' +
+    _emailCTA(url, 'Retomar mi contratación');
   fetch('/api/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       to: email,
-      subject: 'Tu cotizacion KIVO te espera - retomala cuando quieras',
-      html: _emailWrapper('Tu cotizacion sigue guardada', cuerpo)
+      subject: '🐾 Tu cotización KIVO te espera — retómala cuando quieras',
+      html: _emailWrapper('Tu cotización sigue guardada', 'La tienes lista para retomar cuando quieras', cuerpo)
     })
   }).catch(function() {});
 }
