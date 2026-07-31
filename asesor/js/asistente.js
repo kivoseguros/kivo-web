@@ -176,8 +176,11 @@
     const plans = ['care', 'careplus', 'premium'];
     let best = plans.reduce((a, b) => scores[a] >= scores[b] ? a : b);
     if (best === 'care' && scores.careplus >= scores.care - 1) best = 'careplus';
-    // PREMIUM ya incluye el máximo de R.C. (300.000 €): no se ofrece R.C. independiente
-    const addRCExtra = answers.tipo === 'perro' && scores.rcExtra >= 3 && best !== 'premium';
+    // Si el usuario ELIGE expresamente "Quiero una RC independiente", se marca SIEMPRE
+    // (sea perro o gato, y con cualquier plan). Si no, se recomienda por heurística
+    // (perro, puntuación alta y plan que no sea premium, que ya incluye 300.000 € de RC).
+    const wantsRCExtra = answers.rc === 'rc_extra';
+    const addRCExtra = wantsRCExtra || (answers.tipo === 'perro' && scores.rcExtra >= 3 && best !== 'premium');
     return { plan: best, addRCExtra };
   }
 
@@ -581,5 +584,8 @@
 
   buildActiveQuestions('perro');
   showNameStep();
+
+  // Hook de pruebas (inofensivo): permite auditar el motor de recomendación sin la UI.
+  try { window.__kivoTest = { calcScore: calcScore, getRecommendation: getRecommendation, QUESTIONS: QUESTIONS, PLAN_DATA: PLAN_DATA }; } catch(e) {}
 
 })();
