@@ -734,10 +734,25 @@ function closeExitModal() {
 }
 function confirmExit() {
   document.getElementById('exit-modal').classList.remove('active');
-  // Correo de abandono: solo si NO ha contratado y hay una cotizacion con email
-  if (!_haContratado && !_abandonoEnviado && _datosCotizacion && _datosCotizacion.email) {
-    _abandonoEnviado = true;
-    _enviarEmailAbandono(_datosCotizacion.email, _datosCotizacion.mascotas, _datosCotizacion.total, _datosCotizacion.periodo);
+  // Guardar el estado ACTUAL para poder retomar (refleja las mascotas que queden
+  // tras añadir/quitar, con todos sus datos).
+  _guardarResumeState();
+  // Correo de abandono: solo si NO ha contratado.
+  if (!_haContratado && !_abandonoEnviado) {
+    // Si aún no teníamos datos de cotización (salió antes del checkout), construirlos ahora.
+    if (!_datosCotizacion || !_datosCotizacion.email) {
+      var _snap = _buildAllPetsSnapshot();
+      var _mail = S.email || (_snap[0] && _snap[0]._email);
+      if (_snap.length && _mail) {
+        var _p = S.periodo || 'mensual';
+        var _tot = _snap.reduce(function(s, pt){ return s + (_p==='anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio)); }, 0);
+        _datosCotizacion = { email: _mail, mascotas: _snap, total: _tot, periodo: _p };
+      }
+    }
+    if (_datosCotizacion && _datosCotizacion.email) {
+      _abandonoEnviado = true;
+      _enviarEmailAbandono(_datosCotizacion.email, _datosCotizacion.mascotas, _datosCotizacion.total, _datosCotizacion.periodo);
+    }
   }
   try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
 }
@@ -745,6 +760,22 @@ function confirmExit() {
 /* -- Retomar una cotizacion desde el enlace del email -- */
 function _retomarDesdeEmail(params) {
   try {
+    // 1) PREFERENTE: estado COMPLETO guardado en el navegador (todos los datos
+    //    y opciones marcadas). Solo funciona en el mismo navegador donde tarificó.
+    var _saved = null;
+    try { _saved = JSON.parse(localStorage.getItem('kivo_tarif_resume') || 'null'); } catch(e) {}
+    if (_saved && _saved.pets && _saved.pets.length) {
+      S.periodo = _saved.pets[0].periodo || 'mensual';
+      S.email   = _saved.pets[0]._email || params.get('email') || '';
+      S.tel     = _saved.pets[0]._tel || S.tel;
+      _cotizacionEnviada = true;
+      _retomando = true;
+      showScreen('fw');
+      _irAlCheckout(_saved.pets);
+      _retomando = false;
+      return;
+    }
+    // 2) FALLBACK: datos parciales que viajan en la URL (otro navegador/dispositivo).
     var mascotas = [];
     for (var i = 0; i < 20; i++) {
       var raw = params.get('pet' + i);
@@ -1646,6 +1677,89 @@ document.addEventListener('click', function(e) {
   if (any) _letraItems.forEach(desmarcarLetra);
 });
 
+/* Construye el array COMPLETO de mascotas actuales (confirmadas + la que está en
+   curso con plan), con TODOS sus datos — para guardar el estado de retomar. */
+function _buildAllPetsSnapshot() {
+  var names    = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
+  var planKeys = { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
+  var p = S.periodo || 'mensual';
+  var allPets = completedMascotas.map(function(pet) {
+    return {
+      nombre: pet.nombre, especie: pet.especie,
+      plan: pet.plan, planLabel: pet.planLabel, rcAddon: pet.rcAddon,
+      sexo: pet.sexo, esterilizada: pet.esterilizada,
+      noFecha: pet.noFecha, _fecha: pet._fecha,
+      tipoRaza: pet.tipoRaza, raza: pet.raza, raza2: pet.raza2, peso: pet.peso, interior: pet.interior,
+      _enf: pet._enf ? pet._enf.slice() : [],
+      _saludRespondida: pet._saludRespondida,
+      precio: (p==='anual') ? pet.precioMes*12*(1-DESC_ANUAL) : pet.precioMes,
+      precioMes: pet.precioMes, precioAno: pet.precioMes*12*(1-DESC_ANUAL),
+      periodo: p, _email: pet._email||S.email, _tel: pet._tel||S.tel
+    };
+  });
+  // Añadir la mascota EN CURSO (la que se está creando/editando). Puede estar en S
+  // (_activePetIdx === -1) o, si estás viendo una confirmada, en el borrador (_newPetDraft).
+  var _src = null, _srcFecha = '', _srcEnf = [], _srcSalud = false;
+  if (_activePetIdx === -1 && (S.plan || S.rcAddon)) {
+    _src = S;
+    _srcFecha = (document.getElementById('inp-fecha') || {}).value || '';
+    _srcEnf = (typeof _enfSeleccionadas !== 'undefined' && _enfSeleccionadas) ? _enfSeleccionadas.slice() : [];
+    _srcSalud = (typeof _saludRespondida !== 'undefined') ? _saludRespondida : false;
+  } else if (_newPetDraft && (_newPetDraft.plan || _newPetDraft.rcAddon)) {
+    _src = _newPetDraft;
+    _srcFecha = _newPetDraft._fecha || '';
+    _srcEnf = _newPetDraft._enf ? _newPetDraft._enf.slice() : [];
+    _srcSalud = !!_newPetDraft._saludRespondida;
+  }
+  if (_src) {
+    var plan = _src.plan, rcAddon = _src.rcAddon;
+    var rcBase = RC_SUELTA[_src.especie] || 14.90;
+    var precioMes = 0, planLabel = '';
+    if (plan && plan !== 'rc') {
+      // calcBase usa la edad (inp-fecha) y S.especie: los ponemos temporalmente al src.
+      var _inpF = document.getElementById('inp-fecha');
+      var _savedFecha = _inpF ? _inpF.value : null;
+      var _savedEsp = S.especie;
+      if (_inpF) _inpF.value = _srcFecha;
+      S.especie = _src.especie;
+      precioMes = calcBase(planKeys[plan]) + (rcAddon ? RC_ADDON : 0);
+      if (_inpF && _savedFecha !== null) _inpF.value = _savedFecha;
+      S.especie = _savedEsp;
+      planLabel = names[plan] + (rcAddon ? ' + R.C.' : '');
+    } else { plan = 'rc'; precioMes = rcBase; planLabel = names['rc']; }
+    var precioFinal = (p === 'anual') ? precioMes*12*(1-DESC_ANUAL) : precioMes;
+    allPets.push({
+      nombre: _src.nombre || 'Tu mascota', especie: _src.especie,
+      sexo: _src.sexo, esterilizada: _src.esterilizada, noFecha: _src.noFecha,
+      tipoRaza: _src.tipoRaza, raza: _src.raza, raza2: _src.raza2, peso: _src.peso, interior: _src.interior,
+      plan: plan, planLabel: planLabel, rcAddon: rcAddon,
+      precio: precioFinal, precioMes: precioMes, precioAno: precioMes*12*(1-DESC_ANUAL),
+      _fecha: _srcFecha, _enf: _srcEnf, _saludRespondida: _srcSalud,
+      periodo: p, _email: S.email, _tel: S.tel
+    });
+  }
+  return allPets;
+}
+/* Guarda el estado actual (para retomar) — se llama al añadir/quitar/editar mascotas
+   y al salir. Refleja SIEMPRE las mascotas actuales (los borrados desaparecen). */
+function _guardarResumeState() {
+  if (_retomando || _haContratado) return;
+  try {
+    var snap;
+    // Si ya estamos en el CHECKOUT, la lista interna (completedMascotas) se vació al
+    // entrar, así que la lista completa está en _checkoutPets. Usarla para no perder
+    // mascotas al salir desde el checkout.
+    if (completedMascotas.length === 0 && _checkoutPets && _checkoutPets.length > 1) {
+      snap = _checkoutPets;
+    } else {
+      snap = _buildAllPetsSnapshot();
+    }
+    if (snap && snap.length) {
+      localStorage.setItem('kivo_tarif_resume', JSON.stringify({ v: 1, ts: Date.now(), pets: snap }));
+    }
+  } catch(e) {}
+}
+
 function continuarContratar() {
   try {
   var names    = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
@@ -1701,9 +1815,14 @@ function continuarContratar() {
     var precioFinal = (p==='anual') ? precioMes*12*(1-DESC_ANUAL) : precioMes;
     allPets.push({
       nombre: S.nombre||'Tu mascota', especie: S.especie,
+      sexo: S.sexo, esterilizada: S.esterilizada, noFecha: S.noFecha,
+      tipoRaza: S.tipoRaza, raza: S.raza, raza2: S.raza2, peso: S.peso, interior: S.interior,
       plan: plan, planLabel: planLabel, rcAddon: rcAddon,
       precio: precioFinal, precioMes: precioMes,
       precioAno: precioMes*12*(1-DESC_ANUAL),
+      _fecha: (document.getElementById('inp-fecha') || {}).value || '',
+      _enf: (typeof _enfSeleccionadas !== 'undefined' && _enfSeleccionadas) ? _enfSeleccionadas.slice() : [],
+      _saludRespondida: (typeof _saludRespondida !== 'undefined') ? _saludRespondida : false,
       periodo: p, _email: S.email, _tel: S.tel
     });
   }
@@ -2312,6 +2431,8 @@ function procesarPago() {
   // Simula pago (aquí irá Stripe)
   setTimeout(function() {
     _haContratado = true;
+    // Ya contrató: borrar el estado guardado para que no reviva al abrir el correo.
+    try { localStorage.removeItem('kivo_tarif_resume'); } catch(e) {}
     // Enviar email de bienvenida/póliza por Resend
     _enviarEmailPoliza().then(function() {
       showScreen('s-ok');
@@ -2483,6 +2604,11 @@ function _enviarEmailAbandono(email, mascotas, total, periodo) {
 
 function _irAlCheckout(allMascotas) {
   _checkoutPets = allMascotas; // guardamos para docs y sc5
+  // Guardar estado COMPLETO para poder retomar desde el correo con TODOS los datos
+  // (nombre, sexo, raza, fecha, salud, plan...). No al retomar (evita reescribir).
+  if (!_retomando) {
+    try { localStorage.setItem('kivo_tarif_resume', JSON.stringify({ v: 1, ts: Date.now(), pets: allMascotas })); } catch(e) {}
+  }
   var p      = allMascotas.length > 0 ? allMascotas[0].periodo : S.periodo;
   var names  = { care:'KIVO CARE', careplus:'KIVO CARE+', premium:'KIVO PREMIUM', rc:'KIVO R.C.' };
   var total  = allMascotas.reduce(function(s, pet) {
@@ -2862,33 +2988,48 @@ function eliminarMascota(idx) {
   var petDel = completedMascotas[idx];
   if (!petDel) return;
   if (!confirm('Seguro que quieres eliminar a ' + petDel.nombre + ' del contrato?')) return;
+  var borrandoActiva = (_activePetIdx === idx);
   completedMascotas.splice(idx, 1);
-  if (completedMascotas.length > 0) {
-    // Quedan mascotas confirmadas — ir a la primera
-    switchMascotaTab(0);
-  } else {
-    // No quedan mascotas confirmadas. ¿Hay una mascota nueva en curso con plan?
-    var _hayNueva = (_activePetIdx === -1 && (S.plan || S.rcAddon)) ||
-                    (_newPetDraft && (_newPetDraft.plan || _newPetDraft.rcAddon));
-    if (_hayNueva) {
-      if (_newPetDraft) {
-        // Estábamos viendo la confirmada borrada: restaurar la mascota nueva en curso.
-        S.especie = _newPetDraft.especie; S.nombre = _newPetDraft.nombre; S.sexo = _newPetDraft.sexo;
-        S.esterilizada = _newPetDraft.esterilizada; S.plan = _newPetDraft.plan; S.rcAddon = _newPetDraft.rcAddon;
-        S.noFecha = _newPetDraft.noFecha;
-        var _if = document.getElementById('inp-fecha'); if (_if) _if.value = _newPetDraft._fecha || '';
-      }
-      _activePetIdx = -1; _newPetDraft = null;
-      showScreen('s6');
-      try { _renderMascotasChips(); _updateS6Total(); _updateContratar(); _updateAddBtn(); } catch(e) {}
+  if (_activePetIdx > idx) _activePetIdx--;
+
+  if (borrandoActiva) {
+    // La mascota que estabas viendo se ha borrado. Recuperar la mascota nueva en
+    // curso (borrador) si la hay; si no, mostrar la primera confirmada que quede.
+    _activePetIdx = -1;
+    if (_newPetDraft) {
+      S.especie = _newPetDraft.especie; S.nombre = _newPetDraft.nombre; S.sexo = _newPetDraft.sexo;
+      S.esterilizada = _newPetDraft.esterilizada; S.plan = _newPetDraft.plan; S.rcAddon = _newPetDraft.rcAddon;
+      S.noFecha = _newPetDraft.noFecha; S.tipoRaza = _newPetDraft.tipoRaza; S.raza = _newPetDraft.raza; S.raza2 = _newPetDraft.raza2;
+      var _if1 = document.getElementById('inp-fecha'); if (_if1) _if1.value = _newPetDraft._fecha || '';
+      _enfSeleccionadas = _newPetDraft._enf ? _newPetDraft._enf.slice() : [];
+      _saludRespondida = _newPetDraft._saludRespondida || false;
+      _newPetDraft = null;
+    } else if (completedMascotas.length > 0) {
+      var _p0 = completedMascotas[0];
+      S.especie = _p0.especie; S.nombre = _p0.nombre; S.sexo = _p0.sexo; S.esterilizada = _p0.esterilizada;
+      S.plan = _p0.plan; S.rcAddon = _p0.rcAddon; S.noFecha = _p0.noFecha;
+      var _if2 = document.getElementById('inp-fecha'); if (_if2) _if2.value = _p0._fecha || '';
+      _enfSeleccionadas = _p0._enf ? _p0._enf.slice() : [];
+      _saludRespondida = _p0._saludRespondida !== undefined ? _p0._saludRespondida : true;
+      _activePetIdx = 0;
     } else {
-      // Nada que conservar: resetear y ofrecer empezar de nuevo.
-      _activePetIdx = -1;
       S.plan = null; S.rcAddon = false;
       ['care','careplus','premium','rc'].forEach(function(pid){ _applyPlanVisual(pid, false); });
-      showUltimaModal();
+      showUltimaModal(); _guardarResumeState(); return;
     }
+  } else if (completedMascotas.length === 0 && !(S.plan || S.rcAddon)) {
+    // Borraste la única confirmada y no hay mascota nueva en curso.
+    _activePetIdx = -1; S.plan = null; S.rcAddon = false;
+    ['care','careplus','premium','rc'].forEach(function(pid){ _applyPlanVisual(pid, false); });
+    showUltimaModal(); _guardarResumeState(); return;
   }
+  // (borrandoActiva=false → se conserva la mascota actual/en curso tal cual)
+  try { _restoreEnfUI && _restoreEnfUI(); } catch(e) {}
+  ['care','careplus','premium','rc'].forEach(function(pid){ _applyPlanVisual(pid, false); });
+  if (S.plan && S.plan !== 'rc') _applyPlanVisual(S.plan, true);
+  if (S.rcAddon) _applyPlanVisual('rc', true);
+  try { _renderMascotasChips(); _updateS6Total(); _updateContratar(); _updateAddBtn(); } catch(e) {}
+  _guardarResumeState();
 }
 /**
  * Elimina la mascota "en curso" (nueva, no confirmada todavia).

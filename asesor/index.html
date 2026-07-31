@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/asistente.css?v=6">
-  <link rel="stylesheet" href="css/layout.css?v=6">
+  <link rel="stylesheet" href="css/layout.css?v=12">
 <style id="kivo-nohover">
 /* KIVO: sin efecto hover en botones (solo hundido al pulsar) */
 html button:hover,html [role="button"]:hover,html [class*="btn"]:hover,html [class*="button"]:hover,html [class*="cta"]:hover,html [class*="boton"]:hover,html .portal-tile:hover,html .kivo-fab-main:hover,html .kivo-fab-option:hover,html #kivo-top-btn:hover,html .s04-cta-btn:hover{filter:none!important;}
@@ -65,14 +65,14 @@ html button:active,html [role="button"]:active,html input[type="submit"]:active,
 
 <!-- ═══ MODAL — Robot izquierda + Quiz derecha ═══ -->
 <div class="s04-modal-overlay" id="s04Modal">
-  <!-- Barra flotante superior (en todas las páginas del asesor menos la bienvenida) -->
-  <div class="asesor-topbar" id="asesorTopbar" style="display:none">
-    <button class="asesor-topbar-back" id="asesorBackBtn" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
-      Volver
-    </button>
-  </div>
   <div class="s04-modal-box">
+    <!-- Barra superior (Volver) — dentro de la tarjeta, se queda pegada arriba -->
+    <div class="asesor-topbar" id="asesorTopbar" style="display:none">
+      <button class="asesor-topbar-back" id="asesorBackBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
+        Volver
+      </button>
+    </div>
 
     <!-- Columna izquierda: robot + logo + cerrar -->
     <div class="s04-modal-left">

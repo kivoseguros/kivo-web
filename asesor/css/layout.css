@@ -422,3 +422,81 @@ body[data-step="6"] .s04-modal-overlay{background:radial-gradient(55% 45% at 15%
 
 /* ── KIVO: efecto PULSADO (hundido) global en todos los botones ── */
 button:active,[role="button"]:active,input[type="submit"]:active,input[type="button"]:active,input[type="reset"]:active,.plan-selector:active,.excl-item:active,.otile:active,.wtile:active,.pbtn:active,.sbtn:active,.quiz-option:active{transform:translateY(3px)!important;box-shadow:0 2px 8px rgba(27,42,74,0.12),inset 0 3px 9px rgba(27,42,74,0.16)!important;transition:transform .06s ease,box-shadow .06s ease!important;}
+
+/* ════════════════════════════════════════════════════════════════
+   ESCRITORIO (≥641px): ventana del asesor como TARJETA centrada.
+   Evita el layout estirado (robot gigante arriba + hueco + contenido
+   abajo inalcanzable). El contenido se desplaza dentro de la tarjeta.
+════════════════════════════════════════════════════════════════ */
+@media (min-width: 641px) {
+  /* La ventana arranca con margen fijo arriba (no pegada al techo) y el overlay
+     la deja arriba; si el contenido es alto, se desplaza dentro de la tarjeta. */
+  .s04-modal-overlay { align-items: center; padding: 40px 20px; overflow-y: auto; }
+  .s04-modal-box {
+    grid-template-columns: 1fr;
+    max-width: 640px;
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    background: rgba(255,255,255,0.60) !important;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.75) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 40px 90px rgba(27,42,74,0.22) !important;
+  }
+  /* Fuera el robot gigante de arriba en TODAS las pantallas (comía el espacio y
+     empujaba el contenido fuera de la vista). En la bienvenida se ve el robot inline. */
+  .s04-modal-robot-wrap { display: none; }
+  .s04-modal-left { min-height: 0; }
+  .s04-modal-box.is-welcome .quiz-welcome-robot { display: block; width: 130px; height: auto; margin: 4px auto 14px; }
+  .s04-modal-left { padding: 10px 26px 0; }
+  /* Salir SIEMPRE visible arriba a la derecha, sin tener que desplazar */
+  .s04-modal-close {
+    position: fixed; top: 16px; right: 20px; z-index: 60;
+    width: auto; max-width: none; margin: 0;
+    padding: 8px 16px; border-radius: 20px; font-size: 13px; gap: 5px;
+  }
+  .s04-modal-box.is-welcome { padding-top: 54px; }
+  /* Bienvenida compacta: que quepa TODO sin desplazar (ni Salir arriba ni Empezar abajo) */
+  .s04-modal-box.is-welcome .quiz-welcome-icon { display: none; }
+  .s04-modal-box.is-welcome .quiz-progress-wrap { display: none; }
+  .s04-modal-box.is-welcome .quiz-welcome-robot { width: 104px; margin: 2px auto 8px; }
+  .s04-modal-box.is-welcome .quiz-welcome-title { margin: 0 0 4px; }
+  .s04-modal-box.is-welcome .quiz-welcome-sub { margin: 0 0 4px; }
+  .s04-modal-box.is-welcome .quiz-question { margin: 6px 0 10px; }
+  .s04-modal-box.is-welcome .s04-modal-right .quiz-card { padding: 6px 30px 16px; }
+  /* Preguntas/resultado: compactar para que quepan sin desplazar */
+  .s04-modal-box:not(.is-welcome) { padding-top: 0; }
+  .s04-modal-right .quiz-card { padding: 14px 30px 20px; }
+  .s04-modal-right .quiz-result { padding: 14px 30px 22px; }
+  /* Recomendación en 2 columnas (plan + RC en paralelo) para aprovechar el ancho */
+  .result-products { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .result-intro { margin-bottom: 4px; }
+  .result-check-icon { margin-bottom: 4px; }
+  .result-select-hint { margin: 4px 0 12px; }
+  /* Compactar el interior de las tarjetas para que la recomendación entre entera */
+  .rpc-top { padding: 12px 16px !important; }
+  .rpc-pct { font-size: 40px !important; line-height: 1 !important; }
+  .rpc-features { padding: 10px 18px 12px !important; }
+  .rpc-features li { padding: 4px 0 !important; font-size: 13.5px !important; }
+  .result-reason { margin: 10px 0 !important; }
+  /* Quitar el "Volver" de abajo (redundante con el de arriba) en escritorio */
+  .quiz-btn-back { display: none !important; }
+  .quiz-progress-wrap { margin-bottom: 10px !important; }
+  .s04-modal-left { padding: 0; }
+  /* Barra superior contenida a la tarjeta, no a toda la pantalla */
+  .asesor-topbar {
+    position: sticky;
+    top: 0;
+    left: auto; right: auto; transform: none;
+    width: auto; max-width: none;
+    margin: 0 0 4px;
+    border-radius: 24px 24px 0 0;
+    background: rgba(255,255,255,0.55);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  /* Solo la pantalla de RECOMENDACIÓN es ancha (dos planes en paralelo) */
+  .s04-modal-box:has(.quiz-result:not(:empty)) { max-width: 1040px; }
+}

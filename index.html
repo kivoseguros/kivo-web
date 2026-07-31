@@ -6709,6 +6709,10 @@ html #tarif-overlay:active *, html #asesor-overlay:active *{ transform:none !imp
       scrolling="no"
     ></iframe>
   </div>
+  <!-- Capa transparente: deja pasar la rueda del ratón a la web (el iframe la atrapaba)
+       y abre el asesor a pantalla completa al hacer clic. -->
+  <div id="asesor-click-cover" onclick="kivoAbrirAsesor()" title="Abrir Asesor KIVO"
+       style="position:absolute;inset:16px;z-index:9;cursor:pointer;border-radius:20px;background:transparent;"></div>
   <div id="asesor-hint-right" style="display:none;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:80px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.92) 60%);align-items:center;justify-content:flex-end;padding-right:6px;pointer-events:none;font-size:24px;color:#1B2A4A;font-weight:900;">&#x203a;</div>
 </section>
 
@@ -8701,7 +8705,8 @@ window.addEventListener('message', function(e) {
       _tFr.setAttribute('data-loaded', '1');
       _tOv.style.display = 'flex';
       _tOv.classList.add('open');
-      _tOv.classList.add('from-asesor'); // abrir a pantalla completa, no como ventana
+      // MISMA ventana contenida que el tarificador directo (antes se abría a
+      // pantalla completa con 'from-asesor', por eso se veía distinto).
       document.body.style.overflow = 'hidden';
     }
   }
