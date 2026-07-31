@@ -772,6 +772,11 @@ function _retomarDesdeEmail(params) {
       _retomando = true;
       showScreen('fw');
       _irAlCheckout(_saved.pets);
+      // Restaurar TAMBIÉN la lista de mascotas confirmadas para que si el usuario
+      // pulsa "Volver/Regresar" desde el pago NO se pierdan (antes desaparecían).
+      completedMascotas = _saved.pets.map(function(p){ return JSON.parse(JSON.stringify(p)); });
+      _activePetIdx = -1; _newPetDraft = null;
+      S.plan = null; S.rcAddon = false;
       _retomando = false;
       return;
     }
