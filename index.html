@@ -8662,7 +8662,13 @@ function kivoCerrarTodo() {
   ov.classList.remove('open');
   ov.classList.remove('from-asesor');
   document.getElementById('tarif-exit-screen').style.display = 'none';
+  // Liberar TODO el bloqueo de scroll (incluido el position:fixed que pone el asesor
+  // al abrir). Antes solo se quitaba overflow y la web quedaba congelada al salir.
   document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, _kivoScrollLock || 0);
   // NO limpiamos el src: dejamos el tarificador precargado para que la próxima apertura sea instantánea.
   // (El reseteo del contenido se hace al abrir, vía mensaje 'kivo-portal-abrir'.)
 }
