@@ -759,6 +759,31 @@ function confirmExit() {
 
 /* -- Retomar una cotizacion desde el enlace del email -- */
 function _retomarDesdeEmail(params) {
+  // 0) NUEVO: si viene token de Supabase (?cot=), recuperar la cotización del servidor.
+  var _cot = params.get('cot');
+  if (_cot) {
+    fetch('/api/cotizacion?token=' + encodeURIComponent(_cot))
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (!d || !d.mascotas || !d.mascotas.length) { _retomarSinToken(params); return; }
+        var mascotas = d.mascotas;
+        S.periodo = d.periodo || 'mensual';
+        S.email   = d.email || params.get('email') || '';
+        mascotas.forEach(function(pet){ pet.periodo = S.periodo; pet._email = S.email; });
+        _cotizacionEnviada = true; _retomando = true;
+        showScreen('fw');
+        _irAlCheckout(mascotas);
+        completedMascotas = mascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
+        _activePetIdx = -1; _newPetDraft = null; S.plan = null; S.rcAddon = false;
+        _retomando = false;
+      })
+      .catch(function(){ _retomarSinToken(params); });
+    return;
+  }
+  _retomarSinToken(params);
+}
+
+function _retomarSinToken(params) {
   try {
     // 1) PREFERENTE: estado COMPLETO guardado en el navegador (todos los datos
     //    y opciones marcadas). Solo funciona en el mismo navegador donde tarificó.
@@ -2496,10 +2521,36 @@ function _enviarEmailPoliza() {
 var _haContratado      = false;
 var _abandonoEnviado   = false;
 var _cotizacionEnviada = false;
+var _cotToken = null; // token de la cotización guardada en Supabase (para el enlace corto del email)
+
+// Guarda la cotización en Supabase (INSERT con la clave anon) y devuelve el token.
+function _guardarCotizacionSupabase(email, mascotas, total, periodo) {
+  try {
+    if (!SUPABASE_URL || !email || !mascotas || !mascotas.length) return Promise.resolve(null);
+    return fetch(SUPABASE_URL + '/rest/v1/cotizaciones', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify({ email: email, mascotas: mascotas, total: total, periodo: periodo, estado: 'vista_precios' })
+    }).then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ var t = (d && d[0] && d[0].token) ? d[0].token : null; if (t) _cotToken = t; return t; })
+      .catch(function(){ return null; });
+  } catch(e) { return Promise.resolve(null); }
+}
 var _retomando         = false;
 var _datosCotizacion   = null; // {email, mascotas, total, periodo}
 
 function _buildRetomarUrl(mascotas, periodo, email) {
+  // Si la cotización está guardada en Supabase, usar enlace CORTO con el token.
+  if (_cotToken) {
+    return 'https://kivo-web-seven.vercel.app/tarificador/index.html?cot=' + encodeURIComponent(_cotToken) +
+           '&email=' + encodeURIComponent(email || '') + '&modo=fullscreen&retomar=1';
+  }
+  // Fallback: datos codificados en la propia URL.
   var parts = mascotas.map(function(pet, i) {
     return 'pet' + i + '=' + encodeURIComponent(JSON.stringify({
       nombre: pet.nombre, especie: pet.especie,
@@ -2670,7 +2721,10 @@ function _irAlCheckout(allMascotas) {
     // Correo con el DETALLE de la tarificacion (no es abandono). Solo una vez y no al retomar.
     if (!_retomando && !_cotizacionEnviada) {
       _cotizacionEnviada = true;
-      _enviarEmailCotizacion(email0, allMascotas, total, p);
+      // Guardar en Supabase primero (para tener el token), y LUEGO enviar el email con el enlace corto.
+      _guardarCotizacionSupabase(email0, allMascotas, total, p).then(function(){
+        _enviarEmailCotizacion(email0, allMascotas, total, p);
+      });
     }
   }
 
