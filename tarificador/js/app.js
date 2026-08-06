@@ -798,6 +798,11 @@ function _retomarDesdeEmail(params) {
     _retomando = true;
     showScreen('fw');
     _irAlCheckout(mascotas);
+    // Restaurar TAMBIÉN la lista de mascotas confirmadas (igual que en la vía localStorage),
+    // para que al volver atrás o añadir/quitar mascotas NO desaparezcan ni se bloquee.
+    completedMascotas = mascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
+    _activePetIdx = -1; _newPetDraft = null;
+    S.plan = null; S.rcAddon = false;
     _retomando = false;
   } catch(e) { showFW(); showStep(1); }
 }
@@ -2497,9 +2502,12 @@ var _datosCotizacion   = null; // {email, mascotas, total, periodo}
 function _buildRetomarUrl(mascotas, periodo, email) {
   var parts = mascotas.map(function(pet, i) {
     return 'pet' + i + '=' + encodeURIComponent(JSON.stringify({
-      nombre: pet.nombre, especie: pet.especie, raza: pet.raza,
-      plan: pet.plan, precio: pet.precio, precioMes: pet.precioMes,
-      planLabel: pet.planLabel, rcAddon: pet.rcAddon
+      nombre: pet.nombre, especie: pet.especie,
+      sexo: pet.sexo, esterilizada: pet.esterilizada, noFecha: pet.noFecha,
+      tipoRaza: pet.tipoRaza, raza: pet.raza, raza2: pet.raza2, peso: pet.peso, interior: pet.interior,
+      plan: pet.plan, precio: pet.precio, precioMes: pet.precioMes, precioAno: pet.precioAno,
+      planLabel: pet.planLabel, rcAddon: pet.rcAddon,
+      _fecha: pet._fecha, _enf: pet._enf, _saludRespondida: pet._saludRespondida
     }));
   });
   parts.push('periodo=' + encodeURIComponent(periodo));
