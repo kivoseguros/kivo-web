@@ -2527,17 +2527,19 @@ var _cotToken = null; // token de la cotización guardada en Supabase (para el e
 function _guardarCotizacionSupabase(email, mascotas, total, periodo) {
   try {
     if (!SUPABASE_URL || !email || !mascotas || !mascotas.length) return Promise.resolve(null);
+    // Token generado en el cliente (UUID) para no necesitar leer de vuelta (anon no lee).
+    var token = (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){ var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8); return v.toString(16); });
     return fetch(SUPABASE_URL + '/rest/v1/cotizaciones', {
       method: 'POST',
       headers: {
         'apikey': SUPABASE_ANON_KEY,
         'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=representation'
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email: email, mascotas: mascotas, total: total, periodo: periodo, estado: 'vista_precios' })
-    }).then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(d){ var t = (d && d[0] && d[0].token) ? d[0].token : null; if (t) _cotToken = t; return t; })
+      body: JSON.stringify({ token: token, email: email, mascotas: mascotas, total: total, periodo: periodo, estado: 'vista_precios' })
+    }).then(function(r){ if (r.ok) { _cotToken = token; return token; } return null; })
       .catch(function(){ return null; });
   } catch(e) { return Promise.resolve(null); }
 }
