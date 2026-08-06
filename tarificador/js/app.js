@@ -2377,7 +2377,7 @@ function _iaMatch(q) {
   if (ql.includes('reembolso') || ql.includes('reclamacion') || ql.includes('siniestro')) return IA_RESP[5];
   if (ql.includes('contratar') || ql.includes('comprar')) return IA_RESP[6];
   if (ql.includes('pago') || ql.includes('mensual') || ql.includes('anual')) return IA_RESP[7];
-  return 'Para mas informacion sobre este tema, contactanos por WhatsApp o escribenos a hola@kivo.es.';
+  return 'Para mas informacion sobre este tema, contactanos por WhatsApp o escribenos a hola@kivoseguros.com.';
 }
 
 function iaKeydown(e) {
@@ -2707,6 +2707,11 @@ function _buildPetFromS() {
     sexo:      S.sexo,
     esterilizada: S.esterilizada,
     noFecha:   S.noFecha,
+    tipoRaza:  S.tipoRaza,
+    raza:      S.raza,
+    raza2:     S.raza2,
+    peso:      S.peso,
+    interior:  S.interior,
     plan:      plan,
     planLabel: planLabel,
     rcAddon:   rcAddon,
@@ -2925,6 +2930,7 @@ function switchMascotaTab(idx) {
     _newPetDraft = {
       especie: S.especie, nombre: S.nombre, sexo: S.sexo, esterilizada: S.esterilizada,
       plan: S.plan, rcAddon: S.rcAddon, noFecha: S.noFecha,
+      tipoRaza: S.tipoRaza, raza: S.raza, raza2: S.raza2, peso: S.peso, interior: S.interior,
       _fecha: inpSave ? inpSave.value : '',
       _enf: _enfSeleccionadas.slice(),
       _saludRespondida: _saludRespondida
@@ -2943,6 +2949,8 @@ function switchMascotaTab(idx) {
       S.sexo    = _newPetDraft.sexo;   S.plan    = _newPetDraft.plan;
       S.rcAddon = _newPetDraft.rcAddon; S.noFecha = _newPetDraft.noFecha;
       S.esterilizada = _newPetDraft.esterilizada || null;
+      S.tipoRaza = _newPetDraft.tipoRaza; S.raza = _newPetDraft.raza; S.raza2 = _newPetDraft.raza2;
+      S.peso = _newPetDraft.peso; S.interior = _newPetDraft.interior;
       var inpR = document.getElementById('inp-fecha');
       if (inpR) inpR.value = _newPetDraft._fecha || '';
       _enfSeleccionadas = _newPetDraft._enf ? _newPetDraft._enf.slice() : [];
@@ -2959,6 +2967,8 @@ function switchMascotaTab(idx) {
     S.plan    = petLoad.plan;   S.rcAddon = petLoad.rcAddon;
     S.sexo    = petLoad.sexo || null; S.esterilizada = petLoad.esterilizada !== undefined ? petLoad.esterilizada : null;
     S.noFecha = petLoad.noFecha || false;
+    S.tipoRaza = petLoad.tipoRaza !== undefined ? petLoad.tipoRaza : 'pura';
+    S.raza = petLoad.raza; S.raza2 = petLoad.raza2; S.peso = petLoad.peso; S.interior = petLoad.interior;
     var inpL = document.getElementById('inp-fecha');
     if (inpL) inpL.value = petLoad._fecha || '';
     _enfSeleccionadas = petLoad._enf ? petLoad._enf.slice() : [];

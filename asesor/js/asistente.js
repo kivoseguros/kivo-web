@@ -399,7 +399,7 @@
     resultPanel.classList.add('visible');
     _setAsesorTopNav('result');
 
-    const BASE_URL = '../KIVO Tarificador/index.html';
+    const BASE_URL = '../tarificador/index.html';
     const TICK = '<svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d=\'m2.5 8 4 4 7-7\' stroke=\'#1B2A4A\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>';
 
     function buildURL(inclPlan, inclRC) {

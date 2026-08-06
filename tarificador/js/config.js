@@ -44,9 +44,9 @@ var IA_RESP = [
   /* 0 — planes/care/premium */
   'KIVO tiene tres planes de salud: CARE (80% reembolso, límite 3.500 €/año), CARE+ (90%, límite 4.000 €/año) y PREMIUM (100% sin copago, límite 5.000 €/año). También puedes añadir R.C. a cualquier plan o contratarlo solo.',
   /* 1 — reservado */
-  'Puedes consultar más detalles en kivo.es o contactarnos por WhatsApp.',
+  'Puedes consultar más detalles en kivoseguros.com o contactarnos por WhatsApp.',
   /* 2 — reservado */
-  'Estamos aquí para ayudarte. Escríbenos por WhatsApp o a hola@kivo.es.',
+  'Estamos aquí para ayudarte. Escríbenos por WhatsApp o a hola@kivoseguros.com.',
   /* 3 — rc/responsabilidad */
   'El plan R.C. cubre hasta 300.000 € por daños a terceros causados por tu mascota. Incluye gastos de defensa jurídica. Puedes contratarlo solo (desde 11,90 €/mes para gatos, 14,90 €/mes para perros) o añadirlo a un plan de salud por solo 8,90 €/mes.',
   /* 4 — carencia/espera */
@@ -56,5 +56,5 @@ var IA_RESP = [
   /* 6 — contratar/comprar */
   'Puedes contratar en menos de 2 minutos: elige tu plan, rellena tus datos y confirma el pago. La cobertura empieza desde el día de contratación (respetando los períodos de carencia).',
   /* 7 — pago/mensual/anual */
-  'Puedes pagar mensualmente o de forma anual. Con el pago anual obtienes un 15% de descuento. Aceptamos tarjeta de crédito/débito y domiciliación bancaria (IBAN).'
+  'Puedes pagar mensualmente o de forma anual. Aceptamos tarjeta de crédito/débito y domiciliación bancaria (IBAN).'
 ];

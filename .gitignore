@@ -1,1 +1,12 @@
+# Dependencias
 node_modules/
+
+# Documentos personales / legales — NO forman parte de la web, no subir a GitHub
+/Auditoria_*.pdf
+/Denuncia-*.pdf
+/Reclamacion-*.pdf
+/Expediente-*.pdf
+/reclamacion-*.md
+/Resumen-conversacion-*.md
+/Informe-estado-*.md
+/prueba-*.jpg
