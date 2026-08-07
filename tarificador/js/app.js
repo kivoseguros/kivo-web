@@ -533,6 +533,8 @@ function showScreen(id) {
     's-loading': 480, 's-letra': 780, 's-ok': 580
   };
   try { window.parent.postMessage({ type: 'kivo-iframe-height', height: heights[id] || 820 }, '*'); } catch(e) {}
+  // Mantener la barra flotante de mascotas visible y al día en cada pantalla.
+  _syncBarraFlotante();
 }
 
 function _initSc5() {
@@ -663,6 +665,7 @@ function showStep(n) {
   // Altura dinámica del iframe para cada paso
   var stepHeights = { 1: 520, 2: 580, 3: 520, 4: 540, 5: 520, 6: 600 };
   try { window.parent.postMessage({ type: 'kivo-iframe-height', height: stepHeights[n] || 520 }, '*'); } catch(e) {}
+  _syncBarraFlotante();
 }
 
 function setupStep4b() {
@@ -3012,8 +3015,13 @@ function _renderMascotasChips() {
   var list = document.getElementById('mascotas-chips-list');
   if (!row || !list) return;
 
-  if (completedMascotas.length === 0 && !S.plan && !S.rcAddon) {
+  // La barra flotante aparece siempre que haya alguna mascota (cotizada o
+  // cotizándose). Solo se oculta si aún no hay absolutamente nada.
+  var _hayAlgo = completedMascotas.length > 0 || S.plan || S.rcAddon ||
+                 S.especie || (S.nombre && S.nombre.trim());
+  if (!_hayAlgo) {
     row.style.display = 'none';
+    document.body.style.paddingTop = '';
     return;
   }
 
@@ -3032,7 +3040,7 @@ function _renderMascotasChips() {
       : pet.planLabel + ' - ' + precio;
     var rcLine = (pet.rcAddon && pet.plan !== 'rc') ? '<div class="prev-chip-pl">+ R.C.</div>' : '';
     return (
-      '<div class="prev-chip' + active + '" onclick="switchMascotaTab(' + i + ')">' +
+      '<div class="prev-chip' + active + '" onclick="_irAMascotaFlotante(' + i + ')">' +
         '<span class="prev-chip-ico">' + ico + '</span>' +
         '<div class="prev-chip-info">' +
           '<div class="prev-chip-nom">' + pet.nombre + '</div>' +
@@ -3076,7 +3084,7 @@ function _renderMascotasChips() {
     var _plHtml    = '<div class="prev-chip-pl">' + _plParts[0] + '</div>' +
                      (_plParts[1] !== undefined ? '<div class="prev-chip-pl">+ R.C.</div>' : '');
     html += (
-      '<div class="prev-chip prev-chip-new' + newActive + '" onclick="switchMascotaTab(-1)">' +
+      '<div class="prev-chip prev-chip-new' + newActive + '" onclick="_irAMascotaFlotante(-1)">' +
         '<span class="prev-chip-ico">' + newIco + '</span>' +
         '<div class="prev-chip-info">' +
           '<div class="prev-chip-nom">' + newNom + '</div>' +
@@ -3090,6 +3098,62 @@ function _renderMascotasChips() {
   list.innerHTML = html;
   var label = row.querySelector('.mascotas-prev-label');
   if (label) label.textContent = 'Mascotas tarificadas:';
+
+  // Reservar hueco arriba para que la barra fija no tape el contenido, y bajar
+  // el botón Salir fijo por debajo de la barra.
+  requestAnimationFrame(function(){
+    var h = row.offsetHeight || 0;
+    if (row.style.position === 'fixed' && h) {
+      document.body.style.paddingTop = h + 'px';
+      var sb = document.getElementById('kivo-btn-salir-fixed');
+      if (sb && sb.style.display !== 'none') sb.style.top = (h + 12) + 'px';
+    }
+  });
+}
+
+/* ══ BARRA FLOTANTE DE MASCOTAS ══
+   Reutiliza el componente "Mascotas tarificadas" (#mascotas-prev-chips) pero lo
+   asciende a barra FIJA arriba, visible en TODAS las pantallas. Al pulsar una
+   mascota se va a sus planes (s6). */
+
+// Pulsar una mascota en la barra flotante → ir a sus planes (s6).
+function _irAMascotaFlotante(idx) {
+  try { if (_activePetIdx !== idx) switchMascotaTab(idx); } catch(e) {}
+  try { showScreen('s6'); } catch(e) {}
+  try { updatePrices(); _renderMascotasChips(); _updateS6Total(); _updateAddBtn(); } catch(e) {}
+  try { window.scrollTo(0, 0); } catch(e) {}
+}
+
+// Relocaliza la fila de chips a barra fija superior (una sola vez).
+function _initBarraFlotante() {
+  var row = document.getElementById('mascotas-prev-chips');
+  if (!row || row.getAttribute('data-flotante') === '1') return;
+  if (row.parentNode !== document.body) document.body.appendChild(row);
+  row.setAttribute('data-flotante', '1');
+  row.style.position   = 'fixed';
+  row.style.top        = '0';
+  row.style.left       = '0';
+  row.style.right      = '0';
+  row.style.zIndex     = '9000';
+  row.style.margin     = '0';
+  row.style.width      = '100%';
+  row.style.boxSizing  = 'border-box';
+  row.style.alignItems = 'center';
+  row.style.gap        = '12px';
+  row.style.padding    = '10px 18px';
+  row.style.background = 'rgba(238,243,240,0.96)';
+  row.style.backdropFilter = 'blur(8px)';
+  row.style.borderBottom   = '1px solid rgba(27,42,74,0.10)';
+  row.style.boxShadow      = '0 4px 18px rgba(27,42,74,0.08)';
+  row.style.overflowX      = 'auto';
+  row.style.flexWrap       = 'nowrap';
+  var list = document.getElementById('mascotas-chips-list');
+  if (list) { list.style.flexWrap = 'nowrap'; list.style.gap = '10px'; }
+}
+
+// Refresca la barra flotante (visibilidad + contenido) en cada cambio de pantalla.
+function _syncBarraFlotante() {
+  try { _initBarraFlotante(); _renderMascotasChips(); } catch(e) {}
 }
 
 /**
