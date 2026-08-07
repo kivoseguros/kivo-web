@@ -757,10 +757,13 @@ function confirmExit() {
         _abandonoEnviado = true;
         var _p = S.periodo || 'mensual';
         var _tot = _snap.reduce(function(s, pt){ return s + (_p==='anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio)); }, 0);
-        // Guardar el conjunto completo en Supabase (token nuevo) y LUEGO enviar el email
-        // D con el enlace de retomar correcto.
-        _guardarCotizacionSupabase(_mail, _snap, _tot, _p).then(function(){
-          _enviarEmailAbandono(_mail, _snap, _tot, _p);
+        // Guardar el conjunto completo en Supabase (token nuevo) y, con el token,
+        // marcar D como enviado (dedupe). Solo se envía si es la primera vez.
+        _guardarCotizacionSupabase(_mail, _snap, _tot, _p).then(function(tok){
+          if (!tok) { _enviarEmailAbandono(_mail, _snap, _tot, _p); return; }
+          _marcarEmailEnviado(tok, 'D').then(function(ok){
+            if (ok) _enviarEmailAbandono(_mail, _snap, _tot, _p);
+          });
         });
       }
     }
@@ -2573,6 +2576,31 @@ function _guardarCotizacionSupabase(email, mascotas, total, periodo) {
       .catch(function(){ return null; });
   } catch(e) { return Promise.resolve(null); }
 }
+
+// Blindaje anti-repetición: marca en Supabase que ya se envió el email `tipo`
+// (A/B/C/D) para esta cotización (token). Devuelve Promise<boolean>:
+//   true  = es la PRIMERA vez → hay que enviar el email.
+//   false = ya se había enviado (misma cotización) → NO reenviar.
+// Es a prueba de recargas y de volver desde el enlace del email: la tabla
+// emails_enviados tiene PK (token,tipo), así que un segundo intento choca (409).
+function _marcarEmailEnviado(token, tipo) {
+  try {
+    if (!SUPABASE_URL || !token) return Promise.resolve(true); // sin token no hay dedupe → enviar
+    return fetch(SUPABASE_URL + '/rest/v1/emails_enviados', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token: token, tipo: tipo })
+    }).then(function(r){
+      if (r.status === 201) return true;   // primer envío
+      if (r.status === 409) return false;  // ya existía → no reenviar
+      return true; // cualquier otro caso (p.ej. tabla aún no creada): no bloquear el email
+    }).catch(function(){ return true; });
+  } catch(e) { return Promise.resolve(true); }
+}
 var _retomando         = false;
 var _datosCotizacion   = null; // {email, mascotas, total, periodo}
 
@@ -2720,7 +2748,10 @@ function _enviarEmailCaptacion(email, mascotas, periodo) {
     }).catch(function() {});
   }
   if (mascotas && mascotas.length) {
-    _guardarCotizacionSupabase(email, mascotas, 0, periodo || 'mensual').then(_send);
+    _guardarCotizacionSupabase(email, mascotas, 0, periodo || 'mensual').then(function(tok){
+      if (!tok) { _send(); return; }
+      _marcarEmailEnviado(tok, 'A').then(function(ok){ if (ok) _send(); });
+    });
   } else {
     _send();
   }
@@ -2882,9 +2913,13 @@ function addMascotaDesdeS6() {
       var _totB = _snapB.reduce(function(s, pt){
         return s + (_pB === 'anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio));
       }, 0);
-      // Guardar en Supabase primero (para el token del enlace) y luego enviar el resumen.
-      _guardarCotizacionSupabase(_mailB, _snapB, _totB, _pB).then(function(){
-        _enviarEmailCotizacion(_mailB, _snapB, _totB, _pB);
+      // Guardar en Supabase (para el token del enlace) y, con el token, marcar el
+      // email B como enviado (dedupe). Solo se envía si es la primera vez.
+      _guardarCotizacionSupabase(_mailB, _snapB, _totB, _pB).then(function(tok){
+        if (!tok) { _enviarEmailCotizacion(_mailB, _snapB, _totB, _pB); return; }
+        _marcarEmailEnviado(tok, 'B').then(function(ok){
+          if (ok) _enviarEmailCotizacion(_mailB, _snapB, _totB, _pB);
+        });
       });
     }
   }
