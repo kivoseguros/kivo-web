@@ -8568,6 +8568,11 @@
             ></a
           >
 
+          <!-- Menú hamburguesa (solo móvil) -->
+          <button class="hero-burger" type="button" aria-label="Menú" aria-expanded="false" onclick="kivoToggleMenu()">
+            <span></span>
+          </button>
+
           <nav class="hero-nav" aria-label="Navegación principal">
             <div class="hero-lang notranslate" translate="no">
               <button
@@ -8635,6 +8640,76 @@
             </div>
           </div>
         </header>
+
+        <!-- Menú de secciones (desplegable, solo móvil) -->
+        <nav id="kivo-hero-menu" aria-label="Secciones">
+          <a href="#" onclick="return kivoMenuGo('')">🏠 Calcular precio</a>
+          <a href="#asesor" onclick="return kivoMenuGo('asesor')">🤖 Asesor KIVO</a>
+          <a href="#planes" onclick="return kivoMenuGo('planes')">🛡️ Planes y precios</a>
+          <a href="#situaciones-reales" onclick="return kivoMenuGo('situaciones-reales')">🐾 Situaciones reales</a>
+          <a href="#consejos" onclick="return kivoMenuGo('consejos')">📖 Consejos</a>
+        </nav>
+
+        <style>
+          .hero-burger { display: none; }
+          #kivo-hero-menu { display: none; }
+          @media (max-width: 860px) {
+            .hero-glass { position: relative; }
+            .hero-burger {
+              display: inline-flex; align-items: center; justify-content: center;
+              position: absolute; top: 16px; right: 16px; z-index: 40;
+              width: 46px; height: 46px; padding: 0; border-radius: 12px;
+              background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.9);
+              -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+              box-shadow: 0 6px 16px rgba(27,42,74,0.12); cursor: pointer;
+            }
+            .hero-burger span, .hero-burger span::before, .hero-burger span::after {
+              content: ''; display: block; position: absolute; width: 20px; height: 2.4px;
+              background: #1b2a4a; border-radius: 3px; left: 13px;
+            }
+            .hero-burger span { top: 22px; }
+            .hero-burger span::before { top: -6px; }
+            .hero-burger span::after { top: 6px; }
+            #kivo-hero-menu {
+              display: none; position: absolute; top: 70px; right: 16px; z-index: 41;
+              min-width: 220px; padding: 8px;
+              background: rgba(255,255,255,0.92); border: 1px solid rgba(255,255,255,0.95);
+              border-radius: 16px; box-shadow: 0 18px 44px rgba(27,42,74,0.22);
+              -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+            }
+            #kivo-hero-menu.open { display: block; }
+            #kivo-hero-menu a {
+              display: block; padding: 13px 16px; border-radius: 10px;
+              color: #1b2a4a; font-weight: 700; font-size: 15px; text-decoration: none;
+            }
+            #kivo-hero-menu a:active, #kivo-hero-menu a:hover { background: rgba(27,42,74,0.07); }
+          }
+        </style>
+
+        <script>
+          function kivoToggleMenu() {
+            var m = document.getElementById('kivo-hero-menu');
+            var b = document.querySelector('.hero-burger');
+            if (!m) return;
+            var open = m.classList.toggle('open');
+            if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+          }
+          function kivoMenuGo(id) {
+            var m = document.getElementById('kivo-hero-menu');
+            if (m) m.classList.remove('open');
+            var el = id ? document.getElementById(id) : null;
+            if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            return false;
+          }
+          // Cerrar el menú al tocar fuera
+          document.addEventListener('click', function (e) {
+            var m = document.getElementById('kivo-hero-menu');
+            if (!m || !m.classList.contains('open')) return;
+            if (e.target.closest('#kivo-hero-menu') || e.target.closest('.hero-burger')) return;
+            m.classList.remove('open');
+          });
+        </script>
 
         <main class="hero-grid">
           <section class="hero-copy">
