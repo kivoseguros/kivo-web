@@ -362,7 +362,6 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
           <span>Antes de continuar, <strong>revisa que todo esté correcto</strong>. Puedes editar cualquier dato pulsando el lápiz&nbsp;✏️.</span>
         </div>
         <div id="mascotas-lista"></div>
-        <!-- Botón "Añadir otra mascota" movido a s6 para flujo post-tarificación -->
         <button class="btn-cta" id="btn-s5" onclick="prepararOferta()">
           Continuar
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1342,7 +1341,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
 .csel-item:last-child { border-bottom:none; }
 .csel-item.sel { background:#eef7f4; font-weight:800; color:#01462E; }
 .csel-item:active { background:#e6f1ee; }
-/* Paso "¿Tu familia está completa?": panel de repaso + realce del lápiz (solo móvil) */
+/* Paso "Revisa los datos de tu mascota": panel de repaso + realce del lápiz (solo móvil) */
 .fs5-revisa { display:none; }
 @keyframes mrEditPulse {
   0%,100% { box-shadow:0 0 0 0 rgba(12,139,157,0); transform:scale(1); }
