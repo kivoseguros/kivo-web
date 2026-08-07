@@ -768,6 +768,24 @@ function confirmExit() {
 }
 
 /* -- Retomar una cotizacion desde el enlace del email -- */
+// Deja al usuario en la pantalla de PLANES (s6) con todas las mascotas cargadas
+// y la primera activa, para que Volver/Adelante/añadir/quitar funcionen como en una sesión normal.
+function _retomarMostrarS6(mascotas, periodo, email) {
+  if (!mascotas || !mascotas.length) { showFW(); showStep(1); return; }
+  S.periodo = periodo || 'mensual';
+  S.email   = email || S.email || '';
+  mascotas.forEach(function(pet){ pet.periodo = S.periodo; pet._email = S.email; });
+  window._atribDone  = true;   // ya tarificó antes; no volver a preguntar atribución
+  _vioPrecios        = true;   // ya vio precios
+  _cotizacionEnviada = true;   // ya recibió el detalle; no reenviar
+  _checkoutPets    = mascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
+  completedMascotas = mascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
+  _activePetIdx = -1; _newPetDraft = null;
+  S.plan = null; S.rcAddon = false;
+  showScreen('s6');
+  try { switchMascotaTab(0); } catch(e) {}
+}
+
 function _retomarDesdeEmail(params) {
   // 0) NUEVO: si viene token de Supabase (?cot=), recuperar la cotización del servidor.
   var _cot = params.get('cot');
@@ -780,11 +798,8 @@ function _retomarDesdeEmail(params) {
         S.periodo = d.periodo || 'mensual';
         S.email   = d.email || params.get('email') || '';
         mascotas.forEach(function(pet){ pet.periodo = S.periodo; pet._email = S.email; });
-        _cotizacionEnviada = true; _retomando = true;
-        showScreen('fw');
-        _irAlCheckout(mascotas);
-        completedMascotas = mascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
-        _activePetIdx = -1; _newPetDraft = null; S.plan = null; S.rcAddon = false;
+        _retomando = true;
+        _retomarMostrarS6(mascotas, S.periodo, S.email);
         _retomando = false;
       })
       .catch(function(){ _retomarSinToken(params); });
@@ -803,15 +818,8 @@ function _retomarSinToken(params) {
       S.periodo = _saved.pets[0].periodo || 'mensual';
       S.email   = _saved.pets[0]._email || params.get('email') || '';
       S.tel     = _saved.pets[0]._tel || S.tel;
-      _cotizacionEnviada = true;
       _retomando = true;
-      showScreen('fw');
-      _irAlCheckout(_saved.pets);
-      // Restaurar TAMBIÉN la lista de mascotas confirmadas para que si el usuario
-      // pulsa "Volver/Regresar" desde el pago NO se pierdan (antes desaparecían).
-      completedMascotas = _saved.pets.map(function(p){ return JSON.parse(JSON.stringify(p)); });
-      _activePetIdx = -1; _newPetDraft = null;
-      S.plan = null; S.rcAddon = false;
+      _retomarMostrarS6(_saved.pets, _saved.pets[0].periodo, S.email);
       _retomando = false;
       return;
     }
@@ -829,15 +837,8 @@ function _retomarSinToken(params) {
     var email   = params.get('email') || '';
     S.periodo = periodo; S.email = email;
     mascotas.forEach(function(pet){ pet.periodo = periodo; pet._email = email; });
-    _cotizacionEnviada = true; // ya recibio el detalle antes; no reenviar
     _retomando = true;
-    showScreen('fw');
-    _irAlCheckout(mascotas);
-    // Restaurar TAMBIÉN la lista de mascotas confirmadas (igual que en la vía localStorage),
-    // para que al volver atrás o añadir/quitar mascotas NO desaparezcan ni se bloquee.
-    completedMascotas = mascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
-    _activePetIdx = -1; _newPetDraft = null;
-    S.plan = null; S.rcAddon = false;
+    _retomarMostrarS6(mascotas, periodo, email);
     _retomando = false;
   } catch(e) { showFW(); showStep(1); }
 }
