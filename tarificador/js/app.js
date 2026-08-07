@@ -737,21 +737,31 @@ function confirmExit() {
   // Guardar el estado ACTUAL para poder retomar (refleja las mascotas que queden
   // tras añadir/quitar, con todos sus datos).
   _guardarResumeState();
-  // Correo de abandono: solo si NO ha contratado.
-  if (!_haContratado && !_abandonoEnviado) {
-    // Si aún no teníamos datos de cotización (salió antes del checkout), construirlos ahora.
-    if (!_datosCotizacion || !_datosCotizacion.email) {
-      var _snap = _buildAllPetsSnapshot();
-      var _mail = S.email || (_snap[0] && _snap[0]._email);
-      if (_snap.length && _mail) {
-        var _p = S.periodo || 'mensual';
-        var _tot = _snap.reduce(function(s, pt){ return s + (_p==='anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio)); }, 0);
-        _datosCotizacion = { email: _mail, mascotas: _snap, total: _tot, periodo: _p };
+  // Correos al salir: solo si NO ha contratado.
+  if (!_haContratado) {
+    if (!_vioPrecios) {
+      // A) CAPTACIÓN — dejó su email pero se fue antes de ver los precios.
+      var _mailA = S.email;
+      if (_mailA && validEmail(_mailA) && !_captacionEnviado) {
+        _captacionEnviado = true;
+        var _snapA = _buildAllPetsSnapshot();
+        _enviarEmailCaptacion(_mailA, _snapA, S.periodo || 'mensual');
       }
-    }
-    if (_datosCotizacion && _datosCotizacion.email) {
-      _abandonoEnviado = true;
-      _enviarEmailAbandono(_datosCotizacion.email, _datosCotizacion.mascotas, _datosCotizacion.total, _datosCotizacion.periodo);
+    } else if (!_abandonoEnviado) {
+      // D) RETOMAR/ABANDONO — ya vio precios y se marcha sin terminar.
+      if (!_datosCotizacion || !_datosCotizacion.email) {
+        var _snap = _buildAllPetsSnapshot();
+        var _mail = S.email || (_snap[0] && _snap[0]._email);
+        if (_snap.length && _mail) {
+          var _p = S.periodo || 'mensual';
+          var _tot = _snap.reduce(function(s, pt){ return s + (_p==='anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio)); }, 0);
+          _datosCotizacion = { email: _mail, mascotas: _snap, total: _tot, periodo: _p };
+        }
+      }
+      if (_datosCotizacion && _datosCotizacion.email) {
+        _abandonoEnviado = true;
+        _enviarEmailAbandono(_datosCotizacion.email, _datosCotizacion.mascotas, _datosCotizacion.total, _datosCotizacion.periodo);
+      }
     }
   }
   try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
@@ -1465,6 +1475,7 @@ function guardarOrigenSupabase(origen) {
 function showResults() {
   // Antes de mostrar el precio: preguntar "¿Cómo conociste KIVO?" una sola vez
   if (!window._atribDone) { showAtribucion(); return; }
+  _vioPrecios = true; // el usuario ha llegado a ver los precios
   _activePetIdx = -1; // siempre empezar en la mascota nueva
   _newPetDraft  = null;
   _enfSeleccionadas = [];
@@ -2520,6 +2531,8 @@ function _enviarEmailPoliza() {
 /* -- Estado de correos / contratacion -- */
 var _haContratado      = false;
 var _abandonoEnviado   = false;
+var _vioPrecios        = false; // true cuando el usuario llega a la pantalla de precios (showResults)
+var _captacionEnviado  = false; // true cuando ya se envió el email A (captación)
 var _cotizacionEnviada = false;
 var _cotToken = null; // token de la cotización guardada en Supabase (para el enlace corto del email)
 
@@ -2666,6 +2679,32 @@ function _enviarEmailAbandono(email, mascotas, total, periodo) {
       html: _emailWrapper('Tu cotización sigue guardada', 'La tienes lista para retomar cuando quieras', cuerpo)
     })
   }).catch(function() {});
+}
+
+/* EMAIL A — CAPTACIÓN: dejó su email pero se fue ANTES de ver los precios. */
+function _enviarEmailCaptacion(email, mascotas, periodo) {
+  var nombres = (mascotas && mascotas.length) ? mascotas.map(function(p){ return p.nombre; }).filter(Boolean).join(', ') : '';
+  function _send() {
+    var url = _buildRetomarUrl(mascotas || [], periodo || 'mensual', email);
+    var cuerpo =
+      '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:0 0 18px;font-family:Inter,Arial,sans-serif;">Empezaste a calcular el seguro' + (nombres ? ' de <strong>' + nombres + '</strong>' : ' de tu mascota') + ', pero te fuiste antes de ver el precio. ¡No pasa nada! Estás a menos de 1 minuto de conocer tu precio personalizado, sin compromiso.</p>' +
+      '<p style="color:#3a4657;font-size:15px;line-height:1.6;margin:0 0 18px;font-family:Inter,Arial,sans-serif;">Hemos guardado tus datos para que continúes justo donde lo dejaste:</p>' +
+      _emailCTA(url, 'Ver mi precio ahora');
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: email,
+        subject: '🐾 Estás a 1 minuto de proteger a tu mascota',
+        html: _emailWrapper('¿Seguimos con tu seguro?', 'Tu cálculo está guardado, continúa cuando quieras', cuerpo)
+      })
+    }).catch(function() {});
+  }
+  if (mascotas && mascotas.length) {
+    _guardarCotizacionSupabase(email, mascotas, 0, periodo || 'mensual').then(_send);
+  } else {
+    _send();
+  }
 }
 
 function _irAlCheckout(allMascotas) {
