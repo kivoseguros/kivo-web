@@ -8643,11 +8643,10 @@
 
         <!-- Menú de secciones (desplegable, solo móvil) -->
         <nav id="kivo-hero-menu" aria-label="Secciones">
-          <a href="#" onclick="return kivoMenuGo('')">🏠 Calcular precio</a>
-          <a href="#asesor" onclick="return kivoMenuGo('asesor')">🤖 Asesor KIVO</a>
-          <a href="#planes" onclick="return kivoMenuGo('planes')">🛡️ Planes y precios</a>
-          <a href="#situaciones-reales" onclick="return kivoMenuGo('situaciones-reales')">🐾 Situaciones reales</a>
-          <a href="#consejos" onclick="return kivoMenuGo('consejos')">📖 Consejos</a>
+          <a href="#asesor" onclick="return kivoMenuGo('asesor')">Asesor KIVO</a>
+          <a href="#planes" onclick="return kivoMenuGo('planes')">Planes y precios</a>
+          <a href="#situaciones-reales" onclick="return kivoMenuGo('situaciones-reales')">Situaciones reales</a>
+          <a href="#consejos" onclick="return kivoMenuGo('consejos')">Consejos</a>
         </nav>
 
         <style>
@@ -8663,13 +8662,16 @@
               -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
               box-shadow: 0 6px 16px rgba(27,42,74,0.12); cursor: pointer;
             }
-            .hero-burger span, .hero-burger span::before, .hero-burger span::after {
-              content: ''; display: block; position: absolute; width: 20px; height: 2.4px;
-              background: #1b2a4a; border-radius: 3px; left: 13px;
+            .hero-burger span {
+              position: relative; display: block; width: 20px; height: 2.4px;
+              background: #1b2a4a; border-radius: 3px;
             }
-            .hero-burger span { top: 22px; }
-            .hero-burger span::before { top: -6px; }
-            .hero-burger span::after { top: 6px; }
+            .hero-burger span::before, .hero-burger span::after {
+              content: ''; position: absolute; left: 0; width: 20px; height: 2.4px;
+              background: #1b2a4a; border-radius: 3px;
+            }
+            .hero-burger span::before { top: -7px; }
+            .hero-burger span::after { top: 7px; }
             #kivo-hero-menu {
               display: none; position: absolute; top: 70px; right: 16px; z-index: 41;
               min-width: 220px; padding: 8px;
@@ -8698,8 +8700,12 @@
             var m = document.getElementById('kivo-hero-menu');
             if (m) m.classList.remove('open');
             var el = id ? document.getElementById(id) : null;
-            if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-            else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            if (el) {
+              var top = el.getBoundingClientRect().top + window.scrollY - 12;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             return false;
           }
           // Cerrar el menú al tocar fuera
