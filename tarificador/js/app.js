@@ -764,11 +764,16 @@ function confirmExit() {
       }
     }
   }
+  // Dentro de la web el tarificador va en un iframe: este mensaje hace que la web
+  // cierre el modal y te deje en la web (mismo molde que una salida normal).
   try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
-  // Salir = salir: siempre llevar al usuario a la home de la web KIVO.
-  // Pequeño retardo para dar tiempo a que salga la petición del email
-  // (fire-and-forget) antes de navegar.
-  setTimeout(function(){ window.location.href = '/'; }, 800);
+  // Red de seguridad: si alguien abriera la página suelta del tarificador (sin la
+  // web detrás), no hay contenedor que cierre nada → llevar a la home de KIVO.
+  var _embebido = false;
+  try { _embebido = (window.self !== window.top); } catch(e) { _embebido = true; }
+  if (!_embebido) {
+    setTimeout(function(){ window.location.href = '/'; }, 800);
+  }
 }
 
 /* -- Retomar una cotizacion desde el enlace del email -- */
@@ -2570,10 +2575,13 @@ var _retomando         = false;
 var _datosCotizacion   = null; // {email, mascotas, total, periodo}
 
 function _buildRetomarUrl(mascotas, periodo, email) {
+  // El enlace apunta SIEMPRE a la web (home). La web detecta la cotización y abre
+  // el tarificador DENTRO de ella (mismo molde que una entrada normal). No usar la
+  // página suelta del tarificador.
   // Si la cotización está guardada en Supabase, usar enlace CORTO con el token.
   if (_cotToken) {
-    return 'https://kivo-web-seven.vercel.app/tarificador/index.html?cot=' + encodeURIComponent(_cotToken) +
-           '&email=' + encodeURIComponent(email || '') + '&modo=fullscreen&retomar=1';
+    return 'https://kivo-web-seven.vercel.app/?cot=' + encodeURIComponent(_cotToken) +
+           '&email=' + encodeURIComponent(email || '') + '&retomar=1';
   }
   // Fallback: datos codificados en la propia URL.
   var parts = mascotas.map(function(pet, i) {
@@ -2588,9 +2596,8 @@ function _buildRetomarUrl(mascotas, periodo, email) {
   });
   parts.push('periodo=' + encodeURIComponent(periodo));
   parts.push('email=' + encodeURIComponent(email));
-  parts.push('modo=fullscreen');
   parts.push('retomar=1');
-  return 'https://kivo-web-seven.vercel.app/tarificador/index.html?' + parts.join('&');
+  return 'https://kivo-web-seven.vercel.app/?' + parts.join('&');
 }
 
 function _cotizacionTablaHtml(mascotas, total, periodo) {

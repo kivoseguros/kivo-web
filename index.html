@@ -13189,6 +13189,29 @@
           }
         }, 1200);
       });
+      /* ══ RETOMAR desde el email ══
+         El enlace del email apunta a la home con ?cot=TOKEN&retomar=1 (o los datos
+         de las mascotas). Aquí detectamos esos parámetros y abrimos el tarificador
+         DENTRO de la web (mismo modal de siempre), con la cotización ya cargada.
+         Así el enlace del email tiene el mismo molde que entrar por la web normal. */
+      window.addEventListener('load', function () {
+        var qs = new URLSearchParams(window.location.search);
+        var esRetomar = qs.get('retomar') === '1' && (qs.get('cot') || qs.get('pet0'));
+        if (!esRetomar) return;
+        var _tFr = document.getElementById('tarif-fs-iframe');
+        var _tOv = document.getElementById('tarif-overlay');
+        if (!_tFr || !_tOv) return;
+        // Reutilizar TODA la query que venía en el email y añadir modo=fullscreen
+        // (que es como el tarificador se renderiza dentro del modal de la web).
+        if (!qs.get('modo')) qs.set('modo', 'fullscreen');
+        _tFr.src = './tarificador/index.html?' + qs.toString();
+        _tFr.setAttribute('data-loaded', '1');
+        _tOv.style.display = 'flex';
+        _tOv.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        // Limpiar la barra de direcciones para que no reabra al recargar/compartir.
+        try { history.replaceState(null, '', window.location.pathname); } catch (e) {}
+      });
       function kivoAbrirAsesor() {
         var ov = document.getElementById('asesor-overlay');
         var fr = document.getElementById('asesor-fs-iframe');
