@@ -192,9 +192,10 @@ body { font-family: var(--font); background: transparent; }
   background: linear-gradient(180deg,#f4f8f6,#eef3f0);
   transition: background .45s ease;
   z-index: 9999;
-  align-items: center;
+  align-items: safe center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .s04-modal-overlay.active {
