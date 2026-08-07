@@ -749,18 +749,19 @@ function confirmExit() {
       }
     } else if (!_abandonoEnviado) {
       // D) RETOMAR/ABANDONO — ya vio precios y se marcha sin terminar.
-      if (!_datosCotizacion || !_datosCotizacion.email) {
-        var _snap = _buildAllPetsSnapshot();
-        var _mail = S.email || (_snap[0] && _snap[0]._email);
-        if (_snap.length && _mail) {
-          var _p = S.periodo || 'mensual';
-          var _tot = _snap.reduce(function(s, pt){ return s + (_p==='anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio)); }, 0);
-          _datosCotizacion = { email: _mail, mascotas: _snap, total: _tot, periodo: _p };
-        }
-      }
-      if (_datosCotizacion && _datosCotizacion.email) {
+      // Reconstruir SIEMPRE el conjunto actual completo para que el enlace de retomar
+      // refleje EXACTAMENTE lo que el cliente tenía (no un token viejo con menos mascotas).
+      var _snap = _buildAllPetsSnapshot();
+      var _mail = (_datosCotizacion && _datosCotizacion.email) || S.email || (_snap[0] && _snap[0]._email) || '';
+      if (_snap.length && _mail && validEmail(_mail)) {
         _abandonoEnviado = true;
-        _enviarEmailAbandono(_datosCotizacion.email, _datosCotizacion.mascotas, _datosCotizacion.total, _datosCotizacion.periodo);
+        var _p = S.periodo || 'mensual';
+        var _tot = _snap.reduce(function(s, pt){ return s + (_p==='anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio)); }, 0);
+        // Guardar el conjunto completo en Supabase (token nuevo) y LUEGO enviar el email
+        // D con el enlace de retomar correcto.
+        _guardarCotizacionSupabase(_mail, _snap, _tot, _p).then(function(){
+          _enviarEmailAbandono(_mail, _snap, _tot, _p);
+        });
       }
     }
   }
@@ -2549,6 +2550,7 @@ var _abandonoEnviado   = false;
 var _vioPrecios        = false; // true cuando el usuario llega a la pantalla de precios (showResults)
 var _captacionEnviado  = false; // true cuando ya se envió el email A (captación)
 var _cotizacionEnviada = false;
+var _resumenEnviado    = false; // true cuando ya se envió el email B (resumen "lo tarificado")
 var _cotToken = null; // token de la cotización guardada en Supabase (para el enlace corto del email)
 
 // Guarda la cotización en Supabase (INSERT con la clave anon) y devuelve el token.
@@ -2776,13 +2778,12 @@ function _irAlCheckout(allMascotas) {
   // Guardar datos por si el cliente abandona (correo de abandono al salir)
   if (email0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email0)) {
     _datosCotizacion = { email: email0, mascotas: allMascotas, total: total, periodo: p };
-    // Correo con el DETALLE de la tarificacion (no es abandono). Solo una vez y no al retomar.
+    // Guardamos en Supabase para tener el token (necesario para el email D de retomar
+    // si el cliente abandona el checkout). El email B (resumen) YA NO se envía aquí:
+    // solo se manda cuando el cliente "sigue tarificando" (añade otra mascota).
     if (!_retomando && !_cotizacionEnviada) {
       _cotizacionEnviada = true;
-      // Guardar en Supabase primero (para tener el token), y LUEGO enviar el email con el enlace corto.
-      _guardarCotizacionSupabase(email0, allMascotas, total, p).then(function(){
-        _enviarEmailCotizacion(email0, allMascotas, total, p);
-      });
+      _guardarCotizacionSupabase(email0, allMascotas, total, p);
     }
   }
 
@@ -2869,6 +2870,25 @@ function addMascotaDesdeS6() {
   if (!S.plan && !S.rcAddon) return;
 
   _saveCurrentToCompleted();
+
+  // EMAIL B (RESUMEN "lo tarificado"): el cliente marcó un plan y SIGUE tarificando
+  // (añade otra mascota). Se envía UNA sola vez, con lo que lleva tarificado hasta ahora.
+  if (!_retomando && !_resumenEnviado) {
+    var _mailB = S.email || (completedMascotas[0] && completedMascotas[0]._email) || '';
+    if (_mailB && validEmail(_mailB) && completedMascotas.length) {
+      _resumenEnviado = true;
+      var _pB   = S.periodo || 'mensual';
+      var _snapB = completedMascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
+      var _totB = _snapB.reduce(function(s, pt){
+        return s + (_pB === 'anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio));
+      }, 0);
+      // Guardar en Supabase primero (para el token del enlace) y luego enviar el resumen.
+      _guardarCotizacionSupabase(_mailB, _snapB, _totB, _pB).then(function(){
+        _enviarEmailCotizacion(_mailB, _snapB, _totB, _pB);
+      });
+    }
+  }
+
   _activePetIdx = -1;
   _newPetDraft  = null;
 
