@@ -138,7 +138,7 @@
         { icon: 'shieldcheck', text: 'Me basta con la RC incluida', sub: 'RC ya incluida en tu plan',   value: 'rc_basica' },
         { icon: 'shieldplus',  text: 'Quiero una RC independiente', sub: 'Capital de 300.000 €',        value: 'rc_extra'  },
       ],
-      skipIfGato: true,
+      skipIfGato: false,
     },
   ];
 
