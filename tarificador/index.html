@@ -113,7 +113,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       Gato
     </button>
   </div>
-  <p class="s0-hint">🐾 Si tienes más de una mascota, podrás agregarla luego.</p>
+  <p class="s0-hint">🐾 Calcula el precio del seguro de tu mascota en 1 minuto.</p>
   <button class="btn-cta s0-cta" id="s0-btn-cta" onclick="goFullscreen()" disabled>
     Calcular mi precio
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -151,13 +151,9 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
             Gato
           </button>
         </div>
-        <div class="s1-multimascota">🐾 Si tienes más de una mascota podrás agregarla luego.</div>
         <button class="btn-cta" id="btn-s1" onclick="nextStep()" disabled>
           Continuar
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button id="btn-cancelar-mascota" onclick="cancelarNuevaMascota()" style="display:none;margin-top:10px;width:100%;background:none;border:1.5px solid #e55;color:#c33;border-radius:12px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;">
-          🗑️ Eliminar esta mascota
         </button>
       </div>
     </div>
@@ -359,12 +355,8 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     <!-- PASO 5/6: FAMILIA -->
     <div class="fstep" id="fs5">
       <div class="scard">
-        <div class="sq">¿Tu familia está completa?</div>
-        <div class="shint">Revisa los datos de tu mascota antes de continuar</div>
-        <div class="familia-promo">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6z" fill="#3DBFA0"/></svg>
-          <span><strong>Oferta Multimascota:</strong> ¡Añade otra mascota y te regalamos 50€ en la tercera mensualidad!</span>
-        </div>
+        <div class="sq">Revisa los datos de tu mascota</div>
+        <div class="shint">Comprueba que todo esté correcto antes de continuar</div>
         <div class="fs5-revisa">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 20h9" stroke="#0C8B9D" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" stroke="#0C8B9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span>Antes de continuar, <strong>revisa que todo esté correcto</strong>. Puedes editar cualquier dato pulsando el lápiz&nbsp;✏️.</span>
@@ -525,11 +517,6 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     </div>
   </div>
   <div class="rb">
-    <!-- Mascotas ya confirmadas con su plan — se renderizan con _renderMascotasChips() -->
-    <div id="mascotas-prev-chips" class="mascotas-prev-row" style="display:none">
-      <div class="mascotas-prev-label">Mascotas tarificadas:</div>
-      <div id="mascotas-chips-list" class="mascotas-chips-list"></div>
-    </div>
     <div class="mascota-bar">
       <div id="mascota-icon" style="flex-shrink:0"><img src="assets/icons/perro.svg" width="48" height="48" alt=""></div>
       <div style="flex:1">
@@ -681,17 +668,6 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
     <div id="s6-total-row" class="s6-total-row" style="display:none">
       <span class="s6-total-lbl">Total estimado</span>
       <strong id="s6-total-val" class="s6-total-val">—</strong>
-    </div>
-    <!-- Botón añadir mascota: aparece siempre pero habilitado solo al seleccionar plan -->
-    <div class="add-mascota-s6-wrap" style="flex-direction:column;align-items:center;gap:8px">
-      <div id="aviso-salud-add" style="display:none;align-items:center;gap:8px;background:#FFF3CD;border:1px solid #FFCA28;border-radius:10px;padding:8px 14px;font-size:12px;color:#856404;text-align:center">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#FFCA28" stroke-width="1.5"/><path d="M7 4.5V7M7 9v.5" stroke="#856404" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Antes de añadir otra mascota, completa el cuestionario de salud
-      </div>
-      <button class="btn-add-mascota-s6" id="btn-add-mascota-s6" disabled onclick="addMascotaDesdeS6()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        Añadir otra mascota
-      </button>
     </div>
     <div class="banner-14dias">
       <span class="b14-icon">🛡️</span>
@@ -1150,7 +1126,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
       <p style="color:#555;font-size:15px;margin:0 0 8px">Tu contratación se ha completado con éxito.</p>
       <p style="color:#888;font-size:13px;margin:0 0 32px">Hemos enviado un email con el resumen de tu póliza y los documentos a tu correo.</p>
       <button class="btn-cta" onclick="window.parent.postMessage({type:'kivo-tarificador-exit'},'*'); window.location.href='https://kivoseguros.com';" style="background:#3DBFA0;max-width:260px;margin:0 auto;display:block">← Volver a la web</button>
-      <button class="btn-cta" onclick="location.reload()" style="background:#1B2A4A;max-width:260px;margin:0 auto;display:block;margin-top:12px">Contratar otra mascota</button>
+      <button class="btn-cta" onclick="location.reload()" style="background:#1B2A4A;max-width:260px;margin:0 auto;display:block;margin-top:12px">Calcular otro seguro</button>
       <div style="margin-top:20px;font-size:13px;color:#888">¿Dudas? <a href="#" onclick="abrirWhatsApp();return false;" style="color:#3DBFA0">WhatsApp KIVO</a></div>
     </div>
     <div class="s-error-foot">©KIVO Seguros, S.L.</div>
@@ -1196,18 +1172,6 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <button class="exit-btn-continuar" onclick="closeExitModal()">Quiero continuar</button>
         <button class="exit-btn-salir" onclick="confirmExit()">Salir</button>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL ULTIMA MASCOTA -->
-<div class="exit-modal-overlay" id="ultima-modal">
-  <div class="exit-modal-box">
-    <h3 class="exit-modal-title">¿Qué quieres hacer?</h3>
-    <p class="exit-modal-desc">Has eliminado tu única mascota. Puedes volver al inicio de la tarificación o salir.</p>
-    <div class="exit-modal-btns" style="flex-direction:column;gap:12px">
-      <button class="exit-btn-continuar" style="width:100%" onclick="ultimaMascotaVolver()">Volver al principio de la tarificación</button>
-      <button class="exit-btn-salir" style="width:100%" onclick="ultimaMascotaSalir()">Salir de la tarificación</button>
     </div>
   </div>
 </div>

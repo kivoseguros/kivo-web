@@ -533,8 +533,6 @@ function showScreen(id) {
     's-loading': 480, 's-letra': 780, 's-ok': 580
   };
   try { window.parent.postMessage({ type: 'kivo-iframe-height', height: heights[id] || 820 }, '*'); } catch(e) {}
-  // Mantener la barra flotante de mascotas visible y al día en cada pantalla.
-  _syncBarraFlotante();
 }
 
 function _initSc5() {
@@ -665,7 +663,6 @@ function showStep(n) {
   // Altura dinámica del iframe para cada paso
   var stepHeights = { 1: 520, 2: 580, 3: 520, 4: 540, 5: 520, 6: 600 };
   try { window.parent.postMessage({ type: 'kivo-iframe-height', height: stepHeights[n] || 520 }, '*'); } catch(e) {}
-  _syncBarraFlotante();
 }
 
 function setupStep4b() {
@@ -2818,12 +2815,16 @@ function _irAlCheckout(allMascotas) {
   // Guardar datos por si el cliente abandona (correo de abandono al salir)
   if (email0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email0)) {
     _datosCotizacion = { email: email0, mascotas: allMascotas, total: total, periodo: p };
-    // Guardamos en Supabase para tener el token (necesario para el email D de retomar
-    // si el cliente abandona el checkout). El email B (resumen) YA NO se envía aquí:
-    // solo se manda cuando el cliente "sigue tarificando" (añade otra mascota).
+    // Email de RESUMEN (detalle de la cotización) al pasar a contratar. Con dedupe
+    // por cotización (no se repite ni recargando ni volviendo desde el enlace).
     if (!_retomando && !_cotizacionEnviada) {
       _cotizacionEnviada = true;
-      _guardarCotizacionSupabase(email0, allMascotas, total, p);
+      _guardarCotizacionSupabase(email0, allMascotas, total, p).then(function(tok){
+        if (!tok) { _enviarEmailCotizacion(email0, allMascotas, total, p); return; }
+        _marcarEmailEnviado(tok, 'B').then(function(ok){
+          if (ok) _enviarEmailCotizacion(email0, allMascotas, total, p);
+        });
+      });
     }
   }
 
@@ -2903,82 +2904,9 @@ function _saveCurrentToCompleted() {
   }
 }
 
-/**
- * Boton "Anadir otra mascota" en s6.
- */
-function addMascotaDesdeS6() {
-  if (!S.plan && !S.rcAddon) return;
-
-  _saveCurrentToCompleted();
-
-  // EMAIL B (RESUMEN "lo tarificado"): el cliente marcó un plan y SIGUE tarificando
-  // (añade otra mascota). Se envía UNA sola vez, con lo que lleva tarificado hasta ahora.
-  if (!_retomando && !_resumenEnviado) {
-    var _mailB = S.email || (completedMascotas[0] && completedMascotas[0]._email) || '';
-    if (_mailB && validEmail(_mailB) && completedMascotas.length) {
-      _resumenEnviado = true;
-      var _pB   = S.periodo || 'mensual';
-      var _snapB = completedMascotas.map(function(p){ return JSON.parse(JSON.stringify(p)); });
-      var _totB = _snapB.reduce(function(s, pt){
-        return s + (_pB === 'anual' ? (pt.precioMes||pt.precio)*12*(1-DESC_ANUAL) : (pt.precioMes||pt.precio));
-      }, 0);
-      // Guardar en Supabase (para el token del enlace) y, con el token, marcar el
-      // email B como enviado (dedupe). Solo se envía si es la primera vez.
-      _guardarCotizacionSupabase(_mailB, _snapB, _totB, _pB).then(function(tok){
-        if (!tok) { _enviarEmailCotizacion(_mailB, _snapB, _totB, _pB); return; }
-        _marcarEmailEnviado(tok, 'B').then(function(ok){
-          if (ok) _enviarEmailCotizacion(_mailB, _snapB, _totB, _pB);
-        });
-      });
-    }
-  }
-
-  _activePetIdx = -1;
-  _newPetDraft  = null;
-
-  // Limpiar visualmente todas las tarjetas de plan antes de resetear estado
-  ['care', 'careplus', 'premium', 'rc'].forEach(function(id) { _applyPlanVisual(id, false); });
-
-  var savedEmail = S.email, savedTel = S.tel;
-
-  S.especie  = null; S.nombre = ''; S.sexo = null; S.esterilizada = null;
-  S.noFecha  = false; S.tipoRaza = 'pura'; S.raza = null; S.raza2 = null;
-  S.peso     = null; S.interior = null; S.plan = null; S.rcAddon = false;
-  S.email    = savedEmail; S.tel = savedTel;
-  _saludRespondida = false;
-  pets       = [];
-
-  var elN = document.getElementById('inp-nombre');
-  if (elN) elN.value = '';
-  var tP = document.getElementById('tile-perro');
-  var tG = document.getElementById('tile-gato');
-  if (tP) tP.classList.remove('sel');
-  if (tG) tG.classList.remove('sel');
-  var b1 = document.getElementById('btn-s1');
-  if (b1) b1.disabled = true;
-
-  _enfSeleccionadas = [];
-  _restoreEnfUI();
-
-  // Resetear DOM del paso de fecha para la nueva mascota
-  var chkNof = document.getElementById('chk-nofecha');
-  if (chkNof) chkNof.checked = false;
-  var fechaExact = document.getElementById('fecha-exact');
-  var fechaAprox = document.getElementById('fecha-aprox');
-  if (fechaExact) fechaExact.classList.remove('hidden');
-  if (fechaAprox) fechaAprox.classList.add('hidden');
-  var inpFecha = document.getElementById('inp-fecha');
-  if (inpFecha) inpFecha.value = '';
-  var selMes = document.getElementById('sel-mes2');
-  var selAnio = document.getElementById('sel-anio2');
-  if (selMes)  { selMes.selectedIndex  = 0; }
-  if (selAnio) { selAnio.selectedIndex = 0; }
-  var btnS3 = document.getElementById('btn-s3');
-  if (btnS3) btnS3.disabled = true;
-
-  showScreen('fw');
-  showStep(1);
-}
+/* (Single-pet) La función de "Añadir otra mascota" se ha retirado: el tarificador
+   gestiona una sola mascota. Se deja un stub inofensivo por compatibilidad. */
+function addMascotaDesdeS6() { /* single-pet: sin efecto */ }
 
 /**
  * Cancela la adición de una nueva mascota y vuelve a s6 con la mascota anterior restaurada.
@@ -3117,54 +3045,9 @@ function _renderMascotasChips() {
   });
 }
 
-/* ══ BARRA FLOTANTE DE MASCOTAS ══
-   Reutiliza el componente "Mascotas tarificadas" (#mascotas-prev-chips) pero lo
-   asciende a barra FIJA arriba, visible en TODAS las pantallas. Al pulsar una
-   mascota se va a sus planes (s6). */
-
-// Pulsar una mascota en la barra flotante → ir a sus planes (s6).
-function _irAMascotaFlotante(idx) {
-  try { if (_activePetIdx !== idx) switchMascotaTab(idx); } catch(e) {}
-  try { showScreen('s6'); } catch(e) {}
-  try { updatePrices(); _renderMascotasChips(); _updateS6Total(); _updateAddBtn(); } catch(e) {}
-  try { window.scrollTo(0, 0); } catch(e) {}
-}
-
-// Relocaliza la fila de chips a barra fija superior (una sola vez).
-function _initBarraFlotante() {
-  var row = document.getElementById('mascotas-prev-chips');
-  if (!row || row.getAttribute('data-flotante') === '1') return;
-  if (row.parentNode !== document.body) document.body.appendChild(row);
-  row.setAttribute('data-flotante', '1');
-  row.style.position   = 'fixed';
-  row.style.top        = '0';
-  row.style.left       = '0';
-  row.style.right      = '0';
-  row.style.zIndex     = '9000';
-  row.style.margin     = '0';
-  row.style.width      = '100%';
-  row.style.boxSizing  = 'border-box';
-  row.style.alignItems = 'center';
-  row.style.gap        = '12px';
-  row.style.padding    = '10px 18px';
-  row.style.background = 'rgba(238,243,240,0.96)';
-  row.style.backdropFilter = 'blur(8px)';
-  row.style.borderBottom   = '1px solid rgba(27,42,74,0.10)';
-  row.style.boxShadow      = '0 4px 18px rgba(27,42,74,0.08)';
-  row.style.overflowX      = 'auto';
-  row.style.flexWrap       = 'nowrap';
-  var list = document.getElementById('mascotas-chips-list');
-  if (list) { list.style.flexWrap = 'nowrap'; list.style.gap = '10px'; }
-}
-
-// Refresca la barra flotante (visibilidad + contenido) en cada cambio de pantalla.
-function _syncBarraFlotante() {
-  try { _initBarraFlotante(); _renderMascotasChips(); } catch(e) {}
-}
-
 /**
- * Cambia la vista de s6 a la mascota indicada.
- * idx === -1: mascota nueva en curso.  idx >= 0: mascota confirmada.
+ * (Single-pet) Carga en S la mascota indicada. Se conserva por compatibilidad
+ * interna con el retomar; en el flujo de una sola mascota siempre es idx 0.
  */
 function switchMascotaTab(idx) {
   if (_activePetIdx === idx) return;
