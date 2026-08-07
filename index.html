@@ -8643,9 +8643,10 @@
 
         <!-- Menú de secciones (desplegable, solo móvil) -->
         <nav id="kivo-hero-menu" aria-label="Secciones">
-          <a href="#asesor" onclick="return kivoMenuGo('asesor')">Asesor KIVO</a>
-          <a href="#planes" onclick="return kivoMenuGo('planes')">Planes y precios</a>
-          <a href="#situaciones-reales" onclick="return kivoMenuGo('situaciones-reales')">Situaciones reales</a>
+          <a href="#" onclick="return kivoMenuGo('')">Tarificador</a>
+          <a href="#asesor" onclick="return kivoMenuGo('asesor')">Asesor</a>
+          <a href="#planes" onclick="return kivoMenuGo('planes')">Planes</a>
+          <a href="#situaciones-reales" onclick="return kivoMenuGo('situaciones-reales')">Situaciones</a>
           <a href="#consejos" onclick="return kivoMenuGo('consejos')">Consejos</a>
         </nav>
 
@@ -8656,9 +8657,9 @@
             .hero-glass { position: relative; }
             .hero-burger {
               display: inline-flex; align-items: center; justify-content: center;
-              position: absolute; top: 16px; right: 16px; z-index: 40;
+              position: absolute; top: 30px; right: 16px; z-index: 40;
               width: 46px; height: 46px; padding: 0; border-radius: 12px;
-              background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.9);
+              background: rgba(203,208,215,0.6); border: 1px solid rgba(255,255,255,0.75);
               -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
               box-shadow: 0 6px 16px rgba(27,42,74,0.12); cursor: pointer;
             }
@@ -8673,9 +8674,9 @@
             .hero-burger span::before { top: -7px; }
             .hero-burger span::after { top: 7px; }
             #kivo-hero-menu {
-              display: none; position: absolute; top: 70px; right: 16px; z-index: 41;
-              min-width: 220px; padding: 8px;
-              background: rgba(255,255,255,0.92); border: 1px solid rgba(255,255,255,0.95);
+              display: none; position: absolute; top: 86px; right: 16px; z-index: 41;
+              min-width: 210px; padding: 8px;
+              background: rgba(206,211,218,0.96); border: 1px solid rgba(255,255,255,0.75);
               border-radius: 16px; box-shadow: 0 18px 44px rgba(27,42,74,0.22);
               -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
             }
@@ -8684,7 +8685,7 @@
               display: block; padding: 13px 16px; border-radius: 10px;
               color: #1b2a4a; font-weight: 700; font-size: 15px; text-decoration: none;
             }
-            #kivo-hero-menu a:active, #kivo-hero-menu a:hover { background: rgba(27,42,74,0.07); }
+            #kivo-hero-menu a:active, #kivo-hero-menu a:hover { background: rgba(27,42,74,0.10); }
           }
         </style>
 
