@@ -497,6 +497,17 @@ function checkC4Chip() {
 }
 function _renderSc4Docs() { _renderSc4ResumenMascotas(); } // alias por compatibilidad
 
+// Envía al contenedor (web) la ALTURA REAL del contenido visible, para que el
+// iframe crezca y nada se corte (p. ej. la pantalla de la oferta/email).
+function _postIframeHeight() {
+  try {
+    var vis = document.querySelector('.screen.active, .cscreen.active');
+    var h = vis ? Math.max(vis.scrollHeight || 0, vis.offsetHeight || 0) : 0;
+    if (!h || h < 300) h = 600;
+    window.parent.postMessage({ type: 'kivo-iframe-height', height: h + 24 }, '*');
+  } catch(e) {}
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen, .cscreen').forEach(function(el) {
     el.classList.remove('active');
@@ -526,13 +537,9 @@ function showScreen(id) {
     document.getElementById('addr-confirm').classList.remove('open');
     validateC3();
   }
-  // Altura dinámica para el iframe en la web principal
-  var heights = {
-    's0': 520, 'fw': 880, 's6': 920,
-    'sc1': 820, 'sc2': 860, 'sc3': 820, 'sc4': 880, 'sc5': 700, 'sc-excl': 900,
-    's-loading': 480, 's-letra': 780, 's-ok': 580
-  };
-  try { window.parent.postMessage({ type: 'kivo-iframe-height', height: heights[id] || 820 }, '*'); } catch(e) {}
+  // Altura dinámica para el iframe en la web principal: medimos el contenido real
+  // (tras el layout) para que ninguna pantalla se corte.
+  requestAnimationFrame(_postIframeHeight);
 }
 
 function _initSc5() {
@@ -655,9 +662,8 @@ function showStep(n) {
   if (n === 5) setupStep4b();
   if (n === 6) populateMascotaResumen();
   window.scrollTo(0, 0);
-  // Altura dinámica del iframe para cada paso
-  var stepHeights = { 1: 520, 2: 580, 3: 520, 4: 540, 5: 520, 6: 600 };
-  try { window.parent.postMessage({ type: 'kivo-iframe-height', height: stepHeights[n] || 520 }, '*'); } catch(e) {}
+  // Altura dinámica del iframe: medimos el contenido real del paso.
+  requestAnimationFrame(_postIframeHeight);
 }
 
 function setupStep4b() {
