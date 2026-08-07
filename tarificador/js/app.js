@@ -1477,9 +1477,14 @@ function showResults() {
   // Antes de mostrar el precio: preguntar "¿Cómo conociste KIVO?" una sola vez
   if (!window._atribDone) { showAtribucion(); return; }
   _vioPrecios = true; // el usuario ha llegado a ver los precios
-  _activePetIdx = -1; // siempre empezar en la mascota nueva
-  _newPetDraft  = null;
-  _enfSeleccionadas = [];
+  // Solo tratar S como "mascota nueva" si de verdad venimos de tarificar una nueva.
+  // Si ya estabamos viendo una mascota confirmada (idx>=0, p.ej. tras retomar y
+  // navegar atras/adelante), mantener ese contexto para no crear un chip fantasma.
+  if (_activePetIdx < 0) {
+    _activePetIdx = -1; // empezar en la mascota nueva
+    _newPetDraft  = null;
+    _enfSeleccionadas = [];
+  }
   showScreen('s6');
   updatePrices();
   _renderMascotasChips();
