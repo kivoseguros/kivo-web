@@ -765,6 +765,15 @@ function confirmExit() {
     }
   }
   try { window.parent.postMessage({ type: 'kivo-tarificador-exit' }, '*'); } catch(e) {}
+  // Si el tarificador NO está embebido en un iframe (p. ej. abierto a pantalla
+  // completa desde el enlace del email), no hay contenedor que gestione el cierre.
+  // En ese caso volvemos a la home de la web KIVO. Pequeño retardo para dar tiempo
+  // a que salga la petición del email (fire-and-forget) antes de navegar.
+  var _standalone = false;
+  try { _standalone = (window.self === window.top); } catch(e) { _standalone = false; }
+  if (_standalone) {
+    setTimeout(function(){ window.location.href = '/'; }, 800);
+  }
 }
 
 /* -- Retomar una cotizacion desde el enlace del email -- */
