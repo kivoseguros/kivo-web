@@ -634,29 +634,24 @@ function showStep(n) {
   var salirBtn = document.getElementById('kivo-btn-salir-fixed');
   if (salirBtn) salirBtn.style.display = _showSalir;
   if (n === 1) {
-    // Mostrar "Eliminar esta mascota" solo al añadir una segunda mascota
-    var btnCancelar = document.getElementById('btn-cancelar-mascota');
-    if (btnCancelar) btnCancelar.style.display = completedMascotas.length > 0 ? '' : 'none';
-
-    if (_fromEditResumen && S.especie) {
-      // En modo edición: conservar especie y marcar tile visualmente
-      var tPerro = document.getElementById('tile-perro');
-      var tGato  = document.getElementById('tile-gato');
+    var tPerro = document.getElementById('tile-perro');
+    var tGato  = document.getElementById('tile-gato');
+    var inpNom = document.getElementById('inp-nombre');
+    // Single-pet: al volver atrás SIEMPRE se conservan el nombre y la especie.
+    // Solo se resetea si de verdad no hay datos todavía (inicio limpio).
+    if (S.especie || (S.nombre && S.nombre.trim())) {
+      if (inpNom && S.nombre) inpNom.value = S.nombre;
       if (tPerro) tPerro.classList.toggle('sel', S.especie === 'perro');
       if (tGato)  tGato.classList.toggle('sel', S.especie === 'gato');
-      // El botón se activa si ya hay nombre
       checkS1();
     } else {
-      // Flujo normal: resetear especie
-      S.especie = null;
-      var tPerro = document.getElementById('tile-perro');
-      var tGato  = document.getElementById('tile-gato');
       if (tPerro) tPerro.classList.remove('sel');
       if (tGato)  tGato.classList.remove('sel');
       var btnS1 = document.getElementById('btn-s1');
       if (btnS1) btnS1.disabled = true;
     }
   }
+  if (n === 3) _initFechaMascota();
   if (n === 5) setupStep4b();
   if (n === 6) populateMascotaResumen();
   window.scrollTo(0, 0);
@@ -1065,12 +1060,9 @@ function _tarifDeselectOutside(e){
   if (t.closest('.especie-tile,.otile,.otile-label,.wtile,.yn-tile,.plan-selector,.echip,.tab,.bitem,button,input,select,textarea,label,a,.promo-toggle,.plans-detail-bar,.kinput')) return;
   var active = document.querySelector('.fstep.active');
   var id = active ? active.id : '';
-  if (id === 'fs1' && S.especie) {
-    S.especie = null;
-    var p=document.getElementById('tile-perro'), g=document.getElementById('tile-gato');
-    if(p) p.classList.remove('sel'); if(g) g.classList.remove('sel');
-    if (typeof checkS1 === 'function') checkS1();
-  } else if (id === 'fs2' && S.sexo) {
+  // (Single-pet) NO deseleccionar la especie al clicar fuera: el nombre y el
+  // perro/gato deben conservarse siempre hasta salir de verdad.
+  if (id === 'fs2' && S.sexo) {
     S.sexo = null; S.esterilizada = null;
     ['tile-macho','tile-hembra','tile-esteril-si','tile-esteril-no','tile-castrado-si','tile-castrado-no'].forEach(function(i){ var el=document.getElementById(i); if(el) el.classList.remove('sel'); });
     var wh=document.getElementById('esteril-wrap'); if(wh) wh.style.display='none';
@@ -1103,15 +1095,78 @@ function toggleNoFecha() {
   onFecha();
 }
 
+// Límites de edad de contratación por especie.
+var LIMITES_EDAD = {
+  perro: { minMeses: 2, maxAnios: 11 }, // perros: de 2 meses a 11 años
+  gato:  { minMeses: 3, maxAnios: 10 }  // gatos:  de 3 meses a 10 años
+};
+var MESES_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// Edad en meses desde una fecha (año, mes 1-12, día) hasta hoy.
+function _mesesDesde(y, m, d) {
+  var hoy = new Date();
+  var meses = (hoy.getFullYear() - y) * 12 + (hoy.getMonth() - (m - 1));
+  if (d && hoy.getDate() < d) meses--;
+  return meses;
+}
+
+// Texto del rango permitido para la especie actual (para el aviso junto a la edad).
+function _textoRangoEdad(especie) {
+  var lim = LIMITES_EDAD[especie];
+  if (!lim) return '';
+  var minTxt = lim.minMeses + ' ' + (lim.minMeses === 1 ? 'mes' : 'meses');
+  return (especie === 'gato' ? 'Gatos' : 'Perros') + ': de ' + minTxt + ' a ' + lim.maxAnios + ' años. Solo se puede contratar dentro de ese rango.';
+}
+
+// Prepara el paso de fecha de la mascota: muestra el rango y acota el calendario.
+function _initFechaMascota() {
+  var especie = S.especie || 'perro';
+  var lim = LIMITES_EDAD[especie] || LIMITES_EDAD.perro;
+  var hint = document.getElementById('hint-edad-mascota');
+  if (hint) hint.textContent = _textoRangoEdad(especie);
+  var inpF = document.getElementById('inp-fecha');
+  if (inpF) {
+    var hoy = new Date();
+    // Fecha más reciente permitida (edad mínima) y más antigua (edad máxima).
+    var maxD = new Date(hoy.getFullYear(), hoy.getMonth() - lim.minMeses, hoy.getDate());
+    var minD = new Date(hoy.getFullYear() - lim.maxAnios, hoy.getMonth(), hoy.getDate());
+    inpF.max = maxD.toISOString().slice(0, 10);
+    inpF.min = minD.toISOString().slice(0, 10);
+  }
+}
+
 function onFecha() {
   var chk = document.getElementById('chk-nofecha');
   var noFecha = chk ? chk.checked : false;
   S.noFecha = noFecha; // mantener estado sincronizado con el DOM
-  var ok;
+  var lim = LIMITES_EDAD[S.especie] || LIMITES_EDAD.perro;
+  var especieTxt = (S.especie === 'gato') ? 'Los gatos' : 'Los perros';
+  var meses = null, tieneFecha = false;
   if (noFecha) {
-    ok = !!(document.getElementById('sel-mes2').value && document.getElementById('sel-anio2').value);
+    var mmSel = document.getElementById('sel-mes2').value;
+    var aaSel = document.getElementById('sel-anio2').value;
+    tieneFecha = !!(mmSel && aaSel);
+    if (tieneFecha) {
+      var mIdx = MESES_ES.indexOf(mmSel) + 1; // 1-12 (0 si no encaja)
+      if (mIdx < 1) mIdx = 6;
+      meses = _mesesDesde(parseInt(aaSel, 10), mIdx, 15);
+    }
   } else {
-    ok = !!document.getElementById('inp-fecha').value;
+    var val = document.getElementById('inp-fecha').value; // YYYY-MM-DD
+    tieneFecha = !!val;
+    if (tieneFecha) { var pz = val.split('-'); meses = _mesesDesde(+pz[0], +pz[1], +pz[2]); }
+  }
+  var ok = tieneFecha;
+  var errMsg = '';
+  if (tieneFecha && meses !== null) {
+    if (meses < 0) { ok = false; errMsg = 'La fecha no puede ser futura.'; }
+    else if (meses < lim.minMeses) { ok = false; errMsg = especieTxt + ' deben tener al menos ' + lim.minMeses + ' meses para contratar.'; }
+    else if (meses > lim.maxAnios * 12) { ok = false; errMsg = especieTxt + ' no pueden superar los ' + lim.maxAnios + ' años para contratar.'; }
+  }
+  var msgEl = document.getElementById('msg-fecha');
+  if (msgEl) {
+    msgEl.textContent = errMsg;
+    msgEl.className = 'field-msg' + (errMsg ? ' err' : '');
   }
   document.getElementById('btn-s3').disabled = !ok;
 }
@@ -2057,6 +2112,20 @@ function _procesarContratar() {
   _silentCheckC2();
 }
 
+// Edad (en años) a partir de una fecha "YYYY-MM-DD". Devuelve null si no es válida
+// y -1 si la fecha es futura. El titular debe tener 18 años o más para contratar.
+function _edadDesdeFecha(fnac) {
+  if (!fnac) return null;
+  var d = new Date(fnac);
+  if (isNaN(d.getTime())) return null;
+  var hoy = new Date();
+  if (d > hoy) return -1; // fecha futura
+  var edad = hoy.getFullYear() - d.getFullYear();
+  var m = hoy.getMonth() - d.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < d.getDate())) edad--;
+  return edad;
+}
+
 function _silentCheckC2() {
   // Solo activa o desactiva el botón — no muestra mensajes de error
   var nombre    = (document.getElementById('c2-nombre').value || '').trim();
@@ -2067,7 +2136,8 @@ function _silentCheckC2() {
   var consentOk = true;
   var consentEl2 = document.getElementById('consent-privacidad');
   if(consentEl2) consentOk = consentEl2.checked;
-  var ok = nombre && apellidos && fnac && validarDNI(dni)
+  var _edad = _edadDesdeFecha(fnac);
+  var ok = nombre && apellidos && fnac && (_edad !== null && _edad >= 18) && validarDNI(dni)
         && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && consentOk;
   document.getElementById('btn-c2').disabled = !ok;
 }
@@ -2108,9 +2178,12 @@ function validateC2() {
   if (!apellidos) { setField('c2-apellidos', 'msg-apellidos', 'err', 'Obligatorio'); allOk = false; }
   else setField('c2-apellidos', 'msg-apellidos', 'ok', '');
 
-  // Fecha nacimiento
+  // Fecha nacimiento — el titular debe ser mayor de edad (18+).
   var fnac = document.getElementById('c2-fnac').value;
+  var _edadC2 = _edadDesdeFecha(fnac);
   if (!fnac) { setField('c2-fnac', 'msg-fnac', 'err', 'Obligatorio'); allOk = false; }
+  else if (_edadC2 === null) { setField('c2-fnac', 'msg-fnac', 'err', 'Fecha no válida'); allOk = false; }
+  else if (_edadC2 < 18) { setField('c2-fnac', 'msg-fnac', 'err', 'Debes ser mayor de 18 años'); allOk = false; }
   else setField('c2-fnac', 'msg-fnac', 'ok', '');
 
   // DNI/NIE
@@ -2184,15 +2257,27 @@ function onCPInput(el) {
   var found = (typeof CP_DATA !== 'undefined') ? CP_DATA[cp] : null;
   if (!found) {
     setField('inp-cp', 'msg-cp', 'ok', '');
-    ciudadEl.readOnly = false;
-    ciudadEl.classList.remove('input-readonly');
-    ciudadEl.placeholder = 'Escribe tu municipio';
-    if (provEl) {
+    // PROVINCIA: siempre por el prefijo (2 primeros dígitos). Cubre TODA España.
+    var prov = (typeof PROV !== 'undefined') ? PROV[cp.substr(0, 2)] : null;
+    if (prov && provEl) {
+      provEl.value = prov;
+      provEl.readOnly = true;
+      provEl.classList.add('input-readonly');
+      provEl.placeholder = 'Auto-rellenado';
+      setField('inp-provincia', 'msg-provincia', 'ok', '');
+    } else if (provEl) {
+      provEl.value = '';
       provEl.readOnly = false;
       provEl.classList.remove('input-readonly');
       provEl.placeholder = 'Escribe tu provincia';
     }
+    // MUNICIPIO: se puede escribir a mano; además intentamos autocompletarlo por API.
+    ciudadEl.readOnly = false;
+    ciudadEl.classList.remove('input-readonly');
+    ciudadEl.placeholder = 'Escribe tu municipio';
+    ciudadEl.value = '';
     setField('inp-ciudad', 'msg-ciudad', 'neutral', '');
+    _autoMunicipioPorCP(cp, ciudadEl);
   } else {
     setField('inp-cp', 'msg-cp', 'ok', '');
     ciudadEl.readOnly = true;
@@ -2209,6 +2294,25 @@ function onCPInput(el) {
     }
   }
   validateC3();
+}
+
+// Autocompleta el municipio por CP usando una API pública (cobertura parcial en
+// España). Si no lo encuentra, el usuario lo escribe a mano. La provincia ya se
+// rellena siempre por el prefijo del CP.
+function _autoMunicipioPorCP(cp, ciudadEl) {
+  try {
+    fetch('https://api.zippopotam.us/ES/' + cp)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (!d || !d.places || !d.places.length) return;
+        if (ciudadEl && !ciudadEl.value) {
+          ciudadEl.value = d.places[0]['place name'] || '';
+          setField('inp-ciudad', 'msg-ciudad', 'ok', '');
+          try { validateC3(); } catch(e) {}
+        }
+      })
+      .catch(function(){});
+  } catch(e) {}
 }
 
 function validateC3() {
@@ -3224,31 +3328,23 @@ function _updateS6Total() {
   if (!totalRow || !totalVal) return;
 
   var p = S.periodo;
-  var totalConfirmed = completedMascotas.reduce(function(sum, pet) {
-    return sum + (p === 'anual' ? pet.precioAno : pet.precioMes);
-  }, 0);
-
-  var currentPrice = 0;
-  if (_activePetIdx === -1 && (S.plan || S.rcAddon)) {
-    var plan2    = S.plan;
+  // Single-pet: el total es el precio del plan seleccionado (+ R.C. si se añade).
+  var precio = 0;
+  if (S.plan || S.rcAddon) {
     var planKeys = { care:'CARE', careplus:'CARE+', premium:'PREMIUM' };
-    var rcBase2  = RC_SUELTA[S.especie] || 14.90;
-    if (plan2 && plan2 !== 'rc') {
-      var base2 = calcBase(planKeys[plan2]);
-      var pm2   = base2 + (S.rcAddon ? RC_ADDON : 0);
-      currentPrice = (p === 'anual') ? pm2 * 12 * (1 - DESC_ANUAL) : pm2;
+    var rcBase   = RC_SUELTA[S.especie] || 14.90;
+    if (S.plan && S.plan !== 'rc') {
+      precio = calcBase(planKeys[S.plan]) + (S.rcAddon ? RC_ADDON : 0);
     } else {
-      currentPrice = (p === 'anual') ? rcBase2 * 12 * (1 - DESC_ANUAL) : rcBase2;
+      precio = rcBase; // solo R.C.
     }
+    if (p === 'anual') precio = precio * 12 * (1 - DESC_ANUAL);
   }
 
-  var grand  = totalConfirmed + currentPrice;
-  var suffix = (p === 'anual') ? '/ano' : '/mes';
-
-  if (completedMascotas.length === 0) {
+  if (!(S.plan || S.rcAddon)) {
     totalRow.style.display = 'none';
   } else {
-    totalVal.textContent = fmt(grand) + suffix;
+    totalVal.textContent = fmt(precio) + (p === 'anual' ? '/año' : '/mes');
     totalRow.style.display = 'flex';
   }
 }

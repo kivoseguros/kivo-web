@@ -219,6 +219,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
         <div class="sicon"><img src="assets/icons/calendario.svg" alt="" width="34" height="34"></div>
         <div class="sq" id="q3">¿Cuándo nació?</div>
         <div class="shint">La fecha nos ayuda a calcular el precio exacto</div>
+        <div id="hint-edad-mascota" class="shint" style="color:#0C8B9D;font-weight:700;margin-top:4px"></div>
 
         <!-- Fecha exacta: campo con calendario -->
         <div id="fecha-exact">
@@ -260,6 +261,7 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
           </div>
         </div>
 
+        <span class="field-msg" id="msg-fecha" style="display:block;text-align:center;margin:4px 0 8px"></span>
         <button class="btn-cta" id="btn-s3" onclick="nextStep()" disabled>
           Continuar
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1370,8 +1372,18 @@ if(new URLSearchParams(window.location.search).get('modo')==='fullscreen'){
   // Mascota: años 2010 hasta el año que viene (sube solo cada año; ahora 2027)
   var _maxAnioM = new Date().getFullYear() + 1;
   fill('fs-dia-m', dias); fill('fs-mes-m', meses); fill('fs-anio-m', yearsDesc(2010,_maxAnioM));
-  // Titular: años 1930–2002 (el titular debe tener al menos 18 años)
-  fill('fs-dia-t', dias); fill('fs-mes-t', meses); fill('fs-anio-t', yearsDesc(1930,2002));
+  // Titular: el titular debe tener al menos 18 años → año máximo = año actual − 18.
+  var _maxAnioT = new Date().getFullYear() - 18;
+  fill('fs-dia-t', dias); fill('fs-mes-t', meses); fill('fs-anio-t', yearsDesc(1930,_maxAnioT));
+  // Calendario nativo del titular: no permitir fechas que impliquen menos de 18 años.
+  (function(){
+    var _ct = document.getElementById('c2-fnac');
+    if (_ct) {
+      var _h = new Date(); var _m18 = new Date(_h.getFullYear()-18, _h.getMonth(), _h.getDate());
+      _ct.max = _m18.toISOString().slice(0,10);
+      _ct.min = '1920-01-01';
+    }
+  })();
 
   window.syncFechaMascota = function(){
     var dd=val('fs-dia-m'), mm=val('fs-mes-m'), yy=val('fs-anio-m');
