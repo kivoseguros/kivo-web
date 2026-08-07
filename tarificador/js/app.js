@@ -1058,6 +1058,12 @@ function selectCastrado(valor) {
 function _tarifDeselectOutside(e){
   var t = e.target;
   if (!t || !t.closest) return;
+  // IMPORTANTE: solo actuar cuando la pantalla de PASOS (fw) está visible. En
+  // planes (s6) o checkout, los .fstep siguen marcados 'active' en segundo plano,
+  // así que sin este guard un clic en cualquier sitio (p.ej. un chip de la barra
+  // flotante) creería que estamos en fs1 y borraría S.especie.
+  var fw = document.getElementById('fw');
+  if (!fw || !fw.classList.contains('active') || fw.style.display === 'none') return;
   // Si el clic es en una opción seleccionable o en un control, no deseleccionar
   if (t.closest('.especie-tile,.otile,.otile-label,.wtile,.yn-tile,.plan-selector,.echip,.tab,.bitem,button,input,select,textarea,label,a,.promo-toggle,.plans-detail-bar,.kinput')) return;
   var active = document.querySelector('.fstep.active');
