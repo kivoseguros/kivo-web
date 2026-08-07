@@ -8647,6 +8647,7 @@
           <a href="#asesor" onclick="return kivoMenuGo('asesor')">Asesor</a>
           <a href="#planes" onclick="return kivoMenuGo('planes')">Planes</a>
           <a href="#situaciones-reales" onclick="return kivoMenuGo('situaciones-reales')">Situaciones</a>
+          <a href="#" onclick="return kivoMenuIA()">Asistente IA KIVO</a>
           <a href="#consejos" onclick="return kivoMenuGo('consejos')">Consejos</a>
         </nav>
 
@@ -8657,7 +8658,7 @@
             .hero-glass { position: relative; }
             .hero-burger {
               display: inline-flex; align-items: center; justify-content: center;
-              position: absolute; top: 30px; right: 16px; z-index: 40;
+              position: absolute; top: 12px; right: 16px; z-index: 40;
               width: 46px; height: 46px; padding: 0; border-radius: 12px;
               background: rgba(203,208,215,0.6); border: 1px solid rgba(255,255,255,0.75);
               -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
@@ -8674,7 +8675,7 @@
             .hero-burger span::before { top: -7px; }
             .hero-burger span::after { top: 7px; }
             #kivo-hero-menu {
-              display: none; position: absolute; top: 86px; right: 16px; z-index: 41;
+              display: none; position: absolute; top: 68px; right: 16px; z-index: 41;
               min-width: 210px; padding: 8px;
               background: rgba(206,211,218,0.96); border: 1px solid rgba(255,255,255,0.75);
               border-radius: 16px; box-shadow: 0 18px 44px rgba(27,42,74,0.22);
@@ -8707,6 +8708,13 @@
             } else {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+            return false;
+          }
+          // Abrir el Asistente IA KIVO desde el menú
+          function kivoMenuIA() {
+            var m = document.getElementById('kivo-hero-menu');
+            if (m) m.classList.remove('open');
+            if (typeof toggleIA === 'function') toggleIA();
             return false;
           }
           // Cerrar el menú al tocar fuera
